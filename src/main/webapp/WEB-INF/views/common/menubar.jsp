@@ -20,6 +20,7 @@
          background-color: #fff;
 
      }
+     .outer{width:1200px;}
      .home{
          height:100px;
          width:1200px;
@@ -188,7 +189,13 @@
                     <div class="menu"  id="">
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />이메일</div>
                         <div class="menu-wrap">
-                            
+                            <div class="menuDetail">
+                                <a id="" href="list.ma">받은 메일함</a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                            </div>
                         </div>
                     </div>
 
@@ -221,11 +228,7 @@
             </div>
             <div class="content">
             
-            </div>
-
-        </div>  
-
-    </div>
+            
 
 </body>
 </html>
