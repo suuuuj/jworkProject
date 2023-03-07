@@ -14,7 +14,6 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
-
      .totalOuter{
          width:1200px;
          background-color: #fff;
@@ -25,8 +24,12 @@
          height:100px;
          width:1200px;
          box-sizing: border-box ;
-         background: rgba(240, 240, 240, 0.712);
+         background: rgba(246, 246, 246, 0.712);
      }
+     .line{
+            border : 1px solid lightgray
+     }
+     .logo{ width:200px; }
      .menubar{
          width:240px;
          height:1000px;
@@ -44,19 +47,21 @@
      
      * {padding: 0;margin: 0;box-sizing: border-box;}
 
-    
-     a {color: #000;text-decoration: none;}
-     a:hover{background: rgb(199, 199, 199);}
 
      .header{
          display: flex;
          align-items: center;
-         width: 100%;
-         height: 67px;
-         border-bottom: 1px solid #5e5e5e;
-         background: rgba(240, 240, 240, 0.712);
+         width: 1100px;
      }
-     
+     .header-right{
+        height: 70px;
+     	display:flex;
+        width: 80px;
+        padding-top: 30px;
+     }
+     .home>div{
+        float:left;
+     }
 
      .info-box{
          display: flex;
@@ -71,8 +76,10 @@
          font-size: 17px;
          font-weight: bold;
      }
+     .menubar{background-color: rgba(246, 246, 246, 0.712);}
      .menubarArea{
         margin: 10px;
+        
      }
      .menu{
         margin-top: 10px;
@@ -115,18 +122,19 @@
         <div class="home">
             <div class="header">
                 <div class="logo-box">
-                    <h1 class="logo">
-                      <a href="#"><img src="resources/images/common/logo.jpg" alt="" /></a>
-                    </h1>
-                  </div>
-                <ul>
-                    <li><a href="#"><img src="resources/images/common/mail.jpg" alt=""></a></li>
-                    <li><a href="#"><img src="resources/img/common/login.jpg" alt=""></a></li>
-                </ul>
+                    
+                    <a href="#"><img class="logo" src="resources/images/common/logo.jpg" alt="" /></a>
+                    
+                </div>
+
             </div>
-
+			<div class="header-right">
+                	<a href="#"><img src="resources/images/common/mail.jpg" alt=""></a>
+                	<a href="#"><img src="resources/images/common/login.jpg" alt=""></a>
+            </div>
+            
         </div>
-
+        <div class="line"></div>
         <div class="outer">
 
             <div class="menubar">

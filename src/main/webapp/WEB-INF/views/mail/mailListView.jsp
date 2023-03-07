@@ -20,13 +20,28 @@
         .mailContents{
             height: 600px;
         }
+        .content-title{
+            font-size: 1.3em;
+            width: 200px;
+            font-weight: bold;
+        }
+        .notRead, .mailBox{
+            color: black;
+        }
+        .notRead, .mailBox:hover{
+            cursor: pointer;
+            color: black;
+        }
         .mailContents tr{
-            height: 50px;
+            height: 40px;
             border: 0.5px solid lightgray;
         }
         .mailContents tr:hover{
             background: lightgray;
             cursor: pointer;
+        }
+        .mailContents td{
+        	padding-left:10px;
         }
         #pagingArea{
             display: flex;
@@ -39,7 +54,7 @@
 	<jsp:include page="../common/menubar.jsp"/>
 			<br><br>
 
-            <h1>받은 메일함</h1>
+            <span class="content-title">&nbsp;&nbsp;&nbsp;받은 메일함&nbsp;&nbsp;</span> <a class="notRead" href="#">0</a>&nbsp;/&nbsp;<a class="mailBox" href="#">230</a> 
             <div class="line"></div>
             <div class="space"></div>
             <input type="checkbox"> &nbsp;&nbsp;
