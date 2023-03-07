@@ -167,7 +167,7 @@
                     </div>
 
                     <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />일정관리</div>
+                        <div class="mainMenu" onclick=""><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />일정</div>
                         <div class="menu-wrap">
                             
                         </div>
@@ -176,12 +176,29 @@
                     <div class="menu"  id="">
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />조직도</div>
                         <div class="menu-wrap">
-                            
+                            <div class="menuDetail">
+                                <a id="" href="">조직도</a><br>
+                                <a id="" href="">부서 관리</a><br>
+                                <a id="" href="">사원 관리</a><br>
+                            </div>
                         </div>
                     </div>
 
                     <div class="menu"  id="">
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />근무</div>
+                        <div class="menu-wrap">
+                            <div class="menuDetail">
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="menu"  id="">
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />휴가</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="" href=""></a><br>
@@ -222,14 +239,26 @@
                     <div class="menu"  id="">
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />게시판</div>
                         <div class="menu-wrap">
-                            
+                            <div class="menuDetail">
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                            </div>
                         </div>
                     </div>
 
                     <div class="menu"  id="">
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />도움말</div>
                         <div class="menu-wrap">
-                            
+                            <div class="menuDetail">
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                            </div>
                         </div>
                     </div>
 

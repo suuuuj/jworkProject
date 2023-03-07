@@ -17,6 +17,7 @@
         .space{
             height: 15px;
         }
+        .btnArea{padding-left: 10px;}
         .mailContents{
             height: 600px;
         }
@@ -31,6 +32,15 @@
         .notRead, .mailBox:hover{
             cursor: pointer;
             color: black;
+        }
+        input[type=radio]{
+            display:none; margin: 10px;
+        }
+        #addMailBoxInput{width: 400px; height: 35px;}
+        
+        #search-area{
+            width: 370px;
+            float: right;
         }
         .mailContents tr{
             height: 40px;
@@ -47,21 +57,77 @@
             display: flex;
             justify-content: center;
         }
+        
     </style>
 </head>
 <body>
 	
 	<jsp:include page="../common/menubar.jsp"/>
-			<br><br>
+			<br>
 
             <span class="content-title">&nbsp;&nbsp;&nbsp;받은 메일함&nbsp;&nbsp;</span> <a class="notRead" href="#">0</a>&nbsp;/&nbsp;<a class="mailBox" href="#">230</a> 
             <div class="line"></div>
             <div class="space"></div>
-            <input type="checkbox"> &nbsp;&nbsp;
-            <button id="readBtn" class="btn btn-outline-secondary btn-sm">읽음</button>&nbsp;
-            <button id="deleteBtn" class="btn btn-outline-secondary btn-sm">삭제</button>&nbsp;
-            <button id="moveBtn" class="btn btn-outline-secondary btn-sm">이동</button>&nbsp;
-            <button id="deliveryBtn" class="btn btn-outline-secondary btn-sm">전달</button>&nbsp;
+            <div class="btnArea">
+                <input id="checkAll" type="checkbox"> &nbsp;&nbsp;
+                <button id="readBtn" class="btn btn-outline-secondary btn-sm">읽음</button>&nbsp;
+                <button id="deleteBtn" class="btn btn-outline-secondary btn-sm">삭제</button>&nbsp;
+                <button type="button" id="moveBtn" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#move">이동</button>&nbsp;
+                <button id="deliveryBtn" class="btn btn-outline-secondary btn-sm">전달</button>&nbsp;
+                <div id="search-area">
+                    <form action="" method="get">
+                        <input type="hidden" name="cpage" value="1">
+                        <select name="condition" id="condition">
+                            <option value="all">선택</option>
+                            <option value="sender">보낸사람</option>
+                            <option value="receiver">받는사람</option>
+                            <option value="titleAndContent">제목+내용</option>
+                        </select>
+                        <input type="text" name="keyword" id="keyword" value="${ keyword }">
+                        <button type="submit" class="btn btn-secondary btn-sm">검색</button>
+        
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal" id="move">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+              
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Modal Heading</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+              
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                            <div class="mailBoxOptions" data-toggle="buttons">
+                                <label class="btn btn-outline-secondary btn-block">
+                                    <input type="radio" name="mailbox" id="" value="" checked> 받은메일함
+                                </label>
+                                <label class="btn btn-outline-secondary btn-block">
+                                    <input type="radio" name="mailbox" id="" value="" > 보낸메일함
+                                </label>
+                                <label class="btn btn-outline-secondary btn-block">
+                                    <input type="radio" name="mailbox" id="" value="" > 보관
+                                </label>
+                            </div>
+                            <br>
+                            
+                        <input type="text" id="addMailBoxInput"> <button class="btn btn-outline-secondary">추가</button>
+                    </div>
+              
+                    <!-- Modal footer -->
+                    <div class="mfooter" align="center">
+                        <button type="button" class="btn btn-outline-secondary" id="moveMail">이동</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">취소</button>
+                    </div>
+                    <br>
+                  </div>
+                </div>
+            </div>
+
 
             <div class="space"></div>
             <div class="mailContents">
@@ -131,13 +197,21 @@
                     <li class="page-item"><a class="page-link" href="#">Next</a></li>
                 </ul>
             </div>
+
+            <script>
+                $(function(){
+
+                    
+
+                })
+
+            </script>
            
 		</div>
 
     </div>  
 
 </div>
-	
-	
+
 </body>
 </html>
