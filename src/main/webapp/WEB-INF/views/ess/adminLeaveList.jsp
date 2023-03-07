@@ -47,52 +47,30 @@
     }
     .select-area{
         margin-top: 30px;
-        font-size: 15px; 
-        color:rgb(50,50,50); 
-        font-weight: 600;
-    }
-    .select-area input[type=text]{
-        width:150px;
-        height:30px;
-        border-radius: 5px;
-        border:1px solid rgb(170, 170, 170);
-    }
-    .select-area input[type=date]{
-        width:100px;
-        height:32px;
-        border:1px solid rgb(170, 170, 170);
-        border-radius: 5px;
-    }
-    .select-area button{
-        width:60px;
-        height:30px;
-        border:none;
-        background: rgb(0, 172, 0);
-        color:white;
-        font-weight: 900;
-        border-radius: 5px;
     }
     .select-area select{
         width:150px;
-        height:33px;
+        height:30px;
         border:1px solid rgb(170, 170, 170);
         border-radius: 5px;
         color:rgb(50,50,50);
         font-weight: 500;
+        font-size: 14px;
     }
-    .select-area>div{
-        display: inline-block;
-    }
-    .listTable{
+    .annualTable{
         width:100%;
         text-align: center;
+        margin-top:30px;
         border-collapse: collapse;
         border-spacing: 0;
-        margin-top:30px;
+        font-size: 14px;
+        color:rgb(51,51,51);
     }
-    .listTable td{
-        border: 1px solid rgb(170, 170, 170);
+    .annualTable td{
+        width:182px;
         height:30px;
+        color:rgb(50,50,50);
+        border-bottom: 1px solid rgb(234, 234, 234);
     }
     .list-area input{
         border:none;
@@ -103,11 +81,11 @@
         text-align: center;
 
     }
-    .listTable button{
+    .annualTable button{
         width:60px;
         height:30px;
-        line-height: normal;
-        font-size: 13px;
+        line-height: 5px;
+        font-size: 12px;
     }
     .paging-area button{
         width:30px;
@@ -115,13 +93,42 @@
         border:none;
         border-radius: 5px;
     }
+    /* modal영역 */
+    .modal-content{
+        height:600px;
+        width:400px;
+        font-size: 14px;
+    }
+    .modal-body input{
+        border:1px solid rgb(170, 170, 170);
+        border-radius: 5px;
+    }
+    .modalS{
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+    .modal-body textarea{
+        resize: none;
+        width:90%;
+        height:260px;
+        border:1px solid rgb(170, 170, 170);
+        border-radius: 5px;
+        padding:10px;
+    }
+    .textWrap{
+        margin-left: 230px;
+        margin-bottom: 5px;
+        font-size: 13px;
+        font-weight: 600;
+        color:rgb(50,50,50)
+    }
 </style>
 </head>
 <body>
     <div class="outer">
 
         <div class="title">
-            <h1 style="color:rgb(50,50,50)">휴가<h1> 
+            <h3 style="color:rgb(50,50,50); font-weight: 600;">휴가<h3> 
         </div>
         <br>
         <div class="selectBar">
@@ -130,22 +137,25 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">연차관리</span>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">전체휴가일정</span>
             <br>
-            <div style="width:243px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:255px; background: rgb(234, 234, 234);">&nbsp;</div>
             <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:601px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:578px; background: rgb(234, 234, 234);">&nbsp;</div>
         </div>
 
         <div class="vacation">
 
             <div class="select-area">
-                <input type="checkbox" name="" vale=""> <label for="">부여</label>
-                <input type="checkbox" name="" vale=""> <label for="">미부여</label>
+                <select name="" id="">
+                    <option value="">&nbsp;- 연차부여현황 -</option>
+                    <option value="">&nbsp;미부여</option>
+                    <option value="">&nbsp;부여</option>
+                </select> 
             </div>
             <br>
             <div class="list-area">
-                <table class="listTable">
+                <table class="annualTable">
                     <thead>
-                        <tr style="color:rgb(51,51,51); font-size: 14px; font-weight: 600; height:50px; background: rgb(234, 234, 234);">
+                        <tr style="font-weight: 600; background: rgb(234, 234, 234);">
                             <td width="100px;">사번</td>
                             <td width="120px;">소속</td>
                             <td width="120px;">직위</td>
@@ -159,14 +169,14 @@
                     </thead>
                     
                     <tbody>
-                        <tr>
+                        <tr >
                             <td>4505301111</td>
                             <td>개발1팀</td>
                             <td>사원</td>
                             <td>김정만</td>
-                            <td><input type="text" name="create" value="0" max="15"></td>
-                            <td><input type="text" name="create" value="0" ></td>
-                            <td><input type="text" name="use" value="0" ></td>
+                            <td><input type="text" name="create" value="0" max="15" readonly></td>
+                            <td><input type="text" name="create" value="0" readonly></td>
+                            <td><input type="text" name="use" value="0" readonly></td>
                             <td>2020.02.05</td>
                             <td><button class="btn btn-success" id="">연차</button></td>
                         </tr>
@@ -176,7 +186,7 @@
 
             <script>
                 $(function(){
-                    $(".listTable tbody>td").click(function(){
+                    $(".annualTable tbody button").click(function(){
                         $("#annualModal").modal('show');
                     })
                 })
@@ -206,7 +216,7 @@
         
                 <!-- Modal Header -->
                 <div class="modal-header">
-                <h4 class="modal-title">휴가신청</h4>
+                <h4 class="modal-title">연차등록</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 

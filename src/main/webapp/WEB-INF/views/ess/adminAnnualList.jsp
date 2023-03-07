@@ -5,6 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- 부트스트랩 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <title>Insert title here</title>
 <style>
     /* outer영역 */
@@ -47,15 +49,15 @@
         height:30px;
         border-radius: 5px;
         border:1px solid rgb(170, 170, 170);
+        font-size: 14px;
     }
     .select-area button{
         width:60px;
         height:30px;
         border:none;
-        background: rgb(0, 172, 0);
-        color:white;
-        font-weight: 900;
         border-radius: 5px;
+        line-height: 5px;
+        font-size: 14px;
     }
     .select-area select{
         width:150px;
@@ -64,19 +66,26 @@
         border-radius: 5px;
         color:rgb(50,50,50);
         font-weight: 500;
+        font-size: 14px;
     }
     .select-area>div{
         display: inline-block;
     }
-    .listTable{
+    .vacationTable{
         width:100%;
         text-align: center;
         border-collapse: collapse;
         border-spacing: 0;
         margin-top:30px;
+        font-size: 14px;
+        color:rgb(50,50,50);
     }
-    .listTable td{
-        border: 1px solid rgb(170, 170, 170);
+    .vacationTable>tbody td:hover{
+        opacity: 0.7;
+        cursor: pointer;
+    }
+    .vacationTable td{
+        border-bottom: 1px solid rgb(234, 234, 234);
         height:30px;
     }
     .list-area input{
@@ -96,7 +105,7 @@
     <div class="outer">
 
         <div class="title">
-            <h1 style="color:rgb(50,50,50)">휴가<h1> 
+            <h3 style="color:rgb(50,50,50); font-weight: 600;">휴가<h3> 
         </div>
         <br>
         <div class="selectBar">
@@ -105,9 +114,9 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">휴가내역</span>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">전체휴가일정</span>
             <br>
-            <div style="width:160px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:170px; background: rgb(234, 234, 234);">&nbsp;</div>
             <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:684px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:663px; background: rgb(234, 234, 234);">&nbsp;</div>
         </div>
 
         <div class="vacation">
@@ -130,172 +139,176 @@
                 </select>
                 <div style="float:right;">
                     <input type="text" name="" value="" placeholder="&nbsp;사원명/사원번호">
-                    <button type="button">검색</button>
+                    <button type="button" class="btn btn-success">검색</button>
                 </div>
             </div>
             <br>
             <div class="list-area">
-                <table class="listTable">
-                    <tr style="color:rgb(51,51,51); font-size: 14px; font-weight: 600; height:50px; background: rgb(234, 234, 234);">
-                        <td width="90px;">문서번호</td>
-                        <td width="120px;">사번</td>
-                        <td width="120px;">소속</td>
-                        <td width="120px;">직위</td>
-                        <td width="120px;">이름</td>
-                        <td width="120px;">조정일</td>
-                        <td width="130px;">제목</td>
-                        <td width="190px;">진행상황</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>결재대기(1차)</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>결재대기(2차)</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>승인</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>반려</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>결재대기(1차)</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>결재대기(2차)</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>승인</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>반려</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>결재대기(1차)</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>결재대기(2차)</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>승인</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>반려</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>결재대기(1차)</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>결재대기(2차)</td>
-                    </tr>
-                    <tr>
-                        <td>56</td>
-                        <td>4505301111</td>
-                        <td>개발부</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>조정시작일</td>
-                        <td>휴가카테고리</td>
-                        <td>승인</td>
-                    </tr>
+                <table class="vacationTable">
+                    <thead>
+                        <tr style="font-weight: 600; background: rgb(234, 234, 234);">
+                            <td width="90px;">문서번호</td>
+                            <td width="120px;">사번</td>
+                            <td width="120px;">소속</td>
+                            <td width="120px;">직위</td>
+                            <td width="120px;">이름</td>
+                            <td width="120px;">조정일</td>
+                            <td width="130px;">제목</td>
+                            <td width="190px;">진행상황</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>결재대기(2차)</td>
+                        </tr>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>승인</td>
+                        </tr>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>반려</td>
+                        </tr>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>결재대기(2차)</td>
+                        </tr>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>승인</td>
+                        </tr>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>반려</td>
+                        </tr>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>결재대기(2차)</td>
+                        </tr>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>승인</td>
+                        </tr>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>반려</td>
+                        </tr>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>결재대기(2차)</td>
+                        </tr>
+                        <tr>
+                            <td>56</td>
+                            <td>4505301111</td>
+                            <td>개발부</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>조정시작일</td>
+                            <td>휴가카테고리</td>
+                            <td>승인</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
 

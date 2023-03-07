@@ -44,18 +44,33 @@
         font-size: 15px;
         font-weight: 600;
     }
-    .overList>table{
+    .selectBox select{
+        width:150px;
+        height:30px;
+        border:1px solid rgb(170, 170, 170);
+        border-radius: 5px;
+        color:rgb(50,50,50);
+        font-weight: 500;
+        font-size: 14px;
+    }
+    .overTable{
         width:100%;
         text-align: center;
         margin-top:30px;
         border-collapse: collapse;
         border-spacing: 0;
+        font-size: 14px;
+        color:rgb(51,51,51);
     }
-    .overList td{
+    .overTable td{
         width:182px;
         height:30px;
         color:rgb(50,50,50);
         border-bottom: 1px solid rgb(234, 234, 234);
+    }
+    .overTable>tbody td:hover{
+        cursor: pointer;
+        opacity: 0.7;
     }
     .paging-area button{
         width:30px;
@@ -79,132 +94,188 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,172,0)">출장관리</span>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,172,0)">시간외 근무관리</span>
             <br>
-            <div style="width:293px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:310px; background: rgb(234, 234, 234);">&nbsp;</div>
             <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:550px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:523px; background: rgb(234, 234, 234);">&nbsp;</div>
         </div>
 
         <div class="overtimeList">
 
             <div class="selectBox">
-                <input type="checkbox" id="" name="" value=""> <label for="">조정중</label>
-                <input type="checkbox" id="" name="" value=""> <label for="">승인</label>
-                <input type="checkbox" id="" name="" value=""> <label for="">반려</label>
-                    
+                <select name="" id="">
+                    <option value="">&nbsp;결재대기(1차)</option>
+                    <option value="">&nbsp;결재대기(2차)</option>
+                    <option value="">&nbsp;승인</option>
+                    <option value="">&nbsp;반려</option>
+                </select> 
             </div>
 
             <div class="overList">
-                <table>
-                    <tr style="color:rgb(51,51,51); font-size: 14px; font-weight: 600; background: rgb(234, 234, 234);">
-                        <td width="90px;">문서번호</td>
-                        <td width="120px;">사번</td>
-                        <td width="120px;">소속</td>
-                        <td width="120px;">직위</td>
-                        <td width="120px;">이름</td>
-                        <td width="120px;">조정일</td>
-                        <td width="160px;">제목</td>
-                        <td width="160px;">진행상황</td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>4505301111</td>
-                        <td>인사1팀</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>2023.03.05</td>
-                        <td>출장신청</td>
-                        <td>결재대기(1차)</td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>4505301111</td>
-                        <td>인사1팀</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>2023.03.05</td>
-                        <td>출장신청</td>
-                        <td>결재대기(1차)</td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>4505301111</td>
-                        <td>인사1팀</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>2023.03.05</td>
-                        <td>출장신청</td>
-                        <td>결재대기(1차)</td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>4505301111</td>
-                        <td>인사1팀</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>2023.03.05</td>
-                        <td>출장신청</td>
-                        <td>결재대기(1차)</td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>4505301111</td>
-                        <td>인사1팀</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>2023.03.05</td>
-                        <td>출장신청</td>
-                        <td>결재대기(1차)</td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>4505301111</td>
-                        <td>인사1팀</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>2023.03.05</td>
-                        <td>출장신청</td>
-                        <td>결재대기(1차)</td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>4505301111</td>
-                        <td>인사1팀</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>2023.03.05</td>
-                        <td>출장신청</td>
-                        <td>결재대기(1차)</td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>4505301111</td>
-                        <td>인사1팀</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>2023.03.05</td>
-                        <td>출장신청</td>
-                        <td>결재대기(1차)</td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>4505301111</td>
-                        <td>인사1팀</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>2023.03.05</td>
-                        <td>출장신청</td>
-                        <td>결재대기(1차)</td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>4505301111</td>
-                        <td>인사1팀</td>
-                        <td>사원</td>
-                        <td>김정만</td>
-                        <td>2023.03.05</td>
-                        <td>출장신청</td>
-                        <td>결재대기(1차)</td>
-                    </tr>
+                <table class="overTable">
+                    <thead>
+                        <tr style="font-weight: 600; background: rgb(234, 234, 234);">
+                            <td width="60px;">문서번호</td>
+                            <td width="120px;">사번</td>
+                            <td width="120px;">소속</td>
+                            <td width="120px;">직위</td>
+                            <td width="120px;">이름</td>
+                            <td width="120px;">조정일</td>
+                            <td width="120px;">제목</td>
+                            <td width="120px;">진행상황</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>출장신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
 

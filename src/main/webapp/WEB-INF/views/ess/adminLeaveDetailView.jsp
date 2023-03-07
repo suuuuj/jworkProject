@@ -5,6 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- 부트스트랩 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <title>Insert title here</title>
 <style>
     /* outer영역 */
@@ -54,29 +56,17 @@
         border-radius: 5px;
         padding:10px;
     }
-    button[type=button]{
-        border:none;
-        height:30px;
-        width:50px;
-        border-radius: 5px;
-        color: rgba(50, 50, 50);
-        font-weight: 600;
-    }
-    button[type=submit]{
-        border:none;
-        width:100px;
-        height:30px;
-        color:white;
-        background-color: rgb(0, 174, 0);
-        font-weight: 600;
-        border-radius: 5px;
-    }
     .textWrap{
-        margin-left: 645px;
+        margin-left: 630px;
         margin-bottom: 5px;
         font-size: 13px;
         font-weight: 600;
         color:rgb(50,50,50)
+    }
+    .btnWrap button{
+        width:60px;
+        height:30px;
+        font-size: 12px;
     }
 </style>
 </head>
@@ -84,7 +74,7 @@
     <div class="outer">
 
         <div class="title">
-            <h1 style="color:rgb(50,50,50)">휴가<h1> 
+            <h3 style="color:rgb(50,50,50); font-weight: 600;">휴가<h3> 
         </div>
         <br>
         <div class="selectBar">
@@ -93,13 +83,13 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">휴가내역</span>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">전체휴가일정</span>
             <br>
-            <div style="width:160px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:170px; background: rgb(234, 234, 234);">&nbsp;</div>
             <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:684px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:663px; background: rgb(234, 234, 234);">&nbsp;</div>
         </div>
 
-        <div class="enrollForm">
-
+        <form action="" method="" class="enrollForm">
+            
             <div class="header">
                 <img src="" alt="" style="width:50px; height:50px;">
                 <div style="margin-left: 10px; margin-top:15px; color:rgba(50, 50, 50); font-size: 15px; font-weight: 600;">연차</div>
@@ -109,7 +99,7 @@
                 <div style="display: flex;">
                     <img src="" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">&nbsp;휴가일정, 필요정보 입력</div>
-                    <div style="background:rgb(234, 234, 234); width:718px; height:1px; margin-top:13px; margin-left: 5px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:700px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br>
@@ -121,7 +111,7 @@
                         &nbsp;소속&nbsp; <input type="text" name="" value="로그인사원소속"> 
                         &nbsp;신청일&nbsp; <input type="text" name="" value="SYSDATE"> 
                     </div>
-                    <div style="background:rgb(234, 234, 234); width:400px; height:1px; margin-top:13px; margin-left: 5px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:400px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br>
@@ -131,7 +121,7 @@
                         시작일&nbsp; <input type="date" name="" value="" style="width:150px; text-align: center; height:20px;"> 
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="date" name="" value="" style="width:150px; text-align: center; height:20px;"> 
                     </div>
-                    <div style="background:rgb(234, 234, 234); width:472px; height:1px; margin-top:13px; margin-left: 5px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:460px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br><br>
@@ -139,15 +129,15 @@
                     <span class="textCount">0자</span><span class="textTotal">/200자</span>
                 </div>
                 <textarea name="" id="">글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200</textarea>
-                <div style="float: right; margin-top:178px;">
-                    <button type="button" onclick="" style="width:60ox; height:30px; border:none; background: rgb(0, 172, 0); color:white; font-weight: 600;">승인</button>
-                    <button type="button" onclick="" style="width:60ox; height:30px; border:none; background: rgb(255, 213, 0); color:rgb(50,50,50); font-weight: 600;">반려</button>
-                    <button type="button" onclick="" style="width:60ox; height:30px; border:none; background: rgb(170, 170, 170); color:rgb(50,50,50); font-weight: 600;">목록</button>
+                <div class="btnWrap" style="float: right; margin-top:160px;">
+                    <button type="submit" class="btn btn-success">승인</button>
+                    <button type="button" onclick="" class="btn btn-warning">반려</button>
+                    <button type="button" onclick="" class="btn btn-secondary">목록</button>
                 </div>
 
             </div>
 
-        </div>
+        </form>
 
     </div>
 </body>

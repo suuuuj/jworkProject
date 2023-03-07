@@ -5,6 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- 부트스트랩 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <!-- jquery CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- fullcalendar CDN -->
@@ -167,7 +169,7 @@
     <div class="outer">
 
         <div class="title">
-            <h1 style="color:rgb(50,50,50)">휴가<h1> 
+            <h3 style="color:rgb(50,50,50); font-weight: 600;">휴가<h3> 
         </div>
         <br>
         <div class="selectBar">
@@ -176,9 +178,9 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">휴가내역</span>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">전체휴가일정</span>
             <br>
-            <div style="width:323px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:343px; background: rgb(234, 234, 234);">&nbsp;</div>
             <div style="width:95px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:492px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:462px; background: rgb(234, 234, 234);">&nbsp;</div>
         </div>
 
         <div class="AllLeaveList">

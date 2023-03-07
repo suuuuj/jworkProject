@@ -68,17 +68,19 @@
         line-height: 5px;
         font-size: 14px;
     }
-    .work-area input[type=text]{
+    .workSelect input[type=text]{
         width:150px;
         height:28px;
         border-radius: 5px;
         border:1px solid rgb(170, 170, 170);
+        font-size:14px;
     }
-    .work-area select{
+    .workSelect select{
         width:100px;
         height:30px;
         border-radius: 5px;
         border:1px solid rgb(170, 170, 170);
+        font-size:14px;
     }
     .paging-area button{
         width:30px;
@@ -86,10 +88,12 @@
         border:none;
         border-radius: 5px;
     }
-    .work-area button{
+    #deleteBtn button{
         width:60px;
         height:30px;
         border-radius: 5px;
+        line-height: 5px;
+        font-size: 14px;
     }
 </style>
 </head>
@@ -248,7 +252,7 @@
                     </tbody>
             </table>
             <br>
-        <button class="btn btn-danger" style="float: right;">삭제</button>
+        <button class="btn btn-danger" style="float: right; width:60px; height:30px; line-height: 5px; font-size:14px;">삭제</button>
         </div>
 
         <script>
