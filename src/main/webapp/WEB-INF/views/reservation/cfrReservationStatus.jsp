@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <style>
    
     .outer{
@@ -19,52 +20,36 @@
     <jsp:include page="../common/menubar.jsp"/>
     <div class="outer">
         <h2>회의실 예약 이력 조회</h2>
-        <hr><br>
+        <hr>
         <div>
-            <div>
-                <button type="button" class="btn btn-sm btn-secondary">예약상세조회</button>
+            <div style="float: left; ">
+                <button type="button" class="btn btn-sm btn-secondary">회의실 정보</button>
+                <button type="button" class="btn btn-sm btn-secondary">예약하기</button>&nbsp;
+                <button type="button"><</button>
+                <button type="button">></button>
             </div>
+            <div style="float: left; font-weight: 800; font-size: 25px; margin-left: 200px;"" >
+                2023년 02월 17일
+            </div>
+            <div style="float: left; margin-left: 200px;" >
+                <button type="button">today</button>
+                <button type="button">week</button>
+            </div>
+            <br claear="both">
             <br>
-            <div>
-                <table border="1">
+            <div align="center">
+                <table border="1" style="width:900px; height:600px; text-align: center;" >
                     <tr>
-                        <td>회의실</td>
-                        <td>오전9시</td>
-                        <td>오전10시</td>
-                        <td>오전11시</td>
-                        <td>오후12시</td>
-                        <td>오후1시</td>
-                        <td>오후2시</td>
-                    </tr>
-                    <tr>
+                        <td></td>
                         <td>1회의실</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
                         <td>2회의실</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
                         <td>3회의실</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
                         <td>4회의실</td>
+                        <td>5회의실</td>
+                        <td>6회의실</td>
+                    </tr>
+                    <tr>
+                        <td>오전9시</td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -73,7 +58,7 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>5회의실</td>
+                        <td>오전10시</td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -81,92 +66,193 @@
                         <td></td>
                         <td></td>
                     </tr>
+                    <tr>
+                        <td>오전11시</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>오후12시</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>오후1시</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>오후2시</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>오후3시</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>오후4시</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>오후5시</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>오후6시</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
                 </table>
             </div>
         </div>
     </div>
-    <!-- The Modal -->
-    <div class="modal" id="myModal">
+    <!--회의실 정보 모달 -->
+    <div class="modal" id="cfrInfo">
         <div class="modal-dialog">
         <div class="modal-content">
     
             <!-- Modal Header -->
             <div class="modal-header">
-            <h4 class="modal-title">예약이력상세조회</h4>
+            <h4 class="modal-title">회의실 정보</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
     
             <!-- Modal body -->
-            <div class="modal-body"  align="center">
+            <div class="modal-body">
                 <div>
-                    <select name="">
-                        <option value="">1회의실</option>
-                        <option value="">1회의실</option> 
-                        <option value="">1회의실</option> 
-                    </select>
-                    기간별조회 : <input type="date"> - <input type="date">
+                    <button>1회의실</button>
+                    <button>2회의실</button>
+                    <button>3회의실</button>
+                    <button>4회의실</button>
+                    <button>5회의실</button>
+                    <button>6회의실</button>
                 </div>
-                <div align="center">
-                    <table border="1">
+                <div style="width:600px">
+                    <table>
                         <tr>
-                            <th>회의실</th>
-                            <th>회의명</th>
-                            <th>예약자</th>
-                            <th>인원</th>
-                            <th>사용일정</th>
-                            <th>예약상태</th>
+                            <th>회의실명</th>
+                            <td>2회의실</td>
                         </tr>
                         <tr>
-                            <td>1회의실</td>
-                            <td>회의다!!</td>
-                            <td>김민수1021</td>
-                            <td>8</td>
-                            <td>2022-02-01 09:00~11:00</td>
-                            <td>예약완료</td>
-        
+                            <th>회의실 이미지</th>
+                            <td >
+                                <div style="width: 320px;">
+                                    <img src="" width="150px" height="100px">
+                                    <img src="" width="150px" height="100px">
+                                    <img src="" width="150px" height="100px">
+                                    <img src="" width="150px" height="100px">
+                                </div>
+                            </td>
+                            
                         </tr>
                         <tr>
-                            <td>1회의실</td>
-                            <td>회의다!!</td>
-                            <td>김민수1021</td>
-                            <td>8</td>
-                            <td>2022-02-01 09:00~11:00</td>
-                            <td>예약완료</td>
-        
+                            <th>수용인원</th>
+                            <td>10명</td>
                         </tr>
                         <tr>
-                            <td>1회의실</td>
-                            <td>회의다!!</td>
-                            <td>김민수1021</td>
-                            <td>8</td>
-                            <td>2022-02-01 09:00~11:00</td>
-                            <td>예약완료</td>
-        
+                            <th>회의장비</th>
+                            <td>pc, 빔프로젝터</td>
                         </tr>
                     </table>
 
                 </div>
-                <div id="pagingArea">
-                    <ul class="pagination">
-                        <li class="page-item disabled"><a class="page-link" href="#"><</a></li>
-                        <li class="page-item"><a class="page-link" href="list.bo?cpage=${p }">1</a></li>
-                        <li class="page-item"><a class="page-link" href="list.bo?cpage=${p }">2</a></li>
-                        <li class="page-item"><a class="page-link" href="list.bo?cpage=${p }">3</a></li>
-                        <li class="page-item"><a class="page-link" href="list.bo?cpage=${pi.currentPage + 1 }">></a></li> 
-                    </ul>
-                </div>
-            </div>
-    
-            <!-- Modal footer -->
-            <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
             </div>
     
         </div>
         </div>
     </div>
     
+    <!--회의실 예약 모달 -->
+    <div class="modal" id="reservationForm">
+        <div class="modal-dialog">
+        <div class="modal-content">
     
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <h4 class="modal-title">회의실 예약</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+    
+            <!-- Modal body -->
+            <div class="modal-body">
+               <form action="">
+                    <table>
+                        <tr>
+                            <th>회의실</th>
+                            <td>
+                                <select name="" id="">
+                                    <option value="">1회의실</option>
+                                    <option value="">2회의실</option>
+                                    <option value="">3회의실</option>
+                                    <option value="">4회의실</option>
+                                    <option value="">5회의실</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>예약자</th>
+                            <td>정여진 102312(총무부)</td>
+                        </tr>
+                        <tr>
+                            <th>날짜</th>
+                            <td><input type="date"></td>
+                        </tr>
+                        <tr>
+                            <th>시간</th>
+                            <td><input type="time">-<input type="time"></td>
+                        </tr>
+                        <tr>
+                            <th>인원</th>
+                            <td><input type="number"></td>
+                        </tr>
+                        <tr>
+                            <th>회의제목</th>
+                            <td><input type="text"></td>
+                        </tr>
+                    </table>
+               </form>
+            </div>
+    
+        </div>
+        </div>
+    </div>
   
 </body>
 </html>

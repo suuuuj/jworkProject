@@ -43,6 +43,7 @@
         <div>
             <div class="btn-area">
                 <button type="button" class="btn btn-secondary">+회의실 등록</button>
+                <button type="button" class="btn btn-secondary">회의실 예약 내역</button>
             </div>
             <br><br>
             <div id="img-area" style="position: relative;">
