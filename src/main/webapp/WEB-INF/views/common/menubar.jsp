@@ -41,7 +41,7 @@
      .line{
             border : 1px solid lightgray
      }
-     .logo{ width:200px; }
+     .logo{ width:200px; margin-left:20px; }
      .menubar{
          width:240px;
          height:1000px;
@@ -63,14 +63,19 @@
      .header{
          display: flex;
          align-items: center;
-         width: 1100px;
+         width: 1050px;
      }
      .header-right{
         height: 70px;
      	display:flex;
-        width: 80px;
+        width: 100px;
         padding-top: 30px;
      }
+     .headerIcon{
+     	width:40px;
+     	margin-right:10px;
+     }
+     .profileImg{width:60px;}
      .home>div{
         float:left;
      }
@@ -83,6 +88,7 @@
          
          border-bottom: 1px solid #5e5e5e;
      }
+     .left{width: 70px;}
      .right .name{
          margin-bottom: 3px;
          font-size: 17px;
@@ -102,7 +108,7 @@
         background-color: rgb(130, 180, 130);
     }
      .menuIcon{
-         width: 20px;
+         width: 30px;
          margin-right: 10px;
      }
      .menu-wrap{
@@ -135,14 +141,14 @@
             <div class="header">
                 <div class="logo-box">
                     
-                    <a href="#"><img class="logo" src="resources/images/common/logo.jpg" alt="" /></a>
+                    <a href="#"><img class="logo" src="resources/images/common/jwork_logo.png" alt="" /></a>
                     
                 </div>
 
             </div>
 			<div class="header-right">
-                	<a href="#"><img src="resources/images/common/mail.jpg" alt=""></a>
-                	<a href="#"><img src="resources/images/common/login.jpg" alt=""></a>
+                	<a href="#"><img class="headerIcon" src="resources/images/common/mail.png" alt=""></a>
+                	<a href="#"><img class="headerIcon" src="resources/profile_images/profile.png" alt=""></a>
             </div>
             
         </div>
@@ -151,7 +157,7 @@
 
             <div class="menubar">
                 <div class="info-box">
-                    <div class="left"><img src="resources/images/common/profile.jpg" alt="" /></div>
+                    <div class="left"><img class="profileImg" src="resources/profile_images/profile.png" alt="" /></div>
                     <div class="right">
                         <p class="name">김정만</p>
                         <p style="font-size: 12px;">사원이지롱</p>
@@ -160,21 +166,21 @@
 
                 <div class="menubarArea">
                     <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />홈피드</div>
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.png" alt="" />홈피드</div>
                         <div class="menu-wrap">
 
                         </div>
                     </div>
 
                     <div class="menu"  id="">
-                        <div class="mainMenu" onclick=""><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />일정</div>
+                        <div class="mainMenu" onclick=""><img class="menuIcon" src="resources/images/common/schedule.png" alt="" />일정</div>
                         <div class="menu-wrap">
                             
                         </div>
                     </div>
 
                     <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />조직도</div>
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/chart.png" alt="" />조직도</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="" href="">조직도</a><br>
@@ -185,7 +191,7 @@
                     </div>
 
                     <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />근무</div>
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/ess.png" alt="" />근무</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="" href=""></a><br>
@@ -198,7 +204,7 @@
                     </div>
                     
                     <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />휴가</div>
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/vacation.png" alt="" />휴가</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="" href=""></a><br>
@@ -211,7 +217,7 @@
                     </div>
 
                     <div class="menu"  id="approval">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />전자결재</div>
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/approval.png" alt="" />전자결재</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="insertApproval" href="enrollForm.app">결재 문서 작성</a><br>
@@ -224,7 +230,7 @@
                     </div>
                     
                     <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />이메일</div>
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/mail.png" alt="" />이메일</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="" href="list.ma">받은 메일함</a><br>
@@ -237,7 +243,7 @@
                     </div>
 
                     <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />게시판</div>
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/board.png" alt="" />게시판</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="" href=""></a><br>
@@ -250,7 +256,7 @@
                     </div>
 
                     <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.jpg" alt="" />도움말</div>
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/announce.png" alt="" />공지사항</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="" href=""></a><br>
