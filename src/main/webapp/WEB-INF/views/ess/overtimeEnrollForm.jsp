@@ -47,8 +47,15 @@
     }
     input[type=text], input[type=date]{
         width:100px;
+        height:25px;
         border: 1px solid rgb(170, 170, 170);
         border-radius: 5px;
+    }
+    .enrollForm select{
+        width:120px;
+        border:1px solid rgb(170, 170, 170);
+        border-radius: 5px;
+        height:25px;
     }
     textarea{
         resize: none;
@@ -59,25 +66,14 @@
         padding:10px;
     }
     button[type=button]{
-        border:none;
         height:30px;
-        width:50px;
-        border-radius: 5px;
-        color: rgba(50, 50, 50);
-        font-weight: 600;
-    }
-    button[type=submit]{
-        border:none;
-        width:100px;
-        height:30px;
-        color:white;
-        background-color: rgb(0, 174, 0);
-        font-weight: 600;
+        width:60px;
         border-radius: 5px;
         font-size: 12px;
+        line-height: 5px;
     }
     .textWrap{
-        margin-left: 645px;
+        margin-left: 630px;
         margin-bottom: 5px;
         font-size: 13px;
         font-weight: 600;
@@ -103,19 +99,19 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>시간외 근무신청</span> 
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>신청상세</span>
             <br>
-            <div style="width:79px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:88px; background: rgb(234, 234, 234);">&nbsp;</div>
             <div style="width:115px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:706px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:697px; background: rgb(234, 234, 234);">&nbsp;</div>
         </div>
 
-        <div class="enrollForm">
+        <form action="insert.ot" class="enrollForm" name="otEnroll">
 
             
             <div class="body">
                 <div style="display: flex;">
                     <img src="" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">&nbsp;시간외 근무일정, 필요정보 입력</div>
-                    <div style="background:rgb(234, 234, 234); width:670px; height:1px; margin-top:13px; margin-left: 5px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:658px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br>
@@ -123,28 +119,33 @@
                 <div style="display: flex;">
                     <img src="" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        &nbsp;신청자&nbsp; <input type="text" name="" value="로그인사원이름"> 
+                        &nbsp;신청자&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="" value="로그인사원이름"> 
                         &nbsp;소속&nbsp; <input type="text" name="" value="로그인사원소속"> 
                     </div>
-                    <div style="background:rgb(234, 234, 234); width:560px; height:1px; margin-top:13px; margin-left: 5px;">&nbsp;</div>
-                </div>
-
-                <br>
-
-                <div style="display:flex;">
-                    <input type="checkbox" id="" name="" value=""> <label for="">시간외 근무</label>&nbsp;&nbsp;&nbsp;
-                    <input type="checkbox" id="" name="" value=""> <label for="">야간</label>&nbsp;&nbsp;&nbsp;
-                    <input type="checkbox" id="" name="" value=""> <label for="">주말</label>&nbsp;
-                    <div style="background:rgb(234, 234, 234); width:681px; height:1px; margin-top:13px; margin-left: 5px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:535px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br>
 
                 <div style="display: flex;">
+                    <img src="" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        근무날짜 / 시간&nbsp; <input type="date" name="" value="" style="width:150px; text-align: center; height:20px;"> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <select name="stTimeBox" style="border:1px solid rgb(170, 170, 170); border-radius: 5px; width:80px; text-align: center; height:23px">
+                        &nbsp;구분&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        &nbsp;<select name="" id="">
+                            <option value="">시간외 근무</option>
+                            <option value="">야간</option>
+                            <option value="">주말</option>
+                        </select> 
+                    </div>
+                    <div style="background:rgb(234, 234, 234); width:659px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
+                </div>
+
+                <br>
+
+                <div style="display: flex;">
+                    <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px;">
+                        근무날짜 / 시간&nbsp; <input type="date" name="" value="" style="width:150px;"> 
+                        <select name="stTimeBox" style="border:1px solid rgb(170, 170, 170); border-radius: 5px; width:80px; margin-left: 20px;">
                             <script>
                                 for(var i=0; i<49; i++){
                             var hour = "";
@@ -188,7 +189,7 @@
                             </script>
                         </select>&nbsp;
                     </div>
-                    <div style="background:rgb(234, 234, 234); width:422px; height:1px; margin-top:20px; margin-left: 5px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:443px; height:1px; margin-top:20px; margin-left: 5px;">&nbsp;</div>
                 </div>
 
                 
@@ -198,52 +199,23 @@
                     <span class="textCount">0자</span><span class="textTotal">/200자</span>
                 </div>
                 <textarea name="" id="" cols="30" rows="10" placeholder="시간외 근무신청 내용을 입력해주세요."></textarea>
-                <div style="float: right; margin-top:178px;">
-                    <button type="button">취소</button>
-                    <button type="submit">시간외근무신청</button>
+                <div style="float: right; margin-top:160px;">
+                    <button type="button" class="btn btn-secondary">취소</button>
+                    <button type="button" class="btn btn-success" style="width:120px;">시간외근무신청</button>
                 </div>
 
             </div>
 
+        </form>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <script>
+            function enrollMethod(){
+                if(confirm("시간외 근무신청을 하시겠습니까?")){
+                    document.otEnroll.submit();
+                }
+                
+            }
+        </script>
 
 
     </div>
