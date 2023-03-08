@@ -159,8 +159,8 @@
                 <div class="info-box">
                     <div class="left"><img class="profileImg" src="resources/profile_images/profile.png" alt="" /></div>
                     <div class="right">
-                        <p class="name">김정만</p>
-                        <p style="font-size: 12px;">사원이지롱</p>
+                        <p class="name">${ loginUser.empName }</p>
+                        <p style="font-size: 12px;">${ loginUser.deptName }&nbsp;${ loginUser.teamName }&nbsp;${ loginUser.jobName }</p>
                         </div>
                 </div>
 
