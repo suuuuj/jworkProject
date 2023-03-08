@@ -18,5 +18,7 @@ public interface CfrService {
 	
 	//대표이미지 업데이트 서비스
 	int updateFirstImg(CfRoom cfr);
-
+	
+	//회의실 삭제 서비스
+	int deleteCfr(CfRoom cfr);
 }

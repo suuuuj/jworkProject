@@ -64,13 +64,36 @@ public class CfrController {
 		}
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="add.eq",produces="application/html; charset=utf-8")
+	public String ajaxAddEq(String equipment) {
+		return equipment;
+	}
 	
 	
+	@RequestMapping("delete.cfr")
+	public String deleteCfr(CfRoom cfr,Model model,HttpSession session) {
+		
+		int result= cService.deleteCfr(cfr);
+		if(cfr.getFirstImg()!=null) {
+			new File(session.getServletContext().getRealPath(cfr.getFirstImg())).delete();
+		}
+		if(result>0) {
+			session.setAttribute("alertMsg","성공적으로 삭제되었습니다."); 
+			return "redirect:list.cfr";
+		}else {
+			model.addAttribute("errorMsg","회의실 삭제 실패");
+			return "common/errorPage";
+		}
+		
+	}
+	
+	/* 
 	@ResponseBody
 	@RequestMapping("uploadFirstImg.cfr")
 	public String uploadProfileImg(MultipartFile uploadFile,HttpSession session,String originalFile,CfRoom cfr) {
 		
-		if(uploadFile !=null) {
+		if(uploadFile!=null) {
 			
 			String saveFilePath = FileUpload.saveFile(uploadFile,session,"resources/uploadFiles/");
 			cfr.setFirstImg(saveFilePath);
@@ -86,12 +109,7 @@ public class CfrController {
 		}
 		return session.getServletContext().getRealPath(originalFile);
 		}
-	
-	@ResponseBody
-	@RequestMapping(value="add.eq",produces="application/html; charset=utf-8")
-	public String ajaxAddEq(String equipment) {
-		return equipment;
-	}
+		*/
 	}
 
 

@@ -43,6 +43,12 @@ public class CfrServiceImpl implements CfrService{
 		return cDao.updateFirstImg(sqlSession, cfr);
 	}
 
+	@Override
+	public int deleteCfr(CfRoom cfr) {
+		
+		return cDao.deleteCfr(sqlSession, cfr);
+	}
+
 	
 	
 	
