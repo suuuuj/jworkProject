@@ -149,12 +149,7 @@
                     textColor:'white'
                 }
 
-            ],
-            eventClick:function(event){
-
-                // 날짜별 출근시간 눌렀을때 출근시간변경하는 modal뜨게하고싶어
-
-            }
+            ]
     });
 
     calendar.render();

@@ -9,10 +9,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <!-- jquery CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Modal -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <title>Insert title here</title>
 <style>
     /* outer영역 */
@@ -89,10 +85,6 @@
         height:30px;
         color:rgb(50,50,50);
         border-bottom: 1px solid rgb(234, 234, 234);
-    }
-    .workTable>tbody tr:hover{
-        opacity: 0.7;
-        cursor: pointer;
     }
     .paging-area button{
         width:30px;
@@ -180,17 +172,21 @@
 
             <div class="workList">
                 <div class="workDay">
-                    <button type="button" id="daycheck"><</button>
-                    <input type="text" name="" value="2023.03.06">
-                    <button type="button" id="daycheck">></button>&nbsp;&nbsp;
-                    <button type="button"><img src="달력이미지" alt="" style="width:15px; height:15px;"></button>
+                    <form action="">
+                        <button type="button" id="daycheck"><</button>
+                        <input type="text" name="" value="2023.03.06">
+                        <button type="button" id="daycheck">></button>&nbsp;&nbsp;
+
+                        <button type="button" onclick="$('#dataBtn').click();">클릭</button>
+                        <input type="date" id="dateBtn" name="" value="" style="display:none">
+                    </form>
                 </div>
 
                 <br><br>
                 
                 <table class="workTable">
                     <thead>
-                            <tr style="color:rgb(51,51,51); font-size: 14px; font-weight: 600; background: rgb(234, 234, 234);">
+                            <tr style="font-weight: 600; background: rgb(234, 234, 234);">
                                 <td width="120px;">사번</td>
                                 <td width="120px;">소속</td>
                                 <td width="120px;">직위</td>

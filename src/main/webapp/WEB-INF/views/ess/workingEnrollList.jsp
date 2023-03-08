@@ -45,16 +45,19 @@
         color:rgb(50,50,50);
     }
     .select-area input[type=date]{
-        width:100px;
+        width:110px;
         height:30px;
         border:1px solid rgb(170, 170, 170);
         border-radius: 5px;
+        font-size: 14px;
+        color:rgb(50, 50, 50);
     }
     .select-area button{
-        width:50px;
+        width:60px;
         height:30px;
         font-size: 12px;
-        line-height:normal;
+        line-height:5px;
+        margin-bottom: 3px;
     }
     .businessTable, .overTable{
         width:100%;
@@ -74,7 +77,7 @@
         border:none;
         border-radius: 5px;
     }
-    input{
+    .enrollList input[type=text]{
         width:100px;
         height:20px;
         text-align: center;
@@ -84,10 +87,11 @@
         height:350px;
     }
     .businessTable button, .overTable button{
-        width:50px;
+        width:60px;
         height:30px;
         font-size: 12px;
-        line-height:normal;
+        line-height:5px;
+        color:white;
     }
 </style>
 </head>
@@ -103,9 +107,9 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>시간외 근무신청</span> 
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>신청상세</span>
             <br>
-            <div style="width:213px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:223px; background: rgb(234, 234, 234);">&nbsp;</div>
             <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:630px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:610px; background: rgb(234, 234, 234);">&nbsp;</div>
         </div>
 
         <div class="enrollList">
@@ -113,7 +117,7 @@
                 <input type="date" name="startDate" value="">
                 <span style="font-size: 20px; color:rgb(170, 170, 170)">~</span>
                 <input type="date" name="endDate" value="">
-                <button class="btn btn-success">검색</button>
+                <button type="button" class="btn btn-success" onclick="">검색</button>
             </div>
             <br><br>
             <div class="businessList">
@@ -262,6 +266,24 @@
                         <td><button class="btn btn-warning">취소</button></td>
                     </tr>
                 </table>
+
+                <script>
+                    $(function(){
+                        $(".businessTable>tbody button").click(function(){
+                            if(confirm("신청을 취소하시겠습니까?")){
+                                location.href = 'delete.bt?no=' + ''
+                            }
+                        });
+
+                        $(".overTable>tbody button").click(function(){
+                            if(confirm("신청을 취소하시겠습니까?")){
+                                location.href = 'delete.ot?no=' + ''
+                            }
+                        })
+
+                        
+                    })
+                </script>
 
                 <br><br>
 

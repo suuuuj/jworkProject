@@ -53,12 +53,21 @@
         font-size: 17px;
         font-weight: 600;
     }
+    .workSelect select{
+        width:100px;
+        height:30px;
+        border-radius: 5px;
+        border:1px solid rgb(170, 170, 170);
+        font-size:14px;
+    }
     .workTable{
         width:100%;
         text-align: center;
         margin-top:30px;
-        border-top:1px solid rgb(234, 234, 234);
+        border-collapse: collapse;
+        border-spacing: 0;
         font-size: 14px;
+        color:rgb(51,51,51);
     }
     .workTable td{
         width:182px;
@@ -70,7 +79,12 @@
         width:60px;
         height: 30px;
         font-size: 12px;
-        line-height: normal;
+        line-height: 5px;
+        color:white;
+    }
+    .workTable>tbody>tr:hover{
+        opacity: 0.7;
+        cursor: pointer;
     }
     .paging-area button{
         width:30px;
@@ -83,9 +97,6 @@
         height:600px;
         width:400px;
         font-size: 14px;
-    }
-    .modal-body{
-        border:1px solid red;
     }
     .modal-body input{
         border:1px solid rgb(170, 170, 170);
@@ -136,10 +147,22 @@
 
         <div class="work-area">
 
-            <span>출퇴근 시간 변경</span>
+            <span>출퇴근 시간 변경</span> <br>
+            <div class="workSelect" style="float:right;">
+                <select name="" id="">
+                    <option value="">&nbsp;-선택안함-&nbsp;</option>
+                    <option value="">결재대기(1차)</option>
+                    <option value="">결재대기(2차)</option>
+                    <option value="">승인</option>
+                    <option value="">반려</option>
+                </select>
+            </div>
+
+            <br>
+            
             <table class="workTable">
                 <thead>
-                    <tr style="font-size: 14px; font-weight: 600; background-color: rgba(0, 172, 0, 0.219);">
+                    <tr style="font-weight: 600; background-color: rgba(0, 172, 0, 0.075);">
                         <td>문서번호</td>
                         <td>조정일</td>
                         <td>제목</td>
@@ -153,7 +176,7 @@
                         <td>2023.02.20</td>
                         <td>출퇴근시간변경</td>
                         <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
+                        <td onclick="event.cancelBubble=true"><button class="btn btn-warning">취소</button></td>
                     </tr>
                     <tr>
                         <td>46</td>
@@ -258,16 +281,16 @@
                 <!-- Modal body -->
                 <div class="modal-body" style="width:360px; margin:auto;">
                     <span class="modalS">수정할 날짜</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;2023.03.20" style="float:right;"><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;2023.03.20" style="float:right;" readonly><br>
                     <span class="modalS">지정 출근시간</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;09:20:53"><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;09:20:53" readonly><br>
                     <span class="modalS">지정 퇴근시간</span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;19:20:53"><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;19:20:53" readonly><br>
                     <hr>
                     <span class="modalS">수정할 출근시간</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;09:20:53"><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;09:20:53" readonly><br>
                     <span class="modalS">수정할 퇴근시간</span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;19:20:53"><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;19:20:53" readonly><br>
                     <hr>
                     <span>신청사유</span>
                     <br>

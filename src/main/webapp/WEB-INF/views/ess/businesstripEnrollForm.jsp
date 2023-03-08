@@ -65,13 +65,6 @@
         font-size: 12px;
         line-height: 5px;
     }
-    button[type=submit]{
-        width:110px;
-        height:30px;
-        border-radius: 5px;
-        font-size: 12px;
-        line-height: 5px;
-    }
     .textWrap{
         margin-left: 630px;
         margin-bottom: 5px;
@@ -98,7 +91,7 @@
             <div style="width:766px; background: rgb(234, 234, 234);">&nbsp;</div>
         </div>
 
-        <div class="enrollForm">
+        <form action="insert.bt" class="enrollForm" name="btEnroll">
             
             <div class="body">
                 <div style="display: flex;">
@@ -122,10 +115,11 @@
 
                 <div style="display: flex;">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
+                        <img src="" alt="" style="width:30px; height:30px">
                         시작일&nbsp; <input type="date" name="" value="" style="width:150px; text-align: center; height:20px;"> 
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="date" name="" value="" style="width:150px; text-align: center; height:20px;"> 
                     </div>
-                    <div style="background:rgb(234, 234, 234); width:460px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:427px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br><br>
@@ -134,14 +128,22 @@
                 </div>
                 <textarea name="" id="" cols="30" rows="10" placeholder="출장신청 내용을 입력해주세요."></textarea>
                 <div style="float: right; margin-top:160px;">
-                    <button type="button" class="btn btn-secondary">취소</button>
-                    <button type="submit" class="btn btn-success">출장신청하기</button>
+                    <button type="button" class="btn btn-secondary" onclick="list.ot">취소</button>
+                    <button type="button" style="width:100px;" class="btn btn-success" onclick="enrollMethod();">출장신청하기</button>
                 </div>
 
             </div>
 
+        </form>
 
-        </div>
+        <script>
+            function enrollMethod(){
+                if(confirm("출장신청을 하시겠습니까?")){
+                    document.btEnroll.submit();
+                }
+                
+            }
+        </script>
 
     </div>
 </body>

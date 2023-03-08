@@ -20,4 +20,5 @@ public class CfrReservation {//회의실 예약 테이블
 	 private String startTime;
 	 private String endTime;
 	 private String useDate;
+	 //회의제목, 인원 추가해야함
 }

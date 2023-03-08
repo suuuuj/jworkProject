@@ -23,18 +23,33 @@ public class CfrServiceImpl implements CfrService{
 	
 	@Override
 	public int enrollCfr(CfRoom cfr) {
-		return 0;
+		return cDao.enrollCfr(sqlSession, cfr);
 	}
 
 	@Override
 	public int selectListCount() {
-		return 0;
+		return cDao.selectListCount(sqlSession);
 	}
 
 	@Override
 	public ArrayList<CfRoom> selectList(PageInfo pi) {
-		return null;
+		return cDao.selectList(sqlSession,pi);
 	}
+
+	@Override
+	public int updateFirstImg(CfRoom cfr) {
+		
+		
+		return cDao.updateFirstImg(sqlSession, cfr);
+	}
+
+	@Override
+	public int deleteCfr(CfRoom cfr) {
+		
+		return cDao.deleteCfr(sqlSession, cfr);
+	}
+
+	
 	
 	
 
