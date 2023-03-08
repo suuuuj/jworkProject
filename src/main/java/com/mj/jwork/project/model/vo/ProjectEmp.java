@@ -12,15 +12,11 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class Project {
+public class ProjectEmp { //프로젝트 참여사원 테이블
 	
 	 private int projectNo;
-	 private int projectWriter;
-	 private String projectName;
-	 private String projectContent;
-	 private String status;
-	 private String fileUrl;
-	 private String originName;
-	 private String startDate;
-	 private String endDate;
+	 private int projectEmp;
+	 private int empLevel;//1,2,3
+	 private String status;//승인상태
+
 }

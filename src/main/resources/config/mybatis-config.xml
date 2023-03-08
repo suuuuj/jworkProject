@@ -12,7 +12,11 @@
 		<typeAlias type="com.mj.jwork.ess.model.vo.Attendence" alias="Attendence" />
 		<typeAlias type="com.mj.jwork.mail.model.vo.Mail" alias="Mail" />
 		<typeAlias type="com.mj.jwork.project.model.vo.Project" alias="Project" />
-		<typeAlias type="com.mj.jwork.reservation.model.vo.Reservation" alias="Reservation" />
+		<typeAlias type="com.mj.jwork.reservation.model.vo.Car" alias="Car" />
+		<typeAlias type="com.mj.jwork.reservation.model.vo.CarReservation" alias="CarReservation" />
+		<typeAlias type="com.mj.jwork.reservation.model.vo.CfrReservation" alias="CfrReservation" />
+		<typeAlias type="com.mj.jwork.reservation.model.vo.CfRoom" alias="CfRoom" />
+		<typeAlias type="com.mj.jwork.reservation.model.vo.CfrImg" alias="CfrImg" />
 	</typeAliases>
 	<!-- 유의사항 : 미리 등록해두려면 해당 클래스가 진짜 존재해야함! -->
 	
