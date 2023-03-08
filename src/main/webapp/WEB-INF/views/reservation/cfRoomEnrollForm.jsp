@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <style>
      #pagingArea{width:fit-content;margin:auto;}
      div{box-sizing: border-box;}
@@ -12,7 +13,9 @@
     }
     .outer{
         width: 960px;
+        margin:20px;
     }
+    #equipment-area{display:inline;}
 </style>
 
 <meta charset="UTF-8">
@@ -24,7 +27,7 @@
         <h2>회의실 등록</h2>
         <hr><br>
         <div>
-            <form action="">
+            <form action="insert.cfr" method="post" enctype="multipart/form-data" >
                 <table id="cfRoom-enrollForm">
                     <tr >
                         <th >회의실 이름</th>
@@ -33,18 +36,18 @@
                     <tr>
                         <th>회의실 대표 이미지</th>
                         <td>
-                            <img src="" width="150px" height="100px" onclick="$('#firstImg').click();">
-                            <input type="file" id="firstImg" style="display:none;">
+                        	 <img id="firstImg" src="<c:out value='${CfRoom.firstImg}' default='resources/uploadFiles/imgAdd.png'/>"  width="150px" height="100px" onclick="$('#firstImgFile').click();">
+                             <input type="file" id="firstImgFile" style="display:none;">
                         </td>
                     </tr>
                     <tr>
                         <th>회의실 상세 이미지</th>
                         <td>
-                            <img src="" width="150px" height="100px"  onclick="$('#img_2').click();">
+                            <img src="<c:out value='' default='resources/uploadFiles/imgAdd.png'/>"  width="150px" height="100px"  onclick="$('#img_2').click();">
                             <input type="file" id="img_2" style="display:none;">
-                            <img src="" width="150px" height="100px"  onclick="$('#img_3').click();">
+                            <img src="<c:out value='' default='resources/uploadFiles/imgAdd.png'/>"  width="150px" height="100px"  onclick="$('#img_3').click();">
                             <input type="file" id="img_3" style="display:none;">
-                            <img src="" width="150px" height="100px"  onclick="$('#img_4').click();">
+                            <img src="<c:out value='' default='resources/uploadFiles/imgAdd.png'/>"  width="150px" height="100px"  onclick="$('#img_4').click();">
                             <input type="file" id="img_4" style="display:none;">
 
                         </td>
@@ -56,11 +59,15 @@
                     <tr>
                         <th>회의장비</th>
                         <td>
-                            TV&nbsp;<input type="checkbox" name="equipment">&nbsp;
-                            빔프로젝터&nbsp;<input type="checkbox" name="equipment">&nbsp;
-                            에어컨&nbsp;<input type="checkbox" name="equipment">&nbsp;
-                            커피포트&nbsp;<input type="checkbox" name="equipment">&nbsp;
-                            선풍기&nbsp;<input type="checkbox" name="equipment">&nbsp;
+                          
+                            TV&nbsp;<input type="checkbox" name="equipment" value="TV">&nbsp;
+                            빔프로젝터&nbsp;<input type="checkbox" name="equipment" value="빔프로젝터">&nbsp;
+                            에어컨&nbsp;<input type="checkbox" name="equipment" value="에어컨">&nbsp;
+                            커피포트&nbsp;<input type="checkbox" name="equipment" value="커피포트">&nbsp;
+                            선풍기&nbsp;<input type="checkbox" name="equipment" value="선풍기">&nbsp;
+                          <div id="equipment-area">
+                          </div>
+                    
                         </td>
                     </tr>
                     <tr>
@@ -69,12 +76,46 @@
 
 
                 </table>
+                <br><br>
+                 <div class="btn-area">
+	                <button type="submit" class="btn btn-sm btn-secondary">제출하기</button>
+	                <button type="button" class="btn btn-sm btn-light">이전으로</button>
+            	</div>
             </form>
             <br><br>
-            <div class="btn-area">
-                <button type="submit" class="btn btn-sm btn-secondary">제출하기</button>
-                <button type="button" class="btn btn-sm btn-light">이전으로</button>
-            </div>
+           <script>
+				$(function(){
+					
+					$("#firstImgFile").change(function(){
+						
+						let formData= new FormData(); //가상의 폼요소
+						
+						let uploadFile = this.files[0]; // 현재 선택된 파일 객체
+						console.log(uploadFile);
+						formData.append("uploadFile",uploadFile);
+						formData.append("originalFile",'${CfRoom.firstImg}');
+						
+						
+						
+						
+						$.ajax({
+							url:"uploadFirstImg.cfr",
+							data:formData, //파일이 담겨있는 form
+							processData:false,//디폴트값 true 파일 전송시 파일타입 String으로 변환
+							contentType:false,
+							type:"POST",
+							success:function(){
+								location.reload();
+							},
+							error:function(){
+								console.log("업로드용 ajax통신 실패");
+							}
+						})
+						
+					});
+				})
+				
+			</script>
 
             <!-- 장비추가 모달 -->
             <div class="modal" id="addObject">
@@ -89,22 +130,19 @@
             
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <form action="">
-                            장비명 : <input type="text" name="equipment">
-
+                        <form action="add.eq" method="post">
+                            장비명 : <input type="text" id="addEq">
+								
 
 
                             <div class="modal-footer">
-                                <button type="submit">추가하기</button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="addEmp();">추가하기</button>
                                 <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">닫기</button>
                             </div>
                     
                         </form>
                     </div>
             
-                    <!-- Modal footer -->
-                  
-                </div>
                 </div>
             </div>
             
@@ -112,6 +150,33 @@
 
         </div>
         <br>
+        <script>
+        
+        		
+        		function addEmp(){
+        			
+        			$.ajax({
+                		url:"add.eq",
+                		data:{equipment:$("#addEq").val()},
+                		success:function(result){
+                			let value= result 
+                			+"&nbsp;<input type='checkbox' name='equipment' value='"
+                			+result+"'>&nbsp;&nbsp;";
+                			
+                			
+                			
+                			$("#equipment-area").append(value);
+                			$("#addEq").val("");
+                		},error:function(){
+                			console.log("ajax 통신 실패");
+                		}
+                				
+                	})
+            	
+        			
+        		}
+        	
+        </script>
         
 
 
