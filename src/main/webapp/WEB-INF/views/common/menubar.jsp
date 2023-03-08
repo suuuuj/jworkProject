@@ -39,7 +39,7 @@
          background: rgba(246, 246, 246, 0.712);
      }
      .line{
-            border : 1px solid lightgray
+            border : 1px solid rgba(6, 117, 6, 0.966);
      }
      .logo{ width:200px; margin-left:20px; }
      .menubar{
