@@ -52,7 +52,7 @@
             <div id="img-area" style="position: relative;">
             	
 				<c:forEach var="c" items="${list}">                
-	                <div class="detail-img" style="position: relative;" onclick="cfrDetail(${c.cfrName});">
+	                <div class="detail-img" style="position: relative;" <%-- onclick="cfrDetail(${c.cfrName});" --%>>
 	                    <article>
 	                        <figure>
 	                            <img src="${c.firstImg}" width="250px" height="150px">
@@ -60,11 +60,22 @@
 	                        </figure>
 	                    </article>
 	                    <div style="position: absolute;" class="subImg">
-	                        <button type="button" onclick=""><img src="resources/images/reservation/trash.png" width="23px;" height="23px;"></button>
+	                        <a class="btn" onclick="deleteCfr();">
+	                        	<img src="resources/images/reservation/trash.png" width="23px;" height="23px;">
+	                        </a>
+	                        <form action="delete.cfr" method="post" id="deleteForm">
+	                        	<input type="hidden" name="cfrName" value="${c.cfrName}">
+	                        </form>
 	                    </div>
 	                </div>
 	             </c:forEach>         
             </div>
+            <script>
+            	function deleteCfr(){
+            		
+            		$("#deleteForm").submit();
+            	}
+            </script>
            <div id="pagingArea">
                 <ul class="pagination">
                 	<c:choose>
@@ -91,9 +102,8 @@
             </div>
         </div>
         <br>
-        data-toggle="modal" data-target="#addObject"
         <script>
-        	function cfrDetail(cfrName){
+        /* 	function cfrDetail(cfrName){
         		
         			  		
         		
@@ -105,7 +115,7 @@
 					
 				}
 				
-			})
+			}) */
 			
         </script>
         <!-- 회의실 상세보기 모달 -->

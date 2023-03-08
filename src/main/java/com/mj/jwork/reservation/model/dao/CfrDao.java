@@ -34,4 +34,9 @@ public class CfrDao {
 		
 		return sqlSession.selectOne("cfrMapper.selectListCount");
 	}
+	
+	public int deleteCfr(SqlSessionTemplate sqlSession,CfRoom cfr) {
+		
+		return sqlSession.delete("cfrMapper.deleteCfr",cfr);
+	}
 }
