@@ -221,7 +221,7 @@
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="insertApproval" href="enrollForm.app">결재 문서 작성</a><br>
-                                <a id="myApproval" href="">내 결제 문서</a><br>
+                                <a id="myApprovalList" href="mylist.app">내 결제 문서</a><br>
                                 <a id="" href="">미결재 문서</a><br>
                                 <a id="" href="">수신 참조 문서함</a><br>
                                 <a id="" href="">임시저장함</a><br>

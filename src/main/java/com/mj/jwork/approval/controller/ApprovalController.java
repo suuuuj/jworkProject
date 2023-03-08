@@ -18,5 +18,11 @@ public class ApprovalController {
 	public String ApprovalEnrollForm() {
 		return "approval/approvalEnrollForm";
 	}
+	
+	// 내결제리스트
+	@RequestMapping("mylist.app")
+	public String MyApprovalList() {
+		return "approval/myApprovalList";
+	}
 
 }
