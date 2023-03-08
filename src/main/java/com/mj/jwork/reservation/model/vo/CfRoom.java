@@ -14,7 +14,7 @@ import lombok.ToString;
 public class CfRoom {//회의실 테이블
 
 	 private String cfrName;
-	 private String cfrImg;
+	 private String firstImg;
 	 private int capacity;
 	 private String equipment;
 }
