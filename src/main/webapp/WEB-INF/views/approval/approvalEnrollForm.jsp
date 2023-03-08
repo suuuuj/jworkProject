@@ -7,8 +7,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-
-
 <!-- include summernote css/js-->
    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"> 
 
@@ -88,6 +86,9 @@
         text-align: center;
         width: 265px;
     }
+    .signLogo{
+        width: 42px;
+    }
    
 </style>
 </head>
@@ -137,7 +138,7 @@
                     <td width="90px">사원</td>
                 </tr>
                 <tr>
-                    <td height="70px"><img src="resources/img/check.jpg" alt="" /></td>
+                    <td height="70px"><img class="signLogo" src="resources/images/common/check.jpg" alt="" /></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -171,8 +172,8 @@
                     <tr>
                         <td colspan="2">
                             <textarea id="summernote" name="editordata"></textarea>
-   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-   <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+                            <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+                            <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
                             <script>
                             	$(document).ready(function() {
                           	  		$('#summernote').summernote({
@@ -209,30 +210,20 @@
                 
                     <!-- Modal Header -->
                     <div class="modal-header">
-                    <h4 class="modal-title">Modal Heading</h4>
+                    <h5 class="modal-title"><b>결재선</b></h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div class="approvalLine-area" >
-                            <li style="padding:15px">인사팀
-                                <ul> - 유상무 상무</ul>
-                                <ul> - 김지연 부장</ul>
-                                <ul> - 김지연 부장</ul>
-                            </li>
-                            <li>총무팀
-                                <!--
-                                <ul> - 유상무 상무</ul>
-                                <ul> - 김지연 부장</ul>
-                                <ul> - 김지연 부장</ul>-->
-                            </li>
-                            <li>개발팀
-                                <!--
-                                <ul> - 유상무 상무</ul>
-                                <ul> - 김지연 부장</ul>
-                                <ul> - 김지연 부장</ul>-->
-                            </li>
+                            <ul style="padding:15px"> 인사팀
+                                <li>유상무 상무</li>
+                                <li>김지연 차장</li>
+                                <li>박춘식 부장</li>
+                            </ul>
+                           
+                          
                         </div>
                         <div class="approvalLine-button">
                             <br>

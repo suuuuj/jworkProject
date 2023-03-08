@@ -53,7 +53,7 @@
         font-weight: 500;
         font-size: 14px;
     }
-    .overTable{
+    .businessTable{
         width:100%;
         text-align: center;
         margin-top:30px;
@@ -62,13 +62,13 @@
         font-size: 14px;
         color:rgb(51,51,51);
     }
-    .overTable td{
+    .businessTable td{
         width:182px;
         height:30px;
         color:rgb(50,50,50);
         border-bottom: 1px solid rgb(234, 234, 234);
     }
-    .overTable>tbody td:hover{
+    .businessTable>tbody tr:hover{
         cursor: pointer;
         opacity: 0.7;
     }
@@ -103,6 +103,7 @@
 
             <div class="selectBox">
                 <select name="" id="">
+                    <option value="">&nbsp;- 진행상황 -</option>
                     <option value="">&nbsp;결재대기(1차)</option>
                     <option value="">&nbsp;결재대기(2차)</option>
                     <option value="">&nbsp;승인</option>
@@ -110,8 +111,8 @@
                 </select> 
             </div>
 
-            <div class="overList">
-                <table class="overTable">
+            <div class="businessList">
+                <table class="businessTable">
                     <thead>
                         <tr style="font-weight: 600; background: rgb(234, 234, 234);">
                             <td width="60px;">문서번호</td>
@@ -279,10 +280,13 @@
                 </table>
             </div>
 
-
-
-
-
+            <script>
+                $(function(){
+                    $(".businessTable>tbody>tr").click(function(){
+                        location.href = 'detail.ot?no=' + $(this).children().eq(0).text();
+                    })
+                }
+            </script>
 
 
         </div>

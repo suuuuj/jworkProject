@@ -44,21 +44,33 @@
         font-size: 15px;
         font-weight: 600;
     }
-    .overList>table{
+    .selectBox select{
+        width:150px;
+        height:30px;
+        border:1px solid rgb(170, 170, 170);
+        border-radius: 5px;
+        color:rgb(50,50,50);
+        font-weight: 500;
+        font-size: 14px;
+    }
+    .overTable{
         width:100%;
         text-align: center;
         margin-top:30px;
         border-collapse: collapse;
         border-spacing: 0;
+        font-size: 14px;
+        color:rgb(51,51,51);
     }
     .overTable td{ 
         width:182px;
-        height:40px;
+        height:30px;
         color:rgb(50,50,50);
         border-bottom: 1px solid rgb(234, 234, 234);
     }
-    .overTable>tbody{
-        font-size: 14px;
+    .overTable>tbody tr:hover{
+        opacity: 0.7;
+        cursor: pointer;
     }
     .paging-area button{
         width:30px;
@@ -119,16 +131,19 @@
         <div class="overtimeList">
 
             <div class="selectBox">
-                <input type="checkbox" id="" name="" value=""> <label for="">조정중</label>
-                <input type="checkbox" id="" name="" value=""> <label for="">승인</label>
-                <input type="checkbox" id="" name="" value=""> <label for="">반려</label>
-                    
+                <select name="" id="">
+                    <option value="">&nbsp;- 진행상황 -</option>
+                    <option value="">&nbsp;결재대기(1차)</option>
+                    <option value="">&nbsp;결재대기(2차)</option>
+                    <option value="">&nbsp;승인</option>
+                    <option value="">&nbsp;반려</option>
+                </select> 
             </div>
 
             <div class="overList">
                 <table class="overTable">
                     <thead>
-                        <tr style="color:rgb(51,51,51); font-size: 14px; font-weight: 600; background: rgb(234, 234, 234);">
+                        <tr style="font-weight: 600; background: rgb(234, 234, 234);">
                             <td width="40px">문서번호</td>
                             <td width="120px">사번</td>
                             <td width="120px">소속</td>

@@ -93,9 +93,9 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,172,0)">출장관리</span>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,172,0)">시간외 근무관리</span>
             <br>
-            <div style="width:313px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:310px; background: rgb(234, 234, 234);">&nbsp;</div>
             <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:520px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:523px; background: rgb(234, 234, 234);">&nbsp;</div>
         </div>
 
         <div class="enrollForm">
