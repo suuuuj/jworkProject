@@ -15,7 +15,7 @@
         padding:4%
     }
     .btnArea{
-        width: 520px;
+        width: 545px;
     }
     .inputSearch{
         width:170px;
@@ -27,7 +27,7 @@
     }
    .btnArea button, .searchArea button{
         font-size: 12px;
-        height: 29px;
+        height: 27px;
         margin-bottom: 6px;
     }
     .my.pagination.justify-content-end.pagination-sm>li>a{
@@ -37,9 +37,12 @@
 </head>
 <body>
  <jsp:include page="../common/menubar.jsp"/>
-       
-        <h4><b>전체 문서 조회</b></h4>
-    
+        <div>
+            <h4 style="display: inline-block;" style="float: left;"><b>전체 문서 조회</b></h4>
+            <div align="right">
+                <button type="button" class="btn btn-outline-success" onclick="localhost.href='enrollForm.app'">내 결제 문서 작성</button>
+            </div>
+        </div>
         <br>
         <div class="btnNSerch">
             <table>
