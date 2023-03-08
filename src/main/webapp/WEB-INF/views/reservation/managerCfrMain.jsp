@@ -12,16 +12,19 @@
         margin: 0 auto;
         overflow: hidden;
         padding-top:10px;
+          width:960px;
     }
     #img-area>article{
         float: left;
         margin-left: 10px;
         margin-bottom: 10px;
+      
 
     }
     .detail-img{display: inline-block;}
     .outer{
         width: 960px;
+        margin:20px;
     }
     figure {
   text-align: center;
@@ -41,107 +44,71 @@
         <h2>회의실 관리</h2>
         <hr><br>
         <div>
-            <div class="btn-area">
+            <div class="btn-area" style="width:960px;">
                 <a class="btn btn-secondary" href="enrollForm.cfr">+회의실 등록</a>
                 <button type="button" class="btn btn-secondary">회의실 예약 내역</button>
             </div>
             <br><br>
             <div id="img-area" style="position: relative;">
-            
-                <div class="detail-img" style="position: relative;">
-                    <article>
-                        <figure>
-                            <img src="//bit.ly/2GrygUe" width="250px" height="150px">
-                            <figcaption >1회의실</figcaption>
-                        </figure>
-                    </article>
-                    <div style="position: absolute;" class="subImg">
-                        <button type="button" onclick="">-</button>
-                    </div>
-                </div>
-                <div class="detail-img" style="position: relative;">
-                    <article>
-                        <figure>
-                            <img src="//bit.ly/2GrygUe" width="250px" height="150px">
-                            <figcaption >1회의실</figcaption>
-                        </figure>
-                    </article>
-                    <div style="position: absolute;" class="subImg">
-                        <button type="button" onclick="">-</button>
-                    </div>
-                </div>
-             
-                <div class="detail-img" style="position: relative;">
-                    <article>
-                        <figure>
-                            <img src="//bit.ly/2GrygUe" width="250px" height="150px">
-                            <figcaption >1회의실</figcaption>
-                        </figure>
-                    </article>
-                    <div style="position: absolute;" class="subImg">
-                        <button type="button" onclick="">-</button>
-                    </div>
-                </div>
-             
-                <div class="detail-img" style="position: relative;">
-                    <article>
-                        <figure>
-                            <img src="//bit.ly/2GrygUe" width="250px" height="150px">
-                            <figcaption >1회의실</figcaption>
-                        </figure>
-                    </article>
-                    <div style="position: absolute;" class="subImg">
-                        <button type="button" onclick="">-</button>
-                    </div>
-                </div>
-             
-                <div class="detail-img" style="position: relative;">
-                    <article>
-                        <figure>
-                            <img src="//bit.ly/2GrygUe" width="250px" height="150px">
-                            <figcaption >1회의실</figcaption>
-                        </figure>
-                    </article>
-                    <div style="position: absolute;" class="subImg">
-                        <button type="button" onclick="">-</button>
-                    </div>
-                </div>
-             
-                <div class="detail-img" style="position: relative;">
-                    <article>
-                        <figure>
-                            <img src="//bit.ly/2GrygUe" width="250px" height="150px">
-                            <figcaption >1회의실</figcaption>
-                        </figure>
-                    </article>
-                    <div style="position: absolute;" class="subImg">
-                        <button type="button" onclick="">-</button>
-                    </div>
-                </div>
-             
-             
-             
-             
-
-             
-              
+            	
+				<c:forEach var="c" items="${list}">                
+	                <div class="detail-img" style="position: relative;" onclick="cfrDetail(${c.cfrName});">
+	                    <article>
+	                        <figure>
+	                            <img src="${c.firstImg}" width="250px" height="150px">
+	                            <figcaption>${c.cfrName}</figcaption>
+	                        </figure>
+	                    </article>
+	                    <div style="position: absolute;" class="subImg">
+	                        <button type="button" onclick=""><img src="resources/images/reservation/trash.png" width="23px;" height="23px;"></button>
+	                    </div>
+	                </div>
+	             </c:forEach>         
+            </div>
+           <div id="pagingArea">
+                <ul class="pagination">
+                	<c:choose>
+	                	<c:when test="${pi.currentPage eq  1}">
+	                    	<li class="page-item disabled"><a class="page-link" href="#"><</a></li>
+	                    </c:when>
+	                    <c:otherwise>
+		                    <li class="page-item"><a class="page-link" href="list.cfr?cpage=${pi.currentPage -1 }"><</a></li>
+		                </c:otherwise>
+		            </c:choose>
+		            <c:forEach var="p"  begin="${pi.startPage }" end="${pi.endPage }">
+	                    <li class="page-item"><a class="page-link" href="list.cfr?cpage=${p }">${p }</a></li>
+	 
+                   	</c:forEach>
+                   	<c:choose>
+                   		<c:when test="${pi.currentPage eq pi.maxPage}">
+	                   		<li class="page-item disabled"><a class="page-link" href="#">></a></li>
+	             	 	</c:when>
+	             	 	<c:otherwise>
+	             	 		<li class="page-item"><a class="page-link" href="list.cfr?cpage=${pi.currentPage + 1 }">></a></li>
+           				</c:otherwise>
+             		</c:choose>
+                </ul>
             </div>
         </div>
         <br>
-        <div id="pagingArea">
-            <ul class="pagination">
-                <li class="page-item disabled"><a class="page-link" href="#"><</a></li>
-                <li class="page-item"><a class="page-link" href="list.bo?cpage=${p }">1</a></li>
-                <li class="page-item"><a class="page-link" href="list.bo?cpage=${pi.currentPage + 1 }">></a></li> 
-            </ul>
-        </div>
+        data-toggle="modal" data-target="#addObject"
         <script>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-            Open modal
-            </button>
-
+        	function cfrDetail(cfrName){
+        		
+        			  		
+        		
+        	}
+        
+			$(function(){
+				
+				if($(".detail-img figcaption").val() == '${CfRoom.cfrName}'){
+					
+				}
+				
+			})
+			
         </script>
-        <!-- The Modal -->
+        <!-- 회의실 상세보기 모달 -->
         <div class="modal" id="">
             <div class="modal-dialog">
             <div class="modal-content">
