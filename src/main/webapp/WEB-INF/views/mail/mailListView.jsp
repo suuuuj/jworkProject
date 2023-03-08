@@ -12,7 +12,7 @@
             width: 900px;
         }
         .line{
-            border : 1px solid lightgray
+            border : 1px solid rgba(6, 117, 6, 0.966);
         }
         .space{
             height: 15px;
@@ -62,7 +62,7 @@
 </head>
 <body>
 	
-	<jsp:include page="../common/menubar.jsp"/>
+	<jsp:include page="../common/mailMenubar.jsp"/>
 			<br>
 
             <span class="content-title">&nbsp;&nbsp;&nbsp;받은 메일함&nbsp;&nbsp;</span> <a class="notRead" href="#">0</a>&nbsp;/&nbsp;<a class="mailBox" href="#">230</a> 
