@@ -42,30 +42,12 @@
         <hr><br>
         <div>
             <div class="btn-area">
-                <button type="button" class="btn btn-secondary">+회의실 등록</button>
+                <a class="btn btn-secondary" href="enrollForm.cfr">+회의실 등록</a>
                 <button type="button" class="btn btn-secondary">회의실 예약 내역</button>
             </div>
             <br><br>
             <div id="img-area" style="position: relative;">
-                
-                <!-- <div class="detail-img">
-                    <div style="position: absolute;">
-                        <article>
-                            <figure>
-                                <div style="position: relative; top: 80px; left: 100px;">
-                                <img src="//bit.ly/2GrygUe" width="250px" height="150px">
-                                </div>
-                                <figcaption >1회의실</figcaption>
-                            </figure>
-                        
-                        </article>
-                    </div>
-                    <div style="position: absolute;" >
-                        <div style="position: relative; top: 80px; left: 120px;">
-                            <img src="//bit.ly/2GrygUe" width="250px" height="150px">
-                        </div>
-                    </div>
-                </div> -->
+            
                 <div class="detail-img" style="position: relative;">
                     <article>
                         <figure>
