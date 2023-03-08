@@ -44,10 +44,10 @@
         }
         .mailContents tr{
             height: 40px;
-            border: 0.5px solid lightgray;
+            border: 0.5px solid rgb(241, 241, 241);
         }
         .mailContents tr:hover{
-            background: lightgray;
+            background: rgb(241, 241, 241);
             cursor: pointer;
         }
         .mailContents td{
@@ -56,6 +56,17 @@
         #pagingArea{
             display: flex;
             justify-content: center;
+        }
+        .mailBoxOptions .btn-block{
+        	text-align: left;
+        }
+        #addMailBoxInput{
+        	border: 1px solid green;
+        	border-radius: 5px;
+        	padding-left: 5px;
+        }
+        #addMailBoxInput:focus{
+        	outline: 1px solid green;
         }
         
     </style>
@@ -70,10 +81,10 @@
             <div class="space"></div>
             <div class="btnArea">
                 <input id="checkAll" type="checkbox"> &nbsp;&nbsp;
-                <button id="readBtn" class="btn btn-outline-secondary btn-sm">읽음</button>&nbsp;
-                <button id="deleteBtn" class="btn btn-outline-secondary btn-sm">삭제</button>&nbsp;
-                <button type="button" id="moveBtn" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#move">이동</button>&nbsp;
-                <button id="deliveryBtn" class="btn btn-outline-secondary btn-sm">전달</button>&nbsp;
+                <button id="readBtn" class="btn btn-outline-success btn-sm" disabled>읽음</button>&nbsp;
+                <button id="deleteBtn" class="btn btn-outline-success btn-sm" disabled>삭제</button>&nbsp;
+                <button type="button" id="moveBtn" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#move" disabled>이동</button>&nbsp;
+                <button id="deliveryBtn" class="btn btn-outline-success btn-sm" disabled>전달</button>&nbsp;
                 <div id="search-area">
                     <form action="" method="get">
                         <input type="hidden" name="cpage" value="1">
@@ -84,11 +95,48 @@
                             <option value="titleAndContent">제목+내용</option>
                         </select>
                         <input type="text" name="keyword" id="keyword" value="${ keyword }">
-                        <button type="submit" class="btn btn-secondary btn-sm">검색</button>
+                        <button type="submit" class="btn btn-success btn-sm">검색</button>
         
                     </form>
                 </div>
             </div>
+            <script>
+                $(function(){
+
+                    // 전채 선택 클릭 시 모든 메일 선택
+                    $(document).on("click", "#checkAll", function(){
+                        const checkBoxes = $(".mailContents input:checkbox");
+                        if($("#checkAll").is(":checked") == true){
+                            checkBoxes.prop("checked", true);
+                        } else{
+                            checkBoxes.prop("checked", false);
+                        } 
+
+                    })
+                    
+                    // 체크박스가 선택될때마다 확인 후 읽음, 삭제, 이동, 전달 버튼 활성화|비활성화 변경
+                    // 선택지 하나라도 빼면 전체선택 해제 | 모두 선택시 전체선택
+                    $(document).on("click", "input:checkbox", function(){
+                        const $checkbox = $(".mailContents input[type=checkbox]");
+                        const $checked = $(".mailContents input[type=checkbox]:checked");
+                        if($checked.length > 0){
+                            $(".btnArea>button").attr("disabled", false);
+                        } else{
+                            $(".btnArea>button").attr("disabled", true);
+                        }
+                        if($checkbox.length == $checked.length){
+                            $("#checkAll").prop("checked", true);
+                        } else{
+                            $("#checkAll").prop("checked", false);
+                        }
+                    })
+
+
+
+
+                })
+
+            </script>
 
             <div class="modal" id="move">
                 <div class="modal-dialog">
@@ -102,32 +150,50 @@
               
                     <!-- Modal body -->
                     <div class="modal-body">
-                            <div class="mailBoxOptions" data-toggle="buttons">
-                                <label class="btn btn-outline-secondary btn-block">
-                                    <input type="radio" name="mailbox" id="" value="" checked> 받은메일함
-                                </label>
-                                <label class="btn btn-outline-secondary btn-block">
-                                    <input type="radio" name="mailbox" id="" value="" > 보낸메일함
-                                </label>
-                                <label class="btn btn-outline-secondary btn-block">
-                                    <input type="radio" name="mailbox" id="" value="" > 보관
-                                </label>
-                            </div>
-                            <br>
-                            
-                        <input type="text" id="addMailBoxInput"> <button class="btn btn-outline-secondary">추가</button>
+                        <div class="mailBoxOptions" data-toggle="buttons">
+                            <label class="btn btn-outline-success btn-block">
+                                <input type="radio" name="mailbox" id="" value="" checked> 받은메일함
+                            </label>
+                            <label class="btn btn-outline-success btn-block">
+                                <input type="radio" name="mailbox" id="" value="" > 보낸메일함
+                            </label>
+                            <label class="btn btn-outline-success btn-block">
+                                <input type="radio" name="mailbox" id="" value="" > 보관
+                            </label>
+                        </div>
+                        <br>
+                        
+                    	<input type="text" id="addMailBoxInput"> <button id="modalAddMailBox" class="btn btn-outline-success">추가</button>
                     </div>
               
                     <!-- Modal footer -->
                     <div class="mfooter" align="center">
-                        <button type="button" class="btn btn-outline-secondary" id="moveMail">이동</button>
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">취소</button>
+                    	<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-outline-success" id="moveMail">이동</button>
                     </div>
                     <br>
                   </div>
                 </div>
             </div>
+			<script>
+				$(function(){
+                    // 모달에서 메일함 추가 버튼 클릭시 ajax로 추가 후 view에 조회
+					$("#modalAddMailBox").click(function(){
+                        const addMailBoxInput = $("#addMailBoxInput").val();
+						const newMailBox = "<label class='btn btn-outline-success btn-block'><input type='radio' name='mailbox' id='' value=''>" + addMailBoxInput + "</label>";
 
+                        $(".mailBoxOptions").append(newMailBox);
+                        $("#addMailBoxInput").val("");
+
+
+
+					})
+					
+					
+					
+				})
+				
+			</script>
 
             <div class="space"></div>
             <div class="mailContents">

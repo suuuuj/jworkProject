@@ -23,8 +23,8 @@
         <hr>
         <div>
             <div style="float: left; ">
-                <button type="button" class="btn btn-sm btn-secondary">회의실 정보</button>
-                <button type="button" class="btn btn-sm btn-secondary">예약하기</button>&nbsp;
+                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#cfrInfo">회의실 정보</button>
+                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#reservationForm">예약하기</button>&nbsp;
                 <button type="button"><</button>
                 <button type="button">></button>
             </div>
@@ -35,7 +35,7 @@
                 <button type="button">today</button>
                 <button type="button">week</button>
             </div>
-            <br claear="both">
+            <br clear="both">
             <br>
             <div align="center">
                 <table border="1" style="width:900px; height:600px; text-align: center;" >
@@ -212,39 +212,40 @@
     
             <!-- Modal body -->
             <div class="modal-body">
-               <form action="">
+               <form action="reserv.cfr" method="post">
                     <table>
                         <tr>
                             <th>회의실</th>
                             <td>
-                                <select name="" id="">
-                                    <option value="">1회의실</option>
-                                    <option value="">2회의실</option>
-                                    <option value="">3회의실</option>
-                                    <option value="">4회의실</option>
-                                    <option value="">5회의실</option>
+                                <select name="cfrName" id="cfrName">
+                                    <option value="1회의실">1회의실</option>
+                                    <option value="2회의실">2회의실</option>
+                                    <option value="3회의실">3회의실</option>
+                                    <option value="4회의실">4회의실</option>
+                                    <option value="5회의실">5회의실</option>
                                 </select>
                             </td>
                         </tr>
                         <tr>
                             <th>예약자</th>
                             <td>정여진 102312(총무부)</td>
+                            <input type="hidden" name="reservation" value="">
                         </tr>
                         <tr>
                             <th>날짜</th>
-                            <td><input type="date"></td>
+                            <td><input type="date" name="useDate"></td>
                         </tr>
                         <tr>
                             <th>시간</th>
-                            <td><input type="time">-<input type="time"></td>
+                            <td><input type="time" name="startTime">-<input type="time" name="endTime"></td>
                         </tr>
                         <tr>
                             <th>인원</th>
-                            <td><input type="number"></td>
+                            <td><input type="number" name="capacity"></td>
                         </tr>
                         <tr>
                             <th>회의제목</th>
-                            <td><input type="text"></td>
+                            <td><input type="text" name="cfTitle"></td>
                         </tr>
                     </table>
                </form>

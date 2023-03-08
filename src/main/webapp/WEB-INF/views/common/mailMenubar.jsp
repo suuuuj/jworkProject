@@ -121,7 +121,7 @@
             float: left;
         }
         .menubarArea{
-           margin: 8px;
+           margin-left: 8px;
            
         }
         .menu{
@@ -167,6 +167,7 @@
             width: 20px;
             float: right;
         }
+        .oneMailBox{margin-top: 6px;}
         .mailBoxName{
             width: 120px;
             border: none;

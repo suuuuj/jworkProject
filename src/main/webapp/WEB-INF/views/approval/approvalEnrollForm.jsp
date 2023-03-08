@@ -89,6 +89,17 @@
     .signLogo{
         width: 42px;
     }
+
+    .deptName{
+        padding-left: 15px;
+        font-size: small;
+    }
+    .empName{
+        padding-left: 20px;
+        display:none;
+        list-style: none;
+        font-size: small;
+    }
    
 </style>
 </head>
@@ -138,7 +149,7 @@
                     <td width="90px">사원</td>
                 </tr>
                 <tr>
-                    <td height="70px"><img class="signLogo" src="resources/images/common/check.jpg" alt="" /></td>
+                    <td height="70px"><img class="signLogo" src="resources/images/common/check.png" alt="" /></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -217,14 +228,47 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div class="approvalLine-area" >
-                            <ul style="padding:15px"> 인사팀
-                                <li>유상무 상무</li>
-                                <li>김지연 차장</li>
-                                <li>박춘식 부장</li>
+                            
+                            <ul class="deptName">
+                                <li>인사팀</li>
+                                <ul class="empName" style="display:none">
+                                    <li>유상무 상무</li>
+                                    <li>김지연 차장</li>
+                                    <li>박춘식 부장</li>
+                                </ul>
+                                
+                                <li>총무팀</li>
+                                    <ul class="empName" style="display:none">
+                                        <li>유상무 상무</li>
+                                        <li>김지연 차장</li>
+                                        <li>박춘식 부장</li>
+                                    </ul>
+                                
+                                <li>개발팀</li>
+                                    <ul class="empName" style="display:none">
+                                        <li>유상무 상무</li>
+                                        <li>김지연 차장</li>
+                                        <li>박춘식 부장</li>
+                                    </ul>
+                               
                             </ul>
-                           
-                          
+                        
                         </div>
+                        <script>
+                           $(document).ready(function(){
+  
+                                //메뉴 슬라이드
+                                $('.deptName > li').click(function(){
+                                    $(this).next($('.empName')).slideToggle();
+                                })
+
+                                $(".empName li").click(function(){
+                                	console.log($(this).text());
+                                });
+
+                            })
+                        </script>
+
                         <div class="approvalLine-button">
                             <br>
                             <br>
@@ -239,7 +283,7 @@
                             <div class="selectAppLine">
                                 <table id="selectAppLineTB" border="1">
                                     <h6 style="text-align: center;"><b>결재자</b></h6>
-                                    <thead>
+                                    <thead >
                                         <tr>
                                             <th>부서</th>
                                             <th>이름</th>

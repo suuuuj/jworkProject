@@ -29,6 +29,7 @@
 		<mapper resource="/mappers/mail-mapper.xml" />
 		<mapper resource="/mappers/project-mapper.xml" />
 		<mapper resource="/mappers/reservation-mapper.xml" />
+		<mapper resource="/mappers/cfr-mapper.xml" />
 	</mappers>
 	<!-- 유의사항 : 미리 등록해두려면 해당 mapper 파일이 진짜 존재하고, namespace 도 지정되어 있어야함 -->
 
