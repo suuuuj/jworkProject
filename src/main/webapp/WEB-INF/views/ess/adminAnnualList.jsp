@@ -314,7 +314,9 @@
 
             <script>
                 $(function(){
-                    $("list-area table>tr").click = location.href="detail.le?no=" + $(this).children().eq(0).text();
+                    $(".vacationTable>tbody>tr").click(function(){
+                        location.href = "detail.le?no=" + $(this).children().eq(0).text();
+                    })
                 })
             </script>
 
@@ -331,22 +333,7 @@
                 <button>></button>
             </div>
 
-
-
-
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
     </div>
 </body>
