@@ -7,6 +7,12 @@
 <meta charset="UTF-8">
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<!-- jquery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Modal -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <title>Insert title here</title>
 <style>
     /* outer영역 */
@@ -63,22 +69,30 @@
         height:30px;
         border-radius: 5px;
         line-height: 5px;
-        font-size: 14px;;
+        font-size: 14px;
+        margin-bottom: 3px;
     }
     .workSelect>div{
         display: inline-block;
     }
-    .workList>table{
+    .workTable{
         width:100%;
         text-align: center;
+        margin-top:30px;
         border-collapse: collapse;
         border-spacing: 0;
+        font-size: 14px;
+        color:rgb(51,51,51);
     }
-    .workList td{
+    .workTable td{
         width:182px;
         height:30px;
         color:rgb(50,50,50);
         border-bottom: 1px solid rgb(234, 234, 234);
+    }
+    .workTable>tbody tr:hover{
+        opacity: 0.7;
+        cursor: pointer;
     }
     .paging-area button{
         width:30px;
@@ -127,9 +141,9 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">근태관리</span>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">근태통계</span>
             <br>
-            <div style="width:328px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:346px; background: rgb(234, 234, 234);">&nbsp;</div>
             <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:515px; background: rgb(234, 234, 234);">&nbsp;</div>
+            <div style="width:487px; background: rgb(234, 234, 234);">&nbsp;</div>
         </div>
 
         <div class="work-area">
@@ -144,12 +158,9 @@
                 </div>
                 <div style="float:right">
                         <select name="dept" id="">
-                            <option value="">인사1팀</option>
-                            <option value="">인사2팀</option>
-                            <option value="">총무1팀</option>
-                            <option value="">총무2팀</option>
-                            <option value="">개발1팀</option>
-                            <option value="">개발2팀</option>
+                            <option value="">인사부</option>
+                            <option value="">총무부</option>
+                            <option value="">개발부</option>
                         </select>
                         <select name="" id="">
                             <option value="">사원</option>
@@ -174,10 +185,10 @@
                     <button type="button" id="daycheck">></button>&nbsp;&nbsp;
                     <button type="button"><img src="달력이미지" alt="" style="width:15px; height:15px;"></button>
                 </div>
+
                 <br><br>
                 
-
-                <table>
+                <table class="workTable">
                     <thead>
                             <tr style="color:rgb(51,51,51); font-size: 14px; font-weight: 600; background: rgb(234, 234, 234);">
                                 <td width="120px;">사번</td>
@@ -305,27 +316,11 @@
                 <button>5</button>
                 <button>></button>
             </div>
-
-
-
-
-
-
             
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
     </div>
+
+    
 </body>
 </html>

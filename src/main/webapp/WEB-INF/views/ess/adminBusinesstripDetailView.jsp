@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<!-- jquery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>Insert title here</title>
 <style>
     /* outer영역 */
@@ -60,14 +62,14 @@
         height:30px;
         width:60px;
         border-radius: 5px;
-        font-size: 12px;
+        font-size: 14px;
         line-height: 5px;
     }
     button[type=submit]{
-        width:110px;
+        width:125px;
         height:30px;
         border-radius: 5px;
-        font-size: 12px;
+        font-size: 14px;
         line-height: 5px;
     }
     .textWrap{
@@ -98,7 +100,7 @@
             <div style="width:523px; background: rgb(234, 234, 234);">&nbsp;</div>
         </div>
 
-        <div class="enrollForm">
+        <form action="" method="" class="enrollForm">
             
             <div class="body">
                 <div style="display: flex;">
@@ -112,8 +114,8 @@
                 <div style="display: flex;">
                     <img src="" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        &nbsp;신청자&nbsp; <input type="text" name="" value="로그인사원이름"> 
-                        &nbsp;소속&nbsp; <input type="text" name="" value="로그인사원소속"> 
+                        &nbsp;신청자&nbsp; <input type="text" name="" value="신청한사원이름" readonly> 
+                        &nbsp;소속&nbsp; <input type="text" name="" value="신청한사원소속" readonly> 
                     </div>
                     <div style="background:rgb(234, 234, 234); width:550px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
@@ -122,8 +124,8 @@
 
                 <div style="display: flex;">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        시작일&nbsp; <input type="date" name="" value="" style="width:150px; text-align: center; height:20px;"> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="date" name="" value="" style="width:150px; text-align: center; height:20px;"> 
+                        시작일&nbsp; <input type="text" name="stDate" value="2023.03.08" style="width:150px; text-align: center; height:20px;" readonly> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="text" name="edDate" value="2023.03.09" style="width:150px; text-align: center; height:20px;" readonly> 
                     </div>
                     <div style="background:rgb(234, 234, 234); width:460px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
@@ -132,7 +134,7 @@
                 <div class="textWrap">
                     <span class="textCount">0자</span><span class="textTotal">/200자</span>
                 </div>
-                <textarea name="" id="" cols="30" rows="10" placeholder="출장신청 내용을 입력해주세요."></textarea>
+                <textarea name="" id="" cols="30" rows="10" readonly>출장가야됩니다 출장레쭈고</textarea>
                 <div style="float: right; margin-top:160px;">
                     <button type="button" class="btn btn-secondary">취소</button>
                     <button type="submit" class="btn btn-success">출장신청하기</button>
@@ -140,8 +142,7 @@
 
             </div>
 
-
-        </div>
+        </form>
 
 
     </div>

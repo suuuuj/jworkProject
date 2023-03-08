@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<!-- jquery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>Insert title here</title>
 <style>
     /* outer영역 */
@@ -164,8 +166,53 @@
                             <td>2023.03.05</td>
                             <td>시간외 근무신청</td>
                             <td>결재대기(1차)</td>
+                        </tr><tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>시간외 근무신청</td>
+                            <td>결재대기(1차)</td>
                         </tr>
                         <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>시간외 근무신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr> <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>시간외 근무신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr> <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>시간외 근무신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr> <tr>
+                            <td>46</td>
+                            <td>4505301111</td>
+                            <td>인사1팀</td>
+                            <td>사원</td>
+                            <td>김정만</td>
+                            <td>2023.03.05</td>
+                            <td>시간외 근무신청</td>
+                            <td>결재대기(1차)</td>
+                        </tr>                     <tr>
                             <td>46</td>
                             <td>4505301111</td>
                             <td>인사1팀</td>
@@ -262,7 +309,7 @@
             <script>
                 $(function(){
                     $(".overTable>tbody tr").click(function(){
-                        $("#myModal").modal('show')
+                        location.href = 'detail.ot?no=' + $(this).children().eq(0).text();
                     })
                 })
             </script>
@@ -281,42 +328,6 @@
         
     </div>
 
-    <!-- The Modal -->
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-        
-                <!-- Modal Header -->
-                <div class="modal-header">
-                <h4 class="modal-title">휴가신청</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                
-                <!-- Modal body -->
-                <div class="modal-body" style="width:90%; margin:auto;">
-                    <span class="modalS">휴가등록</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;리프레쉬휴가" style="width:200px;" readonly><br>
-                    <span class="modalS">신청날짜</span> <br>
-                    <input type="text" name="stDate" value="&nbsp;&nbsp;2023.03.20" style="width:133px;" readonly>
-                    <span>~</span>
-                    <input type="text" name="edDate" value="&nbsp;&nbsp;2023.03.21" style="width:133px;" readonly>
-                    <br><br>
-                    <span>신청사유</span>
-                    <br>
-                    <div class="textWrap">
-                        <span class="textCount">0자</span><span class="textTotal">/200자</span>
-                    </div>
-                    <textarea name="" id="" readonly>글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200</textarea>
-                    
-                </div>
-                
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            
-            </div>
-        </div>
-    </div>
+    
 </body>
 </html>

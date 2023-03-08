@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<!-- jquery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>Insert title here</title>
 <style>
     /* outer영역 */
@@ -57,24 +59,21 @@
         padding:10px;
     }
     button[type=button]{
-        border:none;
         height:30px;
-        width:50px;
+        width:60px;
         border-radius: 5px;
-        color: rgba(50, 50, 50);
-        font-weight: 600;
+        font-size: 12px;
+        line-height: 5px;
     }
     button[type=submit]{
-        border:none;
-        width:100px;
+        width:110px;
         height:30px;
-        color:white;
-        background-color: rgb(0, 174, 0);
-        font-weight: 600;
         border-radius: 5px;
+        font-size: 12px;
+        line-height: 5px;
     }
     .textWrap{
-        margin-left: 645px;
+        margin-left: 630px;
         margin-bottom: 5px;
         font-size: 13px;
         font-weight: 600;
@@ -105,7 +104,7 @@
                 <div style="display: flex;">
                     <img src="" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">&nbsp;출장일정, 필요정보 입력</div>
-                    <div style="background:rgb(234, 234, 234); width:718px; height:1px; margin-top:13px; margin-left: 5px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:700px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br>
@@ -116,7 +115,7 @@
                         &nbsp;신청자&nbsp; <input type="text" name="" value="로그인사원이름"> 
                         &nbsp;소속&nbsp; <input type="text" name="" value="로그인사원소속"> 
                     </div>
-                    <div style="background:rgb(234, 234, 234); width:560px; height:1px; margin-top:13px; margin-left: 5px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:550px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br>
@@ -126,7 +125,7 @@
                         시작일&nbsp; <input type="date" name="" value="" style="width:150px; text-align: center; height:20px;"> 
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="date" name="" value="" style="width:150px; text-align: center; height:20px;"> 
                     </div>
-                    <div style="background:rgb(234, 234, 234); width:472px; height:1px; margin-top:13px; margin-left: 5px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:460px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br><br>
@@ -134,47 +133,15 @@
                     <span class="textCount">0자</span><span class="textTotal">/200자</span>
                 </div>
                 <textarea name="" id="" cols="30" rows="10" placeholder="출장신청 내용을 입력해주세요."></textarea>
-                <div style="float: right; margin-top:178px;">
-                    <button type="button">취소</button>
-                    <button type="submit">출장신청하기</button>
+                <div style="float: right; margin-top:160px;">
+                    <button type="button" class="btn btn-secondary">취소</button>
+                    <button type="submit" class="btn btn-success">출장신청하기</button>
                 </div>
 
             </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     </div>
 </body>
