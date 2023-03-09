@@ -16,9 +16,10 @@ public class CfrReservation {//회의실 예약 테이블
 	
 	 private String cfrName;
 	 private int reservation;//예약자
-	 private int status;
+	 private int status;//1/2/3/4 | 예약완료/미예약/ 취소완료 / 이용완료
 	 private String startTime;
 	 private String endTime;
 	 private String useDate;
-	 //회의제목, 인원 추가해야함
+	 private int capacity;
+	 private String cfTitle;
 }

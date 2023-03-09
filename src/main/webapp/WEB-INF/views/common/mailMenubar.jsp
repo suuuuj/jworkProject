@@ -14,6 +14,10 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 구글 글씨체 -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         /*
@@ -26,7 +30,9 @@
             height: 60px;
         }
         */
-        
+        .outer *{
+	 		font-family: 'Nanum Gothic', sans-serif;
+	 	}
         #mailHeader tr{height: 60px;}
         
         .outer{
@@ -122,6 +128,7 @@
         }
         .menubarArea{
            margin-left: 8px;
+           margin-right: 8px;
            
         }
         .menu{
@@ -255,7 +262,7 @@
                 
                 <div class="mailMenu">
                     <div class="writeBtn">
-                        <button id="wrtieMail" class="btn btn-success btn-block">메일 쓰기</button>
+                        <button id="wrtieMail" class="btn btn-success btn-block" onclick="location.href='mailEnrollForm.ma'">메일 쓰기</button>
                     </div>
                     <div class="mainMailBox">
                         <div>

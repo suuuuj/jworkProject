@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="mailMapper">
-
+	
+	<resultMap type="Mail" id="mailResultMap">
+		<id column="mail_no" property="mailNo" />
+		<result column="sender_no" property="senderNo" />
+		<result column="sender" property="sender" />
+		<result column="receiver" property="receiver" />
+		<result column="mail_title" property="mailTitle" />
+		<result column="mail_content" property="mailContent" />
+		<result column="register_date" property="registerDate" />
+		<result column="send" property="send" />
+		
+		<result column="mailbox_no" property="mailBoxNo" />
+		<result column="emp_no" property="empNo" />
+		<result column="emp_name" property="empName" />
+		<result column="read" property="read" />
+		<result column="read_date" property="readDate" />
+		<result column="important" property="important" />
+		<result column="type" property="type" />
+		<result column="status" property="status" />
+		
+		<result column="mailbox_name" property="mailBoxName" />
+	</resultMap>
+	
+	
+	
+	<select id="selectReceiveListCount" resultType="_int">
+		select 
+		  	   count(*)
+		  from mail_detail
+		  left
+		  join mail using (mail_no)
+		 where emp_no = #{empNo}
+		   and send = 'Y'
+		   and type = 'R'
+		   and status = 'Y'
+	</select>
+	
+	<select id="selectUnReadReceiveCount" resultType="_int">
+		select count(*)
+		  from mail_detail
+		  left
+		  join mail using (mail_no)
+		 where emp_no = 41569
+		   and send = 'Y'
+		   and read = 'N'
+		   and type = 'R'
+		   and status = 'Y'
+	</select>
+	
+	<select id="selectReceiveMailList" resultMap="mailResultMap">
+		select
+		       mail_no
+		     , important
+		     , read
+		     , sender
+		     , mail_title
+		     , to_char(register_date, 'YYYY.MM.DD HH24:MI:SS') "register_date"
+		  from mail_detail
+		  left
+		  join mail using (mail_no)
+		 where emp_no = 41569
+		   and send = 'Y'
+		   and type = 'R'
+		   and status = 'Y'
+		 order
+		    by register_date desc
+	</select>
+	
 
 </mapper>

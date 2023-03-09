@@ -53,6 +53,7 @@
         .mailContents td{
         	padding-left:10px;
         }
+        .readIcon{width:20px;}
         #pagingArea{
             display: flex;
             justify-content: center;
@@ -76,7 +77,7 @@
 	<jsp:include page="../common/mailMenubar.jsp"/>
 			<br>
 
-            <span class="content-title">&nbsp;&nbsp;&nbsp;받은 메일함&nbsp;&nbsp;</span> <a class="notRead" href="#">0</a>&nbsp;/&nbsp;<a class="mailBox" href="#">230</a> 
+            <span class="content-title">&nbsp;&nbsp;&nbsp;${ mailBox }&nbsp;&nbsp;</span> <a class="notRead" href="#">${ unReadCount }</a>&nbsp;/&nbsp;<a class="mailBox" href="#">${ listCount }</a> 
             <div class="line"></div>
             <div class="space"></div>
             <div class="btnArea">
@@ -198,69 +199,67 @@
             <div class="space"></div>
             <div class="mailContents">
                 <table>
-                    <tr>
-                        <td width="30px"><input type="checkbox"></td>
-                        <td width="30px" class="star">☆</td>
-                        <td width="30px">&#x2709;&#xFE0F;</td>
-                        <td width="100px">보낸사람</td>
-                        <td width="600px">안녕하세요 제목입니다.</td>
-                        <td width="150px">2023.01.12 14:29</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td class="star">★</td>
-                        <td>&#x2709;&#xFE0F;</td>
-                        <td>보낸사람</td>
-                        <td>[안내] 죽전사옥 데이터센터 장비 정기점검</td>
-                        <td>2023.01.12 14:29</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td class="star">★</td>
-                        <td>&#x2709;&#xFE0F;</td>
-                        <td>보낸사람</td>
-                        <td>[안내] 죽전사옥 데이터센터 장비 정기점검</td>
-                        <td>2023.01.12 14:29</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td class="star">★</td>
-                        <td>&#x2709;&#xFE0F;</td>
-                        <td>보낸사람</td>
-                        <td>[안내] 죽전사옥 데이터센터 장비 정기점검</td>
-                        <td>2023.01.12 14:29</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td class="star">★</td>
-                        <td>&#x2709;&#xFE0F;</td>
-                        <td>보낸사람</td>
-                        <td>[안내] 죽전사옥 데이터센터 장비 정기점검</td>
-                        <td>2023.01.12 14:29</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td class="star">★</td>
-                        <td>&#x2709;&#xFE0F;</td>
-                        <td>보낸사람</td>
-                        <td>[안내] 죽전사옥 데이터센터 장비 정기점검</td>
-                        <td>2023.01.12 14:29</td>
-                    </tr>
-
-
+                	<c:forEach var="m" items="${ mList }">
+	                    <tr class="${ m.mailNo }">
+	                        <td width="30px"><input type="checkbox"></td>
+	                        <c:choose>
+	                        	<c:when test="${ m.important eq 'Y' }">
+	                        		<td width="30px" class="star">★</td>
+	                        	</c:when>
+	                        	<c:otherwise>
+	                        		<td width="30px" class="star">☆</td>
+	                        	</c:otherwise>
+	                        </c:choose>
+	                        <c:choose>
+	                        	<c:when test="${ m.read eq 'Y' }">
+	                        		<!-- 읽은 메일 아이콘 수정하기!!!!!!!!!! -->
+	                        		<td width="30px"><img class="readIcon" src="resources/images/mail/mail.png"></td>
+	                        	</c:when>
+	                        	<c:otherwise>
+	                        		<td width="30px"><img class="readIcon" src="resources/images/mail/mail.png"></td>
+	                        	</c:otherwise>
+	                        </c:choose>
+	                        <td width="100px">${ m.sender }</td>
+	                        <td width="530px">${ m.mailTitle }</td>
+	                        <td width="220px">${ m.registerDate }</td>
+	                    </tr>
+                    </c:forEach>
                 </table>
             </div>
-            <!-- 페이징바 -->
             
-            <div id="pagingArea"> 
+            <script>
+            	$(function(){
+            		<c:forEach var="m" items="${ mList }">
+            			<c:if test="${ m.read eq 'N' }">
+            				$("." + ${ m.mailNo} ).css('font-weight' , 'bold');
+            			</c:if>
+            		</c:forEach>
+            	})
+            </script>
+            
+            <!-- 페이징바 -->
+            <div id="pagingArea">
                 <ul class="pagination">
-                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+					<c:choose>
+						<c:when test="${ pi.currentPage eq 1 }">
+                    		<li class="page-item disabled"><a class="page-link" href="list.ma?cpage=${ pi.currentPage - 1 }">Previous</a></li>
+         				</c:when>
+         				<c:otherwise>
+         					<li class="page-item"><a class="page-link" href="list.ma?cpage=${ pi.currentPage - 1 }">Previous</a></li>
+                    	</c:otherwise>
+                    </c:choose>
+                    
+                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+                    	<li class="page-item"><a class="page-link" href="list.ma?cpage=${ p }">${ p }</a></li>
+                    </c:forEach>
+                    <c:choose>
+                    	<c:when test="${ pi.currentPage eq pi.maxPage }">
+                    		<li class="page-item disabled"><a class="page-link" href="list.ma?cpage=${ pi.currentPage + 1 }">Next</a></li>
+						</c:when>
+                    	<c:otherwise>
+                    		<li class="page-item"><a class="page-link" href="list.ma?cpage=${ pi.currentPage + 1 }">Next</a></li>                  
+                    	</c:otherwise>
+                    </c:choose>
                 </ul>
             </div>
 

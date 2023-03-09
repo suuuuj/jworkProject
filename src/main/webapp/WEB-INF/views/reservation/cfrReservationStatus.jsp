@@ -9,6 +9,7 @@
    
     .outer{
         width: 960px;
+        margin:20px;
     }
     #pagingArea{width:fit-content;margin:auto; margin-right: 520px; }
 
@@ -213,47 +214,55 @@
             <!-- Modal body -->
             <div class="modal-body">
                <form action="reserv.cfr" method="post">
+                <input type="hidden" name="reservation" value="${loginUser.empNo}">
                     <table>
                         <tr>
                             <th>회의실</th>
                             <td>
-                                <select name="cfrName" id="cfrName">
-                                    <option value="1회의실">1회의실</option>
-                                    <option value="2회의실">2회의실</option>
-                                    <option value="3회의실">3회의실</option>
-                                    <option value="4회의실">4회의실</option>
-                                    <option value="5회의실">5회의실</option>
-                                </select>
+	                            	<select name="cfrName" id="cfrName" required> 
+	                            		<c:forEach items="${list}" var="c">
+		                                 <option>${c.cfrName}</option>
+		                                </c:forEach>
+	                                 </select>
                             </td>
                         </tr>
                         <tr>
                             <th>예약자</th>
-                            <td>정여진 102312(총무부)</td>
-                            <input type="hidden" name="reservation" value="">
+                            <td>${loginUser.empName}${loginUser.empNo}</td>
                         </tr>
                         <tr>
                             <th>날짜</th>
-                            <td><input type="date" name="useDate"></td>
+                            <td><input type="date" name="useDate" id="useDate" required></td>
                         </tr>
                         <tr>
                             <th>시간</th>
-                            <td><input type="time" name="startTime">-<input type="time" name="endTime"></td>
+                            <td><input type="time" name="startTime" required>-<input type="time" name="endTime" required></td>
                         </tr>
                         <tr>
                             <th>인원</th>
-                            <td><input type="number" name="capacity"></td>
+                            <td><input type="number" name="capacity" required></td>
                         </tr>
                         <tr>
                             <th>회의제목</th>
-                            <td><input type="text" name="cfTitle"></td>
+                            <td><input type="text" name="cfTitle" required></td>
                         </tr>
                     </table>
+                    <button type="submit" class="btn btn-primary btn-sm">예약하기</button>
                </form>
             </div>
     
         </div>
         </div>
     </div>
+    <script>
+	  /*  $(function(){
+		   $("#useDate").datepicker({
+		    	  dateFormat: 'yy-mm-dd',
+		    	  minDate: 0
+		    	});
+		   
+	   }); */
+    </script>
   
 </body>
 </html>
