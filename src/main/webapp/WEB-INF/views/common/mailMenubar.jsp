@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- Latest compiled and minified CSS -->
+    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -14,10 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- 구글 글씨체 -->
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+
     
     <style>
         /*
@@ -34,6 +31,11 @@
 	 		font-family: 'Nanum Gothic', sans-serif;
 	 	}
         #mailHeader tr{height: 60px;}
+        .totalOuter{
+            width:1300px;
+            background-color: #fff;
+   
+        }
         
         .outer{
             width: 1200px;
@@ -42,7 +44,10 @@
             width: 960px;
             padding: 20px;
         }
-        
+        .gradation{
+        	height:10px;
+        	background: linear-gradient(45deg, rgba(76, 209, 76, 0.219), rgb(74, 195, 74));
+        }
         .space{
             height: 15px;
         }
@@ -59,7 +64,8 @@
             background: rgba(246, 246, 246, 0.712);
         }
         .line{
-               border : 1px solid rgba(6, 117, 6, 0.966);
+            height:1px;
+            background: linear-gradient(45deg, rgb(2, 152, 52), rgb(3, 110, 63));
         }
         .logo{ width:200px; }
         .menubar{
@@ -116,7 +122,7 @@
         .common{
             width: 60px;
             height: 1000px;
-            background-color: rgba(46, 170, 46, 0.219);
+            background-color: rgba(76, 209, 76, 0.219);
         
         }
         .mailMenu{
@@ -207,7 +213,7 @@
             </div>
             
         </div>
-        <div class="line"></div>
+        <div class="gradation"></div>
         <div class="outer">
 
             <div class="menubar">

@@ -56,8 +56,13 @@
          box-sizing: border-box ;
          background: rgba(246, 246, 246, 0.712);
      }
+     .gradation{
+        height:10px;
+        background: linear-gradient(45deg, rgba(76, 209, 76, 0.219), rgb(74, 195, 74));
+     }
      .line{
-            border : 1px solid rgba(6, 117, 6, 0.966);
+        height:1px;
+        background: linear-gradient(45deg, rgb(2, 152, 52), rgb(3, 110, 63));
      }
      .logo{ width:200px; margin-left:20px; }
      .menubar{
@@ -179,7 +184,7 @@
             </div>
             
         </div>
-        <div class="line"></div>
+        <div class="gradation"></div>
         <div class="outer">
 
             <div class="menubar">
