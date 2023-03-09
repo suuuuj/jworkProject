@@ -5,7 +5,7 @@
 <html>
 <head>
 <style>
-     #pagingArea{width:fit-content;margin:auto;}
+     #pagingArea{width:fit-content;margin:auto; }
      div{box-sizing: border-box;}
      figure {
   text-align: center;
@@ -25,6 +25,7 @@
     #detail-img{display: inline-block;}
     .outer{
         width: 960px;
+        margin:20px;
     }
 </style>
 
@@ -33,97 +34,57 @@
 </head>
 <body>
       <jsp:include page="../common/menubar.jsp"/>
-    <div class="outer">
+    <div class="outer" >
         <h2>차량 관리</h2>
         <hr><br>
-        <div class="outer">
+        <div>
             <div class="btn-area">
-                <button type="button" class="btn  btn-secondary">+차량 등록</button>
+                <a class="btn  btn-secondary" href="enrollForm.car">+차량 등록</a>
                 <button type="button" class="btn  btn-light">+예약 조회</button>
             </div>
             <br><br>
             <div id="img-area">
+            	<c:forEach var="c" items="${list}">
                 <div id="detail-img">
                     <article>
                         <figure>
-                            <img src="//bit.ly/2GrygUe" width="200px" height="140px">
-                            <figcaption >소나타 2022허 23</figcaption>
+                            <img src="${c.carImg}" width="200px" height="140px">
+                            <figcaption >${c.carName}</figcaption>
                         </figure>
                     </article>
                 </div>
-                <div id="detail-img">
-                    <article>
-                        <figure>
-                            <img src="//bit.ly/2GrygUe" width="200px" height="140px">
-                            <figcaption >소나타 2022허 23</figcaption>
-                        </figure>
-                    </article>
-                </div>
-                <div id="detail-img">
-                    <article>
-                        <figure>
-                            <img src="//bit.ly/2GrygUe" width="200px" height="140px">
-                            <figcaption >소나타 2022허 23</figcaption>
-                        </figure>
-                    </article>
-                </div>
-                <div id="detail-img">
-                    <article>
-                        <figure>
-                            <img src="//bit.ly/2GrygUe" width="200px" height="140px">
-                            <figcaption >소나타 2022허 23</figcaption>
-                        </figure>
-                    </article>
-                </div>
-                <div id="detail-img">
-                    <article>
-                        <figure>
-                            <img src="//bit.ly/2GrygUe" width="200px" height="140px">
-                            <figcaption >소나타 2022허 23</figcaption>
-                        </figure>
-                    </article>
-                </div>
-                <div id="detail-img">
-                    <article>
-                        <figure>
-                            <img src="//bit.ly/2GrygUe" width="200px" height="140px">
-                            <figcaption >소나타 2022허 23</figcaption>
-                        </figure>
-                    </article>
-                </div>
-                <div id="detail-img">
-                    <article>
-                        <figure>
-                            <img src="//bit.ly/2GrygUe" width="200px" height="140px">
-                            <figcaption >소나타 2022허 23</figcaption>
-                        </figure>
-                    </article>
-                </div>
-                <div id="detail-img">
-                    <article>
-                        <figure>
-                            <img src="//bit.ly/2GrygUe" width="200px" height="140px">
-                            <figcaption >소나타 2022허 23</figcaption>
-                        </figure>
-                    </article>
-                </div>
-                
-               
+                </c:forEach>
             </div>
         </div>
         <br>
-        <div id="pagingArea">
-            <ul class="pagination">
-                <li class="page-item disabled"><a class="page-link" href="#"><</a></li>
-                <li class="page-item"><a class="page-link" href="list.bo?cpage=${p }">1</a></li>
-                <li class="page-item"><a class="page-link" href="list.bo?cpage=${p }">2</a></li>
-                <li class="page-item"><a class="page-link" href="list.bo?cpage=${p }">3</a></li>
-                <li class="page-item"><a class="page-link" href="list.bo?cpage=${pi.currentPage + 1 }">></a></li> 
-            </ul>
-        </div>
+           <div id="pagingArea">
+             <ul class="pagination">
+             	<c:choose>
+              	<c:when test="${pi.currentPage eq  1}">
+                  	<li class="page-item disabled"><a class="page-link" href="#"><</a></li>
+                  </c:when>
+                  <c:otherwise>
+                   <li class="page-item"><a class="page-link" href="list.cfr?cpage=${pi.currentPage -1 }"><</a></li>
+               </c:otherwise>
+           </c:choose>
+           <c:forEach var="p"  begin="${pi.startPage }" end="${pi.endPage }">
+                  <li class="page-item"><a class="page-link" href="list.cfr?cpage=${p }">${p }</a></li>
+
+                	</c:forEach>
+                	<c:choose>
+                		<c:when test="${pi.currentPage eq pi.maxPage}">
+                 		<li class="page-item disabled"><a class="page-link" href="#">></a></li>
+           	 	</c:when>
+           	 	<c:otherwise>
+           	 		<li class="page-item"><a class="page-link" href="list.cfr?cpage=${pi.currentPage + 1 }">></a></li>
+        				</c:otherwise>
+          		</c:choose>
+             </ul>
+         </div>
 
 
     </div>
+   
     <script>
         //이미지 클릭시 차량 조회 / 수정 모달
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">

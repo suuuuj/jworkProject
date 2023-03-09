@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="carMapper">
+	<resultMap type="Car" id="carResult">
+		<id column="CAR_NAME" property="carName" />
+		<result column="CAR_IMG" property="carImg" />
+		<result column="CAR_TYPE" property="carType" />
+		<result column="GEAR_TYPE" property="gearType" />
+		<result column="CAR_COLOR" property="color" />
+		<result column="MAKER" property="maker" />
+		<result column="FUEL_TYPE" property="fuelType" />
+		<result column="MODEL_YEAR" property="modelYear" />
+		<result column="ETC" property="etc" />
+		<result column="STATUS" property="status" />
+	</resultMap>
+	
+	<select id="selectListCount" resultType="_int">
+		select
+			count(*)
+		from car
+	</select>
+	<select id="selectList" resultMap="carResult">
+		   select
+		         CAR_NAME
+		        ,CAR_IMG
+		        ,CAR_TYPE
+		        ,GEAR_TYPE
+		        ,CAR_COLOR
+		        ,MAKER
+		        ,FUEL_TYPE
+		        ,MODEL_YEAR
+		        ,ETC
+		        ,STATUS
+		    from car
+	
+	</select>
+	
+	
+	
+</mapper>

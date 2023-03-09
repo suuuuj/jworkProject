@@ -31,7 +31,12 @@
                 <table id="cfRoom-enrollForm">
                     <tr >
                         <th >회의실 이름</th>
-                        <td><input type="text" name="cfrName" required></td>
+                        <td>
+                         <div class="col-6">
+                       		 <input type="text" name="cfrName" required  class="form-control " >
+                        </div>
+                        
+                        </td>
                     </tr>
                     <tr>
                         <th>회의실 대표 이미지</th>
@@ -54,13 +59,17 @@
                     </tr>
                     <tr>
                         <th>수용인원</th>
-                        <td><input type="number" name="capacity" required></td>
+                        <td>
+                        	 <div class="col-3">
+                        		<input type="number" name="capacity" required  class="form-control">
+                       		</div>
+                        </td>
                     </tr>
                     <tr>
                         <th>회의장비</th>
                         <td>
                           
-                            TV&nbsp;<input type="checkbox" name="equipment" value="TV">&nbsp;
+                            TV&nbsp;<input type="checkbox" name="equipment" value="TV" >&nbsp;
                             빔프로젝터&nbsp;<input type="checkbox" name="equipment" value="빔프로젝터">&nbsp;
                             에어컨&nbsp;<input type="checkbox" name="equipment" value="에어컨">&nbsp;
                           <div id="equipment-area">
