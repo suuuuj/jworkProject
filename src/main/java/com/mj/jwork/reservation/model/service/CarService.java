@@ -14,5 +14,11 @@ public interface CarService {
 	//리스트 조회(차량관리페이지)
 	int selectListCount();
 	ArrayList<Car> selectList(PageInfo pi);
-
+	
+	
+	//차량삭제
+	int deleteCar(Car c);
+	
+	//차량상세조회 (1개)
+	Car selectCar(Car c);
 }

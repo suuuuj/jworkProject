@@ -34,6 +34,55 @@
 		    from car
 	
 	</select>
+	<insert id="insertCar">
+		insert
+		 into car
+		 (
+		   CAR_NAME
+	        ,CAR_IMG
+	        ,CAR_TYPE
+	        ,GEAR_TYPE
+	        ,CAR_COLOR
+	        ,MAKER
+	        ,FUEL_TYPE
+	        ,MODEL_YEAR
+	        ,ETC
+	        ,STATUS
+		 
+		 )
+		 values
+		 (
+		 #{carName}
+		,#{carImg}
+		,#{carType}
+		,#{gearType}
+		,#{color}
+		,#{maker}
+		,#{fuelType}
+		,#{modelYear}
+		,#{etc}
+		,#{status}
+		 )
+	</insert>
+	<delete id="deleteCar">
+		delete car
+			where car_name=#{carName}
+	</delete>
+	<select id="selectCar" resultMap="carResult">
+		select
+			 CAR_NAME
+	        ,CAR_IMG
+	        ,CAR_TYPE
+	        ,GEAR_TYPE
+	        ,CAR_COLOR
+	        ,MAKER
+	        ,FUEL_TYPE
+	        ,MODEL_YEAR
+	        ,ETC
+	        ,STATUS
+			    from car
+			 where car_name= #{carName}
+	</select>
 	
 	
 	

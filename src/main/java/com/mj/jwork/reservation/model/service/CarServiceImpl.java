@@ -35,4 +35,14 @@ public class CarServiceImpl implements CarService{
 		return cDao.selectList(sqlSession,pi);
 	}
 
+	@Override
+	public int deleteCar(Car c) {
+		return cDao.deleteCar(sqlSession,c);
+	}
+
+	@Override
+	public Car selectCar(Car c) {
+		return cDao.selectCar(sqlSession, c);
+	}
+
 }

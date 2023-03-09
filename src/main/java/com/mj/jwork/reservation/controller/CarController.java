@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mj.jwork.common.model.vo.PageInfo;
+import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.common.template.Pagination;
 import com.mj.jwork.reservation.model.service.CarService;
 import com.mj.jwork.reservation.model.vo.Car;
@@ -39,7 +41,9 @@ public class CarController {
 	}
 	
 	@RequestMapping("insert.car")
-	public String insertCar(Car c,HttpSession session) {
+	public String insertCar(Car c,HttpSession session,MultipartFile upfile) {
+		String saveFilePath = FileUpload.saveFile(upfile, session, "resources/uploadFiles/");
+		c.setCarImg(saveFilePath);
 		
 		int result= cService.insertCar(c);
 		if(result>0) {
@@ -56,6 +60,22 @@ public class CarController {
 	@RequestMapping("enrollForm.car")
 	public String carEnrollForm() {
 		
-		return "enrollForm.car";
+		return "reservation/carEnrollForm";
 	}
+	
+	@RequestMapping("delete.car")
+	public String deleteCar(Car c,HttpSession session) {
+		
+		int result= cService.deleteCar(c);
+		if(result>0) {
+			session.setAttribute("alertMsg", "차량 삭제 완료");
+			return "redirect: list.car";
+		}else {
+			session.setAttribute("alertMsg", "차량 삭제 실패");
+			return "redirect: list.car";
+			
+		}
+	}
+	
+	
 }

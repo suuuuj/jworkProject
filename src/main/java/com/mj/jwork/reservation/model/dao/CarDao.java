@@ -29,5 +29,11 @@ public class CarDao {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		return (ArrayList)sqlSession.selectList("carMapper.selectList", null, rowBounds);
 	}
+	
+	public int deleteCar(SqlSessionTemplate sqlSession, Car c) {
+		
+		return sqlSession.delete("carMapper.deleteCar",c);
+		
+	}
 
 }

@@ -33,8 +33,8 @@
                     <tr >
                         <th >차량명</th>
                         <td>
-                            <div class="col-6">
-                                 <input type="text" class="form-control" name="carName" required>
+                            <div class="col-10">
+                                 <input type="text" class="form-control" name="carName" placeholder="차량명을 입력하세요" required>
                             </div>
                         </td>
                     </tr>
@@ -42,64 +42,64 @@
                         <th>차량 대표 이미지</th>
                         <td>
                         	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/imgAdd.png'/>"  width="150px" height="100px" onclick="$('#carImgFile').click();">
-                             <input type="file" id="carImgFile" style="display:none;" required>
+                             <input type="file" name="upfile" id="carImgFile" style="display:none;" required>
                         </td>
                     </tr>
                     <tr>
                         <th >차량종류</th>
                         <td>
-                            <div class="col-6">
-                                 <input type="text" class="form-control" name="carType" required>
+                          <div class="col-10">
+                                 <input type="text" class="form-control" name="carType" placeholder="차량종류를 입력하세요" required>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <th >기어형식</th>
                         <td>
-                            <div class="col-6">
-                                 <input type="text" class="form-control" name="gearType" required>
+                           <div class="col-10">
+                                 <input type="text" class="form-control" name="gearType" placeholder="기어형식을 입력하세요" required>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <th >차량색상</th>
                         <td>
-                            <div class="col-6">
-                                 <input type="text" class="form-control" name="color" required>
+                           <div class="col-10">
+                                 <input type="text" class="form-control" name="color" placeholder="차량색상을 입력하세요" required>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <th >제조사</th>
                         <td>
-                            <div class="col-6">
-                                 <input type="text" class="form-control" name="maker" required>
+                           <div class="col-10">
+                                 <input type="text" class="form-control" name="maker" placeholder="제조사를 입력하세요" required>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <th >연료형식</th>
                         <td>
-                            <div class="col-6">
-                                 <input type="text" class="form-control" name="fuelType" required>
+                           <div class="col-10">
+                                 <input type="text" class="form-control" name="fuelType" placeholder="연료형식을 입력하세요" required>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <th >차량연식</th>
                         <td>
-                            <div class="col-6">
-                                 <input type="text" class="form-control" name="modelYear" required>
+                          <div class="col-10">
+                                 <input type="text" class="form-control" name="modelYear"  placeholder="차량연식을 입력하세요" required>
                             </div>
                         </td>                   
                     </tr>
                     <tr>
                         <th>설비상태</th>
                         <td>
-                            <label for="ok">정상</label><br>
-                            <input type="radio" name="status" id="ok">
-                            <label for="broken">고장</label><br>
-                            <input type="radio" name="status" id="broken">
+                            <label for="ok" >정상</label>
+                            <input type="radio" name="status" id="ok" value="Y">
+                            <label for="broken">고장</label>
+                            <input type="radio" name="status" id="broken" value="N">
                         </td>
                     </tr>
                     <tr>
@@ -123,6 +123,6 @@
         <br>
 
 
-    </div>
+
 </body>
 </html>
