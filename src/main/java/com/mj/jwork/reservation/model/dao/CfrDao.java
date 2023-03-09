@@ -39,4 +39,6 @@ public class CfrDao {
 		
 		return sqlSession.delete("cfrMapper.deleteCfr",cfr);
 	}
+	
+
 }

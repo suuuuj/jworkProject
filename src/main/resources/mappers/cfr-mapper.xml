@@ -7,6 +7,16 @@
 		<result column="CAPACITY" property="capacity" />
 		<result column="equipment" property="equipment" />
 	</resultMap>
+	<resultMap id="cfrResMap" type="CfrReservation">
+		<result column="CFR_NAME" property="cfrName" />
+		<result column="RESERVATION" property="reservation" />
+		<result column="STATUS" property="status" />
+		<result column="START_TIME" property="startTime" />
+		<result column="END_TIME" property="endTime" />
+		<result column="USE_DATE" property="useDate" />
+		<result column="CAPACITY" property="capacity" />
+		<result column="CF_TITLE" property="cfTitle" />
+	</resultMap>
 	<update id="updateFirstImg">
 		update CF_ROOM
 		set CFR_IMG = #{firstImg}
@@ -42,4 +52,55 @@
 		delete cf_room
 		where cfr_name=#{cfrName}
 	</delete>
+	<insert id="reserveCfr">
+		insert into
+			cfr_reservation
+			(
+			CFR_NAME
+			,RESERVATION
+			,start_time
+			,end_time
+			,use_date
+			,capacity
+			,cf_title
+			)
+			values
+			(
+			#{cfrName}
+			,#{reservation}
+			,#{startTime}
+			,#{endTime}
+			,#{useDate}
+			,#{capacity}
+			,#{cfTitle}
+			)
+			
+	</insert>
+	<select id="selectNList" resultMap="cfrResult">
+		select 
+			CFR_NAME
+		from cf_room
+	
+	</select>
+	<select id="selectMyCfrListCount" resultType="_int">
+		select 
+			count (*)
+		 from CFR_RESERVATION
+		where reservation = #{reservation}
+	</select>
+	
+	<select id="selectMyCfrList" resultMap="cfrResMap">
+		  select 
+            ROWNUM
+           ,CFR_NAME
+           ,STATUS
+           ,START_TIME
+           ,END_TIME
+           ,USE_DATE
+           ,CF_TITLE
+        from CFR_RESERVATION
+        where RESERVATION = #{reservation}
+        order by USE_DATE
+	
+	</select>
 </mapper>
