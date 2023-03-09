@@ -25,6 +25,11 @@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
 <!-- Bootstrap theme -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+<!-- Bootstrap 5버전 -->
+	<!-- Latest compiled and minified CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"> 
+	<!-- Latest compiled JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> 
 <style>
      .totalOuter{
          width:1200px;
@@ -81,18 +86,21 @@
      }
 
      .info-box{
-         display: flex;
-         align-items: center;
-         margin: 0 15px;
-         padding: 15px 0;
-         
-         border-bottom: 1px solid #5e5e5e;
+        display: flex;
+        align-items: center;
+        margin: 0 15px;
+        padding: 15px 0;
+
+        border-bottom: 1px solid #5e5e5e;
      }
      .left{width: 70px;}
+     .left img{
+        width:60px; height:60px; border:0.5px solid lightgray; border-radius: 50%;
+     }
      .right .name{
-         margin-bottom: 3px;
-         font-size: 17px;
-         font-weight: bold;
+        margin-bottom: 3px;
+        font-size: 17px;
+        font-weight: bold;
      }
      .menubar{background-color: rgba(246, 246, 246, 0.712);}
      .menubarArea{
@@ -163,7 +171,7 @@
 
             <div class="menubar">
                 <div class="info-box">
-                    <div class="left"><img class="profileImg" src="resources/profile_images/profile.png" alt="" /></div>
+                    <div class="left"><a href="myPage.emp"><img class="profileImg" src="<c:out value='${ loginUser.profileUrl }' default='resources/profile_images/profile.png' />" /></a></div>
                     <div class="right">
                         <p class="name">${ loginUser.empName }</p>
                         <p style="font-size: 12px;">${ loginUser.deptName }&nbsp;${ loginUser.teamName }&nbsp;${ loginUser.jobName }</p>
@@ -226,7 +234,6 @@
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/approval.png" alt="" />전자결재</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
-                                <a id="insertApproval" href="enrollForm.app">결재 문서 작성</a><br>
                                 <a id="myApprovalList" href="mylist.app">내 결제 문서</a><br>
                                 <a id="" href="">미결재 문서</a><br>
                                 <a id="" href="">수신 참조 문서함</a><br>

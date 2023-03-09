@@ -22,7 +22,8 @@
 		<result column="status" property="status"></result>
 		<result column="account_status" property="accountStatus"></result>
 	</resultMap>
-
+	
+	<!-- 로그인 -->
 	<select id="loginEmployee" resultMap="employeeResult">
 		select
 			   emp_no
@@ -36,9 +37,9 @@
 			 , team_name
 			 , job_name
 			 , emp_phone
-			 , enroll_date
-			 , resign_date
-			 , modify_date
+			 , to_char(enroll_date, 'YYYY-MM-DD') as "enroll_date"
+			 , to_char(resign_date, 'YYYY-MM-DD') as "resign_date"
+			 , to_char(modify_date, 'YYYY-MM-DD') as "modify_date"
 			 , profile_url
 			 , task
 			 , e.status
@@ -51,6 +52,28 @@
 		   and account_status = 'Y'
 		   and emp_no = #{empNo}
 	</select>
+	
+	<!-- 사원 정보 수정 -->
+	<update id="updateEmployee">
+		update
+		       employee
+		   set email = #{email}
+		     , phone = #{phone}
+		     , emp_phone = #{empPhone}
+		     , birth = #{birth}
+		     , task = #{task}
+		     , modify_date = sysdate
+		 where emp_no = #{empNo}
+	</update>
+	
+	<!-- 프로필 이미지 수정 -->
+	<update id="updateProfileImg">
+		update
+			   employee
+		   set profile_url = #{profileUrl}
+		     , modify_date = sysdate
+		 where emp_no = #{empNo}
+	</update>
 
 
 
