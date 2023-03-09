@@ -40,7 +40,7 @@
         <div>
             <h4 style="display: inline-block;" style="float: left;"><b>전체 문서 조회</b></h4>
             <div align="right">
-                <button type="button" class="btn btn-outline-success" onclick="localhost.href='enrollForm.app'">내 결제 문서 작성</button>
+                <button type="button" class="btn btn-outline-success" onclick="location.href='enrollForm.app'">내 결제 문서 작성</button>
             </div>
         </div>
         <br>
@@ -86,51 +86,47 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>2023-02-20</td>
-                    <td>업무기안</td>
-                    <td>기안서</td>
-                    <td>김정만</td>
-                    <td></td>
-                    <td>진행중</td>
-                 </tr>
-                 <tr>
-                    <td>2023-02-20</td>
-                    <td>업무기안</td>
-                    <td>기안서</td>
-                    <td>김정만</td>
-                    <td></td>
-                    <td>진행중</td>
-                 </tr>
-                 <tr>
-                    <td>2023-02-20</td>
-                    <td>업무기안</td>
-                    <td>기안서</td>
-                    <td>김정만</td>
-                    <td></td>
-                    <td>진행중</td>
-                 </tr>
-                 <tr>
-                    <td>2023-02-20</td>
-                    <td>업무기안</td>
-                    <td>기안서</td>
-                    <td>김정만</td>
-                    <td></td>
-                    <td>진행중</td>
-                 </tr>
-              
-          
+            	<c:forEach var="a" items="${ list }">
+	                <tr>
+	                    <td>${ a.createDate }</td>
+	                    <td>${ a.docType }</td>
+	                    <td>${ a.docTitle }</td>
+	                    <td>${ a.empName }</td>
+	                    <td>
+	                    	<c:if test="${ not empty a.docOriginName }">
+            					★
+            				</c:if>
+	                    </td>
+	                    <td>${ a.appStatus }</td>
+	                 </tr>
+                 </c:forEach>
             </tbody>
         </table>
         <br>
         <div id="pagingArea">
             <ul class="my pagination justify-content-end pagination-sm">
-                <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);">4</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+            
+            <c:choose>
+            	<c:when test="${ pi.currentPage eq 1 }">
+                	<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          		</c:when>
+            	<c:otherwise>
+             	   <li class="page-item"><a class="page-link" href="list.ap?cpage=${ pi.currentPage-1 }">Previous</a></li>
+                </c:otherwise>
+            </c:choose>
+            
+           	<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+        		<li class="page-item"><a class="page-link" href="list.ap?cpage=${ p }">${ p }</a></li>
+        	</c:forEach>
+            
+            <c:choose>
+         		<c:when test="${ pi.currentPage eq pi.maxPage }">
+          			<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+          		</c:when>
+          		<c:otherwise>
+          			<li class="page-item"><a class="page-link" href="list.ap?cpage=${ pi.currentPage+1 }">Next</a></li>
+          		</c:otherwise>
+        	</c:choose>
               </ul>
         </div>
 

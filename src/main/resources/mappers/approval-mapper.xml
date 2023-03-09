@@ -2,5 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="approvalMapper">
 
+	<resultMap id="approvalResult" type="Approval">
+		<id column="app_no" property="appNo"/>
+		<result column="doc_no" property="docNo"/>
+		<result column="emp_no" property="enpNo"/>
+		<result column="doc_type" property="docType"/>
+		<result column="create_date" property="createDate"/>
+		<result column="update_date" property="updateDate"/>
+		<result column="doc_title" property="docTitle"/>
+		<result column="doc_content" property="docContent"/>
+		<result column="doc_originname" property="docOriginName"/>
+		<result column="doc_filepath" property="docFilePath"/>
+		<result column="app_status" property="appStatus"/>
+		<result column="doc_status" property="docStatus"/>
+		<result column="app_count" property="appCount"/>
+		<result column="app_turn" property="appTurn"/>
+		<result column="emp_name" property="empName"/>
+	</resultMap>
+	
+	
+	<select id="selectListCount" resultType="_int">
+		select count(*)
+		  from approval
+		 where doc_status='Y'
+	</select>
+	
+	<select id="selectMyApprovalList" resultMap="approvalResult">
+		select  
+	      	   app_no
+	     	 , doc_no
+	         , emp_name
+	         , decode(doc_type,0,'기안서',1,'품의서',2,'사직서') as "doc_type"
+	         , create_date
+	         , update_date
+	         , doc_title
+	         , doc_originname
+	         , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
+		  from approval a
+		  join employee e on(a.emp_no=e.emp_no)
+		 where doc_status='Y'
+		 order
+		    by app_no desc
+		
+	</select>
+
 
 </mapper>
