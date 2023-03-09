@@ -76,11 +76,15 @@
         border-radius: 5px;
     }
     .textWrap{
-        margin-left: 645px;
+        width:690px;
+        text-align: right;
         margin-bottom: 5px;
         font-size: 13px;
         font-weight: 600;
         color:rgb(50,50,50)
+    }
+    .textWrap div{
+        display: inline-block; 
     }
 </style>
 </head>
@@ -98,7 +102,7 @@
             <div style="width:766px; background: rgb(234, 234, 234);">&nbsp;</div>
         </div>
 
-        <div class="enrollForm">
+        <form action="enroll.le" method="" class="enrollForm" name="leEnroll">
 
             <div class="header">
                 <img src="" alt="" style="width:50px; height:50px;">
@@ -136,18 +140,48 @@
 
                 <br><br>
                 <div class="textWrap">
-                    <span class="textCount">0자</span><span class="textTotal">/200자</span>
+                    <div class="textCount">&nbsp;&nbsp;0자</div><div class="textTotal">/200자</div>
                 </div>
-                <textarea name="" id="" cols="30" rows="10" placeholder="휴가신청 내용을 입력해주세요."></textarea>
+                <textarea name="" id="textBox" cols="30" rows="10" maxlength="199" placeholder="휴가신청 내용을 입력해주세요."></textarea>
                 <div style="float: right; margin-top:178px;">
                     <button type="button">취소</button>
-                    <button type="submit">휴가등록하기</button>
+                    <button type="submit" onclick="enrollMethod();">휴가등록하기</button>
                 </div>
 
             </div>
 
 
-        </div>
+        </form>
+
+        <script>
+            function enrollMethod(){
+                if(confirm("휴가신청을 하시겠습니까?")){
+                    document.leEnroll.submit();
+                }
+                
+            };
+
+        </script>
+
+        <script>
+            $(function(){
+                $("#textBox").keyup(function(e){
+                    let content = $(this).val();
+
+                    if(content == 0 || content == ""){
+                        $(".textCount").text('0자');
+                    }else{
+                        $('.textCount').text(content.length + '자');
+                    }
+
+                    if(content.length > 200){
+                        $(this).val($(this).val().substring(0, 200));
+
+                        alert("글자수는 200자까지 입력 가능합니다.");
+                    };
+                });
+            })
+        </script>
 
 
 
