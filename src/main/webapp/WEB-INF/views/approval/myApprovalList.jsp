@@ -24,14 +24,21 @@
     #appListTB{
         font-size: small;
         text-align: center;
+            
     }
+    
+    #appListTB td{
+    	 vertical-align : middle;   
+    }
+    
    .btnArea button, .searchArea button{
         font-size: 12px;
         height: 27px;
         margin-bottom: 6px;
     }
     .my.pagination.justify-content-end.pagination-sm>li>a{
-        color: green;
+        color: rgb(14, 126, 14);
+        font-weight: bolder;
    } 
 </style>
 </head>
@@ -110,23 +117,23 @@
             
             <c:choose>
             	<c:when test="${ pi.currentPage eq 1 }">
-                	<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                	<li class="page-item disabled" ><a class="page-link" href="#" style="color:rgb(196, 197, 197)">Previous</a></li>
           		</c:when>
             	<c:otherwise>
-             	   <li class="page-item"><a class="page-link" href="list.ap?cpage=${ pi.currentPage-1 }">Previous</a></li>
+             	   <li class="page-item"><a class="page-link" href="mylist.app?cpage=${ pi.currentPage-1 }">Previous</a></li>
                 </c:otherwise>
             </c:choose>
             
            	<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-        		<li class="page-item"><a class="page-link" href="list.ap?cpage=${ p }">${ p }</a></li>
+        		<li class="page-item"><a class="page-link" href="mylist.app?cpage=${ p }">${ p }</a></li>
         	</c:forEach>
             
             <c:choose>
          		<c:when test="${ pi.currentPage eq pi.maxPage }">
-          			<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+          			<li class="page-item disabled"><a class="page-link " href="#" style="color:rgb(196, 197, 197)">Next</a></li>
           		</c:when>
           		<c:otherwise>
-          			<li class="page-item"><a class="page-link" href="list.ap?cpage=${ pi.currentPage+1 }">Next</a></li>
+          			<li class="page-item"><a class="page-link" href="mylist.app?cpage=${ pi.currentPage+1 }">Next</a></li>
           		</c:otherwise>
         	</c:choose>
               </ul>
