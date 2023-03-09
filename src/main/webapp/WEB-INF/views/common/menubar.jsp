@@ -205,7 +205,7 @@
                     </div>
 
                     <div class="menu"  id="">
-                        <div class="mainMenu" onclick=""><img class="menuIcon" src="resources/images/common/schedule.png" alt="" />일정</div>
+                        <div class="mainMenu" onclick="location.href='schedule.emp'"><img class="menuIcon" src="resources/images/common/schedule.png" alt="" />일정</div>
                         <div class="menu-wrap">
                             
                         </div>
