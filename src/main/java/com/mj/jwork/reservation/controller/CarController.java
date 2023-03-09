@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.common.template.Pagination;
@@ -77,5 +79,14 @@ public class CarController {
 		}
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="detail.car",produces="application/json; charset=utf-8")
+	public String ajaxSelectCar(String carName) {
+		
+		Car car= cService.selectCar(carName);
+		
+		return new Gson().toJson(car);
+		
+	}
 	
 }

@@ -41,8 +41,8 @@ public class CarServiceImpl implements CarService{
 	}
 
 	@Override
-	public Car selectCar(Car c) {
-		return cDao.selectCar(sqlSession, c);
+	public Car selectCar(String carName) {
+		return cDao.selectCar(sqlSession,carName);
 	}
 
 }

@@ -35,5 +35,10 @@ public class CarDao {
 		return sqlSession.delete("carMapper.deleteCar",c);
 		
 	}
+	
+	public Car selectCar(SqlSessionTemplate sqlSession,String carName) {
+		
+		return sqlSession.selectOne("carMapper.selectCar",carName);
+	}
 
 }

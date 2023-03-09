@@ -20,5 +20,5 @@ public interface CarService {
 	int deleteCar(Car c);
 	
 	//차량상세조회 (1개)
-	Car selectCar(Car c);
+	Car selectCar(String carName);
 }

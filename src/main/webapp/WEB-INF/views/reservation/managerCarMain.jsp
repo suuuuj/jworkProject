@@ -50,10 +50,10 @@
             <br><br>
             <div id="img-area">
             	<c:forEach var="c" items="${list}">
-                <div class="detail-img" style="position: relative;" data-toggle="modal" data-target="#carDetailView">
+                <div class="detail-img" style="position: relative;">
                     <article>
                         <figure>
-                            <img src="${c.carImg}" width="200px" height="140px">
+                            <img src="${c.carImg}" width="200px" height="140px"  onclick="detailView('${c.carName}');" data-toggle="modal" data-target="#carDetailView">
                             <figcaption>${c.carName}</figcaption>
                         </figure>
                     </article>
@@ -68,6 +68,42 @@
                 </div>
                 </c:forEach>
             </div>
+            <script>
+            	function detailView(carName){
+            		
+            		$.ajax({
+            			url:"detail.car",
+            			data:{carName:carName},
+            			success:function(c){
+            				$("#carName").val(c.carName);
+            				$("#carImg").attr("src",c.carImg);
+            				$("#carType").val(c.carType);
+            				$("#gearType").val(c.gearType);
+            				$("#color").val(c.color);
+            				$("#maker").val(c.maker);
+            				$("#fuelType").val(c.fuelType);
+            				$("#modelYear").val(c.modelYear);
+            				
+            				if(c.status == 'Y'){
+            					$("#ok").attr("checked",true);
+            				}else{
+            					$("#broken").attr("checked",true);
+            				}
+            				$("textarea[name=etc]").text(c.etc);
+
+
+            			},error:function(){
+            				
+            				console.log("ajax통신 실패");
+            			}
+            			
+            			
+            		});
+            		
+            		
+            	}
+            
+            </script>
              <div id="pagingArea">
              <ul class="pagination">
              	<c:choose>
@@ -127,19 +163,19 @@
             <!-- Modal body -->
             <div class="modal-body">
                <form action="update.car" method="post" enctype="multipart/form-data" >
-                <table id="car-enrollForm">
+                <table id="car-updateForm">
                     <tr >
                         <th >차량명</th>
                         <td>
                             <div class="col-10">
-                                 <input type="text" class="form-control" name="carName" placeholder="차량명을 입력하세요" required>
+                                 <input type="text" class="form-control" name="carName" placeholder="차량명을 입력하세요" id="carName" required>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <th>차량 대표 이미지</th>
                         <td>
-                        	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/imgAdd.png'/>"  width="100px" height="70px" onclick="$('#carImgFile').click();">
+                        	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/imgAdd.png'/>"   width="100px" height="70px" onclick="$('#carImgFile').click();">
                              <input type="file" name="upfile" id="carImgFile" style="display:none;" required>
                         </td>
                     </tr>
@@ -147,7 +183,7 @@
                         <th >차량종류</th>
                         <td>
                           <div class="col-10">
-                                 <input type="text" class="form-control" name="carType" placeholder="차량종류를 입력하세요" required>
+                                 <input type="text" class="form-control"  id="carType" name="carType" placeholder="차량종류를 입력하세요" required>
                             </div>
                         </td>
                     </tr>
@@ -155,7 +191,7 @@
                         <th >기어형식</th>
                         <td>
                            <div class="col-10">
-                                 <input type="text" class="form-control" name="gearType" placeholder="기어형식을 입력하세요" required>
+                                 <input type="text" class="form-control" id="gearType"  name="gearType" placeholder="기어형식을 입력하세요" value="${c.gearType}"required>
                             </div>
                         </td>
                     </tr>
@@ -163,7 +199,7 @@
                         <th >차량색상</th>
                         <td>
                            <div class="col-10">
-                                 <input type="text" class="form-control" name="color" placeholder="차량색상을 입력하세요" required>
+                                 <input type="text" class="form-control" id="color" name="color" placeholder="차량색상을 입력하세요" required>
                             </div>
                         </td>
                     </tr>
@@ -171,7 +207,7 @@
                         <th >제조사</th>
                         <td>
                            <div class="col-10">
-                                 <input type="text" class="form-control" name="maker" placeholder="제조사를 입력하세요" required>
+                                 <input type="text" class="form-control"  id="maker" name="maker" placeholder="제조사를 입력하세요" required>
                             </div>
                         </td>
                     </tr>
@@ -179,7 +215,7 @@
                         <th >연료형식</th>
                         <td>
                            <div class="col-10">
-                                 <input type="text" class="form-control" name="fuelType" placeholder="연료형식을 입력하세요" required>
+                                 <input type="text" class="form-control" id="fuelType"name="fuelType" placeholder="연료형식을 입력하세요" required>
                             </div>
                         </td>
                     </tr>
@@ -187,7 +223,7 @@
                         <th >차량연식</th>
                         <td>
                           <div class="col-10">
-                                 <input type="text" class="form-control" name="modelYear"  placeholder="차량연식을 입력하세요" required>
+                                 <input type="text" class="form-control" id="modelYear" name="modelYear"  placeholder="차량연식을 입력하세요" required>
                             </div>
                         </td>                   
                     </tr>
@@ -203,15 +239,14 @@
                     <tr>
                         <th >비고</th>
                         <td>
-                            <textarea class="form-control" name="etc" id="" cols="30" rows="10" style="resize:none" name="etc"></textarea>
+                            <textarea class="form-control" name="etc" id="" cols="30" rows="10" style="resize:none" name="etc" id="etc"></textarea>
                         </td>
                     </tr>
 
                 </table>
                 <br><br>
-                 <div class="btn-area">
-	                <button type="submit" class="btn btn-sm btn-secondary">등록하기</button>
-	                <button type="button" class="btn btn-sm btn-light" onclick="history.back();">이전으로</button>
+                 <div class="btn-area" align="center">
+	                <button type="submit" class="btn btn-sm btn-secondary">수정하기</button>
             	</div>
             </form>
             </div>
