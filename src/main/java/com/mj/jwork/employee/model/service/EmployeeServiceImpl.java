@@ -24,4 +24,16 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return loginUser;
 	}
 
+	// 사원 정보 수정
+	@Override
+	public int updateEmployee(Employee e) {
+		return eDao.updateEmployee(sqlSession, e);
+	}
+
+	// 사원 프로필 이미지 수정
+	@Override
+	public int updateProfileImg(Employee e) {
+		return eDao.updateProfileImg(sqlSession, e);
+	}
+
 }
