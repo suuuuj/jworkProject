@@ -110,7 +110,7 @@
     
         <br>
 
-        <form action="" method="post" align="center">
+        <form action="insert.app" method="post" align="center" enctype="multipart/form-data">
             <table id="selectApproval" border="1">
                 <tr>
                     <th width="140px">문서종류</th>
@@ -125,13 +125,13 @@
                 <tr>
                     <th>기 안 자</th>
                     <td>
-                        김정만
+                        ${ loginUser.empName }
                     </td>
                 </tr>
                 <tr>
                     <th>기 안 일</th>
                     <td>
-                        2023.02.21
+                        
                     </td>
                 </tr>
 
@@ -143,38 +143,81 @@
                             결재
                         </button>
                     </th>
-                    <td height="25px" width="90px">사원</td>
-                    <td width="90px">사원</td>
-                    <td width="90px">사원</td>
-                    <td width="90px">사원</td>
+                    <td height="25px" width="90px">${ loginUser.jobName }</td>
+                    <td width="90px"></td>
+                    <td width="90px"></td>
+                    <td width="90px"></td>
                 </tr>
                 <tr>
-                    <td height="70px"><img class="signLogo" src="resources/images/common/check.png" alt="" /></td>
+                    <td height="70px"><img class="signLogo" src="resources/images/common/check.png"/></td>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td height="25px">김정만</td>
-                    <td>김정만</td>
-                    <td>김정만</td>
-                    <td>김정만</td>
+                    <td height="25px">${ loginUser.empName }</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
             </table>
             <p id="appMsg">* 순서대로 결재가 진행됩니다.</p>
             
-            <div class="approvalContent" align="center">
+            <script>
+                $(function(){
+                    $(".quit").hide();
+                    $(".request").hide();
+                    $("#appForm").change(function(){
+                        var appForm = $("#appForm option:selected").val();
+
+                        if(appForm == 2){
+                            $(".quit").show();
+                            $(".up").hide();
+                            $(".request").hide();
+                        }else if(appForm == 0){
+                            $(".up").show();
+                            $(".quit").hide();
+                            $(".request").hide();
+                        }else if(appForm == 1){
+                            $(".request").show();
+                            $(".quit").hide();
+                            $(".up").hide();
+                        }
+                    })
+                })
+            
+            
+            </script>
+            
+            <div class="approvalContent quit" align="center">
                 <br>
-                <!--if문으로 양식에 따라 제목 바뀌도록 수정-->
                 <h3><b>사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;직&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
-                <table border="1">
+                <table border="1" id="resignationAddForm">
                     <tr>
                         <th id="appThead">입사년도</th>
-                        <td id="indate">2021.11.11</td>
+                        <td id="indate">${ loginUser.enrollDate }</td>
                         <th id="appThead">퇴사 예정일</th>
                         <td id="indate"><input type="date" name="" id=""></td>
                     </tr>
                 </table>
+                <br>
+            </div>
+
+            <div class="approvalContent request" align="center">
+                <br>
+                <h3><b>품&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;의&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
+                <br>
+            </div>
+
+            <div class="approvalContent up" align="center">
+                <br>
+                <h3><b>기&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;안&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
+                <br>
+            </div>
+
+           
+
+            <div class="approvalContent" align="center">
                 <table border="1" width="759px">
                     <tr>
                         <th id="appThead" >제목</th>
