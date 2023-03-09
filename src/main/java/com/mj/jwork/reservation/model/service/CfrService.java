@@ -21,4 +21,7 @@ public interface CfrService {
 	
 	//회의실 삭제 서비스
 	int deleteCfr(CfRoom cfr);
+	
+	
+	
 }

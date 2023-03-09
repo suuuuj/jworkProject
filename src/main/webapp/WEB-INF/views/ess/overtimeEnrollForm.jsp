@@ -73,11 +73,15 @@
         line-height: 5px;
     }
     .textWrap{
-        margin-left: 630px;
+        width:690px;
+        text-align: right;
         margin-bottom: 5px;
         font-size: 13px;
         font-weight: 600;
         color:rgb(50,50,50)
+    }
+    .textWrap div{
+        display: inline-block; 
     }
     label{
         font-size: 13px; 
@@ -196,9 +200,9 @@
 
                 <br><br>
                 <div class="textWrap">
-                    <span class="textCount">0자</span><span class="textTotal">/200자</span>
+                    <div class="textCount">&nbsp;&nbsp;0자</div><div class="textTotal">/200자</div>
                 </div>
-                <textarea name="" id="" cols="30" rows="10" placeholder="시간외 근무신청 내용을 입력해주세요."></textarea>
+                <textarea name="" id="textBox" cols="30" rows="10" maxlength="199" placeholder="시간외 근무신청 내용을 입력해주세요."></textarea>
                 <div style="float: right; margin-top:160px;">
                     <button type="button" class="btn btn-secondary">취소</button>
                     <button type="button" class="btn btn-success" style="width:120px;">시간외근무신청</button>
@@ -214,7 +218,28 @@
                     document.otEnroll.submit();
                 }
                 
-            }
+            };
+
+        </script>
+
+        <script>
+            $(function(){
+                $("#textBox").keyup(function(e){
+                    let content = $(this).val();
+
+                    if(content == 0 || content == ""){
+                        $(".textCount").text('0자');
+                    }else{
+                        $('.textCount').text(content.length + '자');
+                    }
+
+                    if(content.length > 200){
+                        $(this).val($(this).val().substring(0, 200));
+
+                        alert("글자수는 200자까지 입력 가능합니다.");
+                    };
+                });
+            })
         </script>
 
 

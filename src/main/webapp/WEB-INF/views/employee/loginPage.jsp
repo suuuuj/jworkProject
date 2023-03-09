@@ -41,7 +41,7 @@
     <div class="outer">
         <div class="login-area">
             
-            <form action="login.em" method="post" class="login-form">
+            <form action="login.emp" method="post" class="login-form">
                 
                 <div id="logo-img"><img class="logo" src="resources/images/common/jwork_logo.png" width="250px"/></div>
                 <div id="login-id"><input type="text" name="empNo" placeholder="사번" required></div>
