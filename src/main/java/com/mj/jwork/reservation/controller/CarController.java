@@ -89,4 +89,8 @@ public class CarController {
 		
 	}
 	
+	@RequestMapping("reservForm.car")
+	public String reservForm() {
+		return "reservation/carReservationForm";
+	}
 }

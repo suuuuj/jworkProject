@@ -7,13 +7,14 @@
 <style>
      #pagingArea{width:fit-content;margin:auto;}
      div{box-sizing: border-box;}
-    #cfRoom-enrollForm th{
+    #carReservForm th{
         height: 50px;
     }
     .outer{
         width: 960px;
+        margin:20px;
     }
-    #cfRoom-enrollForm th, td ,#car-information tr, td{
+    #carReservForm th, td ,#car-information tr, td{
         text-align: center;
         padding: 20px;
     }
@@ -28,10 +29,10 @@
     <div class="outer">
         <h2>차량 예약</h2>
         <hr>
-        <div>
+        <div style="width:900px;">
             <h4>차량정보</h4>
             <hr>
-            <table id="car-information">
+            <table id="car-information" style="width:900px;">
                 <tr>
                     <th>차량명</th>
                     <td>소나타 0131허12</td>
@@ -70,32 +71,46 @@
             <h4>대여사원 정보</h4>
             <hr>
             <div style="float: left;">
-                <img src="//bit.ly/2GrygUe" width="200px" height="140px"> 
+                <img src="${loginUser.profileUrl}" width="200px" height="140px"> 
             </div>
-            <form action="">
-                <table id="cfRoom-enrollForm" >
+            <form action="reserv.car" method="post">
+                <table id="carReservForm" style="width:900px;">
                   
                     <tr>
                         <th>사원명</th>
-                        <td>정여진</td>
+                        <td>
+                        ${loginUser.empName}
+                        <input type="hidden" value="${loginUser.empNo}" name="reservation">
+                        </td>
+                        
                         <th>신청날짜</th>
-                        <td><input type="date"></td>
+                        <td>
+                          <div class="col-8">
+                        	<input type="date" class="form-control" name="resDate">
+                    	  </div>
+                    	 </td>
                     </tr>
                     <tr>
                         <th>사번</th>
-                        <td>123123</td>
+                        <td>${loginUser.empNo }</td>
                         <th>신청시간</th>
-                        <td><input type="time" name="" >-<input type="time" name="" ></td>
+                        <td>
+                         <div class="col-6">
+                        <input type="time" class="form-control"name="startTime">-<input type="time" class="form-control" name="endTime" >
+                        </div>
+                        </td>
                     </tr>
                     <tr>
                         <th>부서</th>
-                        <td>총무부</td>
+                        <td>${loginUser.deptName }</td>
                         <th>신청사유</th>
-                        <td><input type="text" name=""></td>
+                        <td>
+                        	<input type="text" class="form-control" name="cause">
+                        </td>
                     </tr>
                     <tr>
                         <th>직급</th>
-                        <td>대리</td>
+                        <td>${loginUser.jobName}</td>
                     </tr>
                 </table>
             

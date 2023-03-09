@@ -45,7 +45,7 @@
         <div>
             <div class="btn-area" >
                 <a class="btn  btn-secondary" href="enrollForm.car">+차량 등록</a>
-                <button type="button" class="btn  btn-light">예약 조회</button>
+                <a class="btn  btn-light" href="">승인 관리</a>
             </div>
             <br><br>
             <div id="img-area">
