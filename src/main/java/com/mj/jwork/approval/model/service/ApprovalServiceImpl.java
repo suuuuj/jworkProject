@@ -29,4 +29,24 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return aDao.selectMyApprovalList(sqlSession,pi);
 	}
 
+	@Override
+	public int insertApproval(Approval a) {
+		return 0;
+	}
+
+	@Override
+	public Approval selectApproval(int appNo) {
+		return null;
+	}
+
+	@Override
+	public int updateApproval(Approval a) {
+		return 0;
+	}
+
+	@Override
+	public int deleteApproval(int appNo) {
+		return 0;
+	}
+
 }
