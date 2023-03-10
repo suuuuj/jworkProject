@@ -35,6 +35,7 @@
 		 where emp_no = #{empNo}
 		   and send = 'Y'
 		   and type = 'R'
+		   and mailbox_no is null
 		   and status = 'Y'
 	</select>
 	
@@ -47,6 +48,7 @@
 		   and send = 'Y'
 		   and read = 'N'
 		   and type = 'R'
+		   and mailbox_no is null
 		   and status = 'Y'
 	</select>
 	
@@ -61,13 +63,71 @@
 		  from mail_detail
 		  left
 		  join mail using (mail_no)
-		 where emp_no = 41569
+		 where emp_no = #{empNo}
 		   and send = 'Y'
 		   and type = 'R'
+		   and mailbox_no is null
 		   and status = 'Y'
 		 order
 		    by register_date desc
 	</select>
 	
-
+	<select id="selectMailBoxList" resultMap="mailResultMap">
+		select
+		       mailbox_no
+		     , mailbox_name
+		  from mailbox
+		 where emp_no = #{empNo}
+		 order
+		    by enroll_date
+	</select>
+	
+	<update id="updateMailBox">
+		update
+		       mailbox
+		   set mailbox_name = #{mailBoxName}
+		 where mailbox_no = #{mailBoxNo}
+	</update>
+	
+	<insert id="insertMailBox">
+		insert
+		  into mailbox
+		     (
+		       mailbox_no
+		     , mailbox_name
+		     , enroll_date
+		     , emp_no
+		     )
+		values
+		     (
+		       seq_mbno.nextval
+		     , #{mailBoxName}
+		     , sysdate
+		     , #{empNo}
+		     )
+	</insert>
+	
+	<select id="selectMailBox" resultMap="mailResultMap">
+		select 
+		       mailbox_no
+		     , mailbox_name
+		  from mailbox
+		 where mailbox_name = #{mailBoxName}
+		   and emp_no = #{empNo}
+	</select>
+	
+	<update id="updateMailsWithMailBox">
+		update
+		       mail_detail
+		   set status = 'N'
+		 where mailbox_no = #{mailBoxNo}
+	</update>
+	
+	<delete id="deleteMailBox">
+		delete
+		  from mailbox
+		 where mailbox_no = #{mailBoxNo}
+	</delete>
+	
+	
 </mapper>

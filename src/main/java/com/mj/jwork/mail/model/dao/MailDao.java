@@ -35,5 +35,41 @@ public class MailDao {
 		
 	}
 	
+	public ArrayList<Mail> selectMailBoxList(SqlSessionTemplate sqlSession, int empNo){
+		
+		return (ArrayList)sqlSession.selectList("mailMapper.selectMailBoxList", empNo);
+		
+	}
+	
+	public int updateMailBox(SqlSessionTemplate sqlSession, Mail m) {
+		
+		return sqlSession.update("mailMapper.updateMailBox", m);
+		
+	}
+	
+	public int insertMailBox(SqlSessionTemplate sqlSession, Mail m) {
+		
+		return sqlSession.insert("mailMapper.insertMailBox", m);
+		
+	}
+	
+	public Mail selectMailBox(SqlSessionTemplate sqlSession, Mail m) {
+		
+		return sqlSession.selectOne("mailMapper.selectMailBox", m);
+		
+	}
+	
+	public int updateMailsWithMailBox(SqlSessionTemplate sqlSession, int mailBoxNo) {
+		
+		return sqlSession.update("mailMapper.updateMailsWithMailBox", mailBoxNo);
+		
+	}
+	
+	public int deleteMailBox(SqlSessionTemplate sqlSession, int mailBoxNo) {
+		
+		return sqlSession.delete("mailMapper.deleteMailBox", mailBoxNo);
+		
+	}
+	
 	
 }

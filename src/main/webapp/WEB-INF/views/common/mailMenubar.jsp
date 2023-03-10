@@ -122,8 +122,8 @@
         .common{
             width: 60px;
             height: 1000px;
-            background-color: rgba(76, 209, 76, 0.219);
-        
+            background-color: /*#2db400*/ #0dc75b;
+
         }
         .mailMenu{
             width: 180px;
@@ -176,13 +176,16 @@
         }
         .userMailBox{margin:10px}
         .addMailBox{float: right;}
-        .userMailBox .menuIcon{
-            width: 20px;
+        .oneMailBox .mailBoxBtn{
             float: right;
+        }
+        .oneMailBox .menuIcon{
+            box-sizing: border-box;
+            width: 20px;
         }
         .oneMailBox{margin-top: 6px;}
         .mailBoxName{
-            width: 120px;
+            width: 100px;
             border: none;
             background-color: rgba(246, 246, 246, 0.712);
             padding-left: 5px;
@@ -229,7 +232,7 @@
                         <div class="space"></div>
 
                         <div class="menu"  id="">
-                            <div class="mainMenu"><img class="menuIcon" src="resources/images/common/menu_ico.png" /></div>
+                            <div class="mainMenu"><img class="menuIcon" src="resources/images/common/home.png" /></div>
                         </div>
 
                         <div class="menu"  id="">
@@ -272,7 +275,7 @@
                     </div>
                     <div class="mainMailBox">
                         <div>
-                            <a href="#" class="btn btn-block">받은메일함</a>
+                            <a href="list.ma" id="receiveMailBox" class="btn btn-block">받은메일함</a>
                         </div>
                         <div>
                             <a href="#" class="btn btn-block">안읽은메일함</a>
@@ -294,15 +297,8 @@
                     </div>
                     <div class="userMailBox">
                         <span>메일함</span> <span class="addMailBox btn btn-sm">추가하기</span>
-                        <div class="oneMailBox">
-                            <input type="text" class="mailBoxName" value="보관" readonly> <span class="editMailBox"><img class="menuIcon" src="resources/images/mail/edit.png" /></span>
-                        </div>
-                        <div class="oneMailBox">
-                            <input type="text" class="mailBoxName" value="테스트" readonly> <span class="editMailBox"><img class="menuIcon" src="resources/images/mail/edit.png" /></span>
-                        </div>
-                        <div class="oneMailBox">
-                            <input type="text" class="mailBoxName" value="정유림" readonly> <span class="editMailBox"><img class="menuIcon" src="resources/images/mail/edit.png" /></span>
-                        </div>
+                        
+                        
                     </div>
 
                     
@@ -310,28 +306,164 @@
 
             </div>
             <script>
+	            function loadMailBox(){
+	                $.ajax({
+	                    url: "mailBoxList.ma",
+	                    data:{ empNo:${ loginUser.empNo }},
+	                    success:function(mblist){
+							
+							let count = mblist.length;
+							let value= "";
+							
+							for(let i=0; i<count; i++){
+								
+								value += '<div class="oneMailBox">'
+										   + '<input type="hidden" value="' + mblist[i].mailBoxNo + '">'
+										   + '<input type="text" class="mailBoxName" value="' + mblist[i].mailBoxName + '" readonly>'
+										   + '<span class="mailBoxBtn">'
+                                                + '<img class="menuIcon editMailBox" src="resources/images/mail/edit.png" />'
+                                                + '<img class="menuIcon deleteMailBox" src="resources/images/mail/delete.png" />'
+                                           + '</span>'
+									   + '</div>'
+							}
+							
+							$(".userMailBox").append(value);
+							
+	                    }, error: function(){
+	                        console.log("메일함 조회용 ajax 통신 실패");
+	                    }
+	                })
+	            }
+            
+            	
                 $(function(){
+					
+                	loadMailBox();
+                	
+                	
+
                     // 메일함 수정 버튼 클릭 시
                     $(document).on("click", ".editMailBox", function(){
-                        $(this).prev().attr("readonly", false);
-                        $(this).prev().select();
+                        $(this).parent().prev().attr("readonly", false);
+                        $(this).parent().prev().select();
                     })
 
                     // 메일함 input box 에서 포커스 아웃될 때
                     $(document).on("focusout", ".mailBoxName", function(){
-                        $(this).attr("readonly", true);
-                        $(this).attr("border", "none");
+                        const $mailBoxName = $(this).val();
+                        const $mailBoxNo = $(this).prev().val();
+                        $.ajax({
+                            url: "updateMailBox.ma",
+                            data: {
+								mailBoxNo: $mailBoxNo,
+								mailBoxName: $mailBoxName
+                            },
+                            success: function(result){
+                            	
+                            	if(result == "success"){
+                            		$(this).attr("readonly", true);
+                                	$(this).attr("border", "none");
+                            	} else {
+                            		alert("알 수 없는 이유로 수정을 실패했습니다. 다시 시도해주세요.");
+                            		$(".oneMailBox").remove();
+                            		loadMailBox();
+                            	}
+                                
+                            }, error: function(){
+                            	console.log("메일함 수정용 ajax 통신 실패");
+                            }
+                        })
                     })
 
                     // 메일함 추가하기 클릭 시
                     $(".addMailBox").on("click", function(){
-                        const mailBoxInput = "<div class='oneMailBox'><input type='text' class='mailBoxName' value='새 메일함' readonly><span class='editMailBox'><img class='menuIcon' src='resources/images/mail/edit.png'/></span>";
-                        $(".userMailBox").append(mailBoxInput);
-                        const mailBoxArr = $(".mailBoxName");
-                        const newMailBox = mailBoxArr.eq(mailBoxArr.length - 1);
-                        newMailBox.next().click();
+                   		// 랜덤으로 메일함 이름 생성
+                    	const randomName = generateRandomString();
+                    	
+                    	$.ajax({
+                    		url: "insertMailBox.ma",
+                    		data: {
+                    			empNo: ${loginUser.empNo},
+                    			mailBoxName: randomName
+                    		},
+                    		success: function(mailbox){
+                    			if(mailbox != null){
+                    				// db에 메일함 추가하였을 경우
+	                    			const mailBoxInput = '<div class="oneMailBox">'
+														   + '<input type="hidden" value="' + mailbox.mailBoxNo + '">'
+														   + '<input type="text" class="mailBoxName" value="' + mailbox.mailBoxName + '" readonly>'
+														   + '<span class="mailBoxBtn">'
+					                                            + '<img class="menuIcon editMailBox" src="resources/images/mail/edit.png" />'
+					                                            + '<img class="menuIcon deleteMailBox" src="resources/images/mail/delete.png" />'
+					                                       + '</span>'
+													   + '</div>';
+									
+	                    			$(".userMailBox").append(mailBoxInput);
+									
+	                    			// db에 추가 후 바로 해당 메일함 이름 수정가능하게 설정
+			                        const mailBoxArr = $(".mailBoxName");
+			                        const newMailBox = mailBoxArr.eq(mailBoxArr.length - 1);
+			                        newMailBox.next().children().eq(0).click();				   
+				                    			
+                    			} else{
+                    				// db에 메일함 추가되지 않았을 경우
+                    				alert("알 수 없는 이유로 메일함을 추가할 수 없습니다. 다시 시도해주세요.");
+                    				$(".oneMailBox").remove();
+                            		loadMailBox();
+                    					
+                    			}
+                    			
+                    		}, error: function(){
+                    			console.log("메일함 추가용 ajax 통신 실패");
+                    		}
+                    	})
+                    	
                     })
+                    
+                    // 메일함 삭제 버튼 클릭 시
+                    $(document).on("click", ".deleteMailBox", function(){
+                    	
+                    	const mailBoxName = $(this).parent().prev().val();
+                    	const mailBoxNo = $(this).parent().prev().prev().val();
+                    	// 정말 삭제할 것인지 확인
+                    	if(confirm("메일함을 삭제하시겠습니까?\n" + mailBoxName + "의 모든 메일은 휴지통으로 이동합니다.")){
+                    		$.ajax({
+                    			url: "deleteMailBox.ma",
+                    			data:{mailBoxNo: mailBoxNo},
+                    			success:function(result){
+                    				if(result == "success"){
+                    					location.replace("list.ma");
+                    				} else{
+                    					alert("알 수 없는 이유로 삭제할 수 없습니다. 다시 시도해주세요.");
+                    				}
+                    				
+                    			}, error:function(){
+                    				console.log("메일함 삭제용 ajax 통신 실패");
+                    			}
+                    		})
+                    	}
+                    	
+                    })
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                 })
+                
+                // 새 메일함 이름 랜덤 생성 함수
+                function generateRandomString(num){
+                	
+                	const characters = ["뻐꾸기", "딱따구리", "직박구리", "뜸부기", "지빠귀", "제비", "고니", "오목눈이", "오리", "두루미"];
+                	const charlength = characters.length;
+                
+                	return characters[Math.floor(Math.random() * charlength)];
+                	
+                }
+                
+                
             </script>
 
             <div class="content">
