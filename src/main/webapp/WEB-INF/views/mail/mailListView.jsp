@@ -11,16 +11,13 @@
         .contents{
             width: 900px;
         }
-        .line{
-            border : 1px solid rgba(6, 117, 6, 0.966);
-        }
-        .space{
-            height: 15px;
-        }
+        
         .btnArea{padding-left: 10px;}
+        /*
         .mailContents{
-            height: 600px;
+            height: 500px;
         }
+        */
         .content-title{
             font-size: 1.3em;
             width: 200px;
@@ -70,6 +67,12 @@
         	outline: 1px solid green;
         }
         
+        .font-bold{
+        	font-weight:bold;
+        }
+        #pagingArea{
+            margin-top:50px;
+        }
     </style>
 </head>
 <body>
@@ -200,7 +203,7 @@
             <div class="mailContents">
                 <table>
                 	<c:forEach var="m" items="${ mList }">
-	                    <tr class="${ m.mailNo }">
+	                    <tr class="${ m.read eq 'N' ? 'font-bold' : ''}" mail-no="${ m.mailNo }">
 	                        <td width="30px"><input type="checkbox"></td>
 	                        <c:choose>
 	                        	<c:when test="${ m.important eq 'Y' }">
@@ -227,15 +230,6 @@
                 </table>
             </div>
             
-            <script>
-            	$(function(){
-            		<c:forEach var="m" items="${ mList }">
-            			<c:if test="${ m.read eq 'N' }">
-            				$("." + ${ m.mailNo} ).css('font-weight' , 'bold');
-            			</c:if>
-            		</c:forEach>
-            	})
-            </script>
             
             <!-- 페이징바 -->
             <div id="pagingArea">
