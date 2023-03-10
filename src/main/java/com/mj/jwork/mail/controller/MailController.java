@@ -91,10 +91,11 @@ public class MailController {
 		
 		// 해당 메일함에 있는 메일들을 휴지통으로 이동
 		int mailsResult = mService.updateMailsWithMailBox(mailBoxNo);
-		int mailBoxResult = 0;
-		if(mailsResult > 0) {
-			mailBoxResult = mService.deleteMailBox(mailBoxNo);
-		}
+		
+		// 메일이 있었을수도,, 없었을 수도 있음,, 이것에 대한건 나중에 조건 확인할 것
+		
+		int mailBoxResult = mService.deleteMailBox(mailBoxNo);
+		
 		
 		return mailBoxResult > 0 ? "success" : "fail";
 		

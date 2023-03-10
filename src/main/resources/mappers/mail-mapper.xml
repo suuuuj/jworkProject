@@ -44,7 +44,7 @@
 		  from mail_detail
 		  left
 		  join mail using (mail_no)
-		 where emp_no = 41569
+		 where emp_no = #{empNo}
 		   and send = 'Y'
 		   and read = 'N'
 		   and type = 'R'
