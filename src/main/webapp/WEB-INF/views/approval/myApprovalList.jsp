@@ -55,10 +55,10 @@
             <table>
                 <tr>
                     <td class="btnArea">
-                        <button type="button" class="btn btn-success btn-sm mr-2">전체(<span class="num">20</span>)</button>
-                        <button type="button" class="btn btn-secondary btn-sm mr-2">진행(<span class="num">5</span>)</button>
-                        <button type="button" class="btn btn-secondary btn-sm mr-2">완료(<span class="num">5</span>)</button>
-                        <button type="button" class="btn btn-secondary btn-sm mr-2">반려(<span class="num">2</span>)</button>
+                        <button type="button" class="btn btn-success btn-sm mr-2" id="allBtn">전체(<span id="allCount"></span>)</button>
+                        <button type="button" class="btn btn-secondary btn-sm mr-2" id="ingBtn">진행(<span id="ingCount"></span>)</button>
+                        <button type="button" class="btn btn-secondary btn-sm mr-2" id="finBtn">완료(<span id="lcount"></span>)</button>
+                        <button type="button" class="btn btn-secondary btn-sm mr-2" id="reBtn">반려(<span id="lcount"></span>)</button>
                     </td>
                     <td class="searchArea">
                         <select class="searchBox">
@@ -92,7 +92,8 @@
                     <th scope="col">결재상태</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="defaultAllTB">
+           
             	<c:forEach var="a" items="${ list }">
 	                <tr>
 	                    <td>${ a.createDate }</td>
@@ -111,6 +112,74 @@
                  </c:forEach>
             </tbody>
         </table>
+        
+        <script>
+        	$(function(){     
+        		$("#allCount").text(${listCount});
+        		$("#allBtn").click(function(){
+        			$.ajax({
+        				url:"allList.app",
+        				success:function(all){
+        					let value="";
+        					for (i=0; i<all.length; i++){
+        						value += "<tr>"
+        									+ "<td>" + all[i].createDate + "</td>"
+        									+ "<td>" + all[i].docType + "</td>"
+        									+ "<td>" + all[i].docTitle + "</td>"
+        									+ "<td>" + all[i].empName + "</td>"
+        									+ "<td>";
+        						 if(all.docOriginName != null){
+        							 value+= "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-folder2-open' viewBox='0 0 16 16'> <path d='M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14V3.5zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5V6zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7H1.633z'/>";
+        						 }
+        						 value += "</td> <td>" + all[i].appStatus + "</td></tr>"
+        						
+        					}
+        					$("#appListTB tbody").html(value);
+        					
+        					
+        				}, error:function(){
+        					console.log("ajax 통신 실패");
+        				} //end of error
+        			})
+        		})
+        		
+        		$("#ingBtn").click(function(){
+        			$.ajax({
+        				url:"ingList.app",
+        				success:function(ing){
+        					let value="";
+        					for (i=0; i<ing.length; i++){
+        						value += "<tr>"
+        									+ "<td>" + ing[i].createDate + "</td>"
+        									+ "<td>" + ing[i].docType + "</td>"
+        									+ "<td>" + ing[i].docTitle + "</td>"
+        									+ "<td>" + ing[i].empName + "</td>"
+        									+ "<td>";
+        						 if(ing.docOriginName != null){
+        							 value+= "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-folder2-open' viewBox='0 0 16 16'> <path d='M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14V3.5zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5V6zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7H1.633z'/>";
+        						 }
+        						 value += "</td> <td>" + ing[i].appStatus + "</td></tr>"
+        						
+        					}
+        					$("#appListTB tbody").html(value);
+        					$("#ingCount").text(ing.length);
+        					
+        				}, error:function(){
+        					console.log("ajax 통신 실패");
+        				} //end of error
+        			})
+        		})
+        		
+        		
+        		
+        		
+        		
+        	})
+        
+        </script>
+        
+        
+        
         <br>
         <div id="pagingArea">
             <ul class="my pagination justify-content-end pagination-sm">
