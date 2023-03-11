@@ -10,6 +10,12 @@
 		<typeAlias type="com.mj.jwork.approval.model.vo.Approval" alias="Approval" />
 		<typeAlias type="com.mj.jwork.employee.model.vo.Employee" alias="Employee" />
 		<typeAlias type="com.mj.jwork.ess.model.vo.Attendence" alias="Attendence" />
+		<typeAlias type="com.mj.jwork.ess.model.vo.Annual" alias="Annual" />
+		<typeAlias type="com.mj.jwork.ess.model.vo.Businesstrip" alias="Businesstrip" />
+		<typeAlias type="com.mj.jwork.ess.model.vo.Leave" alias="Leave" />
+		<typeAlias type="com.mj.jwork.ess.model.vo.LeaveCategory" alias="LeaveCategory" />
+		<typeAlias type="com.mj.jwork.ess.model.vo.Overtime" alias="Overtime" />
+		<typeAlias type="com.mj.jwork.ess.model.vo.Worktime" alias="Worktime" />
 		<typeAlias type="com.mj.jwork.mail.model.vo.Mail" alias="Mail" />
 		<typeAlias type="com.mj.jwork.mail.model.vo.MailAt" alias="MailAt" />
 		<typeAlias type="com.mj.jwork.project.model.vo.Project" alias="Project" />

@@ -1,6 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="essMapper">
-
+	
+	<resultMap id="attendenceResult" type="Attendence">
+		<id column="att_no" property="attNo" />
+		<result column="emp_no" property="empNo" />
+		<result column="start_time" property="startTime" />
+		<result column="end_time" property="endTime" />
+		<result column="att_time" property="attTime" />
+		<result column="att_status" property="attStatus" />
+		<result column="att_date" property="attDate" />
+		<result column="after_time" property="afterTime" />
+	</resultMap>
+	
+	<resultMap id="auualResult" type="Annual">
+		<id column="annual_no" property="annualNo" />
+		<result column="emp_no" property="empNo" />
+		<result column="annual_count" property="annualCount" />
+		<result column="annual_date" property="annualDate" />
+		<result column="annual_category" property="annualCategory" />
+	</resultMap>
+	
+	<resultMap id="businesstripResult" type="Businesstrip">
+		<id column="bt_no" property="btNo" />
+		<result column="emp_no" property="empNo" />
+		<result column="bt_start" property="btStart" />
+		<result column="bt_end" property="btEnd" />
+		<result column="bt_content" property="btContent" />
+		<result column="bt_status" property="btStatus" />
+		<result column="bt_check" property="btCheck" />
+		<result column="enroll_date" property="enrollDate" />
+		<result column="first_date" property="firstDate" />
+		<result column="second_date" property="secondDate" />
+		<result column="fail_date" property="failDate" />
+		<result column="first_approval" property="firstApproval" />
+		<result column="second_approval" property="secondApproval" />
+	</resultMap>
+	
+	<resultMap id="leaveResult" type="Leave">
+		<id column="leave_no" property="leaveNo" />
+		<result column="emp_no" property="empNo" />
+		<result column="leave_category" property="leaveCategory" />
+		<result column="leave_start" property="leaveStart" />
+		<result column="leave_end" property="leaveEnd" />
+		<result column="leave_content" property="leaveContent" />
+		<result column="leave_status" property="leaveStatus" />
+		<result column="leave_check" property="leaveCheck" />
+		<result column="enroll_date" property="enrollDate" />
+		<result column="first_date" property="firstDate" />
+		<result column="second_date" property="secondDate" />
+		<result column="fail_date" property="failDate" />
+		<result column="first_approval" property="firstApproval" />
+		<result column="second_approval" property="secondApproval" />
+	</resultMap>
+	
+	<resultMap id="leaveCategoryResult" type="LeaveCategory">
+		<id column="lcategory_no" property="lCategoryNo" />
+		<result column="lcategory_name" property="lCategoryName" />
+	</resultMap>
+	
+	<resultMap id="overtimeResult" type="Overtime">
+		<id column="ot_no" property="otNo" />
+		<result column="emp_no" property="empNo" />
+		<result column="enroll_date" property="enrollDate" />
+		<result column="ot_category" property="otCategory" />
+		<result column="ot_start" property="otStart" />
+		<result column="ot_end" property="otEnd" />
+		<result column="ot_content" property="otContent" />
+		<result column="ot_status" property="otStatus" />
+		<result column="ot_check" property="otCheck" />
+		<result column="first_date" property="firstDate" />
+		<result column="second_date" property="secondDate" />
+		<result column="fail_date" property="failDate" />
+		<result column="first_approval" property="firstApproval" />
+		<result column="second_approval" property="secondApproval" />
+	</resultMap>
+	
+	<resultMap id="worktimeResult" type="Worktime">
+		<id column="wt_no" property="wtNo" />
+		<result column="att_no" property="attNo" />
+		<result column="re_start_time" property="reStartTime" />
+		<result column="re_end_time" property="reEndTime" />
+		<result column="re_content" property="reContent" />
+	</resultMap>
+	
+	<select id="selectLeaveCategory" resultMap="leaveCategoryResult">
+		select
+		        lcategory_no,
+		        lcategory_name
+		   from leave_category
+		  where lcategory_no = #{no}
+	</select>
+	
+	
 
 </mapper>

@@ -29,6 +29,7 @@ public class EmployeeController {
 	// 로그인
 	@RequestMapping("login.emp")
 	public String loginEmployee(Employee e, Model model, HttpSession session) {
+		 
 		Employee loginUser = eService.loginEmployee(e);
 		if(loginUser == null) {
 			model.addAttribute("errorMsg", "로그인 실패");
