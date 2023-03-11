@@ -239,8 +239,8 @@
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/vacation.png" alt="" />휴가</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
+                                <a id="" href="menu.le">휴가신청</a><br>
+                                <a id="" href="list.le">휴가상세</a><br>
                                 <a id="" href=""></a><br>
                                 <a id="" href=""></a><br>
                                 <a id="" href=""></a><br>
