@@ -12,12 +12,11 @@
 <title>Insert title here</title>
 <style>
     /* outer영역 */
-    .outer{
-        width:960px;
-        height:1000px;
-        border:1px solid black;
+    .leaveOuter{
+        padding:4px;
+        margin: auto;
     }
-    /* 메뉴바영역 */
+    /* 메뉴바영역 
     .title{
         color:rgb(50,50,50);
         margin-left: 30px;
@@ -36,6 +35,7 @@
         height:3px;
         float: left;
     }
+    */
     /* content영역 */
     .enrollForm{
         margin-left:30px;
@@ -89,8 +89,9 @@
 </style>
 </head>
 <body>
-    <div class="outer">
-
+    <div class="leaveOuter">
+        <h4><b>휴가</b></h4>
+        <!--
         <div class="title">
             <h1 style="color:rgb(50,50,50)">휴가<h1> 
         </div>
@@ -101,6 +102,7 @@
             <div style="width:67px; background: rgb(234, 234, 234);">&nbsp;</div>
             <div style="width:766px; background: rgb(234, 234, 234);">&nbsp;</div>
         </div>
+        -->
 
         <form action="enroll.le" method="" class="enrollForm" name="leEnroll">
 
