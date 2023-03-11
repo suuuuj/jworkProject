@@ -34,7 +34,37 @@ public class MailServiceImpl implements MailService{
 	public ArrayList<Mail> selectReceiveMailList(int empNo, PageInfo pi) {
 		return mDao.selectReceiveMailList(sqlSession, empNo, pi);
 	}
+	
+	@Override
+	public ArrayList<Mail> selectMailBoxList(int empNo) {
+		return mDao.selectMailBoxList(sqlSession, empNo);
+	}
+	
+	@Override
+	public int updateMailBox(Mail m) {
+		return mDao.updateMailBox(sqlSession, m);
+	}
+	
+	@Override
+	public int insertMailBox(Mail m) {
+		return mDao.insertMailBox(sqlSession, m);
+	}
 
+	@Override
+	public Mail selectMailBox(Mail m) {
+		return mDao.selectMailBox(sqlSession, m);
+	}
+
+	@Override
+	public int updateMailsWithMailBox(int mailBoxNo) {
+		return mDao.updateMailsWithMailBox(sqlSession, mailBoxNo);
+	}
+
+	@Override
+	public int deleteMailBox(int mailBoxNo) {
+		return mDao.deleteMailBox(sqlSession, mailBoxNo);
+	}
+	
 	@Override
 	public int insertMail(ArrayList<Mail> mList) {
 		return 0;
@@ -65,6 +95,10 @@ public class MailServiceImpl implements MailService{
 		return null;
 	}
 
+
+	
+
+	
 
 
 	

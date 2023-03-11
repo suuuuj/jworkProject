@@ -28,6 +28,17 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public ArrayList<Approval> selectMyApprovalList(PageInfo pi) {
 		return aDao.selectMyApprovalList(sqlSession,pi);
 	}
+	
+	@Override
+	public ArrayList<Approval> ajaxSelectAllBtn(PageInfo pi) {
+		return aDao.ajaxSelectAllBtn(sqlSession,pi);
+	}
+
+	@Override
+	public ArrayList<Approval> ajaxSelectIngBtn(PageInfo pi) {
+		return aDao.ajaxSelectIngBtn(sqlSession,pi);
+	}
+	
 
 	@Override
 	public int insertApproval(Approval a) {
@@ -48,5 +59,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int deleteApproval(int appNo) {
 		return 0;
 	}
+
+
+
 
 }

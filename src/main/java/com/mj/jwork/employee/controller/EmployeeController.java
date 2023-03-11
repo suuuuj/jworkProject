@@ -83,4 +83,10 @@ public class EmployeeController {
 		}	
 	}
 	
+	// 일정
+	@RequestMapping("schedule.emp")
+	public String schedule() {
+		return "employee/schedule";
+	}
+	
 }

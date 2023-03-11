@@ -2,15 +2,14 @@ package com.mj.jwork.approval.controller;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.mj.jwork.approval.model.service.ApprovalService;
 import com.mj.jwork.approval.model.vo.Approval;
 import com.mj.jwork.common.model.vo.PageInfo;
@@ -33,6 +32,7 @@ public class ApprovalController {
 		
 		model.addAttribute("pi",pi);
 		model.addAttribute("list",list);
+		model.addAttribute("listCount",listCount);
 		
 		return "approval/myApprovalList";
 		
@@ -44,11 +44,28 @@ public class ApprovalController {
 		return "approval/approvalEnrollForm";
 	}
 	
-	// 결재 문서 작성 페이지
-	//@RequestMapping("insert.app")
-	//public String insertApproval(Approval a, MultipartFile upfile, HttpSession session, Model model) {
+	// 내 결재 리스트 전체 클릭시
+	@ResponseBody
+	@RequestMapping(value="allList.app", produces="application/json; charset=utf-8")
+	public String ajaxSelectAllBtn(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model) {
+		int listCount = aService.selectListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 5);
+		ArrayList<Approval> all = aService.ajaxSelectAllBtn(pi);
 		
-	//}
+		return new Gson().toJson(all);
+		
+	}
 	
+	// 내 결재 리스트 진행 클릭시
+	@ResponseBody
+	@RequestMapping(value="ingList.app", produces="application/json; charset=utf-8")
+	public String ajaxSelectIngBtn(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model) {
+		int listCount = aService.selectListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 5);
+		ArrayList<Approval> ing = aService.ajaxSelectIngBtn(pi);
+		
+		return new Gson().toJson(ing);
+	
+	}
 
 }

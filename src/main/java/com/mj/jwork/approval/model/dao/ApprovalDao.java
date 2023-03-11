@@ -27,4 +27,18 @@ public class ApprovalDao {
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectMyApprovalList",null,rowBounds);
 	}
 
+	public ArrayList<Approval> ajaxSelectAllBtn(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return (ArrayList)sqlSession.selectList("approvalMapper.ajaxSelectAllBtn",null,rowBounds);
+	}
+
+	public ArrayList<Approval> ajaxSelectIngBtn(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return (ArrayList)sqlSession.selectList("approvalMapper.ajaxSelectIngBtn",null,rowBounds);
+	}
+
 }
