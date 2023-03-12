@@ -1,5 +1,7 @@
 package com.mj.jwork.employee.model.dao;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +23,11 @@ public class EmployeeDao {
 	// 사원 프로필 이미지 수정
 	public int updateProfileImg(SqlSessionTemplate sqlSession, Employee e) {
 		return sqlSession.update("employeeMapper.updateProfileImg", e);
+	}
+
+	//결재선 선택시 사원조회리스트(ajax)
+	public ArrayList<Employee> ajaxSelectEmpList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxSelectEmpList");
 	}
 
 }

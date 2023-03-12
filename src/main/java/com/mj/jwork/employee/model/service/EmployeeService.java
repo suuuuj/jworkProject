@@ -1,5 +1,7 @@
 package com.mj.jwork.employee.model.service;
 
+import java.util.ArrayList;
+
 import com.mj.jwork.employee.model.vo.Employee;
 
 public interface EmployeeService {
@@ -12,5 +14,8 @@ public interface EmployeeService {
 	
 	// 사원 프로필 이미지 수정
 	int updateProfileImg(Employee e);
+
+	//결재선 선택시 사원조회리스트(ajax)
+	ArrayList<Employee> ajaxSelectEmpList();
 
 }

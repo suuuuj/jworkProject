@@ -1,6 +1,7 @@
 package com.mj.jwork.employee.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.employee.model.service.EmployeeService;
 import com.mj.jwork.employee.model.vo.Employee;
@@ -87,6 +89,16 @@ public class EmployeeController {
 	@RequestMapping("schedule.emp")
 	public String schedule() {
 		return "employee/schedule";
+	}
+	
+	
+	//결재선 선택시 사원조회리스트(ajax)
+	@ResponseBody
+	@RequestMapping(value="empList.app", produces="application/json; charset=utf-8")
+	public String ajaxSelectEmpList() {
+		ArrayList<Employee> emp = eService.ajaxSelectEmpList();
+		
+		return new Gson().toJson(emp);
 	}
 	
 }

@@ -1,5 +1,7 @@
 package com.mj.jwork.employee.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,13 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public int updateProfileImg(Employee e) {
 		return eDao.updateProfileImg(sqlSession, e);
+	}
+
+	
+	//결재선 선택시 사원조회리스트(ajax)
+	@Override
+	public ArrayList<Employee> ajaxSelectEmpList() {
+		return eDao.ajaxSelectEmpList(sqlSession);
 	}
 
 }
