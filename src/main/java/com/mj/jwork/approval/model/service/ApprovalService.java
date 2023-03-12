@@ -8,15 +8,11 @@ import com.mj.jwork.common.model.vo.PageInfo;
 public interface ApprovalService{
 	
 	//내결재목록 리스트 조회 서비스 (페이징)
-	int selectListCount();
-	ArrayList<Approval> selectMyApprovalList(PageInfo pi);
+	int selectListCount(int empNo);
+	ArrayList<Approval> selectMyApprovalList(PageInfo pi,int empNo);
 	
-	//내결재목록 전체 버튼 클릭 (ajax)
-	ArrayList<Approval> ajaxSelectAllBtn(PageInfo pi);
-	
-	//내결재목록 전체 버튼 클릭 (ajax)
-	ArrayList<Approval> ajaxSelectIngBtn(PageInfo pi);
-	
+	//내결재목록 진행 버튼 클릭 (ajax)
+	ArrayList<Approval> ajaxSelectIngBtn(PageInfo pi,int empNo);
 	
 	//결재 문서 작성 서비스
 	int insertApproval(Approval a);
