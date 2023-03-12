@@ -18,22 +18,25 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Autowired
 	private ApprovalDao aDao;
 	
-	// 결재문서 카운트
+
 	@Override
-	public int selectListCount(int empNo) {
-		return aDao.selectListCount(sqlSession, empNo);
+	public int selectListCount() {
+		return aDao.selectListCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Approval> selectMyApprovalList(PageInfo pi) {
+		return aDao.selectMyApprovalList(sqlSession,pi);
 	}
 	
-	//결재문서 리스트
 	@Override
-	public ArrayList<Approval> selectMyApprovalList(PageInfo pi,int empNo) {
-		return aDao.selectMyApprovalList(sqlSession,pi, empNo);
+	public ArrayList<Approval> ajaxSelectAllBtn(PageInfo pi) {
+		return aDao.ajaxSelectAllBtn(sqlSession,pi);
 	}
-	
-	//결재문서 리스트 진행버튼 클릭시
+
 	@Override
-	public ArrayList<Approval> ajaxSelectIngBtn(PageInfo pi,int empNo) {
-		return aDao.ajaxSelectIngBtn(sqlSession,pi, empNo);
+	public ArrayList<Approval> ajaxSelectIngBtn(PageInfo pi) {
+		return aDao.ajaxSelectIngBtn(sqlSession,pi);
 	}
 	
 

@@ -24,10 +24,7 @@
 	<select id="selectListCount" resultType="_int">
 		select count(*)
 		  from approval
-		  join employee using(emp_no)
 		 where doc_status='Y'
-		   and emp_no = #{emp_no}
-		   
 	</select>
 	
 	<!-- 내 결재 리스트 조회 -->
@@ -43,14 +40,32 @@
 	         , doc_originname
 	         , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
 		  from approval a
-		  join employee using (emp_no)
+		  join employee e on(a.emp_no=e.emp_no)
 		 where doc_status='Y'
-		   and emp_no = #{emp_no}
 		 order
 		    by app_no desc
 		
 	</select>
 	
+	<!-- 전체 버튼 눌렀을 시 리스트 조회 -->
+	<select id="ajaxSelectAllBtn" resultMap="approvalResult">
+		select  
+	      	   app_no
+	     	 , doc_no
+	         , emp_name
+	         , decode(doc_type,0,'기안서',1,'품의서',2,'사직서') as "doc_type"
+	         , create_date
+	         , update_date
+	         , doc_title
+	         , doc_originname
+	         , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
+		  from approval a
+		  join employee e on(a.emp_no=e.emp_no)
+		 where doc_status='Y'
+		 order
+		    by app_no desc
+		
+	</select>
 	
 	<!-- 진행중 버튼 눌렀을 시 리스트 조회 -->
 	<select id="ajaxSelectIngBtn" resultMap="approvalResult">
@@ -65,10 +80,9 @@
 	         , doc_originname
 	         , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
 		  from approval a
-		  join employee using (emp_no)
+		  join employee e on(a.emp_no=e.emp_no)
 		 where doc_status='Y'
 		   and app_status = 1
-		   and emp_no = #{emp_no}
 		 order
 		    by app_no desc	
 	</select>

@@ -12,13 +12,11 @@ import com.mj.jwork.common.model.vo.PageInfo;
 @Repository
 public class ApprovalDao {
 
-	//결재문서 리스트 카운트
-	public int selectListCount(SqlSessionTemplate sqlSession, int empNo) {
-		return sqlSession.selectOne("approvalMapper.selectListCount", empNo);
+	public int selectListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("approvalMapper.selectListCount");
 	}
 
-	//결재문서 리스트 조회(페이징)
-	public ArrayList<Approval> selectMyApprovalList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+	public ArrayList<Approval> selectMyApprovalList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		//건너뛸 게시물 개수
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		//조회할 게시글 개수
@@ -26,15 +24,21 @@ public class ApprovalDao {
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("approvalMapper.selectMyApprovalList",empNo,rowBounds);
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectMyApprovalList",null,rowBounds);
 	}
 
-	//결재문서 리스트 진행버튼 클릭시
-	public ArrayList<Approval> ajaxSelectIngBtn(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+	public ArrayList<Approval> ajaxSelectAllBtn(SqlSessionTemplate sqlSession, PageInfo pi) {
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		return (ArrayList)sqlSession.selectList("approvalMapper.ajaxSelectIngBtn",empNo,rowBounds);
+		return (ArrayList)sqlSession.selectList("approvalMapper.ajaxSelectAllBtn",null,rowBounds);
+	}
+
+	public ArrayList<Approval> ajaxSelectIngBtn(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return (ArrayList)sqlSession.selectList("approvalMapper.ajaxSelectIngBtn",null,rowBounds);
 	}
 
 
