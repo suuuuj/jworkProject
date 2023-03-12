@@ -17,6 +17,7 @@ public interface ApprovalService{
 	//내결재목록 전체 버튼 클릭 (ajax)
 	ArrayList<Approval> ajaxSelectIngBtn(PageInfo pi);
 	
+	
 	//결재 문서 작성 서비스
 	int insertApproval(Approval a);
 	

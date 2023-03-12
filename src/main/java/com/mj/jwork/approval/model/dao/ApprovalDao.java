@@ -41,4 +41,7 @@ public class ApprovalDao {
 		return (ArrayList)sqlSession.selectList("approvalMapper.ajaxSelectIngBtn",null,rowBounds);
 	}
 
+
+
+
 }
