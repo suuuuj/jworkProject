@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- Latest compiled and minified CSS -->
+    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -20,7 +20,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <!-- Bootstrap 5버전 -->
 	<!-- Latest compiled and minified CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"> 
+	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">  -->
 	<!-- Latest compiled JavaScript -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> 
 
@@ -179,7 +179,6 @@
         }
         .myScheduleBox{margin:10px}
         .addScheduleBox{
-            float: right;
             color: gray;
             font-size: 14px;
             padding: 10px;
@@ -197,7 +196,7 @@
         .scheduleBoxName{
             width: 120px;
             border: none;
-            background-color: rgba(246, 246, 246, 0.712);
+            background-color: rgba(246, 246, 246, 0);
             padding-left: 5px;
         }
         .scheduleBoxName:focus{
@@ -218,12 +217,12 @@
         }
 
         .oneScheduleBox input[type="checkbox"]:checked {
-            background: rgb(39, 174, 96);
+            background: rgb(193, 178, 249);
             border: none;
         }
 
         /*내 일정 수정*/
-        #modifyModal {
+        #modifyModal, #addModal {
             margin: 30px;
         }
         .modalTitle {
@@ -232,14 +231,14 @@
             font-size: 18px;
             font-weight: 600;
         }
-        #modifyModal input[type="text"] {
+        #modifyModal input[type="text"], #addModal input[type="text"] {
             width: 250px;
             height: 30px;
             border-radius: 3px;
             border: 1px solid gainsboro;
             padding: 10px;
         }
-        #modifyModal input[type="radio"] {
+        #modifyModal input[type="radio"], #addModal input[type="radio"] {
             width: 1rem;
             height: 1rem;
             border-radius: 50%;
@@ -248,10 +247,10 @@
             cursor: pointer;
             transition: background 0.2s;
         }
-        #modifyModal input[type="radio"]:checked {
+        #modifyModal input[type="radio"]:checked, #addModal input[type="radio"]:checked {
             box-shadow: 0 0 0 max(2px, 0.2em) rgb(244, 235, 235) !important;					/*ridge : 테두리가 튀어나온 것처럼 표시*/
         }
-        #modifyModal input[type="radio"]:hover {
+        #modifyModal input[type="radio"]:hover, #addModal input[type="radio"]:hover {
             box-shadow: 0 0 0 max(2px, 0.2em) rgb(244, 235, 235);
             cursor: pointer;
         }
@@ -342,12 +341,13 @@
                         일정관리
                     </div>
                     <div class="enrollBtn">
-                        <button id="enrollSchedule" class="btn btn-success btn-block" onclick="location.href=''">일정 등록</button>
+                        <button id="enrollSchedule" class="btn btn-success btn-block" onclick="location.href='enrollSchedule.emp'">일정 등록</button>
                     </div>
                     <div class="subTitle">
                         내 캘린더
                     </div>
                     <div class="myScheduleBox">
+                        <!--내 일정은 수정삭제 못하게 할 예정-->
                         <div class="oneScheduleBox">
                             <input type="checkbox" checked>
                             <input type="text" class="scheduleBoxName" value="내 일정" readonly> 
@@ -386,11 +386,11 @@
                                 <input type="radio" name="color" value="" style="background-color: rgb(255, 91, 91);">&nbsp;&nbsp;
                                 <input type="radio" name="color" value="" style="background-color: rgb(255, 191, 122);">&nbsp;&nbsp;
                                 <input type="radio" name="color" value="" style="background-color: rgb(255, 255, 125);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(39, 174, 96);" checked>&nbsp;&nbsp;
+                                <input type="radio" name="color" value="" style="background-color: rgb(39, 174, 96);">&nbsp;&nbsp;
                                 <input type="radio" name="color" value="" style="background-color: rgb(160, 251, 239);">&nbsp;&nbsp;
                                 <input type="radio" name="color" value="" style="background-color: rgb(112, 213, 241);">&nbsp;&nbsp;
                                 <input type="radio" name="color" value="" style="background-color: rgb(84, 161, 220);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(193, 178, 249);">&nbsp;&nbsp;
+                                <input type="radio" name="color" value="" style="background-color: rgb(193, 178, 249);" checked>&nbsp;&nbsp;
                                 <input type="radio" name="color" value="" style="background-color: rgb(240, 182, 216);">&nbsp;&nbsp;
                             </div>
                             <div align="center">
@@ -406,7 +406,7 @@
                 <div class="modal fade" id="addGroup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog ">
                     <div class="modal-content">
-                        <div class="modal-body" id="modifyModal">
+                        <div class="modal-body" id="addModal">
 
                             <div class="modalTitle">캘린더 그룹 추가</div>
                             <hr>
@@ -427,7 +427,7 @@
                                 <input type="radio" name="color" value="" style="background-color: rgb(240, 182, 216);">&nbsp;&nbsp;
                             </div>
                             <div align="center">
-                                <button type="submit" class="btn btn-success btn-sm" style="width: 70px;">수정</button>&nbsp;&nbsp;
+                                <button type="submit" class="btn btn-success btn-sm" style="width: 70px;">추가</button>&nbsp;&nbsp;
                                 <button type="button" class="btn btn-outline-success btn-sm" style="width: 70px;" data-bs-dismiss="modal">취소</button>
                             </div>
                         </div>
@@ -460,7 +460,7 @@
                     //     const newScheduleBox = scheduleBoxArr.eq(scheduleBoxArr.length - 1);
                     //     newScheduleBox.next().click();
                     // })
-
+                
 
                 })
 

@@ -85,10 +85,16 @@ public class EmployeeController {
 		}	
 	}
 	
-	// 일정
+	// 일정 페이지
 	@RequestMapping("schedule.emp")
 	public String schedule() {
 		return "employee/schedule";
+	}
+	
+	// 일정 등록 화면
+	@RequestMapping("enrollSchedule.emp")
+	public String enrollSchedule() {
+		return "employee/enrollSchedule";
 	}
 	
 	
