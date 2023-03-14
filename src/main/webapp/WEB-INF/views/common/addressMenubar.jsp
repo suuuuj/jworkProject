@@ -18,11 +18,6 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Bootstrap 5버전 -->
-	<!-- Latest compiled and minified CSS -->
-	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">  -->
-	<!-- Latest compiled JavaScript -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> 
 
     <style>
         /*
@@ -38,10 +33,15 @@
         .outer *{
 	 		font-family: 'Nanum Gothic', sans-serif;
 	 	}
-        #scheduleHeader tr{height: 60px;}
+        #addressHeader tr{height: 60px;}
         
         .outer{
             width: 1200px;
+        }
+        .content{
+            width: 960px;
+            /* padding: 20px; */
+            padding: 0px;
         }
         
         .space{
@@ -50,9 +50,8 @@
         .totalOuter{
             width:1200px;
             background-color: #fff;
-   
+
         }
-        .outer{width:1200px;}
 
         .subMenubar{
             position: relative;
@@ -71,7 +70,6 @@
             border-left: 2px solid;
             border-right: 2px solid;
         }
-
         .content{
             width:960px;
             height:1000px;
@@ -101,10 +99,10 @@
             width: 60px;
             height: 1000px;
             background-color: rgba(46, 170, 46, 0.219);
-        
+  
         }
-        .scheduleMenu{
-            width: 160px;
+        .addressMenu{
+            /* width: 180px; */
             height: 1000px;
         }
         .subMenubar>div{
@@ -147,40 +145,55 @@
         .enrollBtn{
             margin: 15px;
         }
-        .scheduleBox{margin: 10px;}
-        .mainScheduleBox .btn-block{
+        .addressBox{margin: 10px;}
+        .mainAddressBox .btn-block{
             text-align: left;
         }
-        .myScheduleBox{margin:10px}
-        .addScheduleBox{
+        .myAddressBox{margin:10px}
+        .addAddressBox{
             color: gray;
             font-size: 14px;
             padding: 10px;
         }
-        .editScheduleBox {
+        .editAddressBox {
             float: right;
         }
-        .editScheduleBox button {
+        .editAddressBox button {
             border: 0px;   
         }
-        .oneScheduleBox{
+        .oneAddressBox{
             margin-top: 10px; 
             font-size: 14px;
         }
-        .scheduleBoxName{
+        .addressGroupName{
             width: 120px;
             border: none;
             background-color: rgba(246, 246, 246, 0);
-            padding-left: 5px;
+            padding-left: 40px;
         }
-        .scheduleBoxName:focus{
+        .addressGroupName:focus{
             outline: 1px solid green;
             border-radius: 5px;
             background-color: rgba(246, 246, 246, 0.712);
         }
 
+        /*조직도*/
+        .deptGroup {
+            padding-left: 40px;
+            list-style: none;
+        }
+        .deptGroup div:hover {
+            cursor:pointer;
+        }
+        .deptGroup ul{
+            list-style: none;
+            padding-left: 40px;
+            display: none;
+        }
+
+
         /*체크박스 색상*/
-        .oneScheduleBox input[type="checkbox"] {
+        .oneAddressBox input[type="checkbox"] {
             width: 0.8rem;
             height: 0.8rem;
             border-radius: 50%;
@@ -190,7 +203,7 @@
             transition: background 0.2s;
         }
 
-        .oneScheduleBox input[type="checkbox"]:checked {
+        .oneAddressBox input[type="checkbox"]:checked {
             background: rgb(193, 178, 249);
             border: none;
         }
@@ -252,22 +265,49 @@
                     </div>
                 </div>
                 
-                <div class="scheduleMenu">
+                <div class="addressMenu">
                     <div class="subTitle">
-                        일정관리
+                        주소록
                     </div>
                     <div class="enrollBtn">
-                        <button id="enrollSchedule" class="btn btn-success btn-block" onclick="location.href='enrollSchedule.emp'">일정 등록</button>
+                        <button id="enrollAddress" class="btn btn-outline-success btn-block" onclick="location.href='enrollAddress.emp'">연락처 추가</button>
                     </div>
+
                     <div class="subTitle">
-                        내 캘린더
+                        조직도
                     </div>
-                    <div class="myScheduleBox">
+                    <div>
+                        <!--반복문-->
+                        <ul>
+                            <li class="deptGroup"><div class="deptTitle">인사부</div>
+                                <ul>
+                                    <li class="teamGroup">
+                                        <div>인사1팀</div>
+                                        <input type="hidden" name="teamTitle" value="">
+                                    </li>
+                                    <li class="teamGroup"><div>인사2팀</div></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="deptGroup"><div class="deptTitle">총무부</div>
+                                <ul>
+                                    <li class="teamGroup"><div>총무1팀</div></li>
+                                    <li class="teamGroup"><div>총무2팀</div></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <div class="subTitle">
+                        개인 주소록
+                    </div>
+                    <div class="addressBox">
                         <!--내 일정은 수정삭제 못하게 할 예정-->
-                        <div class="oneScheduleBox">
-                            <input type="checkbox" checked>
-                            <input type="text" class="scheduleBoxName" value="내 일정" readonly> 
-                            <span class="editScheduleBox dropdown dropend">
+                        <div class="oneAddressBox">
+                            <input type="text" class="addressGroupName" value="내 일정" readonly> 
+                            <span class="editAddressBox dropdown dropend">
                                 <button class="" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src="resources/images/mail/edit.png" width="20px">
                                 </button>
@@ -277,13 +317,15 @@
                                 </ul>
                             </span>
                         </div>
-                        <!-- <div class="oneScheduleBox">
-                            <input type="text" class="scheduleBoxName" value="테스트" readonly> <span class="editScheduleBox"><img class="menuIcon" src="resources/images/mail/edit.png" /></span>
+                        <!-- <div class="oneAddressBox">
+                            <input type="text" class="addressGroupName" value="테스트" readonly> <span class="editAddressBox"><img class="menuIcon" src="resources/images/mail/edit.png" /></span>
                         </div> -->
-                        <div class="addScheduleBox btn btn-sm" data-bs-toggle="modal" data-bs-target="#addGroup">+ 내 캘린더 추가</div>
+                        <div class="addAddressBox btn btn-sm" data-bs-toggle="modal" data-bs-target="#addGroup">+ 내 캘린더 추가</div>
                     </div>
-                    
+ 
                 </div>
+                
+                
 
                 <!-- 그룹수정 모달 -->
                 <div class="modal fade" id="modifyGroup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -354,32 +396,50 @@
 
 
             </div>
+            
             <script>
                 $(function(){
                     // 내 캘린더 수정 버튼 클릭 시
-                    // $(document).on("click", ".editScheduleBox", function(){
+                    // $(document).on("click", ".editAddressBox", function(){
                     //     $(this).prev().attr("readonly", false);
                     //     $(this).prev().select();
                     // })
 
                     // 내 캘린더 input box 에서 포커스 아웃될 때
-                    // $(document).on("focusout", ".scheduleBoxName", function(){
+                    // $(document).on("focusout", ".addressGroupName", function(){
                     //     $(this).attr("readonly", true);
                     //     $(this).attr("border", "none");
                     // })
 
                     // 내 캘린더 추가하기 클릭 시
-                    // $(".addScheduleBox").on("click", function(){
-                    //     const scheduleBoxInput = "<div class='oneScheduleBox'><input type='text' class='scheduleBoxName' value='새 메일함' readonly><span class='editScheduleBox'><img class='menuIcon' src='resources/images/mail/edit.png'/></span>";
-                    //     $(".myScheduleBox").append(scheduleBoxInput);
-                    //     const scheduleBoxArr = $(".scheduleBoxName");
-                    //     const newScheduleBox = scheduleBoxArr.eq(scheduleBoxArr.length - 1);
-                    //     newScheduleBox.next().click();
+                    // $(".addAddressBox").on("click", function(){
+                    //     const AddressBoxInput = "<div class='oneAddressBox'><input type='text' class='addressGroupName' value='새 메일함' readonly><span class='editScheduleBox'><img class='menuIcon' src='resources/images/mail/edit.png'/></span>";
+                    //     $(".myAddressBox").append(addressBoxInput);
+                    //     const addressBoxArr = $(".addressGroupName");
+                    //     const newAddressBox = addressBoxArr.eq(addressBoxArr.length - 1);
+                    //     newAddressBox.next().click();
                     // })
                 
 
                 })
 
+
+                // <ul>
+                //     <li class="deptGroup">
+                //         <div>인사부</div>
+                //         <ul>
+                //             <li class="teamGroup"><div>인사1팀</div></li>
+                //             <li class="teamGroup"><div>인사2팀</div></li>
+                //         </ul>
+                //     </li>
+                // </ul>
+
+
+                $(function(){
+                    $(".deptTitle").click(function(){
+                        $(this).next().slideToggle();
+                    })  
+                })
                 
 
             </script>

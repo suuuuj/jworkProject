@@ -2,6 +2,8 @@ package com.mj.jwork.employee.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.employee.model.service.EmployeeService;
+import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
+import com.mj.jwork.employee.model.vo.Team;
 
 @Controller
 public class EmployeeController {
@@ -85,10 +89,16 @@ public class EmployeeController {
 		}	
 	}
 	
-	// 일정
+	// 일정 페이지
 	@RequestMapping("schedule.emp")
 	public String schedule() {
 		return "employee/schedule";
+	}
+	
+	// 일정 등록 화면
+	@RequestMapping("enrollSchedule.emp")
+	public String enrollSchedule() {
+		return "employee/enrollSchedule";
 	}
 	
 	
@@ -96,9 +106,25 @@ public class EmployeeController {
 	@ResponseBody
 	@RequestMapping(value="empList.app", produces="application/json; charset=utf-8")
 	public String ajaxSelectEmpList() {
-		ArrayList<Employee> emp = eService.ajaxSelectEmpList();
 		
-		return new Gson().toJson(emp);
+		ArrayList<Employee> empList = eService.ajaxSelectEmpList();
+		
+		ArrayList<Department> deptList = eService.ajaxSelectDeptList();
+		
+		ArrayList<Team> teamList = eService.ajaxSelectTeamList();
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("empList",empList);
+		data.put("deptList",deptList);
+		data.put("teamList",teamList);
+		
+		return new Gson().toJson(data);
+	}
+	
+	// 주소록 페이지
+	@RequestMapping("address.emp")
+	public String address() {
+		return "employee/address";
 	}
 	
 }

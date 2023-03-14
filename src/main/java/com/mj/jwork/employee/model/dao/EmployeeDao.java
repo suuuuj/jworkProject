@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
+import com.mj.jwork.employee.model.vo.Team;
 
 @Repository
 public class EmployeeDao {
@@ -29,5 +31,14 @@ public class EmployeeDao {
 	public ArrayList<Employee> ajaxSelectEmpList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxSelectEmpList");
 	}
+	public ArrayList<Department> ajaxSelectDeptList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxSelectDeptList");
+	}
+	public ArrayList<Team> ajaxSelectTeamList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxSelectTeamList");
+	}
+
+	
+
 
 }

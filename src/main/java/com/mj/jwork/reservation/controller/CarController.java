@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -90,7 +91,28 @@ public class CarController {
 	}
 	
 	@RequestMapping("reservForm.car")
-	public String reservForm() {
-		return "reservation/carReservationForm";
+	public ModelAndView reservForm(String carName,ModelAndView mv) {
+		
+		Car car = cService.selectCar(carName);
+		
+		 mv.addObject("c",car).setViewName("reservation/carReservationForm");
+		 return mv;
+	}
+	
+	
+	@RequestMapping("status.car")
+	public ModelAndView catStatus(@RequestParam(value="cpage",defaultValue="1")int currentPage,ModelAndView mv) {
+		
+		int listCount = cService.selectListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 2);
+		ArrayList<Car>list = cService.selectList(pi);
+		
+		mv.addObject("list",list)
+		.addObject("pi",pi)
+		.setViewName("reservation/carReservationStatus");
+		
+		return mv;
+		
+		
 	}
 }

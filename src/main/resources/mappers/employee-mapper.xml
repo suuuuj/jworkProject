@@ -23,6 +23,19 @@
 		<result column="account_status" property="accountStatus"></result>
 	</resultMap>
 	
+	<resultMap id="deptResult" type="Department">
+		<id column="dept_code" property="deptCode" />
+		<result column="dept_name" property="deptName"></result>
+		<result column="status" property="status"></result>
+	</resultMap>
+	
+	<resultMap id="teamResult" type="Team">
+		<id column="team_code" property="teamCode" />
+		<result column="team_name" property="teamName"></result>
+		<result column="status" property="status"></result>
+		<result column="dept_code" property="deptCode"></result>
+	</resultMap>
+	
 	<!-- 로그인 -->
 	<select id="loginEmployee" resultMap="employeeResult">
 		select
@@ -75,20 +88,38 @@
 		 where emp_no = #{empNo}
 	</update>
 	
+	<!-- 결재선 선택시 사원조회리스트(ajax)  -->
 	<select id="ajaxSelectEmpList" resultMap="employeeResult"> 
 		select
-			  emp_no
-			, emp_name
-			, dept_code
-			, dept_name
-			, team_name
-			, job_name
-			from employee
-			join department using (dept_code)
-			join team using (team_code)
-			join job using (job_code)
-			order
-			   by team_code, job_code
+		      emp_no
+		    , emp_name
+		    , dept_name
+		    , team_name
+		    , job_name
+	     from employee e
+	     join department d on (e.dept_code=d.dept_code)
+	     join team t on (e.team_code=t.team_code)
+	     join job j on (e.job_code=j.job_code)
+	    where e.status='Y' 
+	    order
+	       by t.team_code, j.job_code
+	</select>
+	
+	<select id="ajaxSelectDeptList" resultMap="deptResult">
+		select
+			 dept_code
+		   , dept_name
+		from department
+	   where status= 'Y'
+	</select>
+	
+	<select id="ajaxSelectTeamList" resultMap="teamResult">
+		select
+			 team_code
+		   , team_name
+		   , dept_code
+		from team
+	   where status= 'Y'
 	</select>
 
 

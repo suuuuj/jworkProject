@@ -2,7 +2,9 @@ package com.mj.jwork.employee.model.service;
 
 import java.util.ArrayList;
 
+import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
+import com.mj.jwork.employee.model.vo.Team;
 
 public interface EmployeeService {
 	
@@ -17,5 +19,9 @@ public interface EmployeeService {
 
 	//결재선 선택시 사원조회리스트(ajax)
 	ArrayList<Employee> ajaxSelectEmpList();
+	ArrayList<Department> ajaxSelectDeptList();
+	ArrayList<Team> ajaxSelectTeamList();
+
+	
 
 }

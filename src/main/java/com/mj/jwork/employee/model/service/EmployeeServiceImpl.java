@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mj.jwork.employee.model.dao.EmployeeDao;
+import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
+import com.mj.jwork.employee.model.vo.Team;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
@@ -44,5 +46,17 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public ArrayList<Employee> ajaxSelectEmpList() {
 		return eDao.ajaxSelectEmpList(sqlSession);
 	}
+
+	@Override
+	public ArrayList<Department> ajaxSelectDeptList() {
+		return eDao.ajaxSelectDeptList(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Team> ajaxSelectTeamList() {
+		return eDao.ajaxSelectTeamList(sqlSession);
+	}
+
+
 
 }
