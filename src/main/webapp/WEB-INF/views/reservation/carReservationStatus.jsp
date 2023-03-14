@@ -17,6 +17,10 @@
     .outer{
         width: 960px;
     }
+    
+    #carDetailView tr td{
+    	 height: 30px;
+    }
  
 
 </style>
@@ -111,7 +115,7 @@
                            	   </td>
                            	    <c:forEach var="c" items="${list}">
 	                               <td>
-	                                 <img src="${c.carImg}" width="280px" height="140px">
+	                                 <img src="${c.carImg}" width="280px" height="140px"  onclick="detailView('${c.carName}');" data-toggle="modal" data-target="#carDetailView">
 	                               </td>
 	                           	</c:forEach>       
                               
@@ -225,12 +229,41 @@
     </div>
 
     <!-- 상세보기 -->
-    <script>
-         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-         Open modal
-         </button>
+     <script>
+            	function detailView(carName){
+            		
+            		$.ajax({
+            			url:"detail.car",
+            			data:{carName:carName},
+            			success:function(c){
+            				$("#carName").text(c.carName);
+            				$("#reserveCarName").attr("value",c.carName);
+            				$("#carImg").attr("src",c.carImg);
+            				$("#carType").text(c.carType);
+            				$("#gearType").text(c.gearType);
+            				$("#color").text(c.color);
+            				$("#maker").text(c.maker);
+            				$("#fuelType").text(c.fuelType);
+            				$("#modelYear").text(c.modelYear);
+            				
+            				if(c.status == 'Y'){
+            					$("#status").text("정상").css("color","blue");
+            				}else{
+            					$("#status").text("고장").css("color","red");
+            					$("#reserveBtn").attr("disabled",true);
+            				}
+            				$("span[id=etc]").text(c.etc);
 
-    </script>
+
+            			},error:function(){
+            				
+            				console.log("ajax통신 실패");
+            			}
+            			
+            		});
+            	}
+            
+            </script>
 
     <!-- 차량 상세 조회 -->
     <div class="modal" id="carDetailView">
@@ -245,55 +278,92 @@
     
             <!-- Modal body -->
             <div class="modal-body">
-                <table>
-                    <tr>
-                        <th>차량명</th>
-                        <td></td>
+                <table id="carDetailView">
+                    <tr >
+                        <th >차량명</th>
+                        <td>
+                            <div class="col-10">
+                            	<span id="carName"></span>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <th>차량 대표 이미지 </th>
-                        <td><img src="" alt=""></td>
+                        <th>차량 대표 이미지</th>
+                        <td>
+                        	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/imgAdd.png'/>"   width="100px" height="70px" readonly>
+                        </td>
                     </tr>
                     <tr>
-                        <th>차량종류</th>
-                        <td></td>
+                        <th >차량종류</th>
+                        <td>
+                          <div class="col-10">
+                         	 <span id="carType"></span>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <th>기어형식</th>
-                        <td></td>
+                        <th >기어형식</th>
+                        <td>
+                           <div class="col-10">
+                           	<span id="gearType"></span>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <th>차량색상</th>
-                        <td></td>
+                        <th >차량색상</th>
+                        <td>
+                           <div class="col-10">
+                           	<span id="color"></span>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <th>제조사</th>
-                        <td></td>
+                        <th >제조사</th>
+                        <td>
+                           <div class="col-10">
+                           	<span id="maker"></span>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <th>연료형식</th>
-                        <td></td>
+                        <th >연료형식</th>
+                        <td>
+                           <div class="col-10">
+                           	<span id="fuelType"></span>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <th>차량연식</th>
-                        <td></td>
+                        <th >차량연식</th>
+                        <td>
+                          <div class="col-10">
+                          	<span id="modelYear"></span>
+                            </div>
+                        </td>                   
                     </tr>
                     <tr>
-                        <th>비고</th>
-                        <td></td>
+                        <th>설비상태</th>
+                        <td>
+                        	<span id="status"></span>
+                            
+                        </td>
                     </tr>
                     <tr>
-                        <th>현재상태</th>
-                        <td></td>
+                        <th >비고</th>
+                        <td>
+                        	<span id="etc"></span>
+                        </td>
                     </tr>
-           
 
                 </table>
             </div>
     
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-primary" onclick="">예약하기</button>
+            	<form action="reservForm.car" method="post">
+            		<input type="hidden"  name="carName" id="reserveCarName" >
+            		<button type="submit" class="btn btn-sm btn-primary"  type="submit" id="reserveBtn">예약하기</button>
+            	</form>
                 <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">닫기</button>
             </div>
     

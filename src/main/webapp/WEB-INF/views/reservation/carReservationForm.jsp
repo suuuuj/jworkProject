@@ -26,7 +26,7 @@
 
 <body>
      <jsp:include page="../common/menubar.jsp"/>
-    <div class="outer">
+    <div class="outer" style="width:900px;">
         <h2>차량 예약</h2>
         <hr>
         <div style="width:900px;">
@@ -35,98 +35,112 @@
             <table id="car-information" style="width:900px;">
                 <tr>
                     <th>차량명</th>
-                    <td>소나타 0131허12</td>
+                    <td>${c.carName }</td>
                     <th>제조사</th>
-                    <td>현대</td>
+                    <td>${c.maker }</td>
                 </tr>
                 <tr>
                     <th>차량 대표 이미지</th>&nbsp;
                     <td>
-                        <img src="//bit.ly/2GrygUe" width="200px" height="140px"> 
+                        <img src="${c.carImg }" width="200px" height="140px"> 
                     </td>
                     <th>연료형식</th>
-                    <td>LPG</td>
+                    <td>${c.fuelType}</td>
                 </tr>
                 <tr>
                     <th>차량종류</th>
-                    <td>세단</td>
+                    <td>${c.carType }</td>
                     <th>차량연식</th>
-                    <td>2011</td>
+                    <td>${c.modelYear }</td>
                 </tr>
                 <tr>
                     <th>기어형식</th>
-                    <td>자동</td>
+                    <td>${c.gearType }</td>
                     <th>비고</th>
-                    <td>!~~!</td>
+                    <td>${c.etc }</td>
                 </tr>
                 <tr>
                     <th>차량색상</th>
-                    <td>힁색</td>
+                    <td>${c.color }</td>
                     <th>현재상태</th>
-                    <td></td>
+                    <td >
+                  		<span id="status"></span>
+                    </td>
                 </tr>
 
             </table>
+            <script>
+	        	 $(function(){
+	        		if('${c.status}' == 'Y'){
+						$("#status").text("정상").css("color","blue");
+					}else{
+						$("#status").text("고장").css("color","red");
+					}
+	        	}); 
+            </script>
             <hr>
             <h4>대여사원 정보</h4>
             <hr>
-            <div style="float: left;">
-                <img src="${loginUser.profileUrl}" width="200px" height="140px"> 
+            <div style="float: left;line-height:10;">
+                <img src="<c:out value='${loginUser.profileUrl}' default='resources/profile_images/profile.png'/>" width="100px" height="100px" style="border-radius: 50%;"> 
             </div>
-            <form action="reserv.car" method="post">
-                <table id="carReservForm" style="width:900px;">
-                  
-                    <tr>
-                        <th>사원명</th>
-                        <td>
-                        ${loginUser.empName}
-                        <input type="hidden" value="${loginUser.empNo}" name="reservation">
-                        </td>
-                        
-                        <th>신청날짜</th>
-                        <td>
-                          <div class="col-8">
-                        	<input type="date" class="form-control" name="resDate">
-                    	  </div>
-                    	 </td>
-                    </tr>
-                    <tr>
-                        <th>사번</th>
-                        <td>${loginUser.empNo }</td>
-                        <th>신청시간</th>
-                        <td>
-                         <div class="col-6">
-                        <input type="time" class="form-control"name="startTime">-<input type="time" class="form-control" name="endTime" >
-                        </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>부서</th>
-                        <td>${loginUser.deptName }</td>
-                        <th>신청사유</th>
-                        <td>
-                        	<input type="text" class="form-control" name="cause">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>직급</th>
-                        <td>${loginUser.jobName}</td>
-                    </tr>
-                </table>
             
+            <form action="reserv.car" method="post">
+            	<div style="float: left; ">    
+	                <table id="carReservForm" style="width: 790px;">
+	                  	
+	                    <tr>
+	                    	
+	                        <th>사원명</th>
+	                        <td>
+	                        ${loginUser.empName}
+	                        <input type="hidden" value="${loginUser.empNo}" name="reservation">
+	                        </td>
+	                        
+	                        <th>신청날짜</th>
+	                        <td>
+	                          <div class="col-8">
+	                        	<input type="date" class="form-control" name="resDate">
+	                    	  </div>
+	                    	 </td>
+	                    </tr>
+	                    <tr>
+	                        <th>사번</th>
+	                        <td>${loginUser.empNo }</td>
+	                        <th>신청시간</th>
+	                        <td>
+	                         <div class="col-6">
+	                        <input type="time" class="form-control"name="startTime">-<input type="time" class="form-control" name="endTime" >
+	                        </div>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <th>부서</th>
+	                        <td>${loginUser.deptName }</td>
+	                        <th>신청사유</th>
+	                        <td>
+	                        	<textarea name="cause" class="form-control col-sm-7" rows="3" style="resize:none;">
+	
+	                            </textarea>       
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <th>직급</th>
+	                        <td>${loginUser.jobName}</td>
+	                    </tr>
+	                </table>
+                </div>
+                <br clear="both">
+            	<div class="btn-area" align="center">
+	                <button type="submit" class="btn btn-sm btn-primary">제출하기</button>
+	                <button type="button" class="btn btn-sm btn-light">이전으로</button>
+           		 </div>
             </form>
+         
+            
             <br><br>
-            <div class="btn-area" align="center">
-                <button type="submit" class="btn btn-sm btn-primary">제출하기</button>
-                <button type="button" class="btn btn-sm btn-light">이전으로</button>
-            </div>
-
-
         </div>
         <br>
-        
-
-
     </div>
 </body>
 </html>

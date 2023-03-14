@@ -24,7 +24,7 @@
     }
     .detail-img{display: inline-block;}
     .outer{
-        width: 960px;
+        width: 940px;
         margin:20px;
     }
      .subImg{
