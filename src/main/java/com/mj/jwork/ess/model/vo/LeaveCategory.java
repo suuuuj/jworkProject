@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class LeaveCategory {
 	
-	private int lCategoryNo; // 휴가구분번호
-	private String lCategoryName; // 휴가구분번호 0:연차 1:조의(3) 2:산전후(90) 3:결혼(1) 4:결혼(3) 5:리프레쉬휴가 6:조의 7:산전후(120) 8:공가
+	private int lcNo; // 휴가구분번호
+	private String lcName; // 휴가구분번호 0:연차 1:조의(3) 2:산전후(90) 3:결혼(1) 4:결혼(3) 5:리프레쉬휴가 6:조의 7:산전후(120) 8:공가
 
 }

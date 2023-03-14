@@ -15,7 +15,10 @@ public class Leave {
 	
 	private int leaveNo; // 휴가번호
 	private int empNo; // 사워번호
-	private int leaveCategoryName; // 휴가구분번호 0:연차 1:조의(3) 2:산전후(90) 3:결혼(1) 4:결혼(3) 5:리프레쉬휴가 6:조의 7:산전후(120) 8:공가
+	private String empName; // 사원이름
+	private String deptName; // 부서이름
+	private int leaveCategory; // 휴가구분번호 0:연차 1:조의(3) 2:산전후(90) 3:결혼(1) 4:결혼(3) 5:리프레쉬휴가 6:조의 7:산전후(120) 8:공가
+	private String lcName; // 휴가이름
 	private String leaveStart; // 휴가시작일
 	private String leaveEnd; // 휴가종료일
 	private String leaveContent; // 휴가내용
