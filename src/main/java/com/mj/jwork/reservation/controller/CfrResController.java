@@ -40,6 +40,7 @@ public class CfrResController {
 	//예약화면 조회용
 	@RequestMapping("list.cfrRes")
 	public String listcfrRes() {
+		
 		return "reservation/cfrReservationStatus";
 	}
 	

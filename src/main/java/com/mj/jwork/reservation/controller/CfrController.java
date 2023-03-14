@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.common.template.Pagination;
@@ -111,7 +112,22 @@ public class CfrController {
 		}
 		*/
 	
-
+	@ResponseBody
+	@RequestMapping(value="alist.cfr",produces="application/json; charset=utf-8" )
+	public String ajaxSelectCfrList() {
+		ArrayList<CfRoom>list = cService.ajaxSelectCfrList();
+		 return new Gson().toJson(list);
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="adetail.cfr",produces="application/json; charset=utf-8" )
+	public String ajaxCfrDetail(String cfrName) {
+		
+		CfRoom cfr = cService.selectCfr(cfrName);
+		return new Gson().toJson(cfr);
+	}
+	
 	}
 
 

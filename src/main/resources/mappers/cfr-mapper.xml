@@ -103,4 +103,21 @@
         order by USE_DATE
 	
 	</select>
+	<select id="ajaxSelectCfrList" resultMap="cfrResult">
+		select
+			cfr_name
+	 		,cfr_img
+	 		,CAPACITY
+	 		,equipment
+		from cf_room
+	</select>
+	<select id="selectCfr" resultMap="cfrResult">
+		select 
+			cfr_name
+			,cfr_img
+	 		,CAPACITY
+	 		,equipment
+	 	from cf_room
+	 	where cfr_name =#{cfrName}
+	</select>
 </mapper>

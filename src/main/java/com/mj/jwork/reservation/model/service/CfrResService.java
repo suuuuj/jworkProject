@@ -18,4 +18,5 @@ public interface CfrResService {
 	int selectMyCfrListCount(CfrReservation cfrRes);
 	ArrayList<CfrReservation> selectMyCfrList(PageInfo pi,CfrReservation cfrRes);
 
+	
 }

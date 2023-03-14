@@ -49,6 +49,16 @@ public class CfrServiceImpl implements CfrService{
 		return cDao.deleteCfr(sqlSession, cfr);
 	}
 
+	@Override
+	public ArrayList<CfRoom> ajaxSelectCfrList() {
+		return cDao.ajaxSelectCfrList(sqlSession);
+	}
+
+	@Override
+	public CfRoom selectCfr(String cfrName) {
+		return cDao.selectCfr(sqlSession,cfrName);
+	}
+
 	
 
 	

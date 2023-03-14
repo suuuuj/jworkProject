@@ -274,6 +274,8 @@
                                 <a id="" href="enrollForm.bt">출장신청</a><br>
                                 <a id="" href="enrollForm.ot">시간외 근무신청</a><br>
                                 <a id="" href="list.ob">신청상세</a><br>
+                                <a id="" href="status.car">차량예약신청</a><br>
+                                <a id="" href="list.cfrRes">회의실예약신청</a><br>
                             </div>
                         </div>
                     </div>
