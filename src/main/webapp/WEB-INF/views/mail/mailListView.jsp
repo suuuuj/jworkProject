@@ -8,8 +8,9 @@
 <title>mailListView</title>
 <style>
         
-        .contents{
-            width: 900px;
+        .mailOuter{
+            padding-left: 30px;
+            margin: auto;
         }
         
         .btnArea{padding-left: 10px;}
@@ -80,10 +81,10 @@
     </style>
 </head>
 <body>
-	
+	<jsp:include page="../common/sideMenubar.jsp"/>
 	<jsp:include page="../common/mailMenubar.jsp"/>
-			<br>
-
+        <br>
+        <div class="mailOuter">
             <span class="content-title">&nbsp;&nbsp;&nbsp;${ mailBox }&nbsp;&nbsp;</span> <a class="notRead" href="#">${ unReadCount }</a>&nbsp;/&nbsp;<a class="mailBox" href="#">${ listCount }</a> 
             <div class="line"></div>
             <div class="space"></div>
@@ -409,8 +410,8 @@
                 })
 
             </script>
-           
-		</div>
+        </div>
+	    </div>
 
     </div>  
 
