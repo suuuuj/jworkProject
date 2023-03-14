@@ -93,6 +93,10 @@
         line-height:5px;
         color:white;
     }
+    #pagingArea{
+    	width:fit-content;
+    	margin:auto;
+    }
 </style>
 </head>
 <body>
@@ -125,90 +129,84 @@
                 <input type="text" name="" value="3" style="font-size:15px; color:rgb(0,172,0);font-weight: 600;border:none; text-align: left;">
                 <br><br>
                 <table class="businessTable">
-                    <tr style="font-weight: 600; height:30px; background-color: rgba(0, 172, 0, 0.219);">
-                        <td width="120px">이름</td>
-                        <td width="120px;">부서명</td>
-                        <td width="120px;">신청종류</td>
-                        <td width="300px;">일자</td>
-                        <td width="180px;">결재현황</td>
-                        <td width="70"></td>
-                    </tr>
-                    <tr>
-                        <td>김정만</td>
-                        <td>인사1팀</td>
-                        <td>출장</td>
-                        <td>
-                            <input type="text" name="" value="2023.03.04">
-                            <span style="font-size: 15px;font-weight: 600;">~</span>
-                            <input type="text" name="" value="2023.03.05">
-                        </td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>김정만</td>
-                        <td>인사1팀</td>
-                        <td>출장</td>
-                        <td>
-                            <input type="text" name="" value="2023.03.04">
-                            <span style="font-size: 15px;font-weight: 600;">~</span>
-                            <input type="text" name="" value="2023.03.05">
-                        </td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>김정만</td>
-                        <td>인사1팀</td>
-                        <td>출장</td>
-                        <td>
-                            <input type="text" name="" value="2023.03.04">
-                            <span style="font-size: 15px;font-weight: 600;">~</span>
-                            <input type="text" name="" value="2023.03.05">
-                        </td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>김정만</td>
-                        <td>인사1팀</td>
-                        <td>출장</td>
-                        <td>
-                            <input type="text" name="" value="2023.03.04">
-                            <span style="font-size: 15px;font-weight: 600;">~</span>
-                            <input type="text" name="" value="2023.03.05">
-                        </td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>김정만</td>
-                        <td>인사1팀</td>
-                        <td>출장</td>
-                        <td>
-                            <input type="text" name="" value="2023.03.04">
-                            <span style="font-size: 15px;font-weight: 600;">~</span>
-                            <input type="text" name="" value="2023.03.05">
-                        </td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
+                	<thead>
+	                    <tr style="font-weight: 600; height:30px; background-color: rgba(0, 172, 0, 0.219);">
+	                        <td width="120px">이름</td>
+	                        <td width="120px;">부서명</td>
+	                        <td width="120px;">신청종류</td>
+	                        <td width="300px;">일자</td>
+	                        <td width="180px;">결재현황</td>
+	                        <td width="70"></td>
+	                    </tr>
+                    </thead>
+                    <tbody>
+                    	<c:forEach var="b" items="${ bList }">
+		                    <tr>
+		                        <td>김정만</td>
+		                        <td>인사1팀</td>
+		                        <td>출장</td>
+		                        <td>
+		                            <input type="text" name="" value="2023.03.04">
+		                            <span style="font-size: 15px;font-weight: 600;">~</span>
+		                            <input type="text" name="" value="2023.03.05">
+		                        </td>
+		                        <td>결재대기(1차)</td>
+		                        <td><button class="btn btn-warning">취소</button></td>
+		                    </tr>
+	                    </c:forEach>
+                    </tbody>
                 </table>
 
                 <br><br>
 
-                <div class="paging-area" style="text-align:center;">
-                    <button><</button>
-                    <button>1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <button>4</button>
-                    <button>5</button>
-                    <button>></button>
-                </div>
-
+                <div id="pagingArea">
+	                <ul class="pagination">
+	                
+	                	<c:choose>
+	                		<c:when test="${ bPi.currentPage eq 1 }">
+	                    		<li class="page-item" disabled><a class="page-link" href="#"><</a></li>
+	                    	</c:when>
+	                    	<c:otherwise>
+	                    		<li class="page-item"><a class="page-link" href="list.bt?bpage=${ bPi.currentPage-1 }"><</a></li>
+	                    	</c:otherwise>
+	                    </c:choose>
+	                    
+	                    <c:forEach var="p" begin="${ bPi.startPage }" end="${ bPi.endPage }">
+		                    <li class="page-item"><a class="page-link" href="list.bt?bpage=${ p }">${ p }</a></li>
+	                    </c:forEach>
+	                    
+	                    <c:choose>
+		                    <c:when test="${ bPi.currentPage eq bPi.maxPage }">
+		                    	<li class="page-item" disabled><a class="page-link" href="#">></a></li>
+		                    </c:when>
+		                    <c:otherwise>
+		                    	<li class="page-item"><a class="page-link" href="list.bt?bpage=${ bPi.currentPage+1 }">></a></li>
+		                    </c:otherwise>
+	                    </c:choose>
+	                </ul>
+            	</div>
 
             </div>
+            
+            <script>
+	            $(function(){
+	            	$.ajax({
+	            		url:"list.bt",
+	            		type:"POST",
+	            		dataType:"json",
+	            		date:{
+	            			empNo : ${e.empNo},
+	            			bpage : 1
+	            		},
+	            		success:function(result){
+	            			
+	            		},
+	            		error:function(){
+	            			console.log("출장신청 ajax통신 실패");
+	            		}
+	            	})
+	            })
+            </script>
 
             <br><br>
 
@@ -217,54 +215,28 @@
                 <input type="text" name="" value="3" style="font-size:15px; color:rgb(0,172,0);font-weight: 600;border:none; text-align: left;">
                 <br><br>
                 <table class="overTable">
-                    <tr style="font-weight: 600; height:30px; background-color: rgba(0, 172, 0, 0.219);">
-                        <td width="120px">이름</td>
-                        <td width="120px;">부서명</td>
-                        <td width="120px;">신청종류</td>
-                        <td width="300px;">일자</td>
-                        <td width="180px;">결재현황</td>
-                        <td width="70"></td>
-                    </tr>
-                    <tr>
-                        <td>김정만</td>
-                        <td>인사1팀</td>
-                        <td>시간외근무</td>
-                        <td><input type="text" name="" value="2023.03.05"></td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>김정만</td>
-                        <td>인사1팀</td>
-                        <td>시간외근무</td>
-                        <td><input type="text" name="" value="2023.03.05"></td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>김정만</td>
-                        <td>인사1팀</td>
-                        <td>시간외근무</td>
-                        <td><input type="text" name="" value="2023.03.05"></td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>김정만</td>
-                        <td>인사1팀</td>
-                        <td>시간외근무</td>
-                        <td><input type="text" name="" value="2023.03.05"></td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>김정만</td>
-                        <td>인사1팀</td>
-                        <td>시간외근무</td>
-                        <td><input type="text" name="" value="2023.03.05"></td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
+                	<thead>
+	                    <tr style="font-weight: 600; height:30px; background-color: rgba(0, 172, 0, 0.219);">
+	                        <td width="120px">이름</td>
+	                        <td width="120px;">부서명</td>
+	                        <td width="120px;">신청종류</td>
+	                        <td width="300px;">일자</td>
+	                        <td width="180px;">결재현황</td>
+	                        <td width="70"></td>
+	                    </tr>
+                    </thead>
+                    <tbody>
+                    	<c:forEach var="o" items="${ oList }">
+		                    <tr>
+		                        <td>김정만</td>
+		                        <td>인사1팀</td>
+		                        <td>시간외근무</td>
+		                        <td><input type="text" name="" value="2023.03.05"></td>
+		                        <td>결재대기(1차)</td>
+		                        <td><button class="btn btn-warning">취소</button></td>
+		                    </tr>
+	                    </c:forEach>
+                    </tbody>
                 </table>
 
                 <script>
@@ -287,19 +259,56 @@
 
                 <br><br>
 
-                <div class="paging-area" style="text-align:center;">
-                    <button><</button>
-                    <button>1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <button>4</button>
-                    <button>5</button>
-                    <button>></button>
-                </div>
+                <div id="pagingArea">
+	                <ul class="pagination">
+	                
+	                	<c:choose>
+	                		<c:when test="${ oPi.currentPage eq 1 }">
+	                    		<li class="page-item" disabled><a class="page-link" href="#"><</a></li>
+	                    	</c:when>
+	                    	<c:otherwise>
+	                    		<li class="page-item"><a class="page-link" href="list.ot?opage=${ oPi.currentPage-1 }"><</a></li>
+	                    	</c:otherwise>
+	                    </c:choose>
+	                    
+	                    <c:forEach var="p" begin="${ oPi.startPage }" end="${ oPi.endPage }">
+		                    <li class="page-item"><a class="page-link" href="list.ot?opage=${ p }">${ p }</a></li>
+	                    </c:forEach>
+	                    
+	                    <c:choose>
+		                    <c:when test="${ oPi.currentPage eq oPi.maxPage }">
+		                    	<li class="page-item" disabled><a class="page-link" href="#">></a></li>
+		                    </c:when>
+		                    <c:otherwise>
+		                    	<li class="page-item"><a class="page-link" href="list.ot?opage=${ oPi.currentPage+1 }">></a></li>
+		                    </c:otherwise>
+	                    </c:choose>
+	                </ul>
+            	</div>
 
             </div>
 
         </div>
+        
+        <script>
+	            $(function(){
+	            	$.ajax({
+	            		url:"list.ot",
+	            		type:"POST",
+	            		dataType:"json",
+	            		date:{
+	            			empNo : ${e.empNo},
+	            			opage : 1
+	            		},
+	            		success:function(result){
+	            			
+	            		},
+	            		error:function(){
+	            			console.log("시간외근무신청 ajax통신 실패");
+	            		}
+	            	})
+	            })
+            </script>
 
     </div>
 </body>

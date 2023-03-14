@@ -88,8 +88,9 @@
                 <div style="display: flex;">
                     <img src="resources/images/ess/mark.png" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        &nbsp;신청자&nbsp; <input type="text" name="" value="로그인사원이름"> 
-                        &nbsp;소속&nbsp; <input type="text" name="" value="로그인사원소속"> 
+                        &nbsp;신청자&nbsp; <input type="text" name="" value="${ e.empName }"> 
+                        &nbsp;소속&nbsp; <input type="text" name="" value="${ e.deptName }"> 
+                        <input type="hidden" name="empNo" value="${ e.empNo }">
                     </div>
                     <div style="background:rgb(234, 234, 234); width:520px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
@@ -99,8 +100,8 @@
                 <div style="display: flex;">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
                         <img src="resources/images/ess/clock.png" alt="" style="width:30px; height:30px">
-                        시작일&nbsp; <input type="text" id="datepicker1" name="" value="" style="width:150px; text-align: center; height:20px;"> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="text" id="datepicker2" name="" value="" style="width:150px; text-align: center; height:20px;"> 
+                        시작일&nbsp; <input type="text" id="datepicker1" name="btStart" value="" style="width:150px; text-align: center; height:20px;"> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="text" id="datepicker2" name="btEnd" value="" style="width:150px; text-align: center; height:20px;"> 
                     </div>
                     <div style="background:rgb(234, 234, 234); width:390px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
@@ -109,7 +110,7 @@
                 <div class="textWrap">
                     <div class="textCount">0자</div><div class="textTotal">/200자</div>
                 </div>
-                <textarea name="" id="textBox" cols="30" rows="10" maxlength="199" placeholder="출장신청 내용을 입력해주세요."></textarea>
+                <textarea name="btContent" id="textBox" cols="30" rows="10" maxlength="199" placeholder="출장신청 내용을 입력해주세요."></textarea>
                 <div style="float: right; margin-top:160px;">
                     <button type="button" class="btn btn-secondary">취소</button>
                     <button type="submit" class="btn btn-success" >출장신청하기</button>

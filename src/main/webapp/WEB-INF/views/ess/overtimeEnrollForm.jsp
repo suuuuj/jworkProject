@@ -160,6 +160,7 @@
                         </select>
                         <span style="font-size: 20px;">~</span>
                         <select name="otEnd" value="" id="" style="border:1px solid rgb(170, 170, 170); border-radius: 5px; width:80px; text-align: center; height:23px">
+                            <!-- 30분단위 select돌리기 수정하기 -->
                             <script>
                                 for(var i=0; i<49; i++){
 		                            var hour = "";
@@ -223,9 +224,9 @@
                 <div class="textWrap">
                     <div class="textCount">&nbsp;&nbsp;0자</div><div class="textTotal">/200자</div>
                 </div>
-                <textarea name="" id="textBox" cols="30" rows="10" maxlength="199" placeholder="시간외 근무신청 내용을 입력해주세요."></textarea>
+                <textarea name="otContent" id="textBox" cols="30" rows="10" maxlength="199" placeholder="시간외 근무신청 내용을 입력해주세요."></textarea>
                 <div style="float: right; margin-top:160px;">
-                    <button type="button" class="btn btn-secondary">취소</button>
+                    <button type="reset" class="btn btn-secondary">취소</button>
                     <button type="submit" class="btn btn-success">시간외근무신청</button>
                 </div>
 
