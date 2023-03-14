@@ -19,7 +19,7 @@
     }
     #calendar {
         max-width: 850px;
-        /* margin: 20px; */
+        padding: 30px;
     }
     /*xxx년x월 제목*/
     .fc .fc-toolbar-title {
@@ -116,6 +116,7 @@
 </style>
 </head>
 <body>
+    <jsp:include page="../common/sideMenubar.jsp"/>
 	<jsp:include page="../common/scheduleMenubar.jsp"/>
 	<div class="content">
         <div class="innerOuter">

@@ -16,15 +16,16 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> 
 
 <!--flatpickr-->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/confetti.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script> -->
+
 
 
 <style>
 	.innerOuter{
-        border: 1px solid black;
+        /* border: 1px solid black; */
         margin: 20px;
     }
     .schDetail{
@@ -37,18 +38,70 @@
     #schBtn-area{
         /* border: 1px solid blue; */
         display: inline-block;
-        margin-left: 80%;
-        margin-bottom: -8px;
+        margin-left: 42%;
     }
     #schBtn-area button{
         margin: 3px;
     }
 
-    #fileDiv{
-        border: 1px solid gainsboro;
-        padding: 15px;
-        border-radius: 5px;
+
+    #enroll-area input, #enroll-area select, #enroll-area label, #enroll-area table {
+        font-size: 14px; color: rgb(47, 47, 47);
     }
+
+    #schTitle {
+        margin: 1.5px; 
+        width: 755px;
+    }
+
+    #startDate, #endDate, #startTime, #endTime {
+        width: 130px; height: 35px;
+        margin: 3px;
+        border-radius: 5px; border: 1px solid gainsboro;
+        float: left;
+    }
+    #startDate, #endDate {
+        padding: 10px;
+    }
+    #chkAllDay {
+        display: inline;
+        margin-left: 40px; 
+        line-height: 35px; 
+    }
+    #allDay {
+        margin-top: 10px;
+    }
+
+    #scheduleArea {
+        margin: 7px;
+    }
+    #scheduleArea th {
+        width: 100px;
+        font-weight: 500;
+    }
+    #scheduleArea td {
+        height: 40px;
+        width: 650px;
+    }
+    #group, #attendee, #place {
+        width: 200px; height: 35px;
+        border-radius: 5px; border: 1px solid gainsboro;
+        padding: 5px;
+    }
+    .plus {
+        border: 1px solid gainsboro; border-radius: 5px;
+        background-color: white;
+        width: 35px; height: 35px;
+    }
+    textarea {
+        width: 650px;
+        border: 1px solid gainsboro; border-radius: 5px;
+    }
+
+
+
+
+
 
 
 </style>
@@ -62,16 +115,16 @@
                 <div class="schDetail">
   
                     <div id="schTitle">
-                        <input type="text" id="title" class="form-control" name="noticeTitle" required>
+                        <input type="text" id="schTitle" class="form-control" name="noticeTitle" placeholder="제목" required>
                     </div>
+                    
                     <div>
                         <!--플랫피커-->
-                        <div style="width:150px; float: left;">
-                            <input class="" id="startDate" type="text" placeholder="연도-월-일" value="" onchange="startDateChange()" required>
+                        <div>
+                            <input class="" id="startDate" type="text" placeholder="연도-월-일" value="" required>           
                         </div>
-                       
-                        <div class="form-group" style="width: 150px; float: left;">
-                            <select class="form-control" id="start" onchange="startTimeChange()">
+                        <div class="form-group">
+                            <select class="form-control" id="startTime" name="startTime" onchange="startTimeChange()">
                                 <option value="09:00">오전 09:00</option>
                                 <option value="09:30">오전 09:30</option>
                                 <option value="10:00">오전 10:00</option>
@@ -94,16 +147,16 @@
                                 <option value="18:30">오후 06:30</option>
                                 <option value="19:00">오후 07:00</option>
                             </select>
-                            </div>
+                        </div>
                               
-                        <div style="width:30px; float: left; text-align: center;">~</div>
+                        <div style="width:30px; float: left; text-align: center; line-height: 35px;">~</div>
 
                         <!--플랫피커-->      
-                        <div style="width:150px; float: left;">
-                            <input class="" id="endDate" type="text" placeholder="연도-월-일" value="">
+                        <div>
+                            <input class="" id="endDate" name="endDate" type="text" placeholder="연도-월-일" value="">
                         </div>
-                        <div class="form-group" style="width: 150px; float: left;">
-                            <select class="form-control" id="end">
+                        <div class="form-group">
+                            <select class="form-control" id="endTime" name="endTime">
                                 <option value="09:30">오전 09:30</option>
                                 <option value="10:00">오전 10:00</option>
                                 <option value="10:30">오전 10:30</option>
@@ -128,16 +181,46 @@
                                 <option value="20:00">오후 08:00</option>
                             </select>
                         </div>
-                        <div>
-                            <input type="checkbox" class="form-check-input" value="" name="allDay">종일
+                        <div id="chkAllDay">
+                            <input type="checkbox" id="allDay" class="form-check-input" value="" name="allDay">
+                            <label for="allDay">종일</label>
                         </div>
                         
                     </div>
-                    <br>
-                    <div>내 캘린더</div>
-                    <div>참석자 추가</div>
-                    <div>장소</div>
-                    <hr>
+
+                    <table id="scheduleArea">
+                        <tr>
+                            <th>내 캘린더</th>
+                            <td>
+                                <select name="" id="group">
+                                    <option value="">(기본) 내 일정</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>참석자 추가</th>
+                            <td>
+                                <input type="text" id="attendee" style="width: 500px;">
+                                <button class="plus">+</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>장소</th>
+                            <td>
+                                <input type="text" id="place" style="width: 500px;">
+                                <button class="plus">+</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="height: 4px;"></td>
+                        </tr>
+                        <tr>
+                            <th style="vertical-align: top;">내용</th>
+                            <td>
+                                <textarea name="" id="" rows="20" style="resize:none"></textarea>
+                            </td>
+                        </tr>
+                    </table>
                     
 
 
@@ -156,63 +239,61 @@
         </div>
     </div>
 
+    
 
+    <!-- 데이트 피커 -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
     <script>
-        var startDate = flatpickr(document.getElementById("startDate"), {
-            'monthSelectorType' : 'static',
-            "locale": "ko",
-            // "enableTime": true,
-            // "minuteIncrement": 30,
-            "altInput": true,   //기존 입력을 숨기고 새 입력을 만듦
-            "altFormat": 'Y-m-d', //날짜 선택 후 표시 형태 Y-m-d H:i
-            "dateFormat": 'Y-m-d' // date format 형식
-            // "defaultDate": "00:00"
+    // var today = new Date();
+    // var tomorrow = new Date(Date.parse(today) + (1000 * 60 * 60 * 24));
+    $(function(){
+        //시작일 종료일
+        $('#startDate, #endDate').datepicker({
+            //showMonthAfterYear: true, //연도,달 순서로 지정
+            //changeMonth: true,//달 변경 지정
+            //dateFormat:"yy-mm-dd",//날짜 포맷
+            //dayNamesMin: ["일", "월", "화", "수", "목", "금", "토" ],//요일 이름 지정
+            //monthNamesShort: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],//월 이름 지정
+            minDate:0, //오늘 이전 날짜를 선택할 수 없음
+            onClose:function(selectedDate){
+                $('#endDate').datepicker("option", "minDate", selectedDate);
+                var startDate = $.datepicker.formatDate("yy-mm-dd", $("#startDate").datepicker("getDate"));    
+                var endDate = $.datepicker.formatDate("yy-mm-dd", $("#endDate").datepicker("getDate"));
+                // 종료일 입력안하면 시작일이 종료일...
+                // if(startDate>endDate){
+                //     endDate = startDate;
+                //     // $('input[name=endDate]').attr('value', endDate);
+                //     $('#endDate').val = endDate;
+                // }              
+            },
+            // 시작일 선택 시 종료일 같은 값 자동으로 넘기기
+            onSelect:function(selected, evnt){
+                fnChangeEnd(selected);
+            }       
         });
-
-        var endDate = flatpickr(document.getElementById("endDate"), {
-            'monthSelectorType' : 'static',
-            "locale": "ko",
-            "altInput": true,
-            "altFormat": 'Y-m-d', 
-            "dateFormat": 'Y-m-d'
-        });
-
-        // 시작날짜 종료날짜
-        function startDateChange(){
-            var start = $('#startDate').val();
-            var end  = $('#endDate').val();
-            
-            if($('#startDate').click()){
-                end = start;
-            }
-            if($('#endDate').click()){
-                end = $('#endDate').val();
-            }
-
-            
-                
-            
-            // if(end == null){
-            //     end = start;
-            // }
-
-            console.log("end : " + end);
+        function fnChangeEnd(value) {
+            $("#endDate").val(value);
         }
-
-        // 시작시간 종료시간
-        function startTimeChange(){
-            var start = $('#start').val();
-            var end  = $('#end').val();
-            if(start.substring(3, 5) == '00')
-                // end = start.substring(0, 2) + ':30';
-                end = (parseInt(start.substring(0, 2))+1) + ':00';
-            else
-                end = (parseInt(start.substring(0, 2))+1) + ':30';
-            
-            $('#end').val(end);
-        }
+        
 
         
-    </script>
-   
+    })
+    
+
+    // 시작시간 종료시간
+    function startTimeChange(){
+        var start = $('#startTime').val();
+        var end  = $('#endTime').val();
+        if(start.substring(3, 5) == '00')
+            // end = start.substring(0, 2) + ':30';
+            end = (parseInt(start.substring(0, 2))+1) + ':00';
+        else
+            end = (parseInt(start.substring(0, 2))+1) + ':30';
+        
+        $('#endTime').val(end);
+    }
+
+   </script>
 </html>

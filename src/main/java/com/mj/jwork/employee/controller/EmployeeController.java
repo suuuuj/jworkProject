@@ -121,4 +121,10 @@ public class EmployeeController {
 		return new Gson().toJson(data);
 	}
 	
+	// 주소록 페이지
+	@RequestMapping("address.emp")
+	public String address() {
+		return "employee/address";
+	}
+	
 }
