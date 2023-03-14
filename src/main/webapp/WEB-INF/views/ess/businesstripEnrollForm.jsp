@@ -1,4 +1,4 @@
-<%@ page language="java" contentType=`"text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -12,34 +12,12 @@
 <title>Insert title here</title>
 <style>
     /* outer영역 */
-    .outer{
-        width:960px;
-        height:1000px;
-        border:1px solid black;
-    }
-    /* 메뉴바영역 */
-    .title{
-        color:rgb(50,50,50);
-        margin-left: 30px;
-        margin-top:30px;
-    }
-    .selectBar{
-        margin-left: 30px;
-    }
-    .selectBar>span{
-        color:rgba(50, 50, 50, 0.79);
-        font-size:15px;
-        font-weight: 600;
-    }
-    .selectBar>div{
-        margin-top:10px;
-        height:3px;
-        float: left;
+    .businessOuter{
+        padding:50px;
+        margin:auto;
     }
     /* content영역 */
     .enrollForm{
-        margin-left:30px;
-        margin-right: 30px;
         margin-top: 30px;
     }
     .header{
@@ -50,20 +28,30 @@
         border: 1px solid rgb(170, 170, 170);
         border-radius: 5px;
     }
-    textarea{
+    #textBox{
         resize: none;
         width:690px;
         height:190px;
         border:1px solid rgb(170, 170, 170);
         border-radius: 5px;
         padding:10px;
+    }#textBox::placeholder{
+    	font-size:13px;
     }
     button[type=button]{
+        border:none;
         height:30px;
-        width:60px;
+        width:50px;
         border-radius: 5px;
-        font-size: 12px;
-        line-height: 5px;
+        color: rgba(50, 50, 50);
+        font-size:13px;
+    }
+    button[type=submit]{
+        border:none;
+        width:100px;
+        height:30px;
+       border-radius: 5px;
+        font-size:12px;
     }
     .textWrap{
         width:690px;
@@ -79,51 +67,42 @@
 </style>
 </head>
 <body>
-    <div class="outer">
 
-        <div class="title">
-            <h3 style="color:rgb(50,50,50); font-weight: 600;">신청<h3> 
-        </div>
-        <br>
-        <div class="selectBar">
-            <span>&nbsp;출장신청</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>시간외 근무신청</span> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>신청상세</span>
-            <br>
-            <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:67px; background: rgb(234, 234, 234);">&nbsp;</div>
-            <div style="width:766px; background: rgb(234, 234, 234);">&nbsp;</div>
-        </div>
+	<jsp:include page="../common/menubar.jsp" />
 
-        <form action="insert.bt" class="enrollForm" name="btEnroll">
+    <div class="businessOuter">
+
+        <h4><b>신청</b></h4>
+        
+        <form action="insert.bt" class="enrollForm" name="btEnroll" onsubmit="return confirm('출장신청을 등록하시겠습니까?');">
             
             <div class="body">
                 <div style="display: flex;">
-                    <img src="" alt="" style="width:30px; height:30px">
+                    <img src="resources/images/ess/pencil.png" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">&nbsp;출장일정, 필요정보 입력</div>
-                    <div style="background:rgb(234, 234, 234); width:700px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:660px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br>
 
                 <div style="display: flex;">
-                    <img src="" alt="" style="width:30px; height:30px">
+                    <img src="resources/images/ess/mark.png" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
                         &nbsp;신청자&nbsp; <input type="text" name="" value="로그인사원이름"> 
                         &nbsp;소속&nbsp; <input type="text" name="" value="로그인사원소속"> 
                     </div>
-                    <div style="background:rgb(234, 234, 234); width:550px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:520px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br>
 
                 <div style="display: flex;">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        <img src="" alt="" style="width:30px; height:30px">
-                        시작일&nbsp; <input type="date" name="" value="" style="width:150px; text-align: center; height:20px;"> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="date" name="" value="" style="width:150px; text-align: center; height:20px;"> 
+                        <img src="resources/images/ess/clock.png" alt="" style="width:30px; height:30px">
+                        시작일&nbsp; <input type="text" id="datepicker1" name="" value="" style="width:150px; text-align: center; height:20px;"> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="text" id="datepicker2" name="" value="" style="width:150px; text-align: center; height:20px;"> 
                     </div>
-                    <div style="background:rgb(234, 234, 234); width:427px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:390px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br><br>
@@ -132,22 +111,68 @@
                 </div>
                 <textarea name="" id="textBox" cols="30" rows="10" maxlength="199" placeholder="출장신청 내용을 입력해주세요."></textarea>
                 <div style="float: right; margin-top:160px;">
-                    <button type="button" class="btn btn-secondary" onclick="list.ot">취소</button>
-                    <button type="button" style="width:100px;" class="btn btn-success" onclick="enrollMethod();">출장신청하기</button>
+                    <button type="button" class="btn btn-secondary">취소</button>
+                    <button type="submit" class="btn btn-success" >출장신청하기</button>
                 </div>
 
             </div>
 
         </form>
 
-        <script>
-            function enrollMethod(){
-                if(confirm("출장신청을 하시겠습니까?")){
-                    document.btEnroll.submit();
+        <!-- datepicker -->
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
+        <script>	
+                    
+        $(function(){
+        	
+            
+            $("#datepicker1").datepicker({
+                changeMonth: true, 
+                changeYear: true,
+                minDate: '0',
+                nextText: '다음 달',
+                prevText: '이전 달',
+                yearRange: 'c-50:c+20',
+                showButtonPanel: true, 
+                currentText: '오늘 날짜',
+                closeText: '닫기',
+                dateFormat: "yy-mm-dd",
+                showAnim: "slide",
+                showMonthAfterYear: true, 
+                dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
+                onSelect: function(selected){
+                	$("#datepicker2").datepicker("option", "minDate", selected);
                 }
-                
-            }
-        </script>
+            });	
+            
+            $("#datepicker2").datepicker({
+                changeMonth: true, 
+                changeYear: true,
+                minDate: '0',
+                nextText: '다음 달',
+                prevText: '이전 달',
+                yearRange: 'c-50:c+20',
+                showButtonPanel: true, 
+                currentText: '오늘 날짜',
+                closeText: '닫기',
+                dateFormat: "yy-mm-dd",
+                showAnim: "slide",
+                showMonthAfterYear: true, 
+                dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
+                onSelect: function(selected){
+                	$("#datepicker1").datepicker("option", "maxDate", selected);
+                }
+            });	
+            
+            
+            
+        });
+        
+        </script> 
 
         <script>
             $(function(){
