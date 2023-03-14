@@ -129,5 +129,23 @@
 		 where mailbox_no = #{mailBoxNo}
 	</delete>
 	
+	<update id="moveMail">
+		update
+			   mail_detail
+		   set status = #{status}
+		   <choose>
+			 	<when test="mailBoxNo == 0">
+			 		, mailbox_no = null
+			 	</when>
+			 	<otherwise>
+			 		, mailbox_no = #{ mailBoxNo }
+			 	</otherwise>
+		   </choose>
+		   <if test='type == "R" or type == "S"'>
+		 	, type = #{type}
+		   </if>
+		 where mail_no = #{ mailNo }
+		   and emp_no = #{ empNo }
+	</update>
 	
 </mapper>

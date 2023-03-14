@@ -71,5 +71,11 @@ public class MailDao {
 		
 	}
 	
+	public int moveMail(SqlSessionTemplate sqlSession, Mail m) {
+		
+		return sqlSession.update("mailMapper.moveMail", m);
+		
+	}
+	
 	
 }

@@ -14,6 +14,15 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 구글 글씨체 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5버전 -->
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"> 
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> 
 
     
     <style>
@@ -363,6 +372,8 @@
                             	if(result == "success"){
                             		$(this).attr("readonly", true);
                                 	$(this).attr("border", "none");
+                                    $(".mailBoxOptions").remove();
+                                    moveMailBoxList();
                             	} else {
                             		alert("알 수 없는 이유로 수정을 실패했습니다. 다시 시도해주세요.");
                             		$(".oneMailBox").remove();
@@ -403,7 +414,9 @@
 	                    			// db에 추가 후 바로 해당 메일함 이름 수정가능하게 설정
 			                        const mailBoxArr = $(".mailBoxName");
 			                        const newMailBox = mailBoxArr.eq(mailBoxArr.length - 1);
-			                        newMailBox.next().children().eq(0).click();				   
+			                        newMailBox.next().children().eq(0).click();
+                                    $(".mailBoxOptions").remove();
+                                    moveMailBoxList();		   
 				                    			
                     			} else{
                     				// db에 메일함 추가되지 않았을 경우

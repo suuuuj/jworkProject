@@ -30,6 +30,9 @@ public interface MailService {
 	// 사용자 메일함 삭제 서비스
 	int deleteMailBox(int mailBoxNo);
 	
+	// 메일함 이동 서비스
+	int moveMail(Mail m);
+	
 	// 메일 작성
 	int insertMail(ArrayList<Mail> mList);
 	

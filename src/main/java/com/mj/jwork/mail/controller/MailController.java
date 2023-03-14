@@ -109,5 +109,26 @@ public class MailController {
 		
 	}
 	
+	// 메일 이동 서비스
+	@ResponseBody
+	@RequestMapping("moveMail.ma")
+	public String ajaxMoveMail(Mail m, @RequestParam(value="mailNoList[]") ArrayList<Integer> mailNoList) {
+		
+		//System.out.println(m);
+		//System.out.println(mailNoList);
+		int result = 1;
+		for(int i=0; i<mailNoList.size(); i++) {
+			//System.out.println(mailNoList.get(i));
+			m.setMailNo(mailNoList.get(i));
+			//System.out.println(m);
+			result = result * mService.moveMail(m);
+			
+		}
+		
+		return result > 0 ? "success" : "fail";
+		
+	}
+	
+	
 	
 }
