@@ -13,6 +13,18 @@
 		<result column="ETC" property="etc" />
 		<result column="STATUS" property="status" />
 	</resultMap>
+	<resultMap type="CarReservation" id="carResResult">
+		<id column="CAR_NAME" property="carName" />
+		<result column="RESERVATION" property="reservation" />
+		<result column="REQUEST_DATE" property="requestDate" />
+		<result column="AP_DATE" property="apDate" />
+		<result column="AP_STATUS" property="apStatus" />
+		<result column="APPROVER" property="approver" />
+		<result column="RES_DATE" property="resDate" />
+		<result column="START_TIME" property="startTime" />
+		<result column="END_TIME" property="endTime" />
+		<result column="CAUSE" property="cause" />
+	</resultMap>
 	
 	<select id="selectListCount" resultType="_int">
 		select
@@ -83,7 +95,46 @@
 			    from car
 			 where car_name= #{carName}
 	</select>
-	
-	
+	<insert id="insertReservation">
+		insert into
+		car_reservation
+		(
+			CAR_NAME
+			,RESERVATION
+			,REQUEST_DATE
+			,RES_DATE
+			,START_TIME
+			,END_TIME
+			,CAUSE
+		)values
+		(
+		#{carName}
+		,#{reservation}
+		,SYSDATE
+		,#{resDate}
+		,#{startTime}
+		,#{endTime}
+		,#{cause}
+		)
+		
+	</insert>
+	<select id="selectMyResCount" resultType="_int">
+		select
+			count(*) from
+	car_reservation
+	where reservation=#{reservation}
+	</select>
+	<select id="selectMyRes" resultMap="carResResult">
+		select
+			CAR_NAME
+			,REQUEST_DATE
+			,RES_DATE
+			,START_TIME
+			,END_TIME
+			,CAUSE
+			,ap_status
+		from car_reservation
+		where reservation = #{reservation}
+	</select>
 	
 </mapper>

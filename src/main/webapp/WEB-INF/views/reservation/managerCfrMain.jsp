@@ -40,7 +40,7 @@
 </head>
 <body>
       <jsp:include page="../common/menubar.jsp"/>
-    <div class="outer">
+    <div class="outer" style="width:940px;">
         <h2>회의실 관리</h2>
         <hr><br>
         <div>
