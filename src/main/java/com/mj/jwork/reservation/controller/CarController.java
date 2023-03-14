@@ -93,4 +93,21 @@ public class CarController {
 	public String reservForm() {
 		return "reservation/carReservationForm";
 	}
+	
+	
+	@RequestMapping("status.car")
+	public ModelAndView catStatus(@RequestParam(value="cpage",defaultValue="1")int currentPage,ModelAndView mv) {
+		
+		int listCount = cService.selectListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 2);
+		ArrayList<Car>list = cService.selectList(pi);
+		
+		mv.addObject("list",list)
+		.addObject("pi",pi)
+		.setViewName("reservation/carReservationStatus");
+		
+		return mv;
+		
+		
+	}
 }
