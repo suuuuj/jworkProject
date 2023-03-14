@@ -7,7 +7,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Latest compiled and minified CSS -->
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -15,14 +14,6 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- datepicker -->
-<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
-<!-- Alertify JavaScript -->
-<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-
 
 <!-- Alertify JavaScript -->
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
@@ -43,11 +34,11 @@
 
 <!-- Bootstrap 5버전 -->
 <!-- Latest compiled and minified CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"> 
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">  -->
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> 
 <style>
-	
+    
     .outer *{
         font-family: 'Nanum Gothic', sans-serif;
     }
@@ -76,20 +67,54 @@
         height:2px;
         background: linear-gradient(45deg, rgb(2, 152, 52), rgb(3, 110, 63));
     }
-    .sideLine{
-        width: 10px;
-        background-color: rgb(217, 255, 227);
-        height: 1000px;
-        border-left: 2px solid;
-        border-right: 2px solid;
-    }
     .logo{ width:200px; margin-left:20px; }
-    .menubar{
+
+
+    /*사이드메뉴바 스르륵*/
+    div[class="menubar"] {
         width:230px;
-        height:1000px;
+        height:100%;
+        position: fixed;
+        top: 110px;
+        left: -300px;
+        z-index: 1;
+        transition: all .35s;
         box-sizing: border-box ;
         float: left;
+        background-color: rgb(255, 255, 255);
     }
+    input[id="menuicon"]:checked + label + div {
+        left:0;
+    }
+    input[id="menuicon"] {
+        position: fixed;
+        z-index:2;
+        left: 215px;
+
+        width: 1rem; height: 1rem;
+        border-radius: 50%; border: 2px solid rgb(0, 0, 0);
+        background-color: #FEEBB6;
+        appearance: none; cursor: pointer;
+    }
+    input[id="menuicon"]:checked {
+        background: white;
+    }
+    input[id="menuicon"] + label {
+        display:block;
+        width: 60px;
+        height: 50px;
+        position: fixed;
+        right: 0;
+        top: calc(50% -25px);
+        transition: all .35s;
+        cursor: pointer;
+    }
+    input[id="menuicon"]:checked + label {
+        z-index:2;
+        left:-300px;
+    }
+
+
     .content{
         width:960px;
         height:1000px;
@@ -141,7 +166,7 @@
     }
     .menubar{background-color: white;}
     .menubarArea{
-        margin: 20px;
+        margin: 20px; 
         color: #363636;
         font-size: 15px;
     }
@@ -177,9 +202,9 @@
         background-color: rgb(130, 180, 130);
         cursor:pointer;
     }
-     
+    
 
-	
+    
 </style>
 <title>menubar</title>
 </head>
@@ -197,7 +222,7 @@
             <div class="header">
                 <div class="logo-box">
                     
-                    <a href="#"><img class="logo" src="resources/images/common/jworkLogo.png" alt="" style="width: 230px;" /></a>
+                    <a href="#"><img class="logo" src="resources/images/common/jworkLogo.png" alt="" style="width: 230px;"/></a>
                     
                 </div>
 
@@ -210,7 +235,12 @@
         </div>
         <div class="gradation"></div>
         <div class="outer">
-
+            <input type="checkbox" id="menuicon">
+            <label for="menuicon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
             <div class="menubar">
                 <div class="info-box">
                     <div class="left"><a href="myPage.emp"><img class="profileImg" src="<c:out value='${ loginUser.profileUrl }' default='resources/images/common/profileDefault3.png' />" /></a></div>
@@ -257,23 +287,11 @@
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/working.png" alt="" />근무</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
-                                <a id="" href="">근태현황</a><br>
-                                <a id="" href="">근태이력</a><br>
-                                <a id="" href="">근태수정</a><br>
-                                <a id="" href="">근태조정</a><br>
-                                <a id="" href="">근태관리</a><br>
-                                <a id="" href="">근태통계</a><br>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/ess.png" alt="" />신청</div>
-                        <div class="menu-wrap">
-                            <div class="menuDetail">
-                                <a id="" href="enrollForm.bt">출장신청</a><br>
-                                <a id="" href="enrollForm.ot">시간외 근무신청</a><br>
-                                <a id="" href="list.ob">신청상세</a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
                             </div>
                         </div>
                     </div>
@@ -284,9 +302,9 @@
                             <div class="menuDetail">
                                 <a id="" href="menu.le">휴가신청</a><br>
                                 <a id="" href="list.le">휴가상세</a><br>
-                                <a id="" href="">휴가관리</a><br>
-                                <a id="" href="">휴가내역</a><br>
-                                <a id="" href="">전체휴가일정</a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
+                                <a id="" href=""></a><br>
                             </div>
                         </div>
                     </div>
@@ -349,7 +367,6 @@
 
 
             </div>
-            <div class="sideLine"></div>
             <div class="content">
             
             

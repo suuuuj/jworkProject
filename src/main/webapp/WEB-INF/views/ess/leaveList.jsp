@@ -1,4 +1,4 @@
-<%@ page language="java" contentType=`"text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -17,7 +17,7 @@
     /* outer영역 */
     .leaveOuter{
         margin: auto; 
-        padding:4%
+        padding:5%
     }
     /* 메뉴바영역 
     .title{
@@ -44,17 +44,15 @@
         box-sizing: border-box;
     }
     .vacation{
-        margin-left:30px;
-        margin-right: 30px;
         margin-top: 30px;
     }
     select{
-        width:150px;
+        width:120px;
         height:30px;
         border:1px solid rgb(170, 170, 170);
         border-radius: 5px;
         color:rgb(50,50,50);
-        font-size: 14px;
+        font-size: 12px;
     }
     .select-area input{
         width:100px;
@@ -86,6 +84,10 @@
         height:30px;
         width:80px;
     }
+    .leaveTable>tbody button{
+    	width:40px;
+    	height:25px;
+    }
     .paging-area button{
         width:30px;
         height:30px;
@@ -101,11 +103,15 @@
         color:rgb(50,50,50);
         line-height:normal;
     }
+    #pagingArea{
+    	width:fit-content;
+    	margin:auto;
+    }
     /* modal영역 */
     .modal-content{
-        height:600px;
-        width:400px;
         font-size: 14px;
+        border:1px solid red;
+        margin:auto;
     }
     .modal-body input{
         border:1px solid rgb(170, 170, 170);
@@ -117,7 +123,7 @@
     }
     .modal-body textarea{
         resize: none;
-        width:90%;
+        width:300px;
         height:260px;
         border:1px solid rgb(170, 170, 170);
         border-radius: 5px;
@@ -133,28 +139,19 @@
 </style>
 </head>
 <body>
+
+    <jsp:include page="../common/menubar.jsp"/>
+
     <div class="leaveOuter">
 
         <h4><b>휴가</b></h4>
-        <!--
-        <div class="title">
-            <h3 style="color:rgb(50,50,50); font-weight: 600;">휴가<h3> 
-        </div>
-        <br>
-        <div class="selectBar">
-            <span>&nbsp;휴가등록</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>휴가상세</span> <br>
-            <div style="width:78px; background: rgb(234, 234, 234);">&nbsp;</div>
-            <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:766px; background: rgb(234, 234, 234);">&nbsp;</div>
-        </div>
-        -->
-
+        
         <div class="vacation">
 
             <div class="select-area">
                 <div style="float:left">
-                    <select name="" id="">
-                        <option value="">&nbsp;- 휴가선택-</option>
+                    <select name="" id="" style="font-size:14px;">
+                        <option value="">&nbsp;- 휴가목록-</option>
                         <option value="">&nbsp;연차</option>
                         <option value="">&nbsp;보건</option>
                         <option value="">&nbsp;조의</option>
@@ -177,7 +174,7 @@
                 <br><br><br>
                 <table class="leaveTable">
                     <thead>
-                        <tr style="color:rgb(51,51,51); font-size: 14px; font-weight: 600; height:50px;">
+                        <tr style="color:rgb(51,51,51); font-size: 14px; font-weight: 600; height:40px;">
                             <td width="100px;">이름</td>
                             <td width="100px;">부서명</td>
                             <td width="150px;">휴가종류</td>
@@ -187,128 +184,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>김정만</td>
-                            <td>인사부</td>
-                            <td>리프레쉬휴가</td>
-                            <td>
-                                <input type="text" name="stDate" value="2023.03.02">
-                                <span>~&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" name="edDate" value="2023.03.04">
-                            </td>
-                            <td>결재대기(1차)</td>
-                            <td><button class="btn btn-warning">취소</button></td>
-                        </tr>
-                        <tr>
-                            <td>김정만</td>
-                            <td>인사부</td>
-                            <td>리프레쉬휴가</td>
-                            <td>
-                                <input type="text" name="stDate" value="2023.03.02">
-                                <span>~&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" name="edDate" value="2023.03.04">
-                            </td>
-                            <td>결재대기(2차)</td>
-                            <td><button class="btn btn-warning" disabled>취소</button></td>
-                        </tr>
-                        <tr>
-                            <td>김정만</td>
-                            <td>인사부</td>
-                            <td>리프레쉬휴가</td>
-                            <td>
-                                <input type="text" name="stDate" value="2023.03.02">
-                                <span>~&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" name="edDate" value="2023.03.04">
-                            </td>
-                            <td>승인</td>
-                            <td><button class="btn btn-warning" disabled>취소</button></td>
-                        </tr>
-                        <tr>
-                            <td>김정만</td>
-                            <td>인사부</td>
-                            <td>리프레쉬휴가</td>
-                            <td>
-                                <input type="text" name="stDate" value="2023.03.02">
-                                <span>~&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" name="edDate" value="2023.03.04">
-                            </td>
-                            <td>반려</td>
-                            <td><button class="btn btn-warning" disabled>취소</button></td>
-                        </tr>
-                        <tr>
-                            <td>김정만</td>
-                            <td>인사부</td>
-                            <td>리프레쉬휴가</td>
-                            <td>
-                                <input type="text" name="stDate" value="2023.03.02">
-                                <span>~&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" name="edDate" value="2023.03.04">
-                            </td>
-                            <td>결재대기(1차)</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>김정만</td>
-                            <td>인사부</td>
-                            <td>리프레쉬휴가</td>
-                            <td>
-                                <input type="text" name="stDate" value="2023.03.02">
-                                <span>~&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" name="edDate" value="2023.03.04">
-                            </td>
-                            <td>결재대기(1차)</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>김정만</td>
-                            <td>인사부</td>
-                            <td>리프레쉬휴가</td>
-                            <td>
-                                <input type="text" name="stDate" value="2023.03.02">
-                                <span>~&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" name="edDate" value="2023.03.04">
-                            </td>
-                            <td>결재대기(1차)</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>김정만</td>
-                            <td>인사부</td>
-                            <td>리프레쉬휴가</td>
-                            <td>
-                                <input type="text" name="stDate" value="2023.03.02">
-                                <span>~&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" name="edDate" value="2023.03.04">
-                            </td>
-                            <td>결재대기(1차)</td>
-                            <td></td>
-                        </tr>
-                        <tr
-                        >
-                            <td>김정만</td>
-                            <td>인사부</td>
-                            <td>리프레쉬휴가</td>
-                            <td>
-                                <input type="text" name="stDate" value="2023.03.02">
-                                <span>~&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" name="edDate" value="2023.03.04">
-                            </td>
-                            <td>결재대기(1차)</td>
-                            <td></td>
-                        </tr>
-                        <tr
-                        >
-                            <td>김정만</td>
-                            <td>인사부</td>
-                            <td>리프레쉬휴가</td>
-                            <td>
-                                <input type="text" name="stDate" value="2023.03.02">
-                                <span>~&nbsp;&nbsp;&nbsp;</span>
-                                <input type="text" name="edDate" value="2023.03.04">
-                            </td>
-                            <td>결재대기(1차)</td>
-                            <td></td>
-                        </tr>
+                    	<c:forEach var="a" items="${ list }">
+	                        <tr>
+	                            <td>${ a.empName }</td>
+	                            <td>${ a.deptName }</td>
+	                            <td>${ a.lcName }</td>
+	                            <td>
+	                                <input type="text" name="stDate" value="${ a.leaveStart }">
+	                                <span>~&nbsp;&nbsp;&nbsp;</span>
+	                                <input type="text" name="edDate" value="${ a.leaveEnd }">
+	                            </td>
+	                            <td>${ a.leaveCheck }</td>
+	                            <td><button class="btn btn-warning" style="width:50px; height:25px; font-size:10px; line-height:1px;">취소</button></td>
+	                        </tr>
+                       	</c:forEach>
                     </tbody>
                 </table>
 
@@ -322,15 +211,32 @@
             
                 <br><br>
 
-                <div class="paging-area" style="text-align:center;">
-                    <button><</button>
-                    <button>1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <button>4</button>
-                    <button>5</button>
-                    <button>></button>
-                </div>
+                <div id="pagingArea">
+                <ul class="pagination">
+                
+                	<c:choose>
+                		<c:when test="${ pi.currentPage eq 1 }">
+                    		<li class="page-item" disabled><a class="page-link" href="#"><</a></li>
+                    	</c:when>
+                    	<c:otherwise>
+                    		<li class="page-item"><a class="page-link" href="list.bo?cpage=${ pi.currentPage-1 }"><</a></li>
+                    	</c:otherwise>
+                    </c:choose>
+                    
+                    <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+	                    <li class="page-item"><a class="page-link" href="list.bo?cpage=${ p }">${ p }</a></li>
+                    </c:forEach>
+                    
+                    <c:choose>
+	                    <c:when test="${ pi.currentPage eq pi.maxPage }">
+	                    	<li class="page-item" disabled><a class="page-link" href="#">></a></li>
+	                    </c:when>
+	                    <c:otherwise>
+	                    	<li class="page-item"><a class="page-link" href="list.bo?cpage=${ pi.currentPage+1 }">></a></li>
+	                    </c:otherwise>
+                    </c:choose>
+                </ul>
+            </div>
             
             </div>
         </div>
@@ -345,19 +251,20 @@
         
                 <!-- Modal Header -->
                 <div class="modal-header">
-                <h4 class="modal-title" style="color:rgb(0,172,0)">휴가신청</h4>
+                <h4 class="modal-title" style="color:rgb(0,172,0); margin-left:20px;">휴가신청</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 
                 <!-- Modal body -->
                 <div class="modal-body" style="width:90%; margin:auto;">
                     <span class="modalS">휴가등록</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;리프레쉬휴가" style="width:200px;" readonly><br>
-                    <span class="modalS">신청날짜</span> <br>
-                    <input type="text" name="stDate" value="&nbsp;&nbsp;2023.03.20" style="width:133px;" readonly>
-                    <span>~</span>
-                    <input type="text" name="edDate" value="&nbsp;&nbsp;2023.03.21" style="width:133px;" readonly>
-                    <br><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;리프레쉬휴가" style="width:220px;" readonly><br>
+                    <span class="modalS">신청날짜
+	                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="stDate" value="&nbsp;&nbsp;2023.03.20" style="width:100px;" readonly>
+		                <span>~</span>
+		                <input type="text" name="edDate" value="&nbsp;&nbsp;2023.03.21" style="width:100px;" readonly>
+                    </span>
+                    <br>
                     <span>신청사유</span>
                     <br>
                     <div class="textWrap">
