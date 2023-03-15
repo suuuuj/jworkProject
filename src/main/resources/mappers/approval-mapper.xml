@@ -52,7 +52,7 @@
 	</select>
 	
 	
-	<!-- 진행중 버튼 눌렀을 시 리스트 조회 -->
+	<!-- 버튼 눌렀을 시 리스트 조회 -->
 	<select id="ajaxSelectBtn" resultMap="approvalResult">
 		select  
 	      	   app_no
@@ -75,7 +75,7 @@
 		    by app_no desc
 	</select>
 	
-	
+	<!-- 문서 상세 조회 -->
 	<select id="selectApproval" resultMap="approvalResult">
 		select  
 		      app_no

@@ -38,8 +38,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	//결재문서 상세조회
 	@Override
-	public Approval selectApproval(int no) {
-		return aDao.selectApproval(sqlSession, no);
+	public Approval selectApproval(int appNo) {
+		return aDao.selectApproval(sqlSession, appNo);
 	}
 	
 

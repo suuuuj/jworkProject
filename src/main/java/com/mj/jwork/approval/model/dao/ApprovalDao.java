@@ -38,8 +38,8 @@ public class ApprovalDao {
 	}
 
 	//결재문서 상세조회
-	public Approval selectApproval(SqlSessionTemplate sqlSession, int no) {
-		return sqlSession.selectOne("approvalMapper.selectApproval",no);
+	public Approval selectApproval(SqlSessionTemplate sqlSession, int appNo) {
+		return sqlSession.selectOne("approvalMapper.selectApproval",appNo);
 	}
 
 

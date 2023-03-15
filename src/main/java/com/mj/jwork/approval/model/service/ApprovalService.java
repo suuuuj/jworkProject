@@ -18,7 +18,7 @@ public interface ApprovalService{
 	int insertApproval(Approval a);
 	
 	//결재문서 상세 조회 서비스
-	Approval selectApproval(int no);
+	Approval selectApproval(int appNo);
 	
 	//상신취소 서비스 (수정 후 재 결재)
 	int updateApproval(Approval a);
