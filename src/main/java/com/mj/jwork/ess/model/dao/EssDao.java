@@ -102,8 +102,42 @@ public class EssDao {
 		int limit = pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("essMapper.adminSelectBusinesseList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("essMapper.adminSelectBusinessetripList", null, rowBounds);
 	}
+	
+	public Businesstrip selectBusinesstrip(SqlSession sqlSession, int btNo) {
+		return sqlSession.selectOne("essMapper.selectBusinesstrip", btNo);
+	}
+	
+	public Overtime selectOvertime(SqlSession sqlSession, int otNo) {
+		return sqlSession.selectOne("essMapper.selectOvertime", otNo);
+	}
+	
+	public Businesstrip adminSelectBusinesstrip(SqlSession sqlSession, int btNo) {
+		return sqlSession.selectOne("essMapper.adminSelectBusinesstrip", btNo);
+	}
+	
+	public Overtime adminSelectOvertime(SqlSession sqlSession, int otNo) {
+		return sqlSession.selectOne("essMapper.adminSelectOvertime", otNo);
+	}
+	
+	public int adminUpdateFirstBusinesstrip(SqlSession sqlSession, Businesstrip b) {
+		return sqlSession.update("essMapper.adminUpdateFirstBusinesstrip", b);
+	}
+	
+	public int adminUpdateSecondBusinesstrip(SqlSession sqlSession, Businesstrip b) {
+		return sqlSession.update("essMapper.adminUpdateSecondBusinesstrip", b);
+	}
+	
+	public int adminUpdateFirstOvertime(SqlSession sqlSession, Overtime o) {
+		return sqlSession.update("essMapper.adminUpdateFirstBusinesstrip", o);
+	}
+	
+	public int adminUpdateSecondOvertime(SqlSession sqlSession, Overtime o) {
+		return sqlSession.update("essMapper.adminUpdateSecondBusinesstrip", o);
+	}
+	
+	
 	
 	
 	

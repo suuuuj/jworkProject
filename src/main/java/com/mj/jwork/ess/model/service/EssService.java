@@ -30,6 +30,10 @@ public interface EssService {
 	ArrayList<Overtime> selectOvertimeList(int empNo, PageInfo oPi);
 	ArrayList<Businesstrip> selectBusinesstripList(int empNo, PageInfo bPi);
 	
+	// 신청상세조회(select)
+	Businesstrip selectBusinesstrip(int btNo);
+	Overtime selectOvertime(int otNo);
+	
 	// 시간외근근무/출장 삭제(delete)
 	int deleteOvertime(int otNo);
 	int deleteBusinesstrip(int btNo);
@@ -38,7 +42,17 @@ public interface EssService {
 	int adminSelectOvertimeListCount();
 	int adminSelectBusinesstripListCount();
 	ArrayList<Overtime> adminSelectOvertimeList(PageInfo pi);
-	ArrayList<Businesstrip> adminSelectBusinessList(PageInfo pi);
+	ArrayList<Businesstrip> adminSelectBusinesstripList(PageInfo pi);
+	
+	// 관리자 : 시간외근무/출장 상세조회(select)
+	Businesstrip adminSelectBusinesstrip(int btNo);
+	Overtime adminSelectOvertime(int otNo);
+	
+	// 관리자 : 시간외근무/출장 결재선(update)
+	int adminUpdateFirstBusinesstrip(Businesstrip b);
+	int adminUpdateSecondBusinesstrip(Businesstrip b);
+	int adminUpdateFirstOvertime(Overtime o);
+	int adminUpdateSecondOvertime(Overtime o);
 	
 	
 }

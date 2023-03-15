@@ -26,6 +26,7 @@
 		<result column="emp_no" property="empNo" />
 		<result column="emp_name" property="empName" />
 		<result column="dept_name" property="deptName" />
+		<result column="job_name" property="jobName" />
 		<result column="bt_start" property="btStart" />
 		<result column="bt_end" property="btEnd" />
 		<result column="bt_content" property="btContent" />
@@ -69,6 +70,7 @@
 		<result column="emp_no" property="empNo" />
 		<result column="emp_name" property="empName" />
 		<result column="dept_name" property="deptName" />
+		<result column="job_name" property="jobName" />
 		<result column="enroll_date" property="enrollDate" />
 		<result column="ot_category" property="otCategory" />
 		<result column="ot_start" property="otStart" />
@@ -256,6 +258,42 @@
 		    by bt_no desc
 	</select>
 	
+	<!-- 출장상세조회 
+	<select id="selectBusinesstrip" resultMap="businesstripResult">
+		select 
+		       bt_no
+		     , emp_name
+		     , dept_name
+		     , bt_start
+		     , bt_end
+		     , bt_content
+		  from businesstrip b
+		  join employee e on (e.emp_no = b.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
+		 where bt_status = 'Y'
+		   and bt_no = #{btNo}
+	</select>
+	-->
+	
+	<!-- 시간외근무상세조회 
+	<select id="selectOvertime" resultMap="overtimeResult">
+		select 
+			   ot_no
+		     , emp_name
+		     , dept_name
+		     , o.enroll_date
+		     , ot_category
+		     , ot_start
+		     , ot_end
+		     , ot_content  
+		  from overtime o
+		  join employee e on (o.emp_no = e.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
+		 where ot_status = 'Y'
+		   and ot_no = #{otNo}
+	</select>
+	-->
+	
 	<!-- 시간외근무삭제 -->
 	<update id="deleteOvertime">
 		update overtime
@@ -272,22 +310,121 @@
 	
 	<!-- 관리자 : 시간외근무페이징 -->
 	<select id="adminSelectOvertimeListCount" resultType="_int">
-		
+		select 
+		       count(*)
+		  from overtime
+		 where ot_status = 'Y'	
 	</select>
 	
 	<!-- 관리자 : 출장페이징 -->
 	<select id="adminSelectBusinesstripListCount" resultType="_int">
-	
+		select 
+		       count(*)
+		  from businesstrip
+		 where bt_status = 'Y'
 	</select>
 	
 	<!-- 관리자 : 시간외근무 조회 -->
 	<select id="adminSelectOvertimeList" resultMap="overtimeResult">
-	
+		select 
+			   ot_no
+			 , o.emp_no	
+		     , emp_name
+		     , dept_name
+		     , job_name
+		     , o.enroll_date
+		     , decode(ot_category,0,'시간외근무',1,'야간',2,'주말') as "ot_category"
+		     , ot_start
+		     , ot_end
+		     , decode(ot_check,0,'결재대기(1차)',1,'결재대기(2차)',2,'승인',3,'반려') as "ot_check"
+		     , ot_content  
+		  from overtime o
+		  join employee e on (o.emp_no = e.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
+		  join job j on (e.job_code = j.job_code)
+		 where ot_status = 'Y'
+		 order
+		    by ot_check desc
 	</select>
 	
 	<!-- 관리자 : 출장 조회 -->
-	<select id="adminSelectBusinesseList" resultMap="businesstripResult">
-	
+	<select id="adminSelectBusinessetripList" resultMap="businesstripResult">
+		select 
+		       bt_no
+		     , b.emp_no
+		     , emp_name
+		     , dept_name
+		     , job_name
+		     , b.enroll_date
+		     , bt_start
+		     , bt_end
+		     , decode(bt_check,0,'결재대기(1차)',1,'결재대기(2차)',2,'승인',3,'반려')as "bt_check"
+		     , bt_content
+		  from businesstrip b
+		  join employee e on (e.emp_no = b.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
+		  join job j on (e.job_code = j.job_code)
+		 where bt_status = 'Y'
+		 order
+		    by bt_check desc
 	</select>
+	
+	<!-- 관리자 : 출장상세조회 --> 
+	<select id="adminSelectBusinesstrip" resultMap="businesstripResult">
+		select 
+		       bt_no
+		     , emp_name
+		     , dept_name
+		     , bt_start
+		     , bt_end
+		     , bt_content
+		  from businesstrip b
+		  join employee e on (e.emp_no = b.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
+		 where bt_status = 'Y'
+		   and bt_no = #{btNo}
+	</select>
+	
+	<!-- 관리자 : 시간외근무상세조회 -->
+	<select id="adminSelectOvertime" resultMap="overtimeResult">
+		select 
+			   ot_no
+		     , emp_name
+		     , dept_name
+		     , o.enroll_date
+		     , ot_category
+		     , ot_start
+		     , ot_end
+		     , ot_content  
+		  from overtime o
+		  join employee e on (o.emp_no = e.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
+		 where ot_status = 'Y'
+		   and ot_no = #{otNo}
+	</select>
+	
+	<!-- 관리자 : 출장1차결재선 
+	<update id="adminUpdateFirstBusinesstrip">
+	
+	</update>
+	-->
+	
+	<!-- 관리자 : 출장2차결재선 
+	<update id="adminUpdateSecondBusinesstrip">
+	
+	</update>
+	-->
+	
+	<!-- 관리자 : 시간외근무1차결재선 
+	<update id="adminUpdateFirstOvertime">
+	
+	</update>
+	-->
+	
+	<!-- 관리자 : 시간외근무2차결재선 
+	<update id="adminUpdateSecondOvertime">
+	
+	</update>
+	-->
 
 </mapper>

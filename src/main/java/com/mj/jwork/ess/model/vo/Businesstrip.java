@@ -31,5 +31,6 @@ public class Businesstrip {
 	
 	private String empName;
 	private String deptName;
+	private String jobName;
 
 }

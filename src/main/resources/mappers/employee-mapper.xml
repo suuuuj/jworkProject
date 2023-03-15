@@ -10,8 +10,11 @@
 		<result column="phone" property="phone"></result>
 		<result column="email" property="email"></result>
 		<result column="birth" property="birth"></result>
+		<result column="dept_code" property="deptCode"></result>
 		<result column="dept_name" property="deptName"></result>
+		<result column="team_code" property="teamCode"></result>
 		<result column="team_name" property="teamName"></result>
+		<result column="job_code" property="jobCode"></result>
 		<result column="job_name" property="jobName"></result>
 		<result column="emp_phone" property="empPhone"></result>
 		<result column="enroll_date" property="enrollDate"></result>
@@ -56,8 +59,11 @@
 			 , phone
 			 , email
 			 , birth
+			 , e.dept_code
 			 , dept_name
+			 , e.team_code
 			 , team_name
+			 , e.job_code
 			 , job_name
 			 , emp_phone
 			 , to_char(enroll_date, 'YYYY-MM-DD') as "enroll_date"

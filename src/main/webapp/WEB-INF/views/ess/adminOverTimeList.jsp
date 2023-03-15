@@ -1,4 +1,4 @@
-<%@ page language="java" contentType=`"text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -12,33 +12,12 @@
 <title>Insert title here</title>
 <style>
     /* outer영역 */
-    .outer{
-        width:960px;
-        height:1000px;
-        border:1px solid black;
-    }
-    /* 메뉴바영역 */
-    .title{
-        margin-left: 30px;
-        margin-top:30px;
-    }
-    .selectBar{
-        margin-left: 30px;
-    }
-    .selectBar>span{
-        color:rgba(50, 50, 50, 0.79);
-        font-size:15px;
-        font-weight: 600;
-    }
-    .selectBar>div{
-        margin-top:10px;
-        height:3px;
-        float: left;
+    .overtimeOuter{
+        padding:50px;
+        margin:auto;
     }
     /* content영역 */
     .overtimeList{
-        margin-left:30px;
-        margin-right: 30px;
         margin-top: 30px;
     }
     .selectBox{
@@ -109,26 +88,17 @@
         font-weight: 600;
         color:rgb(50,50,50)
     }
+    #pagingArea{
+    	width:fit-content;
+    	margin:auto;
+    }
 </style>
 </head>
 <body>
-    <div class="outer">
+	<jsp:include page="../common/menubar.jsp"/>
+    <div class="overtimeOuter">
         
-        <div class="title">
-            <h3 style="color:rgb(50,50,50); font-weight: 600;">신청<h3> 
-        </div>
-        <br>
-        <div class="selectBar">
-            <span>&nbsp;출장신청</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>시간외 근무신청</span> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>신청상세</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,172,0)">출장관리</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,172,0)">시간외 근무관리</span>
-            <br>
-            <div style="width:395px; background: rgb(234, 234, 234);">&nbsp;</div>
-            <div style="width:115px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:400px; background: rgb(234, 234, 234);">&nbsp;</div>
-        </div>
+        <h4><b>신청</b></h4>
 
         <div class="overtimeList">
 
@@ -157,151 +127,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr><tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr> <tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr> <tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr> <tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr>                     <tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td>46</td>
-                            <td>4505301111</td>
-                            <td>인사1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>시간외 근무신청</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
+                    	<c:forEach var="o" items="${ list }">
+	                        <tr>
+	                            <td>${ o.otNo }</td>
+	                            <td>${ o.empNo }</td>
+	                            <td>${ o.deptName }</td>
+	                            <td>${ o.jobName }</td>
+	                            <td>${ o.empName }</td>
+	                            <td>${ o.enrollDate }</td>
+	                            <td>${ o.otCategory }</td>
+	                            <td>${ o.otCheck }</td>
+	                        </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -309,24 +146,45 @@
             <script>
                 $(function(){
                     $(".overTable>tbody tr").click(function(){
-                        location.href = 'detail.ot?no=' + $(this).children().eq(0).text();
+                        location.href = 'adDetail.ot?otNo=' + $(this).children().eq(0).text();
                     })
                 })
             </script>
 
         </div>
         <br><br>
-            <div class="paging-area" style="text-align:center;">
-                <button><</button>
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
-                <button>></button>
-            </div>
-        
-    </div>
+		<div id="pagingArea">
+			<ul class="pagination">
+
+				<c:choose>
+					<c:when test="${ pi.currentPage eq 1 }">
+						<li class="page-item" disabled><a class="page-link" href="#"><</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link"
+							href="list.le?cpage=${ pi.currentPage-1 }"><</a></li>
+					</c:otherwise>
+				</c:choose>
+
+				<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+					<li class="page-item"><a class="page-link"
+						href="list.le?cpage=${ p }">${ p }</a></li>
+				</c:forEach>
+
+
+				<c:choose>
+					<c:when test="${ pi.currentPage eq pi.maxPage }">
+						<li class="page-item" disabled><a class="page-link" href="#">></a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link"
+							href="list.le?cpage=${ pi.currentPage+1 }">></a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</div>
+
+	</div>
 
     
 </body>

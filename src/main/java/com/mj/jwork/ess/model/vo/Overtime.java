@@ -30,5 +30,6 @@ public class Overtime {
 	
 	private String empName;
 	private String deptName;
-
+	private String jobName;
+	
 }

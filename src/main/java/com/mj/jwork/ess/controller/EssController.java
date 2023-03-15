@@ -284,6 +284,28 @@ public class EssController {
 		
 	}
 	
+	@RequestMapping("detail.bt")
+	public ModelAndView selectBusinesstrip(int btNo, ModelAndView mv) {
+		Businesstrip b = eService.selectBusinesstrip(btNo);
+		
+		mv.addObject("b", b);
+		mv.setViewName("ess/businesstripDetailForm");
+		
+		return mv;
+	}
+	
+	@RequestMapping("detail.ot")
+	public ModelAndView selectOvertime(int otNo, ModelAndView mv) {
+		
+		Overtime o = eService.selectOvertime(otNo);
+		
+		mv.addObject("o", o);
+		mv.setViewName("ess/overtimeDetailForm");
+		
+		return mv;
+	}
+	
+	
 	/**
 	 * 관리자 : 출장등록조회
 	 * @return
@@ -291,34 +313,144 @@ public class EssController {
 	@RequestMapping("admin.bt")
 	public String adminBusinesstripList(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session, Model model) {
 		
-		// 페이징
-		int listCount = eService.adminSelectBusinesstripListCount();
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+		int jobCode = ((Employee)session.getAttribute("loginUser")).getJobCode();
+		if(jobCode == 6 || jobCode == 7) {
+			model.addAttribute("errorMsg", "접근 권한이 없습니다.");
+			return "common/errorPage";
+		}else {
+			// 페이징
+			int listCount = eService.adminSelectBusinesstripListCount();
+			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+			
+			ArrayList<Businesstrip> list = eService.adminSelectBusinesstripList(pi);
+			
+			session.setAttribute("list", list);
+			session.setAttribute("pi", pi);
+			return "ess/adminBusinesstripList";
+		}
 		
-		ArrayList<Businesstrip> list = eService.adminSelectBusinesstripList(pi);
+	}
+	
+	/**
+	 * 관리자 : 출장상세조횐
+	 * @param btNo
+	 * @param mv
+	 * @return
+	 */
+	@RequestMapping("adDetail.bt")
+	public ModelAndView adminSelectBusinesstrip(int btNo, ModelAndView mv) {
+		Businesstrip b = eService.adminSelectBusinesstrip(btNo);
 		
-		session.setAttribute("list", list);
-		session.setAttribute("pi", pi);
-		return "ess/adminBusinesstripList";
+		mv.addObject("b", b);
+		mv.setViewName("ess/adminBusinesstripDetailView");
 		
+		return mv;
 	}
 	
 	/**
 	 * 관리자 : 시간외근무조회
 	 * @return
 	 */
-	@RequestMapping("admin/ot")
-	public ModelAndView adminOvertimeList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv) {
+	@RequestMapping("admin.ot")
+	public ModelAndView adminOvertimeList(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session, ModelAndView mv) {
 		
-		// 페이징
-		int listCount = eService.adminSelectOvertimeListCount();
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+		int jobCode = ((Employee)session.getAttribute("loginUser")).getJobCode();
 		
-		ArrayList<Overtime> list = eService.adminSelectOvertimeList(pi);
+		if(jobCode == 6 || jobCode == 7) {
+			mv.addObject("errorMsg", "접근권한이 없습니다.");
+			mv.setViewName("common/errorPage");
+		}else {
+			// 페이징
+			int listCount = eService.adminSelectOvertimeListCount();
+			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+			
+			ArrayList<Overtime> list = eService.adminSelectOvertimeList(pi);
+			
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.setViewName("ess/adminOvertimeList");
+		}
 		
-		mv.addObject("list", list);
-		mv.addObject("pi", pi);
-		mv.setViewName("ess/adminOvertimeList");
+		return mv;
+	}
+	
+	/**
+	 * 관리자 : 시간외근무상세조회
+	 * @param otNo
+	 * @param mv
+	 * @return
+	 */
+	@RequestMapping("adDetail.ot")
+	public ModelAndView adminSelectOvertime(int otNo, ModelAndView mv) {
+		Overtime o = eService.adminSelectOvertime(otNo);
+		
+		mv.addObject("o", o);
+		mv.setViewName("ess/adminOvertimeDetailView");
+		
+		return mv;
+	}
+	
+	/**
+	 * 관리자 : 출장결재선 1차,2차
+	 * @param b
+	 * @param session
+	 * @param mv
+	 * @return
+	 */
+	@RequestMapping("adminUpdate.bt")
+	public ModelAndView adminUpdateBusinesstrip(Businesstrip b, HttpSession session, ModelAndView mv) {
+		
+		int jobCode = ((Employee)session.getAttribute("loginUser")).getJobCode();
+		
+		if(jobCode == 4 || jobCode == 5) {
+			int result = eService.adminUpdateFirstBusinesstrip(b);
+			if(result > 0) {
+				mv.addObject("alertMsg", "결재선등록이 완료되었습니다.");
+				mv.setViewName("admin.bt");
+				
+			}else {
+				mv.addObject("errorMsg", "결재선등록에 실패하였습니다.");
+				mv.setViewName("common/errorPage");
+			}
+		}else if(jobCode == 3 || jobCode == 2) {
+			int result = eService.adminUpdateSecondBusinesstrip(b);
+			if(result > 0) {
+				mv.addObject("alertMsg", "결재선등록이 완료되었습니다.");
+				mv.setViewName("admin.bt");
+			}else {
+				mv.addObject("errorMsg", "결재선등록에 실패하였습니다.");
+				mv.setViewName("common/errorPage");
+			}
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping("adminUpdate.ot")
+	public ModelAndView adminUpdateOvertime(Overtime o, HttpSession session, ModelAndView mv) {
+		
+		int jobCode = ((Employee)session.getAttribute("loginUser")).getJobCode();
+		
+		if(jobCode == 4 || jobCode == 5) {
+			int result = eService.adminUpdateFirstOvertime(o);
+			if(result > 0) {
+				mv.addObject("alertMsg", "결재선등록이 완료되었습니다.");
+				mv.setViewName("admin.ot");
+				
+			}else {
+				mv.addObject("errorMsg", "결재선등록에 d실패하였습니다.");
+				mv.setViewName("common/errorPage");
+			}
+		}else if(jobCode == 3 || jobCode == 2) {
+			int result = eService.adminUpdateSecondOvertime(o);
+			if(result > 0) {
+				mv.addObject("alertMsg", "결재선등록이 완료되었습니다.");
+				mv.setViewName("admin.ot");
+			}else {
+				mv.addObject("errorMsg", "결재선등록에 실패하였습니다.");
+				mv.setViewName("common/errorPage");
+			}
+		}
 		
 		return mv;
 	}

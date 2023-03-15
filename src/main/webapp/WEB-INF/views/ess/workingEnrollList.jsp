@@ -78,10 +78,24 @@
         line-height:5px;
         color:white;
     }
+    .businessList tbody>tr, .overTable tbody>tr:hover{
+    	opacity:0.7;
+    	cursor:pointer;
+    }
     #bpagingArea, #opagingArea{
     	width:fit-content;
     	margin:auto;
     }
+	input[type=text]{
+        width:100px;
+        height:30px;
+        border: 1px solid rgb(170, 170, 170);
+        border-radius: 5px;
+        text-align: center; 
+    }
+	input[type=text]::placeholder{
+		font-size: 12px;
+	}
 </style>
 </head>
 <body>
@@ -93,11 +107,93 @@
 		<h4><b>신청</b></h4>
 
 		<div class="select-area" style="float: right">
-			<input type="date" name="startDate" value=""> <span
-				style="font-size: 20px; color: rgb(170, 170, 170)">~</span> <input
-				type="date" name="endDate" value="">
+			<input type="text" name="startDate" id="datepicker1" value="" placeholder="기간검색(시작일)"> 
+			<span style="font-size: 20px; color: rgb(170, 170, 170)">~</span> 
+			<input type="text" name="endDate" id="datepicker2" value="" placeholder="기간검색(종료일)">
 			<button type="button" class="btn btn-success" onclick="">검색</button>
 		</div>
+
+		<!-- datepicker -->
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
+        <script>	
+                    
+        $(function(){
+        	
+            
+            $("#datepicker1").datepicker({
+                changeMonth: true, 
+                changeYear: true,
+                minDate: '0',
+                nextText: '다음 달',
+                prevText: '이전 달',
+                yearRange: 'c-50:c+20',
+                showButtonPanel: true, 
+                currentText: '오늘 날짜',
+                closeText: '닫기',
+                dateFormat: "yy-mm-dd",
+                showAnim: "slide",
+                showMonthAfterYear: true, 
+                dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
+                onSelect: function(selected){
+                	$("#datepicker2").datepicker("option", "minDate", selected);
+                }
+            });	
+            
+            $("#datepicker2").datepicker({
+                changeMonth: true, 
+                changeYear: true,
+                minDate: '0',
+                nextText: '다음 달',
+                prevText: '이전 달',
+                yearRange: 'c-50:c+20',
+                showButtonPanel: true, 
+                currentText: '오늘 날짜',
+                closeText: '닫기',
+                dateFormat: "yy-mm-dd",
+                showAnim: "slide",
+                showMonthAfterYear: true, 
+                dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
+                onSelect: function(selected){
+                	$("#datepicker1").datepicker("option", "maxDate", selected);
+                }
+            });	
+            
+            
+            
+        });
+        
+        </script>   
+
+        <!-- 에러 해결 시작 - 홈짱 -->
+
+        <script>
+
+            jQuery.browser = {};
+            
+            (function () {
+            
+                jQuery.browser.msie = false;
+            
+                jQuery.browser.version = 0;
+            
+                if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            
+                    jQuery.browser.msie = true;
+            
+                    jQuery.browser.version = RegExp.$1;
+            
+                }
+            
+            })();
+            
+            </script>
+            
+            <!-- 에러 해결 종료 - 홈짱 -->
+
 		<br>
 		<br>
 		<div class="businessList">
@@ -121,6 +217,14 @@
 					
 				</tbody>
 			</table>
+			
+			<script>
+				$(function(){
+					$(".businessTable tbody>tr").click(function(){
+						location.href = 'detail.bt?btNo=' + 
+					})
+				})
+			</script>
 
 			<br>
 			<br>
@@ -170,23 +274,6 @@
 		</div>
 
 		<script>
-			$(function(){
-	            $(".businessTable>tbody button").click(function(){
-	                if(confirm("신청을 취소하시겠습니까?") == true){
-	                    location.href = 'delete.bt?no=' + ''
-	                }
-	            });
-	
-	            $(".overTable>tbody button").click(function(){
-	                if(confirm("신청을 취소하시겠습니까?")){
-	                    location.href = 'delete.ot?no=' + ''
-	                }
-	            })
-	
-	            
-	        })
-        </script>
-		<script>
 	            $(function(){
 	            	
 	            	businesstripList(1);
@@ -216,13 +303,18 @@
 	            				        + "<td>" + bmap.bList[i].empName + "</td>"
 	            				        + "<td>" + bmap.bList[i].deptName + "</td>"
 	            				        + "<td>출장</td>"
-	            				        + "<td><input type='text' name='btStart' value='" + bmap.bList[i].btStart + "'><span style='font-size: 15px; font-weight: 600;'>~</span><input type='text' name='btEnd' value='" + bmap.bList[i].btEnd + "'></td>"
+	            				        + "<td><input type='text' name='btStart' value='" + bmap.bList[i].btStart + "' readonly><span style='font-size: 15px; font-weight: 600;'>~</span><input type='text' name='btEnd' value='" + bmap.bList[i].btEnd + "' readonly></td>"
 	            				        + "<td>" + bmap.bList[i].btCheck + "</td>"
 	            				        + "<td><button class='btn btn-warning' onclick='deleteBusinesstrip(" + bmap.bList[i].btNo +");'>취소</button></td>"
 	            				       + "</tr>";
 	            				       
 	            				$(".businessTable tbody").html(value);
 	            			};
+	            			
+	            			// tr click이벤트
+	            			$(".businessTable tbody>tr").click(function(){
+	            				location.href = 'detail.bt?btNo=' + bmap.bList[i].btNo;
+	            			})
 	            			
 	            			// 페이징바 만들때 해당 페이지숫자 클릭시 => businessTripList(클릭한숫자);
 	            			let page = "";
@@ -275,7 +367,7 @@
 	            				        + "<td>" + omap.oList[i].deptName + "</td>"
 	            				        + "<td>" + omap.oList[i].otCategory + "</td>"
 	            				        + "<td>" + omap.oList[i].enrollDate + "</td>"
-	            				        + "<td><input type='text' name='otStart' value='" + omap.oList[i].otStart + "'><span style='font-size: 15px; font-weight: 600;'>~</span><input type='text' name='otEnd' value='" + omap.oList[i].otEnd + "'></td>"
+	            				        + "<td><input type='text' name='otStart' value='" + omap.oList[i].otStart + "' readonly><span style='font-size: 15px; font-weight: 600;'>~</span><input type='text' name='otEnd' value='" + omap.oList[i].otEnd + "' readonly></td>"
 	            				        + "<td>" + omap.oList[i].otCheck + "</td>"
 	            				        + "<td><button class='btn btn-warning' onclick='deleteOvertime(" + omap.oList[i].otNo + ");'>취소</button></td>"
 	            				       + "</tr>";
@@ -324,6 +416,10 @@
 	            		//console.log(no);
 		            	location.href = 'delete.ot?otNo=' + no;
 	            }
+	            
+	            $()
+	            
+	            
             </script>
 
 	</div>

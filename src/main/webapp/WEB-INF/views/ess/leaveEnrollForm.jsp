@@ -24,10 +24,12 @@
     .header{
         display: flex;
     }
-    input{
+    input[type=text]{
+        height:25px;
         width:100px;
         border: 1px solid rgb(170, 170, 170);
         border-radius: 5px;
+        text-align: center;
     }
     #textBox{
         resize: none;
@@ -95,8 +97,8 @@
                 <div style="display: flex;">
                     <img src="resources/images/ess/mark.png" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        &nbsp;신청자&nbsp; <input type="text" name="" value="&nbsp;${ e.empName }"> 
-                        &nbsp;소속&nbsp; <input type="text" name="" value="&nbsp;${ e.deptName }">
+                        &nbsp;신청자&nbsp; <input type="text" name="" value="${ e.empName }"> 
+                        &nbsp;소속&nbsp; <input type="text" name="" value="${ e.deptName }">
                         <input type="hidden" name="empNo" value="${ e.empNo }">
                     </div>
                     <div style="background:rgb(234, 234, 234); width:460px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
@@ -107,10 +109,10 @@
                 <div style="display: flex;">
                     <img src="resources/images/ess/clock.png" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        시작일&nbsp;&nbsp; <input type="text" name="leaveStart" value="" id="datepicker1" style="width:150px; height:20px;"> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="text" id="datepicker2" name="leaveEnd" value="" style="width:150px; height:20px;"> 
+                        시작일&nbsp;&nbsp; <input type="text" name="leaveStart" value="" id="datepicker1"> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="text" id="datepicker2" name="leaveEnd" value=""> 
                     </div>
-                    <div style="background:rgb(234, 234, 234); width:331px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:441px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br><br>
@@ -184,6 +186,32 @@
         });
         
         </script>   
+
+        <!-- 에러 해결 시작 - 홈짱 -->
+
+        <script>
+
+            jQuery.browser = {};
+            
+            (function () {
+            
+                jQuery.browser.msie = false;
+            
+                jQuery.browser.version = 0;
+            
+                if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            
+                    jQuery.browser.msie = true;
+            
+                    jQuery.browser.version = RegExp.$1;
+            
+                }
+            
+            })();
+            
+            </script>
+            
+            <!-- 에러 해결 종료 - 홈짱 -->
 
         <script>
             $(function(){

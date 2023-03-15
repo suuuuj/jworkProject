@@ -98,8 +98,48 @@ public class EssServiceImpl implements EssService {
 	}
 
 	@Override
-	public ArrayList<Businesstrip> adminSelectBusinessList(PageInfo pi) {
+	public ArrayList<Businesstrip> adminSelectBusinesstripList(PageInfo pi) {
 		return eDao.adminSelectBusinesstripList(sqlSession, pi);
+	}
+
+	@Override
+	public Businesstrip selectBusinesstrip(int btNo) {
+		return eDao.selectBusinesstrip(sqlSession, btNo);
+	}
+
+	@Override
+	public Overtime selectOvertime(int otNo) {
+		return eDao.selectOvertime(sqlSession, otNo);
+	}
+
+	@Override
+	public Businesstrip adminSelectBusinesstrip(int btNo) {
+		return eDao.adminSelectBusinesstrip(sqlSession, btNo);
+	}
+
+	@Override
+	public Overtime adminSelectOvertime(int otNo) {
+		return eDao.adminSelectOvertime(sqlSession, otNo);
+	}
+
+	@Override
+	public int adminUpdateFirstBusinesstrip(Businesstrip b) {
+		return eDao.adminUpdateFirstBusinesstrip(sqlSession, b);
+	}
+
+	@Override
+	public int adminUpdateSecondBusinesstrip(Businesstrip b) {
+		return eDao.adminUpdateSecondBusinesstrip(sqlSession, b);
+	}
+
+	@Override
+	public int adminUpdateFirstOvertime(Overtime o) {
+		return eDao.adminUpdateFirstOvertime(sqlSession, o);
+	}
+
+	@Override
+	public int adminUpdateSecondOvertime(Overtime o) {
+		return eDao.adminUpdateSecondOvertime(sqlSession, o);
 	}
 	
 	
