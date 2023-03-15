@@ -264,9 +264,22 @@
                                 <a id="" href="">근태현황</a><br>
                                 <a id="" href="">근태이력</a><br>
                                 <a id="" href="">근태수정</a><br>
-                                <a id="" href="">근태조정</a><br>
-                                <a id="" href="">근태관리</a><br>
-                                <a id="" href="">근태통계</a><br>
+                                <a id="" href="" style="color:rgb(2, 152, 52)">근태조정</a><br>
+                                <a id="" href="" style="color:rgb(2, 152, 52)">근태관리</a><br>
+                                <a id="" href="" style="color:rgb(2, 152, 52)">근태통계</a><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu"  id="">
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/holiday.png" alt="" />휴가</div>
+                        <div class="menu-wrap">
+                            <div class="menuDetail">
+                                <a id="" href="menu.le">휴가신청</a><br>
+                                <a id="" href="list.le">휴가상세</a><br>
+                                <a id="" href="list.wt" style="color:rgb(2, 152, 52)">휴가관리</a><br>
+                                <a id="" href=""  style="color:rgb(2, 152, 52)">휴가내역</a><br>
+                                <a id="" href="" style="color:rgb(2, 152, 52)">전체휴가일정</a><br>
                             </div>
                         </div>
                     </div>
@@ -278,8 +291,8 @@
                                 <a id="" href="enrollForm.bt">출장신청</a><br>
                                 <a id="" href="enrollForm.ot">시간외 근무신청</a><br>
                                 <a id="" href="list.wt">신청상세</a><br>
-                                <a id="" href="admin.bt">출장관리</a><br>
-                                <a id="" href="admin.ot">시간외 근무관리</a><br>
+                                <a id="" href="admin.bt" style="color:rgb(2, 152, 52)">출장관리</a><br>
+                                <a id="" href="admin.ot" style="color:rgb(2, 152, 52)">시간외 근무관리</a><br>
                             </div>
                         </div>
                     </div>
@@ -290,19 +303,6 @@
                             <div class="menuDetail">
                                 <a id="" href="status.car">차량예약신청</a><br>
                                 <a id="" href="list.cfrRes">회의실예약신청</a><br>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/holiday.png" alt="" />휴가</div>
-                        <div class="menu-wrap">
-                            <div class="menuDetail">
-                                <a id="" href="menu.le">휴가신청</a><br>
-                                <a id="" href="list.le">휴가상세</a><br>
-                                <a id="" href="list.wt">휴가관리</a><br>
-                                <a id="" href="">휴가내역</a><br>
-                                <a id="" href="">전체휴가일정</a><br>
                             </div>
                         </div>
                     </div>
