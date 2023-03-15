@@ -23,8 +23,9 @@
     .header{
         display: flex;
     }
-    input{
+    input[type=text]{
         width:100px;
+        height:25px;
         border: 1px solid rgb(170, 170, 170);
         border-radius: 5px;
         text-align: center; 
@@ -101,8 +102,8 @@
                 <div style="display: flex;">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
                         <img src="resources/images/ess/clock.png" alt="" style="width:30px; height:30px">
-                        시작일&nbsp; <input type="text" id="datepicker1" name="btStart" value="" style="width:150px; height:20px;"> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="text" id="datepicker2" name="btEnd" value="" style="width:150px; height:20px;"> 
+                        시작일&nbsp; <input type="text" id="datepicker1" name="btStart" value=""> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="text" id="datepicker2" name="btEnd" value=""> 
                     </div>
 
                     <!-- datepicker -->
@@ -184,7 +185,7 @@
                         
                         <!-- 에러 해결 종료 - 홈짱 -->
 
-                    <div style="background:rgb(234, 234, 234); width:390px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:490px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br><br>

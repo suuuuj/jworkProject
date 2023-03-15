@@ -21,7 +21,7 @@
     .header{
         display: flex;
     }
-    input[type=text], input[type=date]{
+    input[type=text]{
         width:100px;
         height:25px;
         border: 1px solid rgb(170, 170, 170);
@@ -29,7 +29,7 @@
         text-align: center; 
     }
     .enrollForm select{
-        width:120px;
+        width:100px;
         border:1px solid rgb(170, 170, 170);
         border-radius: 5px;
         height:25px;
@@ -121,14 +121,14 @@
                             <option value="2">주말</option>
                         </select> 
                     </div>
-                    <div style="background:rgb(234, 234, 234); width:619px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:639px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br>
 
                 <div style="display: flex;">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px;">
-                        &nbsp;근무날짜 / 시간&nbsp; <input type="text" id="datepicker" name="enrollDate" value="" style="width:150px;"> 
+                        &nbsp;근무날짜 / 시간&nbsp; <input type="text" id="datepicker" name="enrollDate" value=""> 
 
                         <!-- datepicker -->
                         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
@@ -239,7 +239,7 @@
                             </script>
                         </select>&nbsp;
                     </div>
-                    <div style="background:rgb(234, 234, 234); width:400px; height:1px; margin-top:20px; margin-left: 5px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:450px; height:1px; margin-top:20px; margin-left: 5px;">&nbsp;</div>
                 </div>
 
                 <br><br>
