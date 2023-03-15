@@ -66,18 +66,12 @@ public class CarController {
 		return "reservation/carEnrollForm";
 	}
 	
-	@RequestMapping("delete.car")
-	public String deleteCar(Car c,HttpSession session) {
+	@ResponseBody
+	@RequestMapping(value="delete.car",produces="application/json; charset=utf-8")
+	public String deleteCar(String carName,HttpSession session) {
 		
-		int result= cService.deleteCar(c);
-		if(result>0) {
-			session.setAttribute("alertMsg", "차량 삭제 완료");
-			return "redirect: list.car";
-		}else {
-			session.setAttribute("alertMsg", "차량 삭제 실패");
-			return "redirect: list.car";
-			
-		}
+		int result= cService.deleteCar(carName);
+		return new Gson().toJson(result);
 	}
 	
 	@ResponseBody

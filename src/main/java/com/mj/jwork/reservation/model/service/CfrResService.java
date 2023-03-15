@@ -15,7 +15,9 @@ public interface CfrResService {
 	ArrayList<CfRoom> selectNList();
 	
 	//내 예약 목록 조회 페이징
-	int selectMyCfrListCount(CfrReservation cfrRes);
-	ArrayList<CfrReservation> selectMyCfrList(PageInfo pi,CfrReservation cfrRes);
+	int selectMyCfrListCount(int reservation);
+	ArrayList<CfrReservation> selectMyCfrList(PageInfo pi,int reservation);
 
+	// 일정 상세 조회
+	CfrReservation selectMyCfr(int resNo);
 }

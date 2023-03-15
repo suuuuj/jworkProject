@@ -7,22 +7,22 @@
 <style>
      #pagingArea{width:fit-content;margin:auto;}
      div{box-sizing: border-box;}
-
+	
 
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-      <jsp:include page="../common/menubar.jsp"/>
-    <div class="outer">
+    <jsp:include page="../common/menubar.jsp"/>
+    <div class="outer" style="width:940px; margin:20px;">
         <h2>나의 차량 예약내역</h2>
-        <div align="right">
-            <input type="date">- <input type="date">
-        </div>
         <hr><br>
         <div>
-            <div id="">
+        <div align="right" style="width:900px;">
+            <input type="date">- <input type="date">
+        </div>
+            <div id="" style="width:900px; margin:20px;">
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -34,17 +34,27 @@
                         </tr>
                    </thead>
                    <tbody>
-                        <tr>
-                            <td>소나타 2022허03</td>
-                            <td>2023-02-24 09:00:01</td>
-                            <td>2023-02-24 09:00~2023-02-24 14:00</td>
-                            <td>지방 출장(부산)</td>
-                            <td>
-                                <button type="button" class="btn btn-sm btn-primary">승인완료</button>
-                                <button type="button" class="btn btn-sm btn-warning">반려</button>
-                                <button type="button" class="btn btn-sm btn-secondary">승인대기</button>
-                            </td>
-                        </tr>
+                   		<c:forEach items="${list}" var="c">
+	                        <tr>
+	                            <td>${c.carName }</td>
+	                            <td>${c.requestDate}</td>
+	                            <td>${c.resDate} &nbsp;${c.startTime }~${c.endTime}</td>
+	                            <td>${c.cause}</td>
+	                            <td>
+	                            	<c:choose>
+		                            	<c:when test="${c.apStatus eq 1}">
+		                            		 <button type="button" class="btn btn-sm btn-secondary" disabled>승인대기</button>
+		                            	</c:when>
+		                            	<c:when test="${c.apStatus eq 2}">
+		                                	<button type="button" class="btn btn-sm btn-primary" disabled>승인완료</button>
+		                                </c:when>
+		                                <c:otherwise>
+		                                	 <button type="button" class="btn btn-sm btn-warning" disabled>반려</button>
+		                                </c:otherwise>
+	                            	</c:choose>
+	                            </td>
+	                        </tr>
+                        </c:forEach>
                    </tbody>
 
                 </table>
@@ -52,20 +62,29 @@
             </div>
         </div>
         <br>
-        <div id="pagingArea">
-            <ul class="pagination">
-                <li class="page-item disabled"><a class="page-link" href="#"><</a></li>
-                <li class="page-item"><a class="page-link" href="list.bo?cpage=${p }">1</a></li>
-                <li class="page-item"><a class="page-link" href="list.bo?cpage=${p }">2</a></li>
-                <li class="page-item"><a class="page-link" href="list.bo?cpage=${p }">3</a></li>
-                <li class="page-item"><a class="page-link" href="list.bo?cpage=${pi.currentPage + 1 }">></a></li> 
-            </ul>
+        <div id="pagingArea" style="width:940px; margin:20px; margin-left: 400px;">
+             <ul class="pagination">
+             	<c:choose>
+              	<c:when test="${pi.currentPage eq  1}">
+                  	<li class="page-item disabled"><a class="page-link" href="#"><</a></li>
+                  </c:when>
+                  <c:otherwise>
+                   <li class="page-item"><a class="page-link" href="list.carMe?cpage=${pi.currentPage -1 }"><</a></li>
+               </c:otherwise>
+           </c:choose>
+           <c:forEach var="p"  begin="${pi.startPage}" end="${pi.endPage}">
+                  <li class="page-item"><a class="page-link" href="list.carMe?cpage=${p }">${p }</a></li>
+            </c:forEach>
+             <c:choose>
+              	<c:when test="${pi.currentPage eq pi.maxPage}">
+               		<li class="page-item disabled"><a class="page-link" href="#">></a></li>
+           	 	</c:when>
+           	 	<c:otherwise>
+           	 		<li class="page-item"><a class="page-link" href="list.carMe?cpage=${pi.currentPage + 1 }">></a></li>
+        		</c:otherwise>
+          	</c:choose>
+             </ul>
         </div>
-
-    <!-- Button to Open the Modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-        Open modal
-    </button>
     </div>
     <!-- 상세보기 모달 -->
     <div class="modal" id="detail-view">

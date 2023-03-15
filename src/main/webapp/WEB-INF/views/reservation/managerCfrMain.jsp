@@ -34,13 +34,17 @@
         right: 5px;
       
     }
+
+    #cfRoom-updateForm td{
+        height: 70px;
+    }
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
       <jsp:include page="../common/menubar.jsp"/>
-    <div class="outer">
+    <div class="outer" style="width:940px;">
         <h2>회의실 관리</h2>
         <hr><br>
         <div>
@@ -55,25 +59,38 @@
 	                <div class="detail-img" style="position: relative;" <%-- onclick="cfrDetail(${c.cfrName});" --%>>
 	                    <article>
 	                        <figure>
-	                            <img src="${c.firstImg}" width="250px" height="150px">
+	                            <img src="${c.firstImg}" width="250px" height="150px"  onclick="detailCfr('${c.cfrName}');" data-toggle="modal" data-target="#cfrDetailView">
 	                            <figcaption>${c.cfrName}</figcaption>
 	                        </figure>
 	                    </article>
 	                    <div style="position: absolute;" class="subImg">
-	                        <a class="btn" onclick="deleteCfr();">
+	                        <a class="btn" onclick="deleteCfr('${c.cfrName}');">
 	                        	<img src="resources/images/reservation/trash.png" width="23px;" height="23px;">
 	                        </a>
-	                        <form action="delete.cfr" method="post" id="deleteForm">
-	                        	<input type="hidden" name="cfrName" value="${c.cfrName}">
-	                        </form>
 	                    </div>
 	                </div>
 	             </c:forEach>         
             </div>
             <script>
-            	function deleteCfr(){
+            	function deleteCfr(cfrName){
             		
-            		$("#deleteForm").submit();
+            		if(confirm('정말 회의실을 삭제하시겠습니까?'))   
+        			{
+        			$.ajax({
+        				url:"delete.cfr",
+        				data:{cfrName:cfrName},
+        				async: true,
+        				success:function(result){
+        					if(result>0){
+        						alert("회의실 삭제 성공");
+        						location.reload();
+        					}
+        				},error:function(){
+        					console.log("ajax통신 실패");
+        				}
+        			});
+        			
+        			}
             	}
             </script>
         <div id="pagingArea">
@@ -102,24 +119,49 @@
          </div>
         </div>
         <br>
-        <script>
-        /* 	function cfrDetail(cfrName){
-        		
-        			  		
-        		
-        	}
-        
-			$(function(){
-				
-				if($(".detail-img figcaption").val() == '${CfRoom.cfrName}'){
-					
-				}
-				
-			}) */
-			
-        </script>
+         <script>
+		         function detailCfr(cfrName){
+		         	
+		         	$.ajax({
+		         		url:"adetail.cfr"
+		         	   ,data:{cfrName:cfrName}
+		         	   ,success:function(c){
+		         			$("#inputCfrName").val(c.cfrName);
+		         			$("#firstImg").attr("src",c.firstImg);
+		         			$("#capacity").val(c.capacity);
+		         			
+		         			var equipmentArr = c.equipment.split(",");
+		         			var cnt = equipmentArr.length;
+							var value ="";
+							console.log(equipmentArr);
+							for(var i=0; i<cnt; i++){
+							value+= equipmentArr[i]
+                			+"&nbsp;<input type='checkbox' name='equipment' value='"
+                			+equipmentArr[i] +"'>&nbsp;&nbsp;";
+	         				}
+							$("#equipment").html(value);
+							
+		         			for(var i=0; i<cnt; i++){
+		         			  
+		         			$('input:checkbox[name=equipment]').each(function(){
+		         			    if(this.value == equipmentArr[i]){
+		         			    this.checked = true;
+		         			    }
+		         			  });
+		         			
+		         			} 
+		         			
+		         	   },error:function(){
+		         		   
+		         		   console.log("ajax통신에러");
+		         	   }
+		         	});
+		         	
+		         }
+		          
+            </script>
         <!-- 회의실 상세보기 모달 -->
-        <div class="modal" id="">
+        <div class="modal" id="cfrDetailView">
             <div class="modal-dialog">
             <div class="modal-content">
         
@@ -131,62 +173,124 @@
         
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form action="">
-                        <table id="cfRoom-enrollForm">
+                    <form action="update.cfr" method="post">
+                        <table id="cfRoom-updateForm">
                             <tr >
-                                <th >회의실 이름</th>
-                                <td><input type="text" name="" value=""></td>
-                            </tr>
-                            <tr>
-                                <th>회의실 대표 이미지</th>
-                                <td>
-                                    <img src="" width="150px" height="100px" onclick="$('#firstImg').click();">
-                                    <input type="file" id="firstImg" style="display:none;">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>회의실 상세 이미지</th>
-                                <td>
-                                    <img src="" width="150px" height="100px">
-                                    <img src="" width="150px" height="100px">
-                                    <img src="" width="150px" height="100px">
-        
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>수용인원</th>
-                                <td><input type="number" name="" value=""></td>
-                            </tr>
-                            <tr>
-                                <th>회의장비</th>
-                                <td>
-                                    TV&nbsp;<input type="checkbox">&nbsp;
-                                    빔프로젝터&nbsp;<input type="checkbox">&nbsp;
-                                    에어컨&nbsp;<input type="checkbox">&nbsp;
-                                    커피포트&nbsp;<input type="checkbox">&nbsp;
-                                    선풍기&nbsp;<input type="checkbox">&nbsp;
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"><button type="button" class="btn btn-sm btn-secondary">+장비추가</button></td>
-                            </tr>
-        
-        
+                           	   <th>회의실명</th>
+	                            <td >
+	                            	<div class="col-10">
+	                            		<input type="text" name="cfrName" id="inputCfrName" readonly class="form-control">
+	                           		</div>
+	                            </td>
+		                        </tr>
+		                        <tr>
+	                            <th>회의실 이미지</th>
+	                            <td >
+	                                <div style="width: 320px;">
+	                                    <img width="150px" height="100px" id="firstImg" onclick="$('#firstImgFile').click();">
+	                                    <input type="file" id="firstImgFile" name="upfile" style="display:none;">
+	                                </div>
+	                            </td>
+		                        </tr>
+		                        <tr>
+		                            <th>수용인원</th>
+		                            <td>
+		                            	<div class="col-4">
+		                            		<input type="number" id="capacity" name="capacity" class="form-control">
+		                           		</div>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                            <th>회의장비</th>
+		                            <td id="equipment">
+			                            	<div id="equipment-area">
+			                            	</div>
+		                            </td>
+		                        </tr>
+	                            <tr>
+	                                <td colspan="2"><button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#addObject">+장비추가</button></td>
+	                            </tr>
+	                            <tr>
+	                            	<td colspan="2">
+						                <div class="modal-footer">
+						                    <button type="submit" class="btn btn-sm btn-primary" >수정하기</button>
+						                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal" onclick="history.back();">이전으로</button>
+						                </div>
+					                </td>
+	                            </tr>
                         </table>
                     </form>
+                     <script>
+						 $(function(){
+							
+							 $("#firstImgFile").on("change", function(event) {
+		
+								    var file = event.target.files[0];
+		
+								    var reader = new FileReader(); 
+								    reader.onload = function(e) {
+		
+								        $("#firstImg").attr("src", e.target.result);
+								    }
+								    reader.readAsDataURL(file);
+								});
+							})
+							
+						</script>
                 </div>
-        
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-sm btn-primary" >수정하기</button>
-                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal" onclick="history.back();">이전으로</button>
-                </div>
-        
             </div>
             </div>
         </div>
-        
 
     </div>
+    
+     <!-- 장비추가 모달 -->
+            <div class="modal" id="addObject">
+                <div class="modal-dialog">
+                <div class="modal-content">
+            
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                    <h4 class="modal-title">장비추가</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+            
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form action="add.eq" method="post">
+                            장비명 : <input type="text" id="addEq">
+
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="addEmp();">추가하기</button>
+                                <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">닫기</button>
+                    
+                        </form>
+                    </div>
+            
+                </div>
+            </div>
+            </div>
+             <script>
+        		function addEmp(){
+        			
+        			$.ajax({
+                		url:"add.eq",
+                		data:{equipment:$("#addEq").val()},
+                		success:function(result){
+                			let value= result 
+                			+"&nbsp;<input type='checkbox' name='equipment' value='"
+                			+result+"'>&nbsp;&nbsp;";
+                			
+                			$("#equipment-area").append(value);
+                			$("#addEq").val("");
+                		},error:function(){
+                			console.log("ajax 통신 실패");
+                		}
+                				
+                	})
+            	
+        			
+        		}
+        	
+        </script>
 </body>
 </html>

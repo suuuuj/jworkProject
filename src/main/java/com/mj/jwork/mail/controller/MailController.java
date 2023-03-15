@@ -26,17 +26,20 @@ public class MailController {
 	
 	// 메일 리스트 조회
 	@RequestMapping(value="list.ma")
-	public ModelAndView mailListForward(@RequestParam(value="cpage", defaultValue="1") int currentPage, @RequestParam(value="box", defaultValue="받은 메일함") String mailBox ,HttpSession session, ModelAndView mv) {
+	public ModelAndView mailListForward(@RequestParam(value="cpage", defaultValue="1") int currentPage, Mail m ,HttpSession session, ModelAndView mv) {
 		
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		m.setEmpNo(empNo);
+		System.out.println(m);
 		
-		int listCount = mService.selectReceiveListCount(empNo);
-		int unReadCount = mService.selectUnReadReceiveCount(empNo);
+		int listCount = mService.selectListCount(m);
+		int unReadCount = mService.selectUnReadListCount(m);
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		
-		ArrayList<Mail> mList = mService.selectReceiveMailList(empNo, pi);
-		mv.addObject("mailBox", mailBox)
+		ArrayList<Mail> mList = mService.selectMailList(m, pi);
+		mv.addObject("mailCategory", m.getMailCategory())
+		  .addObject("mailBoxNo", m.getMailBoxNo())
 		  .addObject("listCount", listCount)
 		  .addObject("unReadCount", unReadCount)
 		  .addObject("pi", pi)
@@ -108,6 +111,38 @@ public class MailController {
 		return "mail/mailEnrollForm";
 		
 	}
+	
+	// 메일 이동 서비스
+	@ResponseBody
+	@RequestMapping("moveMail.ma")
+	public String ajaxMoveMail(Mail m, @RequestParam(value="mailNoList[]") ArrayList<Integer> mailNoList) {
+		
+		//System.out.println(m);
+		//System.out.println(mailNoList);
+		int result = 1;
+		for(int i=0; i<mailNoList.size(); i++) {
+			//System.out.println(mailNoList.get(i));
+			m.setMailNo(mailNoList.get(i));
+			//System.out.println(m);
+			result = result * mService.moveMail(m);
+			
+		}
+		
+		return result > 0 ? "success" : "fail";
+		
+	}
+	
+	// 메일 중요 서비스
+	@ResponseBody
+	@RequestMapping("important.ma")
+	public String ajaxImportant(Mail m) {
+		
+		int result = mService.updateImportant(m);
+		
+		return result > 0 ? "success" : "fail";
+		
+	}
+	
 	
 	
 }

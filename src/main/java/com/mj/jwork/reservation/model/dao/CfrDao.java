@@ -35,10 +35,19 @@ public class CfrDao {
 		return sqlSession.selectOne("cfrMapper.selectListCount");
 	}
 	
-	public int deleteCfr(SqlSessionTemplate sqlSession,CfRoom cfr) {
+	public int deleteCfr(SqlSessionTemplate sqlSession,String cfrName) {
 		
-		return sqlSession.delete("cfrMapper.deleteCfr",cfr);
+		return sqlSession.delete("cfrMapper.deleteCfr",cfrName);
 	}
 	
+	public ArrayList<CfRoom> ajaxSelectCfrList(SqlSessionTemplate sqlSession){
+	
+		return (ArrayList)sqlSession.selectList("cfrMapper.ajaxSelectCfrList");
 
+	}
+	public CfRoom selectCfr(SqlSessionTemplate sqlSession, String cfrName) {
+		
+		return sqlSession.selectOne("cfrMapper.selectCfr",cfrName);
+	}
+	
 }

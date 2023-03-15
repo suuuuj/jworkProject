@@ -26,48 +26,137 @@
 	
 	
 	
-	<select id="selectReceiveListCount" resultType="_int">
-		select 
-		  	   count(*)
-		  from mail_detail
-		  left
-		  join mail using (mail_no)
-		 where emp_no = #{empNo}
-		   and send = 'Y'
-		   and type = 'R'
-		   and mailbox_no is null
-		   and status = 'Y'
-	</select>
-	
-	<select id="selectUnReadReceiveCount" resultType="_int">
-		select count(*)
-		  from mail_detail
-		  left
-		  join mail using (mail_no)
-		 where emp_no = #{empNo}
-		   and send = 'Y'
-		   and read = 'N'
-		   and type = 'R'
-		   and mailbox_no is null
-		   and status = 'Y'
-	</select>
-	
-	<select id="selectReceiveMailList" resultMap="mailResultMap">
+	<select id="selectListCount" resultType="_int">
 		select
-		       mail_no
-		     , important
-		     , read
-		     , sender
-		     , mail_title
-		     , to_char(register_date, 'YYYY.MM.DD HH24:MI:SS') "register_date"
-		  from mail_detail
-		  left
-		  join mail using (mail_no)
-		 where emp_no = #{empNo}
-		   and send = 'Y'
-		   and type = 'R'
-		   and mailbox_no is null
-		   and status = 'Y'
+		       count(*)
+		  from mail m 
+		  join mail_detail d on (m.mail_no = d.mail_no)
+		 where 
+		 	<choose>
+			 	<when test='mailCategory == "휴지통"'>
+			 			status = 'N' 
+			 		and emp_no = #{empNo}
+			 	</when>
+			 	<otherwise>
+			 		status = 'Y'
+			 	</otherwise>
+		    </choose>
+		    <if test='mailCategory == "받은메일함"'>
+		    	and type = 'R' 
+		    	and emp_no = #{empNo}
+		    	and mailbox_no is null 
+		    	and send = 'Y'
+		    </if>
+		    <if test='mailCategory == "보낸메일함"'>
+		    	and type = 'R' 
+		    	and sender_no = #{empNo} 
+		    	and mailbox_no is null 
+		    	and send = 'Y'
+		    </if>
+		    <if test='mailCategory == "중요"'>
+		    	and important = 'Y' 
+		    	and emp_no = #{empNo}
+		    </if>
+		    <if test='mailCategory == "임시보관함"'>
+		    	and send = 'N' 
+		    	and emp_no = #{empNo}
+		    </if>
+		    <if test='mailCategory == "사용자메일함"'>
+		    	and send = 'Y' 
+		    	and mailbox_no = #{mailBoxNo}
+		    </if>
+		   
+	</select>
+	
+	<select id="selectUnReadListCount" resultType="_int">
+		select
+		       count(*)
+		  from mail m 
+		  join mail_detail d on (m.mail_no = d.mail_no)
+		 where 
+		 	<choose>
+			 	<when test='mailCategory == "휴지통"'>
+			 			status = 'N' 
+			 		and emp_no = #{empNo}
+			 	</when>
+			 	<otherwise>
+			 		status = 'Y'
+			 	</otherwise>
+		    </choose>
+		    <if test='mailCategory == "받은메일함"'>
+		    	and type = 'R' 
+		    	and emp_no = #{empNo}
+		    	and mailbox_no is null 
+		    	and send = 'Y'
+		    </if>
+		    <if test='mailCategory == "보낸메일함"'>
+		    	and type = 'R' 
+		    	and sender_no = #{empNo} 
+		    	and mailbox_no is null 
+		    	and send = 'Y'
+		    </if>
+		    <if test='mailCategory == "중요"'>
+		    	and important = 'Y' 
+		    	and emp_no = #{empNo}
+		    </if>
+		    <if test='mailCategory == "임시보관함"'>
+		    	and send = 'N' 
+		    	and emp_no = #{empNo}
+		    </if>
+		    <if test='mailCategory == "사용자메일함"'>
+		    	and send = 'Y' 
+		    	and mailbox_no = #{mailBoxNo}
+		    </if>
+		    and read = 'N'
+	</select>
+	
+	<select id="selectMailList" resultMap="mailResultMap">
+		select
+		       m.mail_no
+		     , d.important
+		     , d.read
+		     , m.sender
+		     , d.emp_name
+		     , m.mail_title
+		     , to_char(m.register_date, 'YYYY.MM.DD HH24:MI:SS') "register_date"
+		     , (select count(*) from mail_at where mail_no = m.mail_no) "attachment"
+     		 , d.read_date
+		  from mail m 
+		  join mail_detail d on (m.mail_no = d.mail_no)
+		 where 
+		 	<choose>
+			 	<when test='mailCategory == "휴지통"'>
+			 			status = 'N' 
+			 		and emp_no = #{empNo}
+			 	</when>
+			 	<otherwise>
+			 		status = 'Y'
+			 	</otherwise>
+		    </choose>
+		    <if test='mailCategory == "받은메일함"'>
+		    	and type = 'R' 
+		    	and emp_no = #{empNo}
+		    	and mailbox_no is null 
+		    	and send = 'Y'
+		    </if>
+		    <if test='mailCategory == "보낸메일함"'>
+		    	and type = 'R' 
+		    	and sender_no = #{empNo} 
+		    	and mailbox_no is null 
+		    	and send = 'Y'
+		    </if>
+		    <if test='mailCategory == "중요"'>
+		    	and important = 'Y' 
+		    	and emp_no = #{empNo}
+		    </if>
+		    <if test='mailCategory == "임시보관함"'>
+		    	and send = 'N' 
+		    	and emp_no = #{empNo}
+		    </if>
+		    <if test='mailCategory == "사용자메일함"'>
+		    	and send = 'Y' 
+		    	and mailbox_no = #{mailBoxNo}
+		    </if>
 		 order
 		    by register_date desc
 	</select>
@@ -129,5 +218,31 @@
 		 where mailbox_no = #{mailBoxNo}
 	</delete>
 	
+	<update id="moveMail">
+		update
+			   mail_detail
+		   set status = #{status}
+		   <choose>
+			 	<when test="mailBoxNo == 0">
+			 		, mailbox_no = null
+			 	</when>
+			 	<otherwise>
+			 		, mailbox_no = #{ mailBoxNo }
+			 	</otherwise>
+		   </choose>
+		   <if test='type == "R" or type == "S"'>
+		 	, type = #{type}
+		   </if>
+		 where mail_no = #{ mailNo }
+		   and emp_no = #{ empNo }
+	</update>
+	
+	<update id="updateImportant">
+		update
+		       mail_detail
+		   set important = #{important}
+		 where mail_no = #{mailNo}
+		   and emp_no = #{empNo}
+	</update>
 	
 </mapper>

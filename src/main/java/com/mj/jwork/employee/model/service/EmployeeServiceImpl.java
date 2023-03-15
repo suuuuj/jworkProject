@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.dao.EmployeeDao;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
@@ -56,7 +57,34 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public ArrayList<Team> ajaxSelectTeamList() {
 		return eDao.ajaxSelectTeamList(sqlSession);
 	}
+	
+	
+	// 사내 주소록 리스트 조회
+	@Override
+	public int selectAddressInListCount() {
+		return eDao.selectAddressInListCount(sqlSession);
+	}
+	@Override
+	public ArrayList<Employee> selectAddressInList(int empNo, PageInfo pi) {
+		return eDao.selectAddressInList(sqlSession, empNo, pi);
+	}
+	
+	// 개인 주소록 리스트 조회
+	@Override
+	public int selectAddressOutListCount() {
+		return eDao.selectAddressOutListCount(sqlSession);
+	}
+	@Override
+	public ArrayList<Employee> selectAddressOutList(int empNo, PageInfo pi) {
+		return eDao.selectAddressOutList(sqlSession, empNo, pi);
+	}
+
+	// 사내 주소록 상세 조회 페이지(ajax)
+	@Override
+	public Employee ajaxSelectAddressEmployee(Employee e) {
+		return eDao.ajaxSelectAddressEmployee(sqlSession, e);
+	}
 
 
-
+	
 }

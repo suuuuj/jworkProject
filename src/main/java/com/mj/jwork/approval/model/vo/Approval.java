@@ -14,7 +14,7 @@ import lombok.ToString;
 public class Approval {
 	 private int appNo;
 	 private String docNo;
-	 private int enpNo;
+	 private int empNo;
 	 private String docType;
 	 private String createDate;
 	 private String updateDate;

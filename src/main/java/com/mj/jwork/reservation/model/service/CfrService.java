@@ -20,8 +20,12 @@ public interface CfrService {
 	int updateFirstImg(CfRoom cfr);
 	
 	//회의실 삭제 서비스
-	int deleteCfr(CfRoom cfr);
+	int deleteCfr(String cfrName);
 	
+	//회의실 리스트 (ajax)
+	ArrayList<CfRoom> ajaxSelectCfrList();
 	
+	//회의실 개별조회(ajax)
+	CfRoom selectCfr(String cfrName);
 	
 }

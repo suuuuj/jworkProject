@@ -14,7 +14,17 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
+    <!-- 구글 글씨체 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5버전 -->
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"> 
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
     
     <style>
         /*
@@ -31,23 +41,11 @@
 	 		font-family: 'Nanum Gothic', sans-serif;
 	 	}
         #mailHeader tr{height: 60px;}
-        .totalOuter{
-            width:1300px;
-            background-color: #fff;
-   
-        }
         
         .outer{
             width: 1200px;
         }
-        .content{
-            width: 960px;
-            padding: 20px;
-        }
-        .gradation{
-        	height:10px;
-        	background: linear-gradient(45deg, rgba(76, 209, 76, 0.219), rgb(74, 195, 74));
-        }
+        
         .space{
             height: 15px;
         }
@@ -57,28 +55,30 @@
    
         }
         .outer{width:1200px;}
-        .home{
-            height:100px;
-            width:1200px;
-            box-sizing: border-box ;
-            background: rgba(246, 246, 246, 0.712);
-        }
-        .line{
-            height:1px;
-            background: linear-gradient(45deg, rgb(2, 152, 52), rgb(3, 110, 63));
-        }
-        .logo{ width:200px; }
-        .menubar{
-            width:240px;
-            height:1000px;
+
+        .subMenubar{
+            position: relative;
+            width:220px;
+            height:100%;
             box-sizing: border-box ;
             float: left;
-            background-color: rgba(246, 246, 246, 0.712);
+            background-color: rgb(255, 255, 255);
+            border-right: 1px rgba(46, 170, 46, 0.219) solid;
+            margin-left: 8px;
         }
+        #line{
+            width: 10px;
+            background-color: rgb(217, 255, 227);
+            height: 1000px;
+            border-left: 2px solid;
+            border-right: 2px solid;
+        }
+
         .content{
             width:960px;
             height:1000px;
             box-sizing: border-box ;
+            float: left;
         }
         .outer>div{
             float: left;
@@ -86,25 +86,6 @@
         
         * {padding: 0;margin: 0;box-sizing: border-box;}
    
-   
-        .header{
-            display: flex;
-            align-items: center;
-            width: 1050px;
-        }
-        .header-right{
-            height: 70px;
-             display:flex;
-            width: 100px;
-            padding-top: 30px;
-         }
-         .headerIcon{
-             width:40px;
-             margin-right:10px;
-         }
-        .home>div{
-           float:left;
-        }
    
         .info-box{
             display: flex;
@@ -122,30 +103,19 @@
         .common{
             width: 60px;
             height: 1000px;
-            background-color: /*#2db400*/ #0dc75b;
-
+            background-color: rgba(46, 170, 46, 0.219);
+        
         }
         .mailMenu{
-            width: 180px;
+            width: 220px;
             height: 1000px;
         }
-        .menubar>div{
+        .subMenubar>div{
             float: left;
-        }
-        .menubarArea{
-           margin-left: 8px;
-           margin-right: 8px;
-           
         }
         .menu{
            margin-top: 10px;
         }
-        
-        .mainMenu:hover{
-           cursor:pointer;
-           border-radius: 0.5em;
-           background-color: rgba(0, 172, 0, 0.219);
-       }
         .menuIcon{
             margin-right: 10px;
             width: 40px;
@@ -175,7 +145,10 @@
             text-align: left;
         }
         .userMailBox{margin:10px}
-        .addMailBox{float: right;}
+        .addMailBox{
+            float: right;
+            font-size: 12px;
+        }
         .oneMailBox .mailBoxBtn{
             float: right;
         }
@@ -185,15 +158,23 @@
         }
         .oneMailBox{margin-top: 6px;}
         .mailBoxName{
-            width: 100px;
+            width: 130px;
             border: none;
-            background-color: rgba(246, 246, 246, 0.712);
             padding-left: 5px;
+        }
+        .mailBoxNameBtn{
+            width: 130px;
+            height: 30px;
+            border: none;
+            padding-left: 5px;
+            text-align: left;
         }
         .mailBoxName:focus{
             outline: 1px solid green;
             border-radius: 5px;
-            background-color: rgba(246, 246, 246, 0.712);
+        }
+        .active{
+            color: green;
         }
     </style>
 </head>
@@ -201,73 +182,9 @@
 	
     <div class="totalOuter">
 
-        <div class="home">
-            <div class="header">
-                <div class="logo-box">
-                    
-                    <a href="#"><img class="logo" src="resources/images/common/jwork_logo.png" alt="" /></a>
-                    
-                </div>
-
-            </div>
-			<div class="header-right">
-                	<a href="#"><img class="headerIcon" src="resources/images/common/mail.png" alt=""></a>
-                	<a href="#"><img class="headerIcon" src="resources/profile_images/profile.png" alt=""></a>
-            </div>
-            
-        </div>
-        <div class="gradation"></div>
         <div class="outer">
 
-            <div class="menubar">
-                <div class="common">
-
-                    <div class="menubarArea">
-                        <br>
-                        <div class="menu"  id="">
-                            <div class="mainMenu"><img class="menuIcon" src="resources/profile_images/profile.png" /></div>
-                        </div>
-                        <div class="space"></div>
-                        <div class="line"></div>
-                        <div class="space"></div>
-
-                        <div class="menu"  id="">
-                            <div class="mainMenu"><img class="menuIcon" src="resources/images/common/home.png" /></div>
-                        </div>
-
-                        <div class="menu"  id="">
-                            <div class="mainMenu"><img class="menuIcon" src="resources/images/common/schedule.png" /></div>
-                        </div>
-
-                        <div class="menu"  id="">
-                            <div class="mainMenu"><img class="menuIcon" src="resources/images/common/chart.png" /></div>
-                        </div>
-
-                        <div class="menu"  id="">
-                            <div class="mainMenu"><img class="menuIcon" src="resources/images/common/ess.png" /></div>
-                        </div>
-
-                        <div class="menu"  id="approval">
-                            <div class="mainMenu"><img class="menuIcon" src="resources/images/common/vacation.png" /></div>
-                        </div>
-                        
-                        <div class="menu"  id="">
-                            <div class="mainMenu"><img class="menuIcon" src="resources/images/common/approval.png" /></div>
-                        </div>
-
-                        <div class="menu"  id="">
-                            <div class="mainMenu"><img class="menuIcon" src="resources/images/common/mail.png" /></div>
-                        </div>
-
-                        <div class="menu"  id="">
-                            <div class="mainMenu"><img class="menuIcon" src="resources/images/common/board.png" alt="" /></div>
-                        </div>
-
-                        <div class="menu"  id="">
-                            <div class="mainMenu"><img class="menuIcon" src="resources/images/common/announce.png" alt="" /></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="subMenubar">
                 
                 <div class="mailMenu">
                     <div class="writeBtn">
@@ -275,28 +192,29 @@
                     </div>
                     <div class="mainMailBox">
                         <div>
-                            <a href="list.ma" id="receiveMailBox" class="btn btn-block">받은메일함</a>
+                            <a href="list.ma?mailCategory=받은메일함" id="receiveMailBox" class="btn btn-block">받은메일함</a>
                         </div>
                         <div>
                             <a href="#" class="btn btn-block">안읽은메일함</a>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-block">보낸메일함</a>
+                            <a href="list.ma?mailCategory=보낸메일함" class="btn btn-block">보낸메일함</a>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-block">임시보관함</a>
+                            <a href="list.ma?mailCategory=임시보관함" class="btn btn-block">임시보관함</a>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-block">중요메일함</a>
+                            <a href="list.ma?mailCategory=중요" class="btn btn-block">중요메일함</a>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-block">휴지통</a>
+                            <a href="list.ma?mailCategory=휴지통" class="btn btn-block">휴지통</a>
                         </div>
 
                         <div class="line"></div>
                     </div>
                     <div class="userMailBox">
                         <span>메일함</span> <span class="addMailBox btn btn-sm">추가하기</span>
+                        <br>
                         
                         
                     </div>
@@ -317,14 +235,24 @@
 							
 							for(let i=0; i<count; i++){
 								
-								value += '<div class="oneMailBox">'
+								value += '<div class="oneMailBox inputbox" hidden>'
 										   + '<input type="hidden" value="' + mblist[i].mailBoxNo + '">'
-										   + '<input type="text" class="mailBoxName" value="' + mblist[i].mailBoxName + '" readonly>'
+										   + '<input type="text" class="mailBoxName" value="' + mblist[i].mailBoxName + '" readonly onkeyup="">'
 										   + '<span class="mailBoxBtn">'
                                                 + '<img class="menuIcon editMailBox" src="resources/images/mail/edit.png" />'
                                                 + '<img class="menuIcon deleteMailBox" src="resources/images/mail/delete.png" />'
                                            + '</span>'
 									   + '</div>'
+                                       + '<div class="oneMailBox category">'
+                                            + '<input type="hidden" value="' + mblist[i].mailBoxNo + '">'
+                                            + '<button type="button" class="btn mailBoxNameBtn">' + mblist[i].mailBoxName + '</button>'
+                                            + '<span class="mailBoxBtn">'
+                                                + '<img class="menuIcon editMailBox" src="resources/images/mail/edit.png" />'
+                                                + '<img class="menuIcon deleteMailBox" src="resources/images/mail/delete.png" />'
+                                            + '</span>'
+                                        + '</div>';
+
+                                       
 							}
 							
 							$(".userMailBox").append(value);
@@ -340,18 +268,21 @@
 					
                 	loadMailBox();
                 	
-                	
 
                     // 메일함 수정 버튼 클릭 시
                     $(document).on("click", ".editMailBox", function(){
-                        $(this).parent().prev().attr("readonly", false);
-                        $(this).parent().prev().select();
+                        $(this).parent().parent().prev().attr("hidden", false);
+                        $(this).parent().parent().attr("hidden", true);
+                        $(this).parent().parent().prev().children().eq(1).attr("readonly", false);
+                        $(this).parent().parent().prev().children().eq(1).select();
+                        
                     })
 
                     // 메일함 input box 에서 포커스 아웃될 때
                     $(document).on("focusout", ".mailBoxName", function(){
                         const $mailBoxName = $(this).val();
                         const $mailBoxNo = $(this).prev().val();
+                        $(this).parent().next().children().eq(1).text($mailBoxName);
                         $.ajax({
                             url: "updateMailBox.ma",
                             data: {
@@ -361,8 +292,16 @@
                             success: function(result){
                             	
                             	if(result == "success"){
+                                    $("input[value='" + $mailBoxNo + "']").eq(0).parent().attr("hidden", true);
+                                    $("input[value='" + $mailBoxNo + "']").eq(1).parent().attr("hidden", false);
+                                    $(this).parent().parent().next().attr("hidden", false);
+                                    $(this).parent().parent().attr("hidden", true);
+                                    /*
                             		$(this).attr("readonly", true);
                                 	$(this).attr("border", "none");
+                                    */
+                                    $(".mailBoxOptions").remove();
+                                    moveMailBoxList();
                             	} else {
                             		alert("알 수 없는 이유로 수정을 실패했습니다. 다시 시도해주세요.");
                             		$(".oneMailBox").remove();
@@ -389,21 +328,32 @@
                     		success: function(mailbox){
                     			if(mailbox != null){
                     				// db에 메일함 추가하였을 경우
-	                    			const mailBoxInput = '<div class="oneMailBox">'
+	                    			const mailBoxInput = '<div class="oneMailBox inputbox">'
 														   + '<input type="hidden" value="' + mailbox.mailBoxNo + '">'
-														   + '<input type="text" class="mailBoxName" value="' + mailbox.mailBoxName + '" readonly>'
+														   + '<input type="text" class="mailBoxName" value="' + mailbox.mailBoxName + '" readonly onkeyup="">'
 														   + '<span class="mailBoxBtn">'
 					                                            + '<img class="menuIcon editMailBox" src="resources/images/mail/edit.png" />'
 					                                            + '<img class="menuIcon deleteMailBox" src="resources/images/mail/delete.png" />'
 					                                       + '</span>'
-													   + '</div>';
+													   + '</div>'
+                                                       + '<div class="oneMailBox category" hidden>'
+                                                            + '<input type="hidden" value="' + mailbox.mailBoxNo + '">'
+                                                            + '<button type="button" class="btn mailBoxNameBtn">' + mailbox.mailBoxName + '</button>'
+                                                            + '<span class="mailBoxBtn">'
+                                                                + '<img class="menuIcon editMailBox" src="resources/images/mail/edit.png" />'
+                                                                + '<img class="menuIcon deleteMailBox" src="resources/images/mail/delete.png" />'
+                                                            + '</span>'
+                                                        + '</div>';
+            
 									
 	                    			$(".userMailBox").append(mailBoxInput);
 									
 	                    			// db에 추가 후 바로 해당 메일함 이름 수정가능하게 설정
 			                        const mailBoxArr = $(".mailBoxName");
 			                        const newMailBox = mailBoxArr.eq(mailBoxArr.length - 1);
-			                        newMailBox.next().children().eq(0).click();				   
+			                        newMailBox.next().children().eq(0).click();
+                                    $(".mailBoxOptions").remove();
+                                    moveMailBoxList();		   
 				                    			
                     			} else{
                     				// db에 메일함 추가되지 않았을 경우
@@ -445,11 +395,12 @@
                     	
                     })
                     
-                    
-                    
-                    
-                    
-                    
+                    $(document).on("click", ".mailBoxNameBtn", function(){
+                        const $mailBoxNo = $(this).prev().val();
+
+                        location.href = "list.ma?mailCategory=사용자메일함&mailBoxNo=" + $mailBoxNo;
+
+                    })
                     
                 })
                 
@@ -465,7 +416,7 @@
                 
                 
             </script>
-
+            <div id="line"></div>
             <div class="content">
             
             

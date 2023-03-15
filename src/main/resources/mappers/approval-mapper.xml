@@ -5,7 +5,7 @@
 	<resultMap id="approvalResult" type="Approval">
 		<id column="app_no" property="appNo"/>
 		<result column="doc_no" property="docNo"/>
-		<result column="emp_no" property="enpNo"/>
+		<result column="emp_no" property="empNo"/>
 		<result column="doc_type" property="docType"/>
 		<result column="create_date" property="createDate"/>
 		<result column="update_date" property="updateDate"/>
@@ -26,7 +26,7 @@
 		  from approval
 		  join employee using(emp_no)
 		 where doc_status='Y'
-		   and emp_no = #{emp_no}
+		   and emp_no = #{empNo}
 		   
 	</select>
 	
@@ -37,40 +37,65 @@
 	     	 , doc_no
 	         , emp_name
 	         , decode(doc_type,0,'기안서',1,'품의서',2,'사직서') as "doc_type"
-	         , create_date
+	         , to_char(create_date, 'YYYY-MM-DD')"create_date"
 	         , update_date
 	         , doc_title
 	         , doc_originname
 	         , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
-		  from approval a
+		  from approval 
 		  join employee using (emp_no)
 		 where doc_status='Y'
-		   and emp_no = #{emp_no}
+		   and emp_no = #{empNo}
 		 order
 		    by app_no desc
 		
 	</select>
 	
 	
-	<!-- 진행중 버튼 눌렀을 시 리스트 조회 -->
-	<select id="ajaxSelectIngBtn" resultMap="approvalResult">
+	<!-- 버튼 눌렀을 시 리스트 조회 -->
+	<select id="ajaxSelectBtn" resultMap="approvalResult">
 		select  
 	      	   app_no
 	     	 , doc_no
 	         , emp_name
 	         , decode(doc_type,0,'기안서',1,'품의서',2,'사직서') as "doc_type"
-	         , create_date
+	         , to_char(create_date, 'YYYY-MM-DD')"create_date"
 	         , update_date
 	         , doc_title
 	         , doc_originname
 	         , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
-		  from approval a
+		  from approval 
 		  join employee using (emp_no)
 		 where doc_status='Y'
-		   and app_status = 1
-		   and emp_no = #{emp_no}
+		 <if test="appStatus != 100">
+		   and app_status = #{appStatus}
+		 </if>
+		   and emp_no = #{empNo}
 		 order
-		    by app_no desc	
+		    by app_no desc
+	</select>
+	
+	<!-- 문서 상세 조회 -->
+	<select id="selectApproval" resultMap="approvalResult">
+		select  
+		      app_no
+		    , doc_no
+		    , emp_name
+		    , doc_type
+		    , decode(doc_type,0,'기안서',1,'품의서',2,'사직서') as "doc_type"
+		    , to_char(create_date, 'YYYY-MM-DD')"create_date"
+		    , update_date
+		    , doc_title
+		    , doc_content
+		    , doc_originname
+		    , doc_filepath
+		    , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
+		    , app_count
+		    , app_turn
+		 from approval a
+		 join employee using (emp_no)
+		where doc_status='Y'
+		  and app_no = #{appNo}
 	</select>
 	
 	

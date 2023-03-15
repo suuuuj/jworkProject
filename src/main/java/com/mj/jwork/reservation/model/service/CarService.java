@@ -17,7 +17,7 @@ public interface CarService {
 	
 	
 	//차량삭제
-	int deleteCar(Car c);
+	int deleteCar(String carName);
 	
 	//차량상세조회 (1개)
 	Car selectCar(String carName);

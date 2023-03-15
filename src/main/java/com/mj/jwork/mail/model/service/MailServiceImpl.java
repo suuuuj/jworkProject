@@ -20,19 +20,19 @@ public class MailServiceImpl implements MailService{
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public int selectReceiveListCount(int empNo) {
-		return mDao.selectReceiveListCount(sqlSession, empNo);
+	public int selectListCount(Mail m) {
+		return mDao.selectListCount(sqlSession, m);
 	}
 	
 	@Override
-	public int selectUnReadReceiveCount(int empNo) {
-		return mDao.selectUnReadReceiveCount(sqlSession, empNo);
+	public int selectUnReadListCount(Mail m) {
+		return mDao.selectUnReadListCount(sqlSession, m);
 	}
 
 
 	@Override
-	public ArrayList<Mail> selectReceiveMailList(int empNo, PageInfo pi) {
-		return mDao.selectReceiveMailList(sqlSession, empNo, pi);
+	public ArrayList<Mail> selectMailList(Mail m, PageInfo pi) {
+		return mDao.selectMailList(sqlSession, m, pi);
 	}
 	
 	@Override
@@ -66,6 +66,16 @@ public class MailServiceImpl implements MailService{
 	}
 	
 	@Override
+	public int moveMail(Mail m) {
+		return mDao.moveMail(sqlSession, m);
+	}
+	
+	@Override
+	public int updateImportant(Mail m) {
+		return mDao.updateImportant(sqlSession, m);
+	}
+	
+	@Override
 	public int insertMail(ArrayList<Mail> mList) {
 		return 0;
 	}
@@ -94,6 +104,10 @@ public class MailServiceImpl implements MailService{
 	public Mail selectMail(int mailNo) {
 		return null;
 	}
+
+	
+
+	
 
 
 	

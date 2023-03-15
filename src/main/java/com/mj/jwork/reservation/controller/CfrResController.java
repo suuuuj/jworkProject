@@ -9,10 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.Pagination;
+import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.reservation.model.service.CfrResService;
 import com.mj.jwork.reservation.model.vo.CfRoom;
 import com.mj.jwork.reservation.model.vo.CfrReservation;
@@ -30,16 +33,17 @@ public class CfrResController {
 		int result= cRService.reserveCfr(cfrRes);
 		if(result>0) {
 			session.setAttribute("alertMsg", "회의실 예약에 성공하였습니다.");
-			return "redirect:list.rcfr";
+			return "redirect:list.cfrMe";
 		}else {
 			session.setAttribute("errorMsg", "회의실 예약에 실패하였습니다.");
-			return "redirect:list.rcfr";
+			return "redirect:list.cfrMe";
 		}
 	}
 	
 	//예약화면 조회용
 	@RequestMapping("list.cfrRes")
 	public String listcfrRes() {
+		
 		return "reservation/cfrReservationStatus";
 	}
 	
@@ -59,10 +63,12 @@ public class CfrResController {
 	
 	//내 회의실 예약 목록 조회
 	@RequestMapping("list.cfrMe")
-	public ModelAndView selectMyCfrList(@RequestParam(value="cpage",defaultValue="1")int currentPage,ModelAndView mv,CfrReservation cfrRes) {
-		int listCount = cRService.selectMyCfrListCount(cfrRes);
+	public ModelAndView selectMyCfrList(@RequestParam(value="cpage",defaultValue="1")int currentPage,ModelAndView mv,HttpSession session) {
+		int reservation=((Employee)session.getAttribute("loginUser")).getEmpNo();
+		
+		int listCount = cRService.selectMyCfrListCount(reservation);
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
-		ArrayList<CfrReservation>list = cRService.selectMyCfrList(pi,cfrRes);
+		ArrayList<CfrReservation>list = cRService.selectMyCfrList(pi,reservation);
 		
 		mv.addObject("list",list)
 		.addObject("pi",pi)
@@ -71,5 +77,14 @@ public class CfrResController {
 		return mv;
 	}
 	
+	//예약 개별 내역 조회
+	@ResponseBody
+	@RequestMapping(value="detail.cfrRes",produces="application/json; charset=utf-8")
+	public String selectMyCfr(int resNo) {
+		
+		CfrReservation c = cRService.selectMyCfr(resNo);
+		return new Gson().toJson(c);
+	
 
+}
 }

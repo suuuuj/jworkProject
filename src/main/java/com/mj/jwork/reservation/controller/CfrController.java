@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.common.template.Pagination;
@@ -51,7 +52,8 @@ public class CfrController {
 	
 	@RequestMapping("insert.cfr")
 	public String insertCfr(CfRoom cfr,MultipartFile upfile,HttpSession session,Model model) {
-		
+		String saveFilePath = FileUpload.saveFile(upfile, session, "resources/uploadFiles/");
+		cfr.setFirstImg(saveFilePath);
 		int result = cService.enrollCfr(cfr);
 		
 		if(result>0) {
@@ -70,23 +72,15 @@ public class CfrController {
 		return equipment;
 	}
 	
-	
-	@RequestMapping("delete.cfr")
-	public String deleteCfr(CfRoom cfr,Model model,HttpSession session) {
+	@ResponseBody
+	@RequestMapping(value="delete.cfr",produces="application/json; charset=utf-8")
+	public String deleteCfr(String cfrName,Model model,HttpSession session) {
 		
-		int result= cService.deleteCfr(cfr);
-		if(cfr.getFirstImg()!=null) {
-			new File(session.getServletContext().getRealPath(cfr.getFirstImg())).delete();
-		}
-		if(result>0) {
-			session.setAttribute("alertMsg","성공적으로 삭제되었습니다."); 
-			return "redirect:list.cfr";
-		}else {
-			model.addAttribute("errorMsg","회의실 삭제 실패");
-			return "common/errorPage";
-		}
+		int result= cService.deleteCfr(cfrName);
+		return new Gson().toJson(result);
 		
 	}
+	
 	
 	/* 
 	@ResponseBody
@@ -111,7 +105,22 @@ public class CfrController {
 		}
 		*/
 	
-
+	@ResponseBody
+	@RequestMapping(value="alist.cfr",produces="application/json; charset=utf-8" )
+	public String ajaxSelectCfrList() {
+		ArrayList<CfRoom>list = cService.ajaxSelectCfrList();
+		 return new Gson().toJson(list);
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="adetail.cfr",produces="application/json; charset=utf-8" )
+	public String ajaxCfrDetail(String cfrName) {
+		
+		CfRoom cfr = cService.selectCfr(cfrName);
+		return new Gson().toJson(cfr);
+	}
+	
 	}
 
 

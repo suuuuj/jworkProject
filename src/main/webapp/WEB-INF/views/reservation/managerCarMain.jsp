@@ -57,13 +57,10 @@
                             <figcaption>${c.carName}</figcaption>
                         </figure>
                     </article>
-                    <div style="position: absolute;" class="subImg">
-	                        <a class="btn" onclick="deleteCar();">
-	                        	<img src="resources/images/reservation/trash.png" width="23px;" height="23px;">
+                    <div style="position: absolute;" class="subImg" >
+	                        <a class="btn" onclick="deleteCar('${c.carName}');">
+	                        	<img src="resources/images/reservation/trash.png" width="23px;" height="23px;" >
 	                        </a>
-	                        <form action="delete.car" method="post" id="deleteForm">
-	                        	<input type="hidden" name="carName" value="${c.carName}">
-	                        </form>
 	                 </div>
                 </div>
                 </c:forEach>
@@ -105,28 +102,27 @@
             
             </script>
              <div id="pagingArea">
-             <ul class="pagination">
-             	<c:choose>
-              	<c:when test="${pi.currentPage eq  1}">
-                  	<li class="page-item disabled"><a class="page-link" href="#"><</a></li>
-                  </c:when>
-                  <c:otherwise>
-                   <li class="page-item"><a class="page-link" href="list.car?cpage=${pi.currentPage -1 }"><</a></li>
-               </c:otherwise>
-           </c:choose>
-           <c:forEach var="p"  begin="${pi.startPage }" end="${pi.endPage }">
-                  <li class="page-item"><a class="page-link" href="list.car?cpage=${p }">${p }</a></li>
-
-                	</c:forEach>
-                	<c:choose>
+	             <ul class="pagination">
+	             	<c:choose>
+	              	<c:when test="${pi.currentPage eq 1}">
+	                  	<li class="page-item disabled"><a class="page-link" href="#"><</a></li>
+	                 </c:when>
+	                 <c:otherwise>
+	                   <li class="page-item"><a class="page-link" href="list.car?cpage=${pi.currentPage -1 }"><</a></li>
+	               	</c:otherwise>
+		           </c:choose>
+		           <c:forEach var="p"  begin="${pi.startPage}" end="${pi.endPage}">
+		              <li class="page-item"><a class="page-link" href="list.car?cpage=${p}">${p}</a></li>
+		           </c:forEach>
+	                <c:choose>
                 		<c:when test="${pi.currentPage eq pi.maxPage}">
-                 		<li class="page-item disabled"><a class="page-link" href="#">></a></li>
-           	 	</c:when>
-           	 	<c:otherwise>
-           	 		<li class="page-item"><a class="page-link" href="list.car?cpage=${pi.currentPage + 1 }">></a></li>
-        				</c:otherwise>
-          		</c:choose>
-             </ul>
+                 			<li class="page-item disabled"><a class="page-link" href="#">></a></li>
+	           	 		</c:when>
+		           	 	<c:otherwise>
+		           	 		<li class="page-item"><a class="page-link" href="list.car?cpage=${pi.currentPage + 1}">></a></li>
+		        		</c:otherwise>
+	          		</c:choose>
+	             </ul>
          </div>
         </div>
         <br>
@@ -136,20 +132,31 @@
     </div>
    
     <script>
-        //이미지 클릭시 차량 조회 / 수정 모달
-       // <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#carDetailView">
-            
-        //</button>
-
-    	function deleteCar(){
-    		
-    		$("#deleteForm").submit();
+    	function deleteCar(carName){
+    		if(confirm('정말 차량을 삭제하시겠습니까?'))   
+    			{
+    			
+    			$.ajax({
+    				url:"delete.car",
+    				data:{carName:carName},
+    				async: true,
+    				success:function(result){
+    					if(result>0){
+    						alert("차량 삭제 성공");
+    						location.reload();
+    					}
+    				},error:function(){
+    					console.log("ajax통신 실패");
+    				}
+    					
+    			});
+    			}
     	}
-
+    	
     </script>
 	 
 
-    <!-- The Modal -->
+    <!--차량 상세조회 모달 -->
     <div class="modal" id="carDetailView">
         <div class="modal-dialog">
         <div class="modal-content">
@@ -164,18 +171,18 @@
             <div class="modal-body">
                <form action="update.car" method="post" enctype="multipart/form-data" >
                 <table id="car-updateForm">
-                    <tr >
+                    <tr>
                         <th >차량명</th>
                         <td>
                             <div class="col-10">
-                                 <input type="text" class="form-control" name="carName" placeholder="차량명을 입력하세요" id="carName" required>
+                                 <input type="text" class="form-control" name="carName" placeholder="차량명을 입력하세요" id="carName" readonly>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <th>차량 대표 이미지</th>
                         <td>
-                        	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/imgAdd.png'/>"   width="100px" height="70px" onclick="$('#carImgFile').click();">
+                        	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/addImg.png'/>"   width="100px" height="70px" onclick="$('#carImgFile').click();">
                              <input type="file" name="upfile" id="carImgFile" style="display:none;" required>
                         </td>
                     </tr>
@@ -244,6 +251,24 @@
                     </tr>
 
                 </table>
+                 <script>
+						 $(function(){
+							
+							 $("#carImgFile").on("change", function(event) {
+		
+								    var file = event.target.files[0];
+		
+								    var reader = new FileReader(); 
+								    reader.onload = function(e) {
+		
+								        $("#carImg").attr("src", e.target.result);
+								    }
+								    reader.readAsDataURL(file);
+								});
+							})
+							
+						</script>
+						
                 <br><br>
                  <div class="btn-area" align="center">
 	                <button type="submit" class="btn btn-sm btn-secondary">수정하기</button>

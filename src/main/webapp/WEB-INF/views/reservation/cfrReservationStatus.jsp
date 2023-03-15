@@ -12,34 +12,40 @@
         margin:20px;
     }
     #pagingArea{width:fit-content;margin:auto; margin-right: 520px; }
-
+	
+	.table{
+	border-right:none;
+	border-left:none;
+	border-top:none;
+	border-bottom:none;
+	}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
     <jsp:include page="../common/menubar.jsp"/>
-    <div class="outer">
+    <div class="outer"  style="width:940px;">
         <h2>회의실 예약 이력 조회</h2>
         <hr>
         <div>
-            <div style="float: left; ">
-                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#cfrInfo">회의실 정보</button>
-                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#reservationForm">예약하기</button>&nbsp;
-                <button type="button"><</button>
-                <button type="button">></button>
+            <div style="float: left; width:8">
+                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#cfrInfo" onclick="selectList();">회의실 정보</button>
+                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#reservationForm" onclick="selectList();">예약하기</button>&nbsp;
+                <button type="button" class="btn btn-sm btn-light"><</button>
+                <button type="button" class="btn btn-sm btn-light">></button>
             </div>
-            <div style="float: left; font-weight: 800; font-size: 25px; margin-left: 200px;"" >
+            <div style="float: left; font-weight: 800; font-size: 25px; margin-left: 170px;"" >
                 2023년 02월 17일
             </div>
-            <div style="float: left; margin-left: 200px;" >
-                <button type="button">today</button>
-                <button type="button">week</button>
+            <div style="float: left; margin-left: 170px;" >
+                <button type="button" class="btn btn-light">today</button>
+                <button type="button"  class="btn btn-light">week</button>
             </div>
             <br clear="both">
             <br>
             <div align="center">
-                <table border="1" style="width:900px; height:600px; text-align: center;" >
+                <table class="table table-bordered" style="width:900px; height:600px; text-align: center;" >
                     <tr>
                         <td></td>
                         <td>1회의실</td>
@@ -144,6 +150,59 @@
             </div>
         </div>
     </div>
+     <script>
+        function selectList(){
+        	
+        	$.ajax({
+        		url:"alist.cfr",
+            	success:function(list){
+            		console.log(list);
+            		let value="";
+            		let value2="";
+            		for(var i=0; i<list.length; i++){
+            			
+            			value+="<button type='button' class='btn btn-sm btn-light'value='"
+            					+list[i].cfrName+"' onclick='detailCfr($(this).val());'>" +list[i].cfrName
+            					+"</button>";
+            			
+            			value2+="<option>"+list[i].cfrName+"</option>";
+            		}
+            		
+            		$("#btn-area").html(value);
+            		$("select[name=cfrName]").html(value2);
+            		
+            		
+            	},error:function(){
+            		console.log("ajax통신실패");
+            	}
+            		
+        	});
+        	
+        	
+        }
+        
+        function detailCfr(cfrName){
+        	
+        	$.ajax({
+        		url:"adetail.cfr"
+        	   ,data:{cfrName:cfrName}
+        	   ,success:function(c){
+        			$("#inputCfrName").text(c.cfrName);
+        			$("#firstImg").attr("src",c.firstImg);
+        			$("#capacity").text(c.capacity);
+        			var equipment = c.equipment.split(","); 
+        			$("#equipment").text(equipment);
+        	   },error:function(){
+        		   
+        		   console.log("ajax통신에러");
+        	   }
+        	   
+        	});
+        	
+        	
+        }
+         
+     </script>
     <!--회의실 정보 모달 -->
     <div class="modal" id="cfrInfo">
         <div class="modal-dialog">
@@ -157,39 +216,32 @@
     
             <!-- Modal body -->
             <div class="modal-body">
-                <div>
-                    <button>1회의실</button>
-                    <button>2회의실</button>
-                    <button>3회의실</button>
-                    <button>4회의실</button>
-                    <button>5회의실</button>
-                    <button>6회의실</button>
+                <div id="btn-area">
+                	
                 </div>
-                <div style="width:600px">
-                    <table>
+                <br>
+                <div style="width:800px">
+                    <table class="table"> 
                         <tr>
                             <th>회의실명</th>
-                            <td>2회의실</td>
+                            <td id="inputCfrName"></td>
                         </tr>
                         <tr>
                             <th>회의실 이미지</th>
                             <td >
                                 <div style="width: 320px;">
-                                    <img src="" width="150px" height="100px">
-                                    <img src="" width="150px" height="100px">
-                                    <img src="" width="150px" height="100px">
-                                    <img src="" width="150px" height="100px">
+                                    <img src="" width="150px" height="100px" id="firstImg">
                                 </div>
                             </td>
                             
                         </tr>
                         <tr>
                             <th>수용인원</th>
-                            <td>10명</td>
+                            <td id="capacity"></td>
                         </tr>
                         <tr>
                             <th>회의장비</th>
-                            <td>pc, 빔프로젝터</td>
+                            <td id="equipment"></td>
                         </tr>
                     </table>
 
@@ -215,15 +267,12 @@
             <div class="modal-body">
                <form action="reserv.cfr" method="post">
                 <input type="hidden" name="reservation" value="${loginUser.empNo}">
-                    <table>
+                    <table class='table'>
                         <tr>
                             <th>회의실</th>
                             <td>
-	                            	<select name="cfrName" id="cfrName" required> 
-	                            		<c:forEach items="${list}" var="c">
-		                                 <option>${c.cfrName}</option>
-		                                </c:forEach>
-	                                 </select>
+                           		<select name="cfrName" id="cfrName" required> 
+                                </select>
                             </td>
                         </tr>
                         <tr>
@@ -244,7 +293,7 @@
                         </tr>
                         <tr>
                             <th>회의제목</th>
-                            <td><input type="text" name="cfTitle" required></td>
+                            <td><input type="text" name="cfTitle"required></td>
                         </tr>
                     </table>
                     <button type="submit" class="btn btn-primary btn-sm">예약하기</button>

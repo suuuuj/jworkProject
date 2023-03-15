@@ -20,6 +20,10 @@
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
+<!-- timepicker -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
 <!-- Alertify JavaScript -->
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
@@ -279,6 +283,16 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="menu"  id="">
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/ess.png" alt="" />예약</div>
+                        <div class="menu-wrap">
+                            <div class="menuDetail">
+                                <a id="" href="status.car">차량예약신청</a><br>
+                                <a id="" href="list.cfrRes">회의실예약신청</a><br>
+                            </div>
+                        </div>
+                    </div>
                     
                     <div class="menu"  id="">
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/holiday.png" alt="" />휴가</div>
@@ -306,7 +320,7 @@
                     </div>
                     
                     <div class="menu"  id="">
-                        <div class="mainMenu" onclick="location.href='list.ma'"><img class="menuIcon" src="resources/images/common/email1.png" />이메일</div>
+                        <div class="mainMenu" onclick="location.href='list.ma?mailCategory=받은메일함'"><img class="menuIcon" src="resources/images/common/email1.png" />이메일</div>
                         <div class="menu-wrap">
                             
                         </div>

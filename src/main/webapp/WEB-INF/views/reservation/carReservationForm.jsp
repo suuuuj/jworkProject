@@ -88,13 +88,12 @@
             <form action="reserv.car" method="post">
             	<div style="float: left; ">    
 	                <table id="carReservForm" style="width: 790px;">
-	                  	
 	                    <tr>
-	                    	
 	                        <th>사원명</th>
 	                        <td>
 	                        ${loginUser.empName}
 	                        <input type="hidden" value="${loginUser.empNo}" name="reservation">
+	                        <input type="hidden" value="${c.carName }" name="carName">
 	                        </td>
 	                        
 	                        <th>신청날짜</th>
@@ -106,7 +105,7 @@
 	                    </tr>
 	                    <tr>
 	                        <th>사번</th>
-	                        <td>${loginUser.empNo }</td>
+	                        <td>${loginUser.empNo}</td>
 	                        <th>신청시간</th>
 	                        <td>
 	                         <div class="col-6">

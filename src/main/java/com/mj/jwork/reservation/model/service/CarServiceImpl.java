@@ -36,8 +36,8 @@ public class CarServiceImpl implements CarService{
 	}
 
 	@Override
-	public int deleteCar(Car c) {
-		return cDao.deleteCar(sqlSession,c);
+	public int deleteCar(String carName) {
+		return cDao.deleteCar(sqlSession,carName);
 	}
 
 	@Override
