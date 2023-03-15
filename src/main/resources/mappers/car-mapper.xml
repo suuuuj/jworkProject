@@ -14,7 +14,8 @@
 		<result column="STATUS" property="status" />
 	</resultMap>
 	<resultMap type="CarReservation" id="carResResult">
-		<id column="CAR_NAME" property="carName" />
+		<id column="RES_NO" property="resNo" />
+		<result column="CAR_NAME" property="carName" />
 		<result column="RESERVATION" property="reservation" />
 		<result column="REQUEST_DATE" property="requestDate" />
 		<result column="AP_DATE" property="apDate" />
@@ -98,8 +99,8 @@
 	<insert id="insertReservation">
 		insert into
 		car_reservation
-		(
-			CAR_NAME
+		(	RES_NO
+			,CAR_NAME
 			,RESERVATION
 			,REQUEST_DATE
 			,RES_DATE
@@ -108,7 +109,8 @@
 			,CAUSE
 		)values
 		(
-		#{carName}
+		SEQ_CRNO.NEXTVAL
+		,#{carName}
 		,#{reservation}
 		,SYSDATE
 		,#{resDate}
@@ -126,7 +128,8 @@
 	</select>
 	<select id="selectMyRes" resultMap="carResResult">
 		select
-			CAR_NAME
+			RES_NO
+			,CAR_NAME
 			,REQUEST_DATE
 			,RES_DATE
 			,START_TIME

@@ -35,14 +35,20 @@ public class CfrResServiceImpl implements CfrResService{
 
 
 	@Override
-	public int selectMyCfrListCount(CfrReservation cfrRes) {
-		return cRDao.selectMyCfrListCount(sqlSession,cfrRes);
+	public int selectMyCfrListCount(int reservation) {
+		return cRDao.selectMyCfrListCount(sqlSession,reservation);
 	}
 
 
 	@Override
-	public ArrayList<CfrReservation> selectMyCfrList(PageInfo pi,CfrReservation cfrRes) {
-		return cRDao.selectMyCfrList(sqlSession,pi,cfrRes);
+	public ArrayList<CfrReservation> selectMyCfrList(PageInfo pi,int reservation) {
+		return cRDao.selectMyCfrList(sqlSession,pi,reservation);
+	}
+
+
+	@Override
+	public CfrReservation selectMyCfr(int resNo) {
+		return cRDao.selectMyCfr(sqlSession,resNo);
 	}
 	
 	

@@ -23,17 +23,21 @@ public class CfrResDao {
 		return (ArrayList)sqlSession.selectList("cfrMapper.selectNList");
 	}
 	
-	public int selectMyCfrListCount(SqlSessionTemplate sqlSession,CfrReservation cfrRes) {
+	public int selectMyCfrListCount(SqlSessionTemplate sqlSession,int reservation) {
 		
-		return sqlSession.selectOne("cfrMapper.selectMyCfrListCount");
+		return sqlSession.selectOne("cfrMapper.selectMyCfrListCount",reservation);
 	}
 	
-	public ArrayList<CfrReservation>selectMyCfrList(SqlSessionTemplate sqlSession,PageInfo pi,CfrReservation cfrRes ){
+	public ArrayList<CfrReservation>selectMyCfrList(SqlSessionTemplate sqlSession,PageInfo pi,int reservation){
 		
-		int offset = (pi.getCurrentPage() -1 )* pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() -1)* pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("cfrMapper.selectMyCfrList",cfrRes,rowBounds);
-}
+		return (ArrayList)sqlSession.selectList("cfrMapper.selectMyCfrList",reservation,rowBounds);
+	}
+	public CfrReservation selectMyCfr(SqlSessionTemplate sqlSession, int resNo) {
+		
+		return sqlSession.selectOne("cfrMapper.selectMyCfr",resNo);
+	}
 }

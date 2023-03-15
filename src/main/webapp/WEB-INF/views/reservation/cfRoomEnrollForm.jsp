@@ -23,16 +23,16 @@
 </head>
 <body>
     <jsp:include page="../common/menubar.jsp"/>
-    <div class="outer">
+    <div class="outer" style="width:920px;">
         <h2>회의실 등록</h2>
         <hr><br>
         <div>
             <form action="insert.cfr" method="post" enctype="multipart/form-data" >
-                <table id="cfRoom-enrollForm">
+                <table id="cfRoom-enrollForm"  style="width:700px;">
                     <tr >
                         <th >회의실 이름</th>
                         <td>
-                         <div class="col-6">
+                         <div class="col-7">
                        		 <input type="text" name="cfrName" required  class="form-control " >
                         </div>
                         
@@ -41,20 +41,8 @@
                     <tr>
                         <th>회의실 대표 이미지</th>
                         <td>
-                        	 <img id="firstImg" src="<c:out value='${CfRoom.firstImg}' default='resources/uploadFiles/imgAdd.png'/>"  width="150px" height="100px" onclick="$('#firstImgFile').click();">
+                        	 <img id="firstImg" src="<c:out value='${CfRoom.firstImg}' default='resources/uploadFiles/addImg.png'/>"  width="150px" height="80px" onclick="$('#firstImgFile').click();">
                              <input type="file" id="firstImgFile" style="display:none;" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>회의실 상세 이미지</th>
-                        <td>
-                            <img src="<c:out value='${CfRoom.firstImg}' default='resources/uploadFiles/imgAdd.png'/>"  width="150px" height="100px"  onclick="$('#img_2').click();">
-                            <input type="file" id="img_2" style="display:none;">
-                            <img src="<c:out value='${CfRoom.firstImg}' default='resources/uploadFiles/imgAdd.png'/>"  width="150px" height="100px"  onclick="$('#img_3').click();">
-                            <input type="file" id="img_3" style="display:none;">
-                            <img src="<c:out value='${CfRoom.firstImg}' default='resources/uploadFiles/imgAdd.png'/>"  width="150px" height="100px"  onclick="$('#img_4').click();">
-                            <input type="file" id="img_4" style="display:none;">
-
                         </td>
                     </tr>
                     <tr>
@@ -92,7 +80,7 @@
             <br><br>
             </div>
            <script>
-				$(function(){
+				/* $(function(){
 					
 					$("#firstImgFile").change(function(){
 						
@@ -122,7 +110,7 @@
 						
 					});
 				})
-				
+				 */
 			</script>
 
             <!-- 장비추가 모달 -->
@@ -143,10 +131,8 @@
 								
 
 
-                            <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary btn-sm" onclick="addEmp();">추가하기</button>
                                 <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">닫기</button>
-                            </div>
                     
                         </form>
                     </div>
