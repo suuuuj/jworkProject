@@ -33,6 +33,9 @@ public interface MailService {
 	// 메일함 이동 서비스
 	int moveMail(Mail m);
 	
+	// 메일 중요 서비스
+	int updateImportant(Mail m);
+	
 	// 메일 작성
 	int insertMail(ArrayList<Mail> mList);
 	

@@ -12,7 +12,13 @@
         margin:20px;
     }
     #pagingArea{width:fit-content;margin:auto; margin-right: 520px; }
-
+	
+	.table{
+	border-right:none;
+	border-left:none;
+	border-top:none;
+	border-bottom:none;
+	}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -25,7 +31,7 @@
         <div>
             <div style="float: left; width:8">
                 <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#cfrInfo" onclick="selectList();">회의실 정보</button>
-                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#reservationForm">예약하기</button>&nbsp;
+                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#reservationForm" onclick="selectList();">예약하기</button>&nbsp;
                 <button type="button" class="btn btn-sm btn-light"><</button>
                 <button type="button" class="btn btn-sm btn-light">></button>
             </div>
@@ -152,16 +158,18 @@
             	success:function(list){
             		console.log(list);
             		let value="";
+            		let value2="";
             		for(var i=0; i<list.length; i++){
             			
             			value+="<button type='button' class='btn btn-sm btn-light'value='"
             					+list[i].cfrName+"' onclick='detailCfr($(this).val());'>" +list[i].cfrName
             					+"</button>";
             			
+            			value2+="<option>"+list[i].cfrName+"</option>";
             		}
             		
             		$("#btn-area").html(value);
-            		
+            		$("select[name=cfrName]").html(value2);
             		
             		
             	},error:function(){
@@ -213,7 +221,7 @@
                 </div>
                 <br>
                 <div style="width:800px">
-                    <table>
+                    <table class="table"> 
                         <tr>
                             <th>회의실명</th>
                             <td id="inputCfrName"></td>
@@ -260,14 +268,11 @@
             <div class="modal-body">
                <form action="reserv.cfr" method="post">
                 <input type="hidden" name="reservation" value="${loginUser.empNo}">
-                    <table>
+                    <table class='table'>
                         <tr>
                             <th>회의실</th>
                             <td>
                            		<select name="cfrName" id="cfrName" required> 
-                           		<c:forEach items="${list}" var="c">
-                                 <option>${c.cfrName}</option>
-                                </c:forEach>
                                 </select>
                             </td>
                         </tr>
@@ -289,7 +294,7 @@
                         </tr>
                         <tr>
                             <th>회의제목</th>
-                            <td><input type="text" name="cfTitle" required></td>
+                            <td><input type="text" name="cfTitle"required></td>
                         </tr>
                     </table>
                     <button type="submit" class="btn btn-primary btn-sm">예약하기</button>

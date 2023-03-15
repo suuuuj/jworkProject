@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 
 <!-- include summernote css/js-->
-   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"> 
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
 <style>
 	 .content{
@@ -24,6 +24,9 @@
         border: 1px solid lightgray;
     
     }
+    #selectApproval td{
+		 border: 1px solid lightgray;
+	 }
     #selectApproval th{
         background-color: rgb(237, 237, 237);
         height: 40px;
@@ -34,7 +37,11 @@
         font-size: small;
         display: inline-block;
         border: 1px solid lightgray;
+        text-align: center;
     }
+    #selectApprovalLine th, #selectApprovalLine td{
+	     border: 1px solid lightgray;
+	 }
     
     #appMsg {
         font-size: smaller;
@@ -68,7 +75,8 @@
         border-radius: 5%;
         width: 300px;
         padding:15px;
-        text-align: left;        
+        text-align: left;
+             
     }
     .approvalLine-button{
         width: 100px;
@@ -307,46 +315,78 @@
                     
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <div class="approvalLine-area" >
+                        <div class="approvalLine-area"  id="selectEmpLine">
                             
-                            <ul class="deptName">
+                            <!-- <ul class="deptName">
                                 <li>인사팀</li>
-                                <ul class="empName" style="display:none">
+                                <ul class="empName" style="display:none" style="overflow: auto">
                                     <li>유상무 상무</li>
                                     <li>김지연 차장</li>
                                     <li>박춘식 부장</li>
-                                </ul>
-                            </ul>
-                        
+                                </ul> 
+                            </ul>-->
                         </div>
                         <script>
-                           $(document).ready(function(){
-  
-                                //메뉴 슬라이드
-                                $('.deptName > li').click(function(){
-                                    $(this).next($('.empName')).slideToggle();
-                                })
-
-                                $(".empName li").click(function(){
-                                	console.log($(this).text());
-                                });
-
-                            })
-                            
                             $(function(){
+
                             	$.ajax({
                             		url:"empList.app",
-                            		success:function(list){
-                            			console.log(list);
+                                    async: false,
+                            		success:function(data){
+                            			//console.log(data.deptList[1].deptName);
+                            			//console.log(data.deptList);
                             			
+                            			var dept = data.deptList;
+                            			var team = data.teamList;
+                            			var emp = data.empList;
+                                    
+                            			for(let i=0; i<dept.length; i++){
+                            				console.log(dept[i].deptName);
+                            				
+                            				let value = "<ul class='deptName'>"
+                                                       +"<li>"+ dept[i].deptName +"</li>"
+                                                       +"</ul>";
+                                            
+                                            $("#selectEmpLine").html(value);
+                            						
+                            			
+                            			}
+                            			
+                            		
                             			
                             			
                             		},error:function(){
                 						console.log("결재선 조직도 조회 ajax 통신 실패");
                 					}
+                            		
+                            		
+                            		
                             	})
+                            	
                             })
+
+
+			
+
+
+                            $(document).ready(function(){
+   
+                                 //메뉴 슬라이드
+                                 $('.deptName > li').click(function(){
+                                     $(this).next($('.empName')).slideToggle();
+                                 })
+                                 $(".empName li").click(function(){
+                                	console.log($(this).text());
+                                });
+
+                            })
+                            
+                            
+
                         </script>
+                        
+
+                       
 
                         <div class="approvalLine-button">
                             <br>
@@ -429,3 +469,4 @@
 
 </body>
 </html>
+

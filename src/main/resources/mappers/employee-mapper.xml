@@ -114,7 +114,7 @@
 	    order
 	       by t.team_code, j.job_code
 	</select>
-	
+		
 	<select id="ajaxSelectDeptList" resultMap="deptResult">
 		select
 			 dept_code
@@ -215,5 +215,6 @@
 	     left join job j on (e.job_code=j.job_code)
 	    where e.emp_No = #{empNo} <!-- 조회할 유저 사원번호 -->
 	</select>	
+
 
 </mapper>

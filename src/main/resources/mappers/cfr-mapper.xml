@@ -8,6 +8,7 @@
 		<result column="equipment" property="equipment" />
 	</resultMap>
 	<resultMap id="cfrResMap" type="CfrReservation">
+		<id column="RES_NO" property="resNo" />
 		<result column="CFR_NAME" property="cfrName" />
 		<result column="RESERVATION" property="reservation" />
 		<result column="STATUS" property="status" />
@@ -56,7 +57,8 @@
 		insert into
 			cfr_reservation
 			(
-			CFR_NAME
+			RES_NO
+			,CFR_NAME
 			,RESERVATION
 			,start_time
 			,end_time
@@ -66,7 +68,8 @@
 			)
 			values
 			(
-			#{cfrName}
+			SEQ_CFRNO.NEXTVAL
+			,#{cfrName}
 			,#{reservation}
 			,#{startTime}
 			,#{endTime}
@@ -91,13 +94,14 @@
 	
 	<select id="selectMyCfrList" resultMap="cfrResMap">
 		  select 
-            ROWNUM
+            RES_NO
            ,CFR_NAME
            ,STATUS
            ,START_TIME
            ,END_TIME
            ,USE_DATE
            ,CF_TITLE
+           ,status
         from CFR_RESERVATION
         where RESERVATION = #{reservation}
         order by USE_DATE
@@ -119,5 +123,19 @@
 	 		,equipment
 	 	from cf_room
 	 	where cfr_name =#{cfrName}
+	</select>
+	<select id="selectMyCfr" resultMap="cfrResMap">
+		select 
+			CFR_NAME
+			,RESERVATION
+			,STATUS
+			,START_TIME
+			,END_TIME
+			,USE_DATE
+			,CAPACITY
+			,CF_TITLE
+			,RES_NO
+		from cfr_reservation
+	where res_no = #{resNo}
 	</select>
 </mapper>

@@ -14,7 +14,8 @@ import lombok.ToString;
 @Getter
 @ToString
 public class CarReservation {//차량예약테이블
-
+	
+	 private int resNo;
 	 private String carName;
 	 private String reservation;//예약자
 	 private Date requestDate;//신청을 보낸 날짜

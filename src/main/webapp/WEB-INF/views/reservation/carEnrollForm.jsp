@@ -9,7 +9,7 @@
      #pagingArea{width:fit-content;margin:auto;}
      div{box-sizing: border-box;}
     #car-enrollForm th{
-        height: 100px;
+        height: 72px;
     }
     .outer{
         width: 960px;
@@ -24,16 +24,16 @@
 </head>
 <body>
     <jsp:include page="../common/menubar.jsp"/>
-    <div class="outer" >
+    <div class="outer"  style="width:920px;" >
         <h2>차량 등록</h2>
         <hr><br>
         <div >
             <form action="insert.car" method="post" enctype="multipart/form-data" >
-                <table id="car-enrollForm">
+                <table id="car-enrollForm"  style="width:700px;">
                     <tr >
                         <th >차량명</th>
                         <td>
-                            <div class="col-10">
+                            <div class="col-7">
                                  <input type="text" class="form-control" name="carName" placeholder="차량명을 입력하세요" required>
                             </div>
                         </td>
@@ -41,14 +41,14 @@
                     <tr>
                         <th>차량 대표 이미지</th>
                         <td>
-                        	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/imgAdd.png'/>"  width="150px" height="100px" onclick="$('#carImgFile').click();">
+                        	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/addImg.png'/>"  width="150px" height="100px" onclick="$('#carImgFile').click();">
                              <input type="file" name="upfile" id="carImgFile" style="display:none;" required>
                         </td>
                     </tr>
                     <tr>
                         <th >차량종류</th>
                         <td>
-                          <div class="col-10">
+                          <div class="col-7">
                                  <input type="text" class="form-control" name="carType" placeholder="차량종류를 입력하세요" required>
                             </div>
                         </td>
@@ -56,7 +56,7 @@
                     <tr>
                         <th >기어형식</th>
                         <td>
-                           <div class="col-10">
+                           <div class="col-7">
                                  <input type="text" class="form-control" name="gearType" placeholder="기어형식을 입력하세요" required>
                             </div>
                         </td>
@@ -64,7 +64,7 @@
                     <tr>
                         <th >차량색상</th>
                         <td>
-                           <div class="col-10">
+                           <div class="col-7">
                                  <input type="text" class="form-control" name="color" placeholder="차량색상을 입력하세요" required>
                             </div>
                         </td>
@@ -72,7 +72,7 @@
                     <tr>
                         <th >제조사</th>
                         <td>
-                           <div class="col-10">
+                           <div class="col-7">
                                  <input type="text" class="form-control" name="maker" placeholder="제조사를 입력하세요" required>
                             </div>
                         </td>
@@ -80,7 +80,7 @@
                     <tr>
                         <th >연료형식</th>
                         <td>
-                           <div class="col-10">
+                           <div class="col-7">
                                  <input type="text" class="form-control" name="fuelType" placeholder="연료형식을 입력하세요" required>
                             </div>
                         </td>
@@ -88,7 +88,7 @@
                     <tr>
                         <th >차량연식</th>
                         <td>
-                          <div class="col-10">
+                          <div class="col-7">
                                  <input type="text" class="form-control" name="modelYear"  placeholder="차량연식을 입력하세요" required>
                             </div>
                         </td>                   
@@ -105,7 +105,7 @@
                     <tr>
                         <th >비고</th>
                         <td>
-                            <textarea class="form-control" name="etc" id="" cols="30" rows="10" style="resize:none" name="etc"></textarea>
+                            <textarea class="form-control" name="etc" id="" cols="10" rows="3" style="resize:none" name="etc"></textarea>
                         </td>
                     </tr>
 

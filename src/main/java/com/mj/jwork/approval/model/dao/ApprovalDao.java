@@ -29,12 +29,17 @@ public class ApprovalDao {
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectMyApprovalList",empNo,rowBounds);
 	}
 
-	//결재문서 리스트 진행버튼 클릭시
-	public ArrayList<Approval> ajaxSelectIngBtn(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+	//결재문서 리스트 버튼 클릭시
+	public ArrayList<Approval> ajaxSelectBtn(SqlSessionTemplate sqlSession, PageInfo pi, Approval a) {
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		return (ArrayList)sqlSession.selectList("approvalMapper.ajaxSelectIngBtn",empNo,rowBounds);
+		return (ArrayList)sqlSession.selectList("approvalMapper.ajaxSelectBtn",a,rowBounds);
+	}
+
+	//결재문서 상세조회
+	public Approval selectApproval(SqlSessionTemplate sqlSession, int appNo) {
+		return sqlSession.selectOne("approvalMapper.selectApproval",appNo);
 	}
 
 

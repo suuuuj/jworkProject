@@ -129,6 +129,17 @@ public class MailController {
 		
 	}
 	
+	// 메일 중요 서비스
+	@ResponseBody
+	@RequestMapping("important.ma")
+	public String ajaxImportant(Mail m) {
+		
+		int result = mService.updateImportant(m);
+		
+		return result > 0 ? "success" : "fail";
+		
+	}
+	
 	
 	
 }

@@ -52,7 +52,8 @@ public class CfrController {
 	
 	@RequestMapping("insert.cfr")
 	public String insertCfr(CfRoom cfr,MultipartFile upfile,HttpSession session,Model model) {
-		
+		String saveFilePath = FileUpload.saveFile(upfile, session, "resources/uploadFiles/");
+		cfr.setFirstImg(saveFilePath);
 		int result = cService.enrollCfr(cfr);
 		
 		if(result>0) {
