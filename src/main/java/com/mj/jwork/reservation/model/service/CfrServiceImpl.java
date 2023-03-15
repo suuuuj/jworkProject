@@ -59,6 +59,11 @@ public class CfrServiceImpl implements CfrService{
 		return cDao.selectCfr(sqlSession,cfrName);
 	}
 
+	@Override
+	public int updateCfr(CfRoom cfr) {
+		return cDao.updateCfr(sqlSession,cfr);
+	}
+
 	
 
 	

@@ -121,7 +121,35 @@ public class CfrController {
 		return new Gson().toJson(cfr);
 	}
 	
-	}
+	@RequestMapping("update.cfr")
+	public String ajaxupdateCfr(CfRoom cfr,HttpSession session,MultipartFile reupfile) {
+
+		if(!reupfile.getOriginalFilename().equals("")) {
+		
+			if(cfr.getFirstImg() != null) {
+				new File(session.getServletContext().getRealPath(cfr.getFirstImg())).delete();
+			
+			}
+				String saveFilePath= FileUpload.saveFile(reupfile, session, "resources/uploadFiles/");
+				cfr.setFirstImg(saveFilePath);
+
+			}
+
+				int result= cService.updateCfr(cfr);
+				if(result>0) {
+					session.setAttribute("alertMsg", "회의실 수정 성공");
+					return "redirect: list.cfr";
+					
+				}else {
+					session.setAttribute("alertMsg", "회의실 수정 실패");
+					return "redirect: list.cfr";
+				}
+			}
+				
+				
+		}
+	
+	
 
 
 

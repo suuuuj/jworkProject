@@ -133,13 +133,12 @@
 		         			var equipmentArr = c.equipment.split(",");
 		         			var cnt = equipmentArr.length;
 							var value ="";
-							console.log(equipmentArr);
 							for(var i=0; i<cnt; i++){
 							value+= equipmentArr[i]
                 			+"&nbsp;<input type='checkbox' name='equipment' value='"
                 			+equipmentArr[i] +"'>&nbsp;&nbsp;";
 	         				}
-							$("#equipment").html(value);
+							$("#equipment-area1").html(value);
 							
 		         			for(var i=0; i<cnt; i++){
 		         			  
@@ -167,18 +166,18 @@
         
                 <!-- Modal Header -->
                 <div class="modal-header">
-                <h4 class="modal-title">회의실 조회</h4>
+                <h4 class="modal-title">회의실 조회 / 수정</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
         
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form action="update.cfr" method="post">
+                    <form action="update.cfr" method="post" enctype="multipart/form-data" >
                         <table id="cfRoom-updateForm">
                             <tr >
                            	   <th>회의실명</th>
 	                            <td >
-	                            	<div class="col-10">
+	                            	<div class="col-7">
 	                            		<input type="text" name="cfrName" id="inputCfrName" readonly class="form-control">
 	                           		</div>
 	                            </td>
@@ -188,7 +187,7 @@
 	                            <td >
 	                                <div style="width: 320px;">
 	                                    <img width="150px" height="100px" id="firstImg" onclick="$('#firstImgFile').click();">
-	                                    <input type="file" id="firstImgFile" name="upfile" style="display:none;">
+	                                    <input type="file" id="firstImgFile" name="reupfile" style="display:none;">
 	                                </div>
 	                            </td>
 		                        </tr>
@@ -202,9 +201,9 @@
 		                        </tr>
 		                        <tr>
 		                            <th>회의장비</th>
-		                            <td id="equipment">
-			                            	<div id="equipment-area">
-			                            	</div>
+		                            <td >
+	                            		<div id="equipment-area1"></div>
+		                            	<div id="equipment-area2"></div>
 		                            </td>
 		                        </tr>
 	                            <tr>
@@ -280,13 +279,13 @@
                 			+"&nbsp;<input type='checkbox' name='equipment' value='"
                 			+result+"'>&nbsp;&nbsp;";
                 			
-                			$("#equipment-area").append(value);
+                			$("#equipment-area2").append(value);
                 			$("#addEq").val("");
                 		},error:function(){
-                			console.log("ajax 통신 실패");
+                			console.log("장비 추가 ajax 통신 실패");
                 		}
                 				
-                	})
+                	});
             	
         			
         		}

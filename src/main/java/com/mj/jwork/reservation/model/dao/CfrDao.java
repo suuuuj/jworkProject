@@ -50,4 +50,9 @@ public class CfrDao {
 		return sqlSession.selectOne("cfrMapper.selectCfr",cfrName);
 	}
 	
+	public int updateCfr(SqlSessionTemplate sqlSession,CfRoom cfr) {
+		
+		return sqlSession.update("cfrMapper.updateCfr",cfr);
+	}
+	
 }

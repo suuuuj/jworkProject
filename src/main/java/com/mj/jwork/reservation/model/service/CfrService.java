@@ -28,4 +28,6 @@ public interface CfrService {
 	//회의실 개별조회(ajax)
 	CfRoom selectCfr(String cfrName);
 	
+	//회의실 수정
+	int updateCfr(CfRoom cfr);
 }
