@@ -72,23 +72,15 @@ public class CfrController {
 		return equipment;
 	}
 	
-	
-	@RequestMapping("delete.cfr")
-	public String deleteCfr(CfRoom cfr,Model model,HttpSession session) {
+	@ResponseBody
+	@RequestMapping(value="delete.cfr",produces="application/json; charset=utf-8")
+	public String deleteCfr(String cfrName,Model model,HttpSession session) {
 		
-		int result= cService.deleteCfr(cfr);
-		if(cfr.getFirstImg()!=null) {
-			new File(session.getServletContext().getRealPath(cfr.getFirstImg())).delete();
-		}
-		if(result>0) {
-			session.setAttribute("alertMsg","성공적으로 삭제되었습니다."); 
-			return "redirect:list.cfr";
-		}else {
-			model.addAttribute("errorMsg","회의실 삭제 실패");
-			return "common/errorPage";
-		}
+		int result= cService.deleteCfr(cfrName);
+		return new Gson().toJson(result);
 		
 	}
+	
 	
 	/* 
 	@ResponseBody

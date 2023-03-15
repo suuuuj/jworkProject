@@ -44,9 +44,9 @@ public class CfrServiceImpl implements CfrService{
 	}
 
 	@Override
-	public int deleteCfr(CfRoom cfr) {
+	public int deleteCfr(String cfrName) {
 		
-		return cDao.deleteCfr(sqlSession, cfr);
+		return cDao.deleteCfr(sqlSession, cfrName);
 	}
 
 	@Override

@@ -176,7 +176,7 @@
             		console.log("ajax통신실패");
             	}
             		
-        	})
+        	});
         	
         	
         }
@@ -231,7 +231,6 @@
                             <td >
                                 <div style="width: 320px;">
                                     <img src="" width="150px" height="100px" id="firstImg">
-                                  
                                 </div>
                             </td>
                             
