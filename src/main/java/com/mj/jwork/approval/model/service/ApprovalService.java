@@ -14,17 +14,21 @@ public interface ApprovalService{
 	//내결재목록 버튼 클릭 (ajax)
 	ArrayList<Approval> ajaxSelectBtn(PageInfo pi,Approval a);
 	
-	//결재 문서 작성 서비스
-	int insertApproval(Approval a);
-	
 	//결재문서 상세 조회 서비스
 	Approval selectApproval(int appNo);
 	
+	//미결재문서 리스트 조회
+	ArrayList<Approval> selectUnsignList(PageInfo pi, int empNo);
+	
+	//결재 문서 작성 서비스
+	//int insertApproval(Approval a);
+	
 	//상신취소 서비스 (수정 후 재 결재)
-	int updateApproval(Approval a);
+	//int updateApproval(Approval a);
 	
 	//상신취소 서비스 (삭제)
-	int deleteApproval(int appNo);
+	//int deleteApproval(int appNo);
+	
 	
 	
 	

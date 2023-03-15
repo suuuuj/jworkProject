@@ -42,23 +42,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return aDao.selectApproval(sqlSession, appNo);
 	}
 	
-
+	//미결재문서 리스트 조회
 	@Override
-	public int insertApproval(Approval a) {
-		return 0;
+	public ArrayList<Approval> selectUnsignList(PageInfo pi, int empNo) {
+		return aDao.selectUnsignList(sqlSession,pi, empNo);
 	}
 
 	
-
-	@Override
-	public int updateApproval(Approval a) {
-		return 0;
-	}
-
-	@Override
-	public int deleteApproval(int appNo) {
-		return 0;
-	}
 
 
 

@@ -311,9 +311,10 @@
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/approval1.png" alt="" />전자결재</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
-                                <a id="myApprovalList" href="mylist.app">내 결제 문서</a><br>
-                                <a id="selectSignList" href="signlist.app">미결재 문서</a><br>
-                                <a id="" href="">수신 참조 문서함</a><br>
+                                <a id="myApprovalList" href="mylist.app">기안 문서함</a><br>
+                                <a id="selectSignList" href="unsignlist.app">미결재 문서함</a><br>
+                                <a id="selectSignList" href="signlist.app">결재 문서함</a><br>
+                                <a id="" href="">수신/참조 문서함</a><br>
                                 <a id="" href="">임시저장함</a><br>
                             </div>
                         </div>

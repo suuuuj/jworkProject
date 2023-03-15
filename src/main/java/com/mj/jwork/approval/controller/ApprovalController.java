@@ -75,5 +75,23 @@ public class ApprovalController {
 		return mv;
 	}
 	
+	// 미결제 리스트 조회 페이징
+		@RequestMapping("unsignlist.app")
+		public String selectUnsignList(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
+			
+			Employee e = (Employee)request.getSession().getAttribute("loginUser");
+			
+			int listCount = aService.selectListCount(e.getEmpNo()); //페이징 매길 전체 게시글 수
+			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+			ArrayList<Approval> list = aService.selectUnsignList(pi,e.getEmpNo()); // 게시글 목록 조회
+			
+			model.addAttribute("pi",pi);
+			model.addAttribute("list",list);
+			model.addAttribute("listCount",listCount);
+			
+			return "approval/unsignApprovalList";
+			
+		}
+	
 	
 }

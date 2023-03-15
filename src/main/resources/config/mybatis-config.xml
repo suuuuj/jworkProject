@@ -8,6 +8,7 @@
 	
 	<typeAliases>
 		<typeAlias type="com.mj.jwork.approval.model.vo.Approval" alias="Approval" />
+		<typeAlias type="com.mj.jwork.approval.model.vo.AppLine" alias="AppLine" />
 		<typeAlias type="com.mj.jwork.employee.model.vo.Employee" alias="Employee" />
 		<typeAlias type="com.mj.jwork.ess.model.vo.Attendence" alias="Attendence" />
 		<typeAlias type="com.mj.jwork.ess.model.vo.Annual" alias="Annual" />

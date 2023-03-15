@@ -41,6 +41,18 @@ public class ApprovalDao {
 	public Approval selectApproval(SqlSessionTemplate sqlSession, int appNo) {
 		return sqlSession.selectOne("approvalMapper.selectApproval",appNo);
 	}
+	
+	//미결재문서 리스트 조회
+	public ArrayList<Approval> selectUnsignList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+		//건너뛸 게시물 개수
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		//조회할 게시글 개수
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectUnsignList",empNo,rowBounds);
+	}
 
 
 
