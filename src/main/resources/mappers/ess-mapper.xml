@@ -24,6 +24,8 @@
 	<resultMap id="businesstripResult" type="Businesstrip">
 		<id column="bt_no" property="btNo" />
 		<result column="emp_no" property="empNo" />
+		<result column="emp_name" property="empName" />
+		<result column="dept_name" property="deptName" />
 		<result column="bt_start" property="btStart" />
 		<result column="bt_end" property="btEnd" />
 		<result column="bt_content" property="btContent" />
@@ -40,7 +42,10 @@
 	<resultMap id="leaveResult" type="Leave">
 		<id column="leave_no" property="leaveNo" />
 		<result column="emp_no" property="empNo" />
+		<result column="emp_name" property="empName" />
+		<result column="dept_name" property="deptName" />
 		<result column="leave_category" property="leaveCategory" />
+		<result column="lcategory_name" property="lcName" />
 		<result column="leave_start" property="leaveStart" />
 		<result column="leave_end" property="leaveEnd" />
 		<result column="leave_content" property="leaveContent" />
@@ -55,13 +60,15 @@
 	</resultMap>
 	
 	<resultMap id="leaveCategoryResult" type="LeaveCategory">
-		<id column="lcategory_no" property="lCategoryNo" />
-		<result column="lcategory_name" property="lCategoryName" />
+		<id column="lcategory_no" property="lcNo" />
+		<result column="lcategory_name" property="lcName" />
 	</resultMap>
 	
 	<resultMap id="overtimeResult" type="Overtime">
 		<id column="ot_no" property="otNo" />
 		<result column="emp_no" property="empNo" />
+		<result column="emp_name" property="empName" />
+		<result column="dept_name" property="deptName" />
 		<result column="enroll_date" property="enrollDate" />
 		<result column="ot_category" property="otCategory" />
 		<result column="ot_start" property="otStart" />
@@ -84,6 +91,7 @@
 		<result column="re_content" property="reContent" />
 	</resultMap>
 	
+	<!-- 휴가등록화면조회 -->
 	<select id="selectLeaveCategory" resultMap="leaveCategoryResult">
 		select
 		        lcategory_no,
@@ -92,6 +100,194 @@
 		  where lcategory_no = #{no}
 	</select>
 	
+	<!-- 휴가등록 -->
+	<insert id="insertLeave">
+		insert 
+		  into leave
+		  (
+		  	leave_no
+		  , emp_no
+		  , leave_category
+		  , leave_start
+		  , leave_end
+		  , leave_content
+		  , enroll_date
+		  )
+		  values
+		  (
+		  	seq_leno.nextval
+		  , #{empNo}
+		  , #{leaveCategory}
+		  , #{leaveStart}
+		  , #{leaveEnd}
+		  , #{leaveContent}
+		  , sysdate
+		  )
+	</insert> 
 	
+	<!-- 휴가페이징 -->
+	<select id="selectLeaveListCount" resultType="_int">
+		select
+		       count(*)
+		  from leave
+		 where leave_status = 'Y'
+	</select>
+	
+	<!-- 휴가리스트조회 -->
+	<select id="selectLeaveList" resultMap="leaveResult">
+		select 
+		       leave_no
+		     , emp_name
+		     , dept_name
+		     , lcategory_name
+		     , leave_start
+		     , leave_end
+		     , decode(leave_check,0,'결재대기(1차)',1,'결재대기(2차)',2,'승인',3,'반려') as "leave_check"
+		  from leave l
+		  join employee e on (l.emp_no = e.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
+		  join leave_category c on (l.leave_category = c.lcategory_no)
+		 where leave_status = 'Y' 
+	</select>
+	
+	<!-- 시간외근무등록 -->
+	<insert id="insertOvertime">
+		insert
+		  into overtime
+		  (
+		  	ot_no
+		  , emp_no
+		  , enroll_date
+		  , ot_category
+		  , ot_start
+		  , ot_end
+		  , ot_content
+		  )
+		  values
+		  (
+		  	seq_otno.nextval
+		  , #{empNo}
+		  , #{enrollDate}
+		  , #{otCategory}
+		  , #{otStart}
+		  , #{otEnd}
+		  , #{otContent}
+		  )
+	</insert>
+	
+	<!-- 출장등록 -->
+	<insert id="insertBusinesstrip">
+		insert 
+		  into businesstrip
+		  (
+		  	bt_no
+		  , emp_no
+		  , bt_start
+		  , bt_end
+		  , bt_content
+		  )
+		  values
+		  (
+		  	seq_btno.nextval
+		  , #{empNo}
+		  , #{btStart}
+		  , #{btEnd}
+		  , #{btContent}
+		  )
+	</insert>
+	
+	<!-- 시간외근무페이징 -->
+	<select id="selectOvertimeListCount" resultType="_int">
+		select 
+		       count(*)
+		  from overtime
+		 where ot_status = 'Y'
+		   and emp_no = #{empNo} 
+	</select>
+	
+	<!-- 출장페이징 -->
+	<select id="selectBusinesstripListCount" resultType="_int">
+		select 
+		       count(*)
+		  from businesstrip
+		 where bt_status = 'Y'
+		   and emp_no = #{empNo}
+	</select>
+	
+	<!-- 시간외근무조회 -->
+	<select id="selectOvertimeList" resultMap="overtimeResult">
+		select 
+			   ot_no
+			 , o.emp_no	
+		     , emp_name
+		     , dept_name
+		     , o.enroll_date
+		     , decode(ot_category,0,'시간외근무',1,'야간',2,'주말') as "ot_category"
+		     , ot_start
+		     , ot_end
+		     , decode(ot_check,0,'결재대기(1차)',1,'결재대기(2차)',2,'승인',3,'반려') as "ot_check"
+		     , ot_content  
+		  from overtime o
+		  join employee e on (o.emp_no = e.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
+		 where ot_status = 'Y'
+		   and o.emp_no = #{empNo}
+		 order
+		    by ot_no desc
+	</select>
+	
+	<!-- 출장조회 -->
+	<select id="selectBusinesstripList" resultMap="businesstripResult">
+		select 
+		       bt_no
+		     , b.emp_no
+		     , emp_name
+		     , dept_name
+		     , bt_start
+		     , bt_end
+		     , decode(bt_check,0,'결재대기(1차)',1,'결재대기(2차)',2,'승인',3,'반려')as "bt_check"
+		     , bt_content
+		  from businesstrip b
+		  join employee e on (e.emp_no = b.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
+		 where bt_status = 'Y'
+		   and b.emp_no = #{empNo}
+		 order
+		    by bt_no desc
+	</select>
+	
+	<!-- 시간외근무삭제 -->
+	<update id="deleteOvertime">
+		update overtime
+		   set ot_status = 'N'
+		 where ot_no = #{otNo}
+	</update>
+	
+	<!-- 츌장삭제 -->
+	<update id="deleteBusinesstrip">
+		update businesstrip
+		   set bt_status = 'N'
+		 where bt_no = #{btNo}
+	</update>
+	
+	<!-- 관리자 : 시간외근무페이징 -->
+	<select id="adminSelectOvertimeListCount" resultType="_int">
+		
+	</select>
+	
+	<!-- 관리자 : 출장페이징 -->
+	<select id="adminSelectBusinesstripListCount" resultType="_int">
+	
+	</select>
+	
+	<!-- 관리자 : 시간외근무 조회 -->
+	<select id="adminSelectOvertimeList" resultMap="overtimeResult">
+	
+	</select>
+	
+	<!-- 관리자 : 출장 조회 -->
+	<select id="adminSelectBusinesseList" resultMap="businesstripResult">
+	
+	</select>
 
 </mapper>

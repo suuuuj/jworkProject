@@ -19,26 +19,6 @@
         margin: auto; 
         padding:5%
     }
-    /* 메뉴바영역 
-    .title{
-        color:rgb(50,50,50);
-        margin-left: 30px;
-        margin-top:30px;
-    }
-    .selectBar{
-        margin-left: 30px;
-    }
-    .selectBar>span{
-        color:rgba(50, 50, 50, 0.79);
-        font-size:15px;
-        font-weight: 600;
-    }
-    .selectBar>div{
-        margin-top:10px;
-        height:3px;
-        float: left;
-    }
-    */
     /* content영역 */
     div{
         box-sizing: border-box;
@@ -87,13 +67,6 @@
     .leaveTable>tbody button{
     	width:40px;
     	height:25px;
-    }
-    .paging-area button{
-        width:30px;
-        height:30px;
-        border:none;
-        border-radius: 5px;
-        line-height:normal;
     }
     .leaveTable>tbody button{
         width:60px;
@@ -227,7 +200,8 @@
 		                    <li class="page-item"><a class="page-link" href="list.le?cpage=${ p }">${ p }</a></li>
 	                    </c:forEach>
 	                    
-	                    <c:choose>
+	              
+	            				      <c:choose>
 		                    <c:when test="${ pi.currentPage eq pi.maxPage }">
 		                    	<li class="page-item" disabled><a class="page-link" href="#">></a></li>
 		                    </c:when>
