@@ -12,11 +12,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.FileUpload;
+import com.mj.jwork.common.template.Pagination;
 import com.mj.jwork.employee.model.service.EmployeeService;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
@@ -121,10 +124,62 @@ public class EmployeeController {
 		return new Gson().toJson(data);
 	}
 	
-	// 주소록 페이지
-	@RequestMapping("address.emp")
-	public String address() {
-		return "employee/address";
+	
+	// 사내 주소록 조회 페이지
+	@RequestMapping("addressIn.emp")
+	public String addressInList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Model model, HttpSession session) {
+		
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		
+		int listCount = eService.selectAddressInListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+		ArrayList<Employee> list = eService.selectAddressInList(empNo, pi);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", list);
+		
+		return "employee/addressInList";
+	}
+	
+	// 사내 주소록 상세 조회 페이지(ajax)
+	@ResponseBody
+	@RequestMapping(value="selectAdressEmploye.emp", produces="application/json; charset=utf-8")
+	public String ajaxSelectAddressEmployee(Employee e, HttpSession session) {
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		e.setLoginNo(loginNo);
+		
+		Employee emp = eService.ajaxSelectAddressEmployee(e);
+		System.out.println(emp);
+		return new Gson().toJson(emp);
+
+	}
+	
+    
+	// 개인 주소록 조회 페이지
+	@RequestMapping("addressOut.emp")
+	public String addressOutList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Model model, HttpSession session) {
+		
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		
+		int listCount = eService.selectAddressOutListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+		ArrayList<Employee> list = eService.selectAddressOutList(empNo, pi);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", list);
+		
+		return "employee/addressOutList";
+	}
+	
+
+   
+	// 즐겨찾기 주소록 페이지
+	@RequestMapping("addressFav.emp")
+	public String addressFav() {
+		return "employee/addressFavList";
 	}
 	
 }

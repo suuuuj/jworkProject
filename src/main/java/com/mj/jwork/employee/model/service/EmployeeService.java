@@ -2,6 +2,7 @@ package com.mj.jwork.employee.model.service;
 
 import java.util.ArrayList;
 
+import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.employee.model.vo.Team;
@@ -21,6 +22,18 @@ public interface EmployeeService {
 	ArrayList<Employee> ajaxSelectEmpList();
 	ArrayList<Department> ajaxSelectDeptList();
 	ArrayList<Team> ajaxSelectTeamList();
+	
+	// 사내 주소록 리스트 조회 
+	int selectAddressInListCount();
+	ArrayList<Employee> selectAddressInList(int empNo, PageInfo pi);
+
+	// 개인 주소록 리스트 조회
+	int selectAddressOutListCount();
+	ArrayList<Employee> selectAddressOutList(int empNo, PageInfo pi);
+	
+	// 사내 주소록 상세 조회 페이지(ajax)
+	Employee ajaxSelectAddressEmployee(Employee e);
+
 
 	
 
