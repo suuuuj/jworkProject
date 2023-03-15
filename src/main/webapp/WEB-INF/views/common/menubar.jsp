@@ -310,7 +310,7 @@
                     </div>
                     
                     <div class="menu"  id="">
-                        <div class="mainMenu" onclick="location.href='list.ma'"><img class="menuIcon" src="resources/images/common/email1.png" />이메일</div>
+                        <div class="mainMenu" onclick="location.href='list.ma?mailCategory=받은메일함'"><img class="menuIcon" src="resources/images/common/email1.png" />이메일</div>
                         <div class="menu-wrap">
                             
                         </div>

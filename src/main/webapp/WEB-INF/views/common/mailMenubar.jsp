@@ -23,7 +23,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"> 
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> 
-
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
     
     <style>
         /*
@@ -161,9 +162,19 @@
             border: none;
             padding-left: 5px;
         }
+        .mailBoxNameBtn{
+            width: 130px;
+            height: 30px;
+            border: none;
+            padding-left: 5px;
+            text-align: left;
+        }
         .mailBoxName:focus{
             outline: 1px solid green;
             border-radius: 5px;
+        }
+        .active{
+            color: green;
         }
     </style>
 </head>
@@ -181,22 +192,22 @@
                     </div>
                     <div class="mainMailBox">
                         <div>
-                            <a href="list.ma" id="receiveMailBox" class="btn btn-block">받은메일함</a>
+                            <a href="list.ma?mailCategory=받은메일함" id="receiveMailBox" class="btn btn-block">받은메일함</a>
                         </div>
                         <div>
                             <a href="#" class="btn btn-block">안읽은메일함</a>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-block">보낸메일함</a>
+                            <a href="list.ma?mailCategory=보낸메일함" class="btn btn-block">보낸메일함</a>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-block">임시보관함</a>
+                            <a href="list.ma?mailCategory=임시보관함" class="btn btn-block">임시보관함</a>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-block">중요메일함</a>
+                            <a href="list.ma?mailCategory=중요" class="btn btn-block">중요메일함</a>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-block">휴지통</a>
+                            <a href="list.ma?mailCategory=휴지통" class="btn btn-block">휴지통</a>
                         </div>
 
                         <div class="line"></div>
@@ -224,14 +235,24 @@
 							
 							for(let i=0; i<count; i++){
 								
-								value += '<div class="oneMailBox">'
+								value += '<div class="oneMailBox inputbox" hidden>'
 										   + '<input type="hidden" value="' + mblist[i].mailBoxNo + '">'
-										   + '<input type="text" class="mailBoxName" value="' + mblist[i].mailBoxName + '" readonly>'
+										   + '<input type="text" class="mailBoxName" value="' + mblist[i].mailBoxName + '" readonly onkeyup="">'
 										   + '<span class="mailBoxBtn">'
                                                 + '<img class="menuIcon editMailBox" src="resources/images/mail/edit.png" />'
                                                 + '<img class="menuIcon deleteMailBox" src="resources/images/mail/delete.png" />'
                                            + '</span>'
 									   + '</div>'
+                                       + '<div class="oneMailBox category">'
+                                            + '<input type="hidden" value="' + mblist[i].mailBoxNo + '">'
+                                            + '<button type="button" class="btn mailBoxNameBtn">' + mblist[i].mailBoxName + '</button>'
+                                            + '<span class="mailBoxBtn">'
+                                                + '<img class="menuIcon editMailBox" src="resources/images/mail/edit.png" />'
+                                                + '<img class="menuIcon deleteMailBox" src="resources/images/mail/delete.png" />'
+                                            + '</span>'
+                                        + '</div>';
+
+                                       
 							}
 							
 							$(".userMailBox").append(value);
@@ -247,18 +268,21 @@
 					
                 	loadMailBox();
                 	
-                	
 
                     // 메일함 수정 버튼 클릭 시
                     $(document).on("click", ".editMailBox", function(){
-                        $(this).parent().prev().attr("readonly", false);
-                        $(this).parent().prev().select();
+                        $(this).parent().parent().prev().attr("hidden", false);
+                        $(this).parent().parent().attr("hidden", true);
+                        $(this).parent().parent().prev().children().eq(1).attr("readonly", false);
+                        $(this).parent().parent().prev().children().eq(1).select();
+                        
                     })
 
                     // 메일함 input box 에서 포커스 아웃될 때
                     $(document).on("focusout", ".mailBoxName", function(){
                         const $mailBoxName = $(this).val();
                         const $mailBoxNo = $(this).prev().val();
+                        $(this).parent().next().children().eq(1).text($mailBoxName);
                         $.ajax({
                             url: "updateMailBox.ma",
                             data: {
@@ -268,8 +292,14 @@
                             success: function(result){
                             	
                             	if(result == "success"){
+                                    $("input[value='" + $mailBoxNo + "']").eq(0).parent().attr("hidden", true);
+                                    $("input[value='" + $mailBoxNo + "']").eq(1).parent().attr("hidden", false);
+                                    $(this).parent().parent().next().attr("hidden", false);
+                                    $(this).parent().parent().attr("hidden", true);
+                                    /*
                             		$(this).attr("readonly", true);
                                 	$(this).attr("border", "none");
+                                    */
                                     $(".mailBoxOptions").remove();
                                     moveMailBoxList();
                             	} else {
@@ -298,14 +328,23 @@
                     		success: function(mailbox){
                     			if(mailbox != null){
                     				// db에 메일함 추가하였을 경우
-	                    			const mailBoxInput = '<div class="oneMailBox">'
+	                    			const mailBoxInput = '<div class="oneMailBox inputbox">'
 														   + '<input type="hidden" value="' + mailbox.mailBoxNo + '">'
-														   + '<input type="text" class="mailBoxName" value="' + mailbox.mailBoxName + '" readonly>'
+														   + '<input type="text" class="mailBoxName" value="' + mailbox.mailBoxName + '" readonly onkeyup="">'
 														   + '<span class="mailBoxBtn">'
 					                                            + '<img class="menuIcon editMailBox" src="resources/images/mail/edit.png" />'
 					                                            + '<img class="menuIcon deleteMailBox" src="resources/images/mail/delete.png" />'
 					                                       + '</span>'
-													   + '</div>';
+													   + '</div>'
+                                                       + '<div class="oneMailBox category" hidden>'
+                                                            + '<input type="hidden" value="' + mailbox.mailBoxNo + '">'
+                                                            + '<button type="button" class="btn mailBoxNameBtn">' + mailbox.mailBoxName + '</button>'
+                                                            + '<span class="mailBoxBtn">'
+                                                                + '<img class="menuIcon editMailBox" src="resources/images/mail/edit.png" />'
+                                                                + '<img class="menuIcon deleteMailBox" src="resources/images/mail/delete.png" />'
+                                                            + '</span>'
+                                                        + '</div>';
+            
 									
 	                    			$(".userMailBox").append(mailBoxInput);
 									
@@ -356,11 +395,12 @@
                     	
                     })
                     
-                    
-                    
-                    
-                    
-                    
+                    $(document).on("click", ".mailBoxNameBtn", function(){
+                        const $mailBoxNo = $(this).prev().val();
+
+                        location.href = "list.ma?mailCategory=사용자메일함&mailBoxNo=" + $mailBoxNo;
+
+                    })
                     
                 })
                 

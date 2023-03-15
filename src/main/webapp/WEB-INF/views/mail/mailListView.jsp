@@ -85,7 +85,7 @@
 	<jsp:include page="../common/mailMenubar.jsp"/>
         <br>
         <div class="mailOuter">
-            <span class="content-title">&nbsp;&nbsp;&nbsp;${ mailBox }&nbsp;&nbsp;</span> <a class="notRead" href="#">${ unReadCount }</a>&nbsp;/&nbsp;<a class="mailBox" href="#">${ listCount }</a> 
+            <span class="content-title">&nbsp;&nbsp;&nbsp;${ mailCategory }&nbsp;&nbsp;</span> <a class="notRead" href="#">${ unReadCount }</a>&nbsp;/&nbsp;<a class="mailBox" href="#">${ listCount }</a> 
             <div class="line"></div>
             <div class="space"></div>
             <div class="btnArea">

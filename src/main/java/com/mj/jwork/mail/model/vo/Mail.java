@@ -36,6 +36,7 @@ public class Mail {
 	// 메일함 정보 테이블
 	private String mailBoxName;
 	
-	
+	// 메일 조회 카테고리
+	private String mailCategory;
 	
 }

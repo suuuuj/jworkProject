@@ -12,26 +12,26 @@ import com.mj.jwork.mail.model.vo.Mail;
 @Repository
 public class MailDao {
 	
-	public int selectReceiveListCount(SqlSessionTemplate sqlSession, int empNo) {
+	public int selectListCount(SqlSessionTemplate sqlSession, Mail m) {
 		
-		return sqlSession.selectOne("mailMapper.selectReceiveListCount", empNo);
-		
-	}
-	
-	public int selectUnReadReceiveCount(SqlSessionTemplate sqlSession, int empNo) {
-		
-		return sqlSession.selectOne("mailMapper.selectUnReadReceiveCount", empNo);
+		return sqlSession.selectOne("mailMapper.selectListCount", m);
 		
 	}
 	
-	public ArrayList<Mail> selectReceiveMailList(SqlSessionTemplate sqlSession, int empNo, PageInfo pi){
+	public int selectUnReadListCount(SqlSessionTemplate sqlSession, Mail m) {
+		
+		return sqlSession.selectOne("mailMapper.selectUnReadListCount", m);
+		
+	}
+	
+	public ArrayList<Mail> selectMailList(SqlSessionTemplate sqlSession, Mail m, PageInfo pi){
 		
 		int offset = pi.getBoardLimit() * (pi.getCurrentPage() - 1);
 		int limit = pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("mailMapper.selectReceiveMailList", empNo, rowBounds);
+		return (ArrayList)sqlSession.selectList("mailMapper.selectMailList", m, rowBounds);
 		
 	}
 	

@@ -8,9 +8,9 @@ import com.mj.jwork.mail.model.vo.Mail;
 public interface MailService {
 	
 	// 받은 메일 리스트 조회
-	int selectReceiveListCount(int empNo);
-	int selectUnReadReceiveCount(int empNo);
-	ArrayList<Mail> selectReceiveMailList(int empNo, PageInfo pi);
+	int selectListCount(Mail m);
+	int selectUnReadListCount(Mail m);
+	ArrayList<Mail> selectMailList(Mail m, PageInfo pi);
 	
 	// 사용자 메일함 리스트 조회
 	ArrayList<Mail> selectMailBoxList(int empNo);
