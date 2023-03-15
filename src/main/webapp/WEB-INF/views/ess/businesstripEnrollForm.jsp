@@ -27,6 +27,7 @@
         width:100px;
         border: 1px solid rgb(170, 170, 170);
         border-radius: 5px;
+        text-align: center; 
     }
     #textBox{
         resize: none;
@@ -38,7 +39,7 @@
     }#textBox::placeholder{
     	font-size:13px;
     }
-    button[type=button]{
+    button[type=reset]{
         border:none;
         height:30px;
         width:50px;
@@ -88,8 +89,9 @@
                 <div style="display: flex;">
                     <img src="resources/images/ess/mark.png" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        &nbsp;신청자&nbsp; <input type="text" name="" value="로그인사원이름"> 
-                        &nbsp;소속&nbsp; <input type="text" name="" value="로그인사원소속"> 
+                        &nbsp;신청자&nbsp; <input type="text" name="" value="${ e.empName }"> 
+                        &nbsp;소속&nbsp; <input type="text" name="" value="${ e.deptName }"> 
+                        <input type="hidden" name="empNo" value="${ e.empNo }">
                     </div>
                     <div style="background:rgb(234, 234, 234); width:520px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
@@ -99,9 +101,89 @@
                 <div style="display: flex;">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
                         <img src="resources/images/ess/clock.png" alt="" style="width:30px; height:30px">
-                        시작일&nbsp; <input type="text" id="datepicker1" name="" value="" style="width:150px; text-align: center; height:20px;"> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="text" id="datepicker2" name="" value="" style="width:150px; text-align: center; height:20px;"> 
+                        시작일&nbsp; <input type="text" id="datepicker1" name="btStart" value="" style="width:150px; height:20px;"> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="text" id="datepicker2" name="btEnd" value="" style="width:150px; height:20px;"> 
                     </div>
+
+                    <!-- datepicker -->
+                    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
+                    <script>	
+                                
+                    $(function(){
+                        
+                        
+                        $("#datepicker1").datepicker({
+                            changeMonth: true, 
+                            changeYear: true,
+                            minDate: '0',
+                            nextText: '다음 달',
+                            prevText: '이전 달',
+                            yearRange: 'c-50:c+20',
+                            showButtonPanel: true, 
+                            currentText: '오늘 날짜',
+                            closeText: '닫기',
+                            dateFormat: "yy-mm-dd",
+                            showAnim: "slide",
+                            showMonthAfterYear: true, 
+                            dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
+                            onSelect: function(selected){
+                                $("#datepicker2").datepicker("option", "minDate", selected);
+                            }
+                        });	
+                        
+                        $("#datepicker2").datepicker({
+                            changeMonth: true, 
+                            changeYear: true,
+                            minDate: '0',
+                            nextText: '다음 달',
+                            prevText: '이전 달',
+                            yearRange: 'c-50:c+20',
+                            showButtonPanel: true, 
+                            currentText: '오늘 날짜',
+                            closeText: '닫기',
+                            dateFormat: "yy-mm-dd",
+                            showAnim: "slide",
+                            showMonthAfterYear: true, 
+                            dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
+                            onSelect: function(selected){
+                                $("#datepicker1").datepicker("option", "maxDate", selected);
+                            }
+                        });	
+                        
+                        
+                        
+                    });
+                    
+                    </script> 
+
+                    <!-- 에러 해결 시작 - 홈짱 -->
+
+                    <script>
+
+                        jQuery.browser = {};
+                        
+                        (function () {
+                        
+                            jQuery.browser.msie = false;
+                        
+                            jQuery.browser.version = 0;
+                        
+                            if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+                        
+                                jQuery.browser.msie = true;
+                        
+                                jQuery.browser.version = RegExp.$1;
+                        
+                            }
+                        
+                        })();
+                        
+                        </script>
+                        
+                        <!-- 에러 해결 종료 - 홈짱 -->
+
                     <div style="background:rgb(234, 234, 234); width:390px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
@@ -109,70 +191,16 @@
                 <div class="textWrap">
                     <div class="textCount">0자</div><div class="textTotal">/200자</div>
                 </div>
-                <textarea name="" id="textBox" cols="30" rows="10" maxlength="199" placeholder="출장신청 내용을 입력해주세요."></textarea>
+                <textarea name="btContent" id="textBox" cols="30" rows="10" maxlength="199" placeholder="출장신청 내용을 입력해주세요."></textarea>
                 <div style="float: right; margin-top:160px;">
-                    <button type="button" class="btn btn-secondary">취소</button>
+                    <button type="reset" class="btn btn-secondary">취소</button>
                     <button type="submit" class="btn btn-success" >출장신청하기</button>
                 </div>
 
             </div>
 
         </form>
-
-        <!-- datepicker -->
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
-        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
-        <script>	
-                    
-        $(function(){
-        	
-            
-            $("#datepicker1").datepicker({
-                changeMonth: true, 
-                changeYear: true,
-                minDate: '0',
-                nextText: '다음 달',
-                prevText: '이전 달',
-                yearRange: 'c-50:c+20',
-                showButtonPanel: true, 
-                currentText: '오늘 날짜',
-                closeText: '닫기',
-                dateFormat: "yy-mm-dd",
-                showAnim: "slide",
-                showMonthAfterYear: true, 
-                dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
-                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
-                onSelect: function(selected){
-                	$("#datepicker2").datepicker("option", "minDate", selected);
-                }
-            });	
-            
-            $("#datepicker2").datepicker({
-                changeMonth: true, 
-                changeYear: true,
-                minDate: '0',
-                nextText: '다음 달',
-                prevText: '이전 달',
-                yearRange: 'c-50:c+20',
-                showButtonPanel: true, 
-                currentText: '오늘 날짜',
-                closeText: '닫기',
-                dateFormat: "yy-mm-dd",
-                showAnim: "slide",
-                showMonthAfterYear: true, 
-                dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
-                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
-                onSelect: function(selected){
-                	$("#datepicker1").datepicker("option", "maxDate", selected);
-                }
-            });	
-            
-            
-            
-        });
         
-        </script> 
 
         <script>
             $(function(){

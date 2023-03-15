@@ -122,7 +122,7 @@
                 
 	            <textarea name="leaveContent" id="textBox" cols="30" rows="10" maxlength="199" placeholder="휴가신청 내용을 입력해주세요."></textarea>
 	            <div style="float: right; margin-top:160px;">
-	                <button type="button" class="btn btn-secondary">취소</button>
+	                <button type="reset" class="btn btn-secondary">취소</button>
 	                <button type="submit" class="btn btn-success">휴가등록하기</button>
 	            </div>
 				

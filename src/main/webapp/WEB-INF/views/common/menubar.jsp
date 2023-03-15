@@ -277,7 +277,17 @@
                             <div class="menuDetail">
                                 <a id="" href="enrollForm.bt">출장신청</a><br>
                                 <a id="" href="enrollForm.ot">시간외 근무신청</a><br>
-                                <a id="" href="list.ob">신청상세</a><br>
+                                <a id="" href="list.wt">신청상세</a><br>
+                                <a id="" href="admin.bt">출장관리</a><br>
+                                <a id="" href="admin.ot">시간외 근무관리</a><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu"  id="">
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/ess.png" alt="" />예약</div>
+                        <div class="menu-wrap">
+                            <div class="menuDetail">
                                 <a id="" href="status.car">차량예약신청</a><br>
                                 <a id="" href="list.cfrRes">회의실예약신청</a><br>
                             </div>
@@ -290,7 +300,7 @@
                             <div class="menuDetail">
                                 <a id="" href="menu.le">휴가신청</a><br>
                                 <a id="" href="list.le">휴가상세</a><br>
-                                <a id="" href="">휴가관리</a><br>
+                                <a id="" href="list.wt">휴가관리</a><br>
                                 <a id="" href="">휴가내역</a><br>
                                 <a id="" href="">전체휴가일정</a><br>
                             </div>
