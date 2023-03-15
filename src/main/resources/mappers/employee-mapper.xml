@@ -104,7 +104,7 @@
 	    order
 	       by t.team_code, j.job_code
 	</select>
-	
+		
 	<select id="ajaxSelectDeptList" resultMap="deptResult">
 		select
 			 dept_code
@@ -121,7 +121,6 @@
 		from team
 	   where status= 'Y'
 	</select>
-
 
 
 </mapper>

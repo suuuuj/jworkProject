@@ -11,14 +11,14 @@ public interface ApprovalService{
 	int selectListCount(int empNo);
 	ArrayList<Approval> selectMyApprovalList(PageInfo pi,int empNo);
 	
-	//내결재목록 진행 버튼 클릭 (ajax)
-	ArrayList<Approval> ajaxSelectIngBtn(PageInfo pi,int empNo);
+	//내결재목록 버튼 클릭 (ajax)
+	ArrayList<Approval> ajaxSelectBtn(PageInfo pi,Approval a);
 	
 	//결재 문서 작성 서비스
 	int insertApproval(Approval a);
 	
 	//결재문서 상세 조회 서비스
-	Approval selectApproval(int appNo);
+	Approval selectApproval(int no);
 	
 	//상신취소 서비스 (수정 후 재 결재)
 	int updateApproval(Approval a);

@@ -30,10 +30,16 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return aDao.selectMyApprovalList(sqlSession,pi, empNo);
 	}
 	
-	//결재문서 리스트 진행버튼 클릭시
+	//결재문서 리스트 버튼 클릭시
 	@Override
-	public ArrayList<Approval> ajaxSelectIngBtn(PageInfo pi,int empNo) {
-		return aDao.ajaxSelectIngBtn(sqlSession,pi, empNo);
+	public ArrayList<Approval> ajaxSelectBtn(PageInfo pi,Approval a) {
+		return aDao.ajaxSelectBtn(sqlSession,pi, a);
+	}
+	
+	//결재문서 상세조회
+	@Override
+	public Approval selectApproval(int no) {
+		return aDao.selectApproval(sqlSession, no);
 	}
 	
 
@@ -42,10 +48,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return 0;
 	}
 
-	@Override
-	public Approval selectApproval(int appNo) {
-		return null;
-	}
+	
 
 	@Override
 	public int updateApproval(Approval a) {

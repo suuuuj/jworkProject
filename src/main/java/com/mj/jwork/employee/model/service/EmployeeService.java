@@ -22,6 +22,5 @@ public interface EmployeeService {
 	ArrayList<Department> ajaxSelectDeptList();
 	ArrayList<Team> ajaxSelectTeamList();
 
-	
 
 }

@@ -37,7 +37,6 @@ public class EmployeeDao {
 	public ArrayList<Team> ajaxSelectTeamList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxSelectTeamList");
 	}
-
 	
 
 
