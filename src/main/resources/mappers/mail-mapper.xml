@@ -148,4 +148,12 @@
 		   and emp_no = #{ empNo }
 	</update>
 	
+	<update id="updateImportant">
+		update
+		       mail_detail
+		   set important = #{important}
+		 where mail_no = #{mailNo}
+		   and emp_no = #{empNo}
+	</update>
+	
 </mapper>

@@ -77,5 +77,11 @@ public class MailDao {
 		
 	}
 	
+	public int updateImportant(SqlSessionTemplate sqlSession, Mail m) {
+		
+		return sqlSession.update("mailMapper.updateImportant", m);
+		
+	}
+	
 	
 }

@@ -51,7 +51,7 @@
         .mailContents td{
         	padding-left:10px;
         }
-        .readIcon{width:20px;}
+        .mailIcon{width:20px;}
         #pagingArea{
             display: flex;
             justify-content: center;
@@ -352,19 +352,19 @@
 	                        <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
 	                        <c:choose>
 	                        	<c:when test="${ m.important eq 'Y' }">
-	                        		<td width="30px" class="star">★</td>
+	                        		<td width="30px" class="star" important="N"><img class="mailIcon" src="resources/images/mail/important.png"></td>
 	                        	</c:when>
 	                        	<c:otherwise>
-	                        		<td width="30px" class="star">☆</td>
+	                        		<td width="30px" class="star" important="Y"><img class="mailIcon" src="resources/images/mail/normal.png"></td>
 	                        	</c:otherwise>
 	                        </c:choose>
 	                        <c:choose>
 	                        	<c:when test="${ m.read eq 'Y' }">
 	                        		<!-- 읽은 메일 아이콘 수정하기!!!!!!!!!! -->
-	                        		<td width="30px"><img class="readIcon" src="resources/images/mail/mail.png"></td>
+	                        		<td width="30px"><img class="mailIcon" src="resources/images/mail/readMail.png"></td>
 	                        	</c:when>
 	                        	<c:otherwise>
-	                        		<td width="30px"><img class="readIcon" src="resources/images/mail/mail.png"></td>
+	                        		<td width="30px"><img class="mailIcon" src="resources/images/mail/unReadMail.png"></td>
 	                        	</c:otherwise>
 	                        </c:choose>
 	                        <td width="100px">${ m.sender }</td>
@@ -404,7 +404,51 @@
 
             <script>
                 $(function(){
+                    $(document).on("click", ".star", function(){
 
+                        const $mailNo = $(this).parent().attr("mail-no");
+                        // 업데이트할 중요값 원래 N => Y | Y => N
+                        const $important = $(this).attr("important");
+                        //console.log($mailNo);
+                        //console.log($important);
+                        
+                        $.ajax({
+                            url: "important.ma",
+                            data: {
+                                empNo:${loginUser.empNo},
+                                mailNo: $mailNo,
+                                important: $important
+                            },
+                            success: function(result){
+                                //console.log(result);
+                            	if(result == "success"){
+                                    
+                            		if($important == 'N'){
+                                        // 중요하지 않은 것으로 변경 시
+                                        $("tr[mail-no=" + $mailNo + "]").children().eq(1).attr("important", "Y");
+                                        $("tr[mail-no=" + $mailNo + "]").children().eq(1).html('<img class="mailIcon" src="resources/images/mail/normal.png">');
+                                        
+                            		} else{
+                                        // 중요 메일로 변경 시
+                                        $("tr[mail-no=" + $mailNo + "]").children().eq(1).attr("important", "N");
+                                        $("tr[mail-no=" + $mailNo + "]").children().eq(1).html('<img class="mailIcon" src="resources/images/mail/important.png">');
+                                        
+                            		}
+                            		
+                            	} else{
+                            		alert("알 수 없는 오류로 실패하였습니다. 다시 시도해주세요.");
+                            	}
+                            	
+                            	
+                            }, error: function(){
+								
+                            	console.log("메일 중요 서비스용 ajax 통신 실패");
+                            	
+                            }
+                        })
+                        
+
+                    })
                     
 
                 })
