@@ -274,6 +274,8 @@
                                 <a id="" href="enrollForm.bt">출장신청</a><br>
                                 <a id="" href="enrollForm.ot">시간외 근무신청</a><br>
                                 <a id="" href="list.wt">신청상세</a><br>
+                                <a id="" href="admin.bt">출장관리</a><br>
+                                <a id="" href="admin.ot">시간외 근무관리</a><br>
                             </div>
                         </div>
                     </div>
@@ -284,7 +286,7 @@
                             <div class="menuDetail">
                                 <a id="" href="menu.le">휴가신청</a><br>
                                 <a id="" href="list.le">휴가상세</a><br>
-                                <a id="" href="">휴가관리</a><br>
+                                <a id="" href="list.wt">휴가관리</a><br>
                                 <a id="" href="">휴가내역</a><br>
                                 <a id="" href="">전체휴가일정</a><br>
                             </div>
