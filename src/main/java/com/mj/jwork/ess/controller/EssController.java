@@ -86,26 +86,36 @@ public class EssController {
 	}
 	
 	/**
-	 * 휴가전체리스트
+	 * 휴가전체리스트/상세조회
 	 * @param currentPage
 	 * @param mv
 	 * @return
 	 */
 	@RequestMapping("list.le")
-	public ModelAndView selectLeave(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv) {
+	public ModelAndView selectLeave(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session, ModelAndView mv) {
 		
 		// 페이징
 		int listCount = eService.selectLeaveListCount();
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
 		
 		// 페이징 후 게시글 전체조회
+		Employee e = (Employee)session.getAttribute("loginUser");
 		ArrayList<Leave> list = eService.selectLeaveList(pi);
 		
+		mv.addObject("e", e);
 		mv.addObject("pi", pi);
 		mv.addObject("list", list);
 		mv.setViewName("ess/leaveList");
 		
 		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="detail.le", produces="application/json; charset=UTF-8")
+	public String selectLeaveDetail(Leave le) {
+		
+		Leave leave = eService.selectLeaveDetail(le);
+		return new Gson().toJson(leave);
 	}
 	
 	/**
