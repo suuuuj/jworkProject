@@ -45,4 +45,9 @@ public class CfrResDao {
 		
 		return (ArrayList)sqlSession.selectList("cfrMapper.selectResList");
 	}
+	
+	public int deleteCfrRes(SqlSessionTemplate sqlSession,int resNo) {
+		
+		return sqlSession.delete("cfrMapper.deleteCfrRes",resNo);
+	}
 }

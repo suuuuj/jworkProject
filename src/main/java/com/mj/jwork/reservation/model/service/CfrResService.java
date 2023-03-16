@@ -23,4 +23,7 @@ public interface CfrResService {
 	
 	//전체 예약 목록
 	ArrayList<CfrReservation> selectResList();
+	
+	//예약 취소 
+	int deleteCfrRes(int resNo);
 }

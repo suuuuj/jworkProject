@@ -160,4 +160,9 @@
            from cfr_reservation
          where status = 2
 	</select>
+	<delete id="deleteCfrRes" >
+		delete
+		from cfr_reservation
+		where res_no=#{resNo}
+	</delete>
 </mapper>

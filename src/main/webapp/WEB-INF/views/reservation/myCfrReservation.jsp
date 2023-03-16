@@ -19,6 +19,11 @@
         line-height: 30px;
 	}
 	
+	.fc-toolbar-chunk div,.fc-toolbar-chunk button{
+	disply:inline-block !important;
+	 width: 960px!important;
+	}
+	
 	
 </style>
 
@@ -43,16 +48,16 @@
                     </thead>
                     <tbody>
                     	<c:forEach var="c" items="${list}">
-                    	 	<input type="hidden" class="resNo" value="${c.resNo}">
+                    	 	
 	                        <tr>    
 	                            <td class="text-center cfrName" >${c.cfrName}</td>
 	                            <td class="text-center cfTitle" >${c.cfTitle}</td>
 	                            <td class="text-center" >${c.useDate}&nbsp;${c.startTime}~${c.endTime}</td>
                             <td class="text-center">
                             <c:choose>
-	                            <c:when test="${c.status eq 1}">
-		                                <button type="button" class="btn btn-sm btn-primary"  data-toggle="modal" id="change" data-target="#changeForm" ">일정변경</button>
-		                                <button type="button" class="btn btn-sm btn-warning">예약취소</button>
+	                            <c:when test="${c.status eq 2}">
+		                                <button type="button" class="btn btn-sm btn-primary"  data-toggle="modal" id="change" data-target="#changeForm" onclick="change('${c.resNo}');">일정변경</button>
+		                                <button type="button" class="btn btn-sm btn-warning" onclick="deleteCfrRes('${c.resNo}');">예약취소</button>
 	                            </c:when>
 	                            <c:when test="${c.status eq 4}">
 	                                <button type="button" class="btn btn-sm btn-secondary">이용완료</button>
@@ -99,6 +104,7 @@
             </div>
 
         </div>
+         <div id='calendar'></div>
         <br>
         <script>
         	$(function(){
@@ -122,10 +128,39 @@
 	        	});
         		
         		
+        
+  
+	        		
+        	})
+        	
+        	function deleteCfrRes(resNo){
+        		if(confirm('정말 예약을 취소하시겠습니까?'))   
+    			{
+    			
+    			$.ajax({
+    				url:"delete.cfrRes",
+    				data:{resNo:resNo},
+    				async: true,
+    				success:function(result){
+    					if(result>0){
+    						alert("회의실 예약 취소 성공");
+    						location.reload();
+    					}
+    				},error:function(){
+    					console.log("회의실 예약 취소 ajax통신 실패");
+    				}
+    					
+    			});
+    			}
+        		        		
         		
+        	}
+        	function change(resNo){
+        		
+
         		$.ajax({
 					url:"detail.cfrRes",
-					data:{resNo:$(".resNo").val()}
+					data:{resNo:resNo}
         			,success:function(c){
         				/* if(c.cfrName == $(".cfrNameList").val()){
         					$(this).prop("selected",true);
@@ -142,15 +177,11 @@
         				$("input[name=capacity]").val(c.capacity);
         				$("input[name=cfTitle]").val(c.cfTitle);
         				
-        			},error:function(){
-        				console.log("회의실 일정 변경용 ajax 통신 실패");
         			}
         		
         		});
-	        	
         		
-	        		
-        	})
+        	}
         	
         
         </script>

@@ -56,6 +56,12 @@ public class CfrResServiceImpl implements CfrResService{
 	public ArrayList<CfrReservation> selectResList() {
 		return cRDao.selectResList(sqlSession);
 	}
+
+
+	@Override
+	public int deleteCfrRes(int resNo) {
+		return cRDao.deleteCfrRes(sqlSession,resNo);
+	}
 	
 	
 

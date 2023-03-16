@@ -109,7 +109,33 @@
 	                        <th>신청시간</th>
 	                        <td>
 	                         <div class="col-6">
-	                        <input type="time" class="form-control"name="startTime">-<input type="time" class="form-control" name="endTime" >
+	                        <select name="startTime">
+                                <option value="09:00:00">09:00</option>
+                                <option value="10:00:00">10:00</option>
+                                <option value="11:00:00">11:00</option>
+                                <option value="12:00:00">12:00</option>
+                                <option value="13:00:00">13:00</option>
+                                <option value="14:00:00">14:00</option>
+                                <option value="15:00:00">15:00</option>
+                                <option value="16:00:00">16:00</option>
+                                <option value="17:00:00">17:00</option>
+                                <option value="18:00:00">18:00</option>
+                                <option value="19:00:00">19:00</option>
+                            </select>
+                            -
+                            <select name="endTime">
+                                <option value="09:00:00">09:00</option>
+                                <option value="10:00:00">10:00</option>
+                                <option value="11:00:00">11:00</option>
+                                <option value="12:00:00">12:00</option>
+                                <option value="13:00:00">13:00</option>
+                                <option value="14:00:00">14:00</option>
+                                <option value="15:00:00">15:00</option>
+                                <option value="16:00:00">16:00</option>
+                                <option value="17:00:00">17:00</option>
+                                <option value="18:00:00">18:00</option>
+                                <option value="19:00:00">19:00</option>
+                            </select>
 	                        </div>
 	                        </td>
 	                    </tr>
