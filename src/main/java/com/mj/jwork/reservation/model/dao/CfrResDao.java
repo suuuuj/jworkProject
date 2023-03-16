@@ -40,4 +40,9 @@ public class CfrResDao {
 		
 		return sqlSession.selectOne("cfrMapper.selectMyCfr",resNo);
 	}
+	
+	public ArrayList<CfrReservation> selectResList(SqlSessionTemplate sqlSession){
+		
+		return (ArrayList)sqlSession.selectList("cfrMapper.selectResList");
+	}
 }

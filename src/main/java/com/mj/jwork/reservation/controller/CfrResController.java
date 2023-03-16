@@ -1,7 +1,9 @@
 package com.mj.jwork.reservation.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,5 +88,18 @@ public class CfrResController {
 		return new Gson().toJson(c);
 	
 
-}
+	}
+	@RequestMapping("status.cfr")
+	public ModelAndView getCalendarList(ModelAndView mv, HttpServletRequest request) {
+		ArrayList<CfrReservation>list = cRService.selectResList();
+		
+		mv.addObject(list)
+		.setViewName("reservation/managerCfrStatus");
+		return mv;
+	}
+	
+		
+	
+	
+	
 }

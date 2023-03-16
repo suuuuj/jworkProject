@@ -65,6 +65,7 @@
 			,use_date
 			,capacity
 			,cf_title
+			,status
 			)
 			values
 			(
@@ -76,6 +77,7 @@
 			,#{useDate}
 			,#{capacity}
 			,#{cfTitle}
+			,2
 			)
 			
 	</insert>
@@ -146,4 +148,16 @@
 		,equipment=#{equipment}
 		where cfr_name=#{cfrName}
 	</update>
+	<select id="selectResList" resultMap="cfrResMap">
+		select
+		    RES_NO
+           ,CFR_NAME
+           ,STATUS
+           ,START_TIME
+           ,END_TIME
+           ,USE_DATE
+           ,CF_TITLE
+           from cfr_reservation
+         where status = 2
+	</select>
 </mapper>

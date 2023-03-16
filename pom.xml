@@ -214,6 +214,7 @@
 		</dependency>
 		
 		
+		
 		<!-- [추가]웹소캣과 관련된 라이브러리 -->
 		<dependency>
           <groupId>org.springframework</groupId>
@@ -230,8 +231,25 @@
           <artifactId>jackson-mapper-asl</artifactId>
           <version>1.9.13</version>
       </dependency>
-		
-		
+      
+		<!-- google api -->
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>1.22.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.oauth-client</groupId>
+            <artifactId>google-oauth-client-jetty</artifactId>
+            <version>1.22.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-calendar</artifactId>
+            <version>v3-rev235-1.22.0</version>
+        </dependency>
 		
 		      
 	</dependencies>

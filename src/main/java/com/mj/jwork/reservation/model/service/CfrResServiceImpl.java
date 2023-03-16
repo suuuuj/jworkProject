@@ -50,6 +50,12 @@ public class CfrResServiceImpl implements CfrResService{
 	public CfrReservation selectMyCfr(int resNo) {
 		return cRDao.selectMyCfr(sqlSession,resNo);
 	}
+
+
+	@Override
+	public ArrayList<CfrReservation> selectResList() {
+		return cRDao.selectResList(sqlSession);
+	}
 	
 	
 
