@@ -141,11 +141,8 @@
 
                     // 메일 임시저장시 실행되는 함수
                     function saveMail(){
-                        let formData = new FormData(document.getElementById("mailForm"));
-
-                        formData.append("send", "N");
-
-
+                        $("#sendType").val('N');
+                        $("#mailForm").submit();
 
                     }
 
@@ -191,7 +188,7 @@
                     <form action="sendMail.ma" id="mailForm" method="post" class="enroll-form" enctype="multipart/form-data">
                         <input type="hidden" name="senderNo" value="${ loginUser.empNo }">
                         <input type="hidden" name="sender" value="${ loginUser.empName }">
-                        <input type="hidden" name="send" value="Y">
+                        <input type="hidden" id="sendType" name="send" value="Y">
                         <table>
                             <tr>
                                 <td width="100px">받는 사람</td>
