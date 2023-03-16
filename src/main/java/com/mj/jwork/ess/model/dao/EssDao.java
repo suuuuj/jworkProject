@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.mj.jwork.common.model.vo.PageInfo;
+import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
 import com.mj.jwork.ess.model.vo.LeaveCategory;
@@ -24,21 +25,38 @@ public class EssDao {
 		return sqlSession.insert("essMapper.insertLeave", le);
 	}
 	
-	public int selectLeaveListCount(SqlSession sqlSession) {
-		return sqlSession.selectOne("essMapper.selectLeaveListCount");
+	public int selectLeaveListCount(SqlSession sqlSession, Employee e) {
+		return sqlSession.selectOne("essMapper.selectLeaveListCount", e);
 	}
 	
-	public ArrayList<Leave> selectLeaveList(SqlSession sqlSession, PageInfo pi){
+	public ArrayList<Leave> selectLeaveList(SqlSession sqlSession, Employee e, PageInfo pi){
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("essMapper.selectLeaveList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("essMapper.selectLeaveList", e, rowBounds);
 	}
 	
 	public Leave selectLeaveDetail(SqlSession sqlSession, Leave le) {
 		return sqlSession.selectOne("essMapper.selectLeaveDetail", le);
+	}
+	
+	public int deleteLeave(SqlSession sqlSession, int leaveNo) {
+		return sqlSession.update("essMapper.deleteLeave",leaveNo);
+	}
+	
+	public int adminSelectLeaveListCount(SqlSession sqlSession) {
+		return sqlSession.selectOne("essMapper.adminSelectLeaveListCount");
+	}
+	
+	public ArrayList<Leave> adminSelectLeaveList(SqlSession sqlSession, PageInfo pi){
+
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("essMapper.adminSelectLeaveList", null, rowBounds);
 	}
 	
 	public int insertOvertime(SqlSession sqlSession, Overtime o) {

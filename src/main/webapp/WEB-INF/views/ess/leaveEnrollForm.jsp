@@ -42,7 +42,7 @@
     #textBox::placeholder{
     	font-size:13px;
     }
-    button[type=button]{
+    button[type=reset]{
         border:none;
         height:30px;
         width:50px;

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mj.jwork.common.model.vo.PageInfo;
+import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.ess.model.dao.EssDao;
 import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
@@ -33,18 +34,33 @@ public class EssServiceImpl implements EssService {
 	}
 
 	@Override
-	public int selectLeaveListCount() {
-		return eDao.selectLeaveListCount(sqlSession);
+	public int selectLeaveListCount(Employee e) {
+		return eDao.selectLeaveListCount(sqlSession, e);
 	}
 
 	@Override
-	public ArrayList<Leave> selectLeaveList(PageInfo pi) {
-		return eDao.selectLeaveList(sqlSession, pi);
+	public ArrayList<Leave> selectLeaveList(Employee e, PageInfo pi) {
+		return eDao.selectLeaveList(sqlSession, e, pi);
 	}
 	
 	@Override
 	public Leave selectLeaveDetail(Leave le) {
 		return eDao.selectLeaveDetail(sqlSession, le);
+	}
+	
+	@Override
+	public int deleteLeave(int leaveNo) {
+		return eDao.deleteLeave(sqlSession, leaveNo);
+	}
+
+	@Override
+	public int adminSelectLeaveListCount() {
+		return eDao.adminSelectLeaveListCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Leave> adminSelectLeaveList(PageInfo pi) {
+		return eDao.adminSelectLeaveList(sqlSession, pi);
 	}
 
 	@Override
@@ -146,6 +162,9 @@ public class EssServiceImpl implements EssService {
 	public int adminUpdateSecondOvertime(Overtime o) {
 		return eDao.adminUpdateSecondOvertime(sqlSession, o);
 	}
+
+
+	
 
 	
 	
