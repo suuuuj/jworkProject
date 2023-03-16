@@ -20,4 +20,10 @@ public interface CfrResService {
 
 	// 일정 상세 조회
 	CfrReservation selectMyCfr(int resNo);
+	
+	//전체 예약 목록
+	ArrayList<CfrReservation> selectResList();
+	
+	//예약 취소 
+	int deleteCfrRes(int resNo);
 }

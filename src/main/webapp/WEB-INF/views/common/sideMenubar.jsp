@@ -16,16 +16,20 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Alertify JavaScript -->
-<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<!-- <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script> -->
 
 <!-- CSS -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+<!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/> -->
 <!-- Default theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+<!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/> -->
 <!-- Semantic UI theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+<!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/> -->
 <!-- Bootstrap theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+<!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/> -->
+
+<!-- sweetalert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <!-- 구글 글씨체 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,7 +42,19 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> 
 <style>
-    
+    /*sweetalert css*/
+    .swal-button{
+        background-color: rgb(172, 222, 172);
+        font-size: 12px;
+        text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+    }
+    .swal-button:hover{
+        background-color: rgb(206, 236, 206);
+        font-size: 12px;
+        text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+    }
+    .swal-title { font-size: 20px;}
+
     .outer *{
         font-family: 'Nanum Gothic', sans-serif;
     }
@@ -211,7 +227,8 @@
 <body>
 	<c:if test="${not empty alertMsg }">
 		<script>
-			alertify.alert('${alertMsg}');
+			//alertify.alert('${alertMsg}');
+            swal('${alertMsg}', '', 'success');
 		</script>
 		<c:remove var="alertMsg" scope="session"/>	
 	</c:if>

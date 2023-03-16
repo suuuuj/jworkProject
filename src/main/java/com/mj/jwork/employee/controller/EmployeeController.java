@@ -151,12 +151,62 @@ public class EmployeeController {
 		e.setLoginNo(loginNo);
 		
 		Employee emp = eService.ajaxSelectAddressEmployee(e);
-		System.out.println(emp);
+		//System.out.println(emp);
 		return new Gson().toJson(emp);
 
 	}
 	
-    
+	// 사내 주소록 검색
+	@RequestMapping("addressInSearch.emp")
+	public String addressInSearch(@RequestParam(value="cpage", defaultValue="1") int currentPage, String condition, String keyword, Model model, HttpSession session) {
+		
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("empNo", empNo);
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		
+		int searchCount = eService.selectAddressInSearchCount(map);
+		
+		PageInfo pi = Pagination.getPageInfo(searchCount, currentPage, 5, 15);
+		ArrayList<Employee> list = eService.selectAddressInSearchList(map, pi);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", list);
+		
+		model.addAttribute("condition", condition);
+		model.addAttribute("keyword", keyword);
+		
+		return "employee/addressInList";
+	}
+	
+	// 사내 주소록 즐겨찾기(ajax)
+	@ResponseBody
+	@RequestMapping("insertAddressFav.emp")
+	public String ajaxInsertAddressFav(Employee e, HttpSession session, Model model) {
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		e.setLoginNo(loginNo);
+		
+		int result = eService.ajaxInsertAddressFav(e);
+		//System.out.println(result);
+		return result > 0 ? "success" : "fail";
+	}
+	
+	// 사내 주소록 즐겨찾기 해제(ajax)
+	@ResponseBody
+	@RequestMapping("deleteAddressFav.emp")
+	public String ajaxDeleteAddressFav(Employee e, HttpSession session, Model model) {
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		e.setLoginNo(loginNo);
+		
+		int result = eService.ajaxDeleteAddressFav(e);
+		return result > 0 ? "success" : "fail";
+
+	}
+   
 	// 개인 주소록 조회 페이지
 	@RequestMapping("addressOut.emp")
 	public String addressOutList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Model model, HttpSession session) {
@@ -173,6 +223,39 @@ public class EmployeeController {
 		
 		return "employee/addressOutList";
 	}
+	
+	// 개인 주소록 상세 조회(ajax)
+	@ResponseBody
+	@RequestMapping(value="selectAdressOut.emp", produces="application/json; charset=utf-8")
+	public String ajaxSelectAddressOut(Employee e, HttpSession session) {
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		e.setLoginNo(loginNo);
+		
+		Employee out = eService.ajaxSelectAddressOut(e);
+		//System.out.println(out);
+		return new Gson().toJson(out);
+
+	}
+	
+	// 개인 주소록 상세 수정 
+	@RequestMapping("updateAddressOut.emp")
+	public String updateAddressOut(Employee e, HttpSession session, Model model) {
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		e.setLoginNo(loginNo);
+		
+		int result = eService.updateAddressOut(e);
+		System.out.println(result);
+		if(result>0) {
+			session.setAttribute("alertMsg", "정보 변경 성공");
+			return "redirect:addressOut.emp";	
+		}else {
+			model.addAttribute("errorMsg", "사원정보 변경 실패");
+			return "common/errorPage";
+		}
+	}
+	
+	
 	
 
    

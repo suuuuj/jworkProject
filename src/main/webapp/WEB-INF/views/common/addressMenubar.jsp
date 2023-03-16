@@ -90,11 +90,6 @@
             
             border-bottom: 1px solid #5e5e5e;
         }
-        .right .name{
-            margin-bottom: 3px;
-            font-size: 17px;
-            font-weight: bold;
-        }
         .common{
             width: 60px;
             height: 1000px;
@@ -168,8 +163,7 @@
         .addressGroupName{
             width: 120px;
             border: none;
-            background-color: rgba(246, 246, 246, 0);
-            padding-left: 40px;
+            padding-left: 30px;
         }
         .addressGroupName:focus{
             outline: 1px solid green;
@@ -181,6 +175,7 @@
         .deptGroup {
             padding-left: 40px;
             list-style: none;
+            font-size: 14px;
         }
         .deptGroup div:hover {
             cursor:pointer;
@@ -189,23 +184,6 @@
             list-style: none;
             padding-left: 40px;
             display: none;
-        }
-
-
-        /*체크박스 색상*/
-        .oneAddressBox input[type="checkbox"] {
-            width: 0.8rem;
-            height: 0.8rem;
-            border-radius: 50%;
-            border: 1px solid gainsboro;
-            appearance: none;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .oneAddressBox input[type="checkbox"]:checked {
-            background: rgb(193, 178, 249);
-            border: none;
         }
 
         /*내 일정 수정*/
@@ -249,6 +227,23 @@
             height: 50px;
         }
 
+        /*연락처 추가 모달*/
+        .modal-dialog {
+            width: 400px;
+        }
+        .addPerson {
+            padding: 15px;
+        }
+        .addPerson th {
+            width: 100px; height: 35px;
+            font-weight: 500;
+        }
+        .addPerson input, .addPerson select {
+            width: 200px; height: 35px;
+            margin: 5px;
+            border-radius: 5px; border: 1px solid gainsboro;
+        }
+
     </style>
 </head>
 <body>
@@ -270,10 +265,10 @@
                         주소록
                     </div>
                     <div class="enrollBtn">
-                        <button id="enrollAddress" class="btn btn-outline-success btn-block" onclick="location.href='enrollAddress.emp'">연락처 추가</button>
+                        <button id="enrollAddress" class="btn btn-outline-success btn-block" data-bs-toggle="modal" data-bs-target="#addPerson">연락처 추가</button>
                     </div>
 
-                    <div class="subTitle">
+                    <div class="subTitle" onclick="location.href='addressIn.emp'">
                         조직도
                     </div>
                     <div>
@@ -304,25 +299,16 @@
                         개인 주소록
                     </div>
                     <div class="addressBox">
-                        <!--내 일정은 수정삭제 못하게 할 예정-->
                         <div class="oneAddressBox">
-                            <input type="text" class="addressGroupName" value="내 일정" readonly> 
-                            <span class="editAddressBox dropdown dropend">
-                                <button class="" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="resources/images/mail/edit.png" width="20px">
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                                  <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modifyGroup">그룹 수정</a></li>
-                                  <li><a class="dropdown-item" href="">그룹 삭제</a></li>
-                                </ul>
-                            </span>
+                            <div class="addressGroupName" onclick="location.href='addressOut.emp'">개인 주소록</div>
                         </div>
-                        <!-- <div class="oneAddressBox">
-                            <input type="text" class="addressGroupName" value="테스트" readonly> <span class="editAddressBox"><img class="menuIcon" src="resources/images/mail/edit.png" /></span>
-                        </div> -->
-                        <div class="addAddressBox btn btn-sm" data-bs-toggle="modal" data-bs-target="#addGroup">+ 내 캘린더 추가</div>
+                        <div class="addAddressBox btn btn-sm" >+ 그룹 추가</div>
                     </div>
- 
+
+                    <div class="subTitle">
+                        <span><img src="resources/images/common/fullstar.png" alt="" width="16px" style="margin-right: 10px; margin-top: -5px;"></span>
+                        <span onclick="location.href='addressFav.emp'">중요</span>
+                    </div>
                 </div>
                 
                 
@@ -392,6 +378,66 @@
                     </div>
                     </div>
                 </div>
+
+
+                <!-- 연락처 추가 모달 -->
+                <div class="modal fade" id="addPerson" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body" id="employeeModal">             
+                            <div class="addPerson">
+                                <table>
+                                    <tr>
+                                        <th>이름 <span><img src="resources/images/common/star.png" alt="" width="15px" style="margin-left: 5px;"></span></th>
+                                        <td><input type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>회사</th>
+                                        <td><input type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>부서</th>
+                                        <td><input type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>직위</th>
+                                        <td><input type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>이메일</th>
+                                        <td><input type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>전화번호</th>
+                                        <td><input type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>회사전화</th>
+                                        <td><input type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>메모</th>
+                                        <td><input type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>그룹</th>
+                                        <td>
+                                            <select name="" id="">
+                                                <option value="">선택안함</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                            </div>
+                            <div align="center">
+                                <button type="submit" class="btn btn-success btn-sm" style="width: 70px;">추가</button>&nbsp;&nbsp;
+                                <button type="button" class="btn btn-outline-success btn-sm" style="width: 70px;" data-bs-dismiss="modal">닫기</button>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
                 
 
 
@@ -399,42 +445,31 @@
             
             <script>
                 $(function(){
-                    // 내 캘린더 수정 버튼 클릭 시
-                    // $(document).on("click", ".editAddressBox", function(){
-                    //     $(this).prev().attr("readonly", false);
-                    //     $(this).prev().select();
-                    // })
+                    //그룹 수정 버튼 클릭 시
+                    $(document).on("click", ".addressAddressBox", function(){
+                        $(this).prev().attr("readonly", false);
+                        $(this).prev().select();
+                    })
 
-                    // 내 캘린더 input box 에서 포커스 아웃될 때
-                    // $(document).on("focusout", ".addressGroupName", function(){
-                    //     $(this).attr("readonly", true);
-                    //     $(this).attr("border", "none");
-                    // })
+                    //그룹 input box 에서 포커스 아웃될 때
+                    $(document).on("focusout", ".addressGroupName", function(){
+                        $(this).attr("readonly", true);
+                        $(this).attr("border", "none");
+                    })
 
-                    // 내 캘린더 추가하기 클릭 시
-                    // $(".addAddressBox").on("click", function(){
-                    //     const AddressBoxInput = "<div class='oneAddressBox'><input type='text' class='addressGroupName' value='새 메일함' readonly><span class='editScheduleBox'><img class='menuIcon' src='resources/images/mail/edit.png'/></span>";
-                    //     $(".myAddressBox").append(addressBoxInput);
-                    //     const addressBoxArr = $(".addressGroupName");
-                    //     const newAddressBox = addressBoxArr.eq(addressBoxArr.length - 1);
-                    //     newAddressBox.next().click();
-                    // })
+                    //그룹 추가하기 클릭 시
+                    $(".addAddressBox").on("click", function(){
+                        const AddressBoxInput = "<div class='oneAddressBox'><input type='text' class='addressGroupName' value='새 메일함' readonly><span class='editAddressBox'><img class='menuIcon' src='resources/images/mail/edit.png'/></span>";
+                        $(".myAddressBox").append(addressBoxInput);
+                        const addressBoxArr = $(".addressGroupName");
+                        const newAddressBox = addressBoxArr.eq(addressBoxArr.length - 1);
+                        newAddressBox.next().click();
+                    })
                 
 
                 })
 
-
-                // <ul>
-                //     <li class="deptGroup">
-                //         <div>인사부</div>
-                //         <ul>
-                //             <li class="teamGroup"><div>인사1팀</div></li>
-                //             <li class="teamGroup"><div>인사2팀</div></li>
-                //         </ul>
-                //     </li>
-                // </ul>
-
-
+                // 조직도 부서
                 $(function(){
                     $(".deptTitle").click(function(){
                         $(this).next().slideToggle();

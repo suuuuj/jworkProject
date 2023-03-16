@@ -24,6 +24,14 @@
 		<result column="mailbox_name" property="mailBoxName" />
 	</resultMap>
 	
+	<resultMap type="MailAt" id="mailAtResultMap">
+		<id column="attachment_no" property="attachmentNo" />
+		<result column="origin_name" property="originName" />
+		<result column="change_name" property="changeName" />
+		<result column="mail_no" property="mailNo" />
+		
+	</resultMap>
+	
 	
 	
 	<select id="selectListCount" resultType="_int">
@@ -244,5 +252,80 @@
 		 where mail_no = #{mailNo}
 		   and emp_no = #{empNo}
 	</update>
+	
+	<insert id="sendMail">
+		insert
+		  into mail
+		     (
+		       mail_no
+		     , sender_no
+		     , sender
+		     , receiver
+		   <if test="mailTitle != ''">
+		     , mail_title
+		   </if>
+		     , mail_content
+		     , register_date
+		     , send
+		     )
+		values 
+		     (
+		       seq_mno.nextval
+		     , #{senderNo}
+		     , #{sender}
+		     , #{receiver}
+		   <if test="mailTitle != ''">
+		     , #{mailTitle}
+		   </if>
+		     , #{mailContent}
+		     , sysdate
+		     , #{send}
+		     )
+	</insert>
+	
+	<insert id="insertMailDetail">
+		insert
+		  into mail_detail
+		     (
+		       mail_no
+		     , emp_no
+		     , emp_name
+		     
+		   <if test='"S".equals(type)'>
+		     , read
+		     , read_date
+		   </if>
+		   	 , type
+		     )
+		values 
+		     (
+		       seq_mno.currval
+		     , #{empNo}
+		     , #{empName}
+		   <if test='"S".equals(type)'>
+		     , 'Y'
+	    	 , sysdate
+		   </if>
+		   	 , #{type}
+		     )
+	</insert>
+	
+	<insert id='insertMailAt'>
+		insert
+		  into mail_at
+		     (
+		       attachment_no
+		     , origin_name
+		     , change_name
+		     , mail_no
+		     )
+		values
+		     (
+		       seq_matno.nextval
+		     , #{originName}
+		     , #{changeName}
+		     , seq_mno.currval
+		     )
+	</insert>
 	
 </mapper>

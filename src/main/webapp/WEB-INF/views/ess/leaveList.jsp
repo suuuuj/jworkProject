@@ -64,6 +64,10 @@
         height:30px;
         width:80px;
     }
+    .leaveTable>tbody tr:hover{
+        opacity:0.7;
+        cursor: pointer;
+    }
     .leaveTable>tbody button{
     	width:40px;
     	height:25px;
@@ -85,6 +89,7 @@
         font-size: 14px;
         border:1px solid red;
         margin:auto;
+        height:550px;
     }
     .modal-body input{
         border:1px solid rgb(170, 170, 170);
@@ -148,17 +153,19 @@
                 <table class="leaveTable">
                     <thead>
                         <tr style="color:rgb(51,51,51); font-size: 14px; font-weight: 600; height:40px;">
+                            <td width="40px;">No.</td>
                             <td width="100px;">이름</td>
                             <td width="100px;">부서명</td>
                             <td width="150px;">휴가종류</td>
                             <td width="300px;">사용기간</td>
-                            <td width="150px;">결재현황</td>
-                            <td width="110"></td>
+                            <td width="120px;">결재현황</td>
+                            <td width="100"></td>
                         </tr>
                     </thead>
                     <tbody>
                     	<c:forEach var="a" items="${ list }">
 	                        <tr>
+                                <td>${ a.leaveNo }</td>
 	                            <td>${ a.empName }</td>
 	                            <td>${ a.deptName }</td>
 	                            <td>${ a.lcName }</td>
@@ -168,7 +175,7 @@
 	                                <input type="text" name="edDate" value="${ a.leaveEnd }">
 	                            </td>
 	                            <td>${ a.leaveCheck }</td>
-	                            <td><button class="btn btn-warning" style="width:50px; height:25px; font-size:10px; line-height:1px;">취소</button></td>
+	                            <td onclick="event.cancelBubble=true"><button class="btn btn-warning" style="width:50px; height:25px; font-size:10px; line-height:1px;">취소</button></td>
 	                        </tr>
                        	</c:forEach>
                     </tbody>
@@ -177,7 +184,25 @@
                 <script>
                     $(function(){
                         $(".leaveTable>tbody tr").click(function(){
-                            $("#leaveModal").modal('show');
+                            $.ajax({
+                                url:"detail.le",
+                                data:{
+                                    empNo:${e.empNo},
+                                    leaveNo:$(".leaveTable>tbody tr").children().eq(0).text()
+                                },
+                                success:function(leave){
+                                    $(".modal-body input[name=lcName]").val(leave.lcName);
+                                    $(".modal-body input[name=leaveStart]").val(leave.leaveStart);
+                                    $(".modal-body input[name=leaveEnd]").val(leave.leaveEnd);
+                                    $(".modal-body textarea").text(leave.leaveContent);
+                                    $(".textCount").text(leave.leaveContent.length + "자");
+                                    $("#leaveModal").modal('show');
+                                },
+                                error:function(){
+                                    console.log("휴가상세조회 ajax통신 실패");
+                                }
+                            });
+                            
                         })
                     })
                 </script>
@@ -220,41 +245,50 @@
 
     <!-- The Modal -->
     <div class="modal fade" id="leaveModal">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered"  style="width:400px;">
             <div class="modal-content">
         
                 <!-- Modal Header -->
                 <div class="modal-header">
                 <h4 class="modal-title" style="color:rgb(0,172,0); margin-left:20px;">휴가신청</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" onclick="modalClose();">&times;</button>
                 </div>
                 
                 <!-- Modal body -->
                 <div class="modal-body" style="width:90%; margin:auto;">
                     <span class="modalS">휴가등록</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;리프레쉬휴가" style="width:220px;" readonly><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="lcName" value="&nbsp;&nbsp;" style="width:220px;" readonly><br>
                     <span class="modalS">신청날짜
-	                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="stDate" value="&nbsp;&nbsp;2023.03.20" style="width:100px;" readonly>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="leaveStart" value="&nbsp;&nbsp;2023.03.20" style="width:100px;" readonly>
 		                <span>~</span>
-		                <input type="text" name="edDate" value="&nbsp;&nbsp;2023.03.21" style="width:100px;" readonly>
+		                <input type="text" name="leaveEnd" value="&nbsp;&nbsp;2023.03.21" style="width:100px;" readonly>
                     </span>
                     <br>
                     <span>신청사유</span>
                     <br>
                     <div class="textWrap">
-                        <span class="textCount">0자</span><span class="textTotal">/200자</span>
+                        <span class="textCount"></span><span class="textTotal">/200자</span>
                     </div>
-                    <textarea name="" id="" readonly>글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200</textarea>
+                    <textarea name="leaveContent" id="" readonly></textarea>
                     
                 </div>
                 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="modalClose();">Close</button>
                 </div>
             
             </div>
         </div>
     </div>
+
+    <script>
+        function modalClose(){
+            $('#leaveModal').modal('hide'); 
+            $('#leaveModal').hide();
+            $('.jquery-modal').click();
+    }
+
+    </script>
 </body>
 </html>

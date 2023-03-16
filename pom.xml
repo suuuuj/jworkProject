@@ -214,24 +214,61 @@
 		</dependency>
 		
 		
+		
 		<!-- [추가]웹소캣과 관련된 라이브러리 -->
 		<dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-websocket</artifactId>
-          <version>${org.springframework-version}</version>
+          	<groupId>org.springframework</groupId>
+          	<artifactId>spring-websocket</artifactId>
+          	<version>${org.springframework-version}</version>
+      	</dependency>
+     	<dependency>
+          	<groupId>com.fasterxml.jackson.core</groupId>
+          	<artifactId>jackson-databind</artifactId>
+          	<version>2.10.0</version>
+      	</dependency>
+      	<dependency>
+          	<groupId>org.codehaus.jackson</groupId>
+          	<artifactId>jackson-mapper-asl</artifactId>
+          	<version>1.9.13</version>
+      	</dependency>
+		
+		<!-- 다중 첨부 파일 업로드 -->
+       <dependency>
+         <groupId>commons-fileupload</groupId>
+         <artifactId>commons-fileupload</artifactId>
+         <version>1.2.1</version>
       </dependency>
       <dependency>
-          <groupId>com.fasterxml.jackson.core</groupId>
-          <artifactId>jackson-databind</artifactId>
-          <version>2.10.0</version>
+         <groupId>commons-io</groupId>
+         <artifactId>commons-io</artifactId>
+         <version>1.4</version>
       </dependency>
+
       <dependency>
           <groupId>org.codehaus.jackson</groupId>
           <artifactId>jackson-mapper-asl</artifactId>
           <version>1.9.13</version>
       </dependency>
-		
-		
+      
+		<!-- google api -->
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>1.22.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.oauth-client</groupId>
+            <artifactId>google-oauth-client-jetty</artifactId>
+            <version>1.22.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-calendar</artifactId>
+            <version>v3-rev235-1.22.0</version>
+        </dependency>
+
 		
 		      
 	</dependencies>

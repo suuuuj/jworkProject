@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.mail.model.vo.Mail;
+import com.mj.jwork.mail.model.vo.MailAt;
 
 public interface MailService {
 	
@@ -37,7 +38,13 @@ public interface MailService {
 	int updateImportant(Mail m);
 	
 	// 메일 작성
-	int insertMail(ArrayList<Mail> mList);
+	int sendMail(Mail m);
+	
+	// 사용자들에게 메일 insert
+	int insertMailDetail(Mail m);
+	
+	// 첨부파일 업로드 서비스
+	int insertMailAt(MailAt ma);
 	
 	// 메일 수정(임시저장 => 보내기)
 	int updateMailSend(ArrayList<Mail> mList);

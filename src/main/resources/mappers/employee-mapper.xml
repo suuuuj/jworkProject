@@ -26,6 +26,7 @@
 		<result column="account_status" property="accountStatus"></result>
 		<result column="emp_fav" property="empFav"></result>
 		<!-- 외부 주소록 -->
+		<result column="addout_no" property="addoutNo"></result>
 		<result column="addout_fav" property="addoutFav"></result>
 		<result column="name" property="name"></result>
 		<result column="biz_name" property="bizName"></result>
@@ -33,6 +34,7 @@
 		<result column="job" property="job"></result>
 		<result column="biz_phone" property="bizPhone"></result>
 		<result column="memo" property="memo"></result>
+		<result column="group_no" property="groupNo"></result>
 		<!-- <result column="" property=""></result> -->
 	</resultMap>
 	
@@ -180,7 +182,8 @@
 	</select>
 	<select id="selectAddressOutList" resultMap="employeeResult">
 		select
-		       name
+		 	   addout_no
+		     , name
 		     , biz_name
 		     , dept
 		     , job
@@ -188,13 +191,16 @@
 		     , phone
 		     , biz_phone
 		     , memo
+             , group_name
 		     , (select
 		               1
 		          from address_fav
-		         where emp_no = ${empNo}
+		         where emp_no = #{empNo}
 		           and addout_fav = addout_no) as "addout_fav"
-		  from address_out a
+		  from address_out o
+     left join address_gr g on (g.emp_no=o.emp_no) 
 		 where status='Y'
+		   and o.emp_no = #{empNo}
 	</select>
 	
 	<!-- 사내 주소록 상세 조회 페이지(ajax) -->
@@ -222,6 +228,125 @@
 	    where e.emp_No = #{empNo} <!-- 조회할 유저 사원번호 -->
 	</select>	
 	
+	<!-- 사내 주소록 검색 -->
+	<select id="selectAddressInSearchCount" resultType="_int">
+		select
+		       count(*)
+		  from employee e
+		  left join department d on (e.dept_code=d.dept_code)
+		 where e.status = 'Y'
+		   <if test="condition == 'empNo'">
+		   and emp_no    		<!-- 사번으로 검색시 -->
+		   </if>
+		   <if test="condition == 'empName'">
+		   and emp_name   	<!-- 이름으로 검색시 -->
+		   </if>
+		   <if test="condition == 'deptName'">
+		   and dept_name   	<!-- 내용으로 검색시 -->
+		   </if>
+		        like '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="selectAddressInSearchList" resultMap="employeeResult">
+		select
+		       e.emp_no
+		     , emp_name
+		     , dept_name
+		     , team_name
+		     , job_name
+		     , email
+		     , phone
+		     , emp_phone
+		     , task
+		     , (select
+		               1
+		          from address_fav
+		         where emp_no = #{empNo}
+		           and emp_fav = e.emp_no) as "emp_fav"
+		  from employee e
+		  left join department d on (e.dept_code=d.dept_code)
+		  left join team t on (e.team_code=t.team_code)
+		  left join job j on (e.job_code=j.job_code)
+		 where e.status='Y'
+		   and j.job_code >= 2
+		 <choose>
+		 	<when test="condition == 'empNo'">
+		   		and emp_no  
+		    </when>
+		    <when test="condition == 'empName'">
+		  		and emp_name  
+		  	</when>
+		  	<otherwise>		    
+		   		and dept_name  
+		   	</otherwise> 
+		 </choose>
+		        like '%' || #{keyword} || '%'
+		 order
+		    by d.dept_code desc
+	</select>
+	
+	<!-- 사내 주소록 즐겨찾기 -->
+	<insert id="ajaxInsertAddressFav">
+		insert
+		  into address_fav
+			 (
+			   emp_no
+			 , emp_fav
+			 )
+		values
+			 (
+			   #{loginNo}	<!-- 즐겨찾기한사원번호(로그인한사원번호) -->
+			 , #{empNo} 	<!-- 즐겨찾기된사원번호 -->
+			 )
+	</insert>
+	
+	<!-- 사내 주소록 즐겨찾기 해제 -->
+	<update id="ajaxDeleteAddressFav">
+		delete 
+		  from address_fav
+		 where emp_fav = #{empNo}	<!-- 즐겨찾기된사원번호 -->
+		   and emp_no = #{loginNo} 	<!-- 로그인한사원번호 -->
+	</update>
+	
+	<!-- 개인 주소록 상세 조회 페이지(ajax) -->
+	<select id="ajaxSelectAddressOut" resultMap="employeeResult">
+		select
+			   addout_no
+		     , name
+		     , biz_name
+		     , dept
+		     , job
+		     , email
+		     , phone
+		     , biz_phone
+		     , memo
+		     , group_no
+		     , (select
+		               1
+		          from address_fav
+		         where emp_no = #{loginNo} <!-- 로그인한 유저 사원번호 -->
+		           and addout_fav = addout_no) as "addout_fav"
+		  from address_out
+		 where addout_no = #{addoutNo} <!-- 조회할 개인주소록 번호 -->
+	</select>	
+	
+	<!-- 개인 주소록 상세 수정 -->
+	<update id="updateAddressOut">
+		update
+	       address_out
+	   set name = #{name}
+	     , biz_name = #{bizName}
+	     , dept = #{dept}
+	     , job = #{job}
+	     , email = #{email}
+	     , phone = #{phone}
+	     , biz_phone = #{bizPhone}
+	     , memo = #{memo}
+	     , group_no =#{groupNo}
+	 where addout_no = #{addoutNo} 	<!-- 조회한 개인주소록 번호 -->
+	   and emp_no = #{loginNo}	<!-- 로그인한 유저 사원번호 -->
+	</update>
+
 	
 	<select id="selectEmployee" resultMap="employeeResult">
 		select

@@ -93,6 +93,7 @@
         			}
             	}
             </script>
+          
         <div id="pagingArea">
              <ul class="pagination">
              	<c:choose>
@@ -291,5 +292,6 @@
         		}
         	
         </script>
+        
 </body>
 </html>

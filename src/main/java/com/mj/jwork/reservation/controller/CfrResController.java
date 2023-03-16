@@ -1,7 +1,9 @@
 package com.mj.jwork.reservation.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,5 +88,51 @@ public class CfrResController {
 		return new Gson().toJson(c);
 	
 
-}
+	}
+	@RequestMapping("status.cfr")
+	public ModelAndView getCalendarList(ModelAndView mv, HttpServletRequest request) {
+		ArrayList<CfrReservation>list = cRService.selectResList();
+		
+		mv.addObject(list)
+		.setViewName("reservation/managerCfrStatus");
+		return mv;
+	}
+	
+	
+	//회의실 이름 조회
+	@ResponseBody
+	@RequestMapping(value="list.acfrn",produces="application/json; charset=utf-8")
+	public String ajaxselectCfrNList() {
+		ArrayList<CfRoom>list = cRService.selectNList();
+		
+		return new Gson().toJson(list);
+		
+		}
+	
+	//회의실 예약 내역 조회
+	@ResponseBody
+	@RequestMapping(value="call.events",produces="application/json; charset=utf-8")
+	public String ajaxselectCfrList() {
+		ArrayList<CfrReservation>list = cRService.selectResList();
+		
+		return new Gson().toJson(list);
+		
+	}
+	
+	//회의실 예약 취소
+	@ResponseBody
+	@RequestMapping(value="delete.cfrRes",produces="application/json; charset=utf-8")
+	public String ajaxDeleteCfrRes(int resNo) {
+		
+		int result= cRService.deleteCfrRes(resNo);
+		return new Gson().toJson(result);
+		
+	}
+	
+	
+	
+		
+	
+	
+	
 }

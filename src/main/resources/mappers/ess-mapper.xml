@@ -139,6 +139,7 @@
 	<select id="selectLeaveList" resultMap="leaveResult">
 		select 
 		       leave_no
+		     , l.emp_no
 		     , emp_name
 		     , dept_name
 		     , lcategory_name
@@ -150,6 +151,23 @@
 		  join department d on (e.dept_code = d.dept_code)
 		  join leave_category c on (l.leave_category = c.lcategory_no)
 		 where leave_status = 'Y' 
+	</select>
+	
+	<!-- 휴가상세조회 -->
+	<select id="selectLeaveDetail" resultMap="leaveResult">
+		select 
+		       leave_no
+		     , l.emp_no
+		     , lcategory_name
+		     , leave_start
+		     , leave_end
+		     , leave_content
+		  from leave l
+		  join employee e on (l.emp_no = e.emp_no)
+		  join leave_category c on (l.leave_category = c.lcategory_no)
+		 where leave_status = 'Y' 
+		   and l.emp_no = #{empNo}
+		   and leave_no = #{leaveNo}
 	</select>
 	
 	<!-- 시간외근무등록 -->

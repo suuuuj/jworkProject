@@ -20,6 +20,9 @@ public interface EssService {
 	int selectLeaveListCount();
 	ArrayList<Leave> selectLeaveList(PageInfo pi);
 	
+	// 휴가상세조회(select)
+	Leave selectLeaveDetail(Leave le);
+	
 	// 시간외근무/출장등록(insert)
 	int insertOvertime(Overtime o);
 	int insertBusinesstrip(Businesstrip b);
