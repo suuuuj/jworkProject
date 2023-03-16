@@ -30,9 +30,9 @@ public class CarDao {
 		return (ArrayList)sqlSession.selectList("carMapper.selectList", null, rowBounds);
 	}
 	
-	public int deleteCar(SqlSessionTemplate sqlSession, Car c) {
+	public int deleteCar(SqlSessionTemplate sqlSession, String carName) {
 		
-		return sqlSession.delete("carMapper.deleteCar",c);
+		return sqlSession.delete("carMapper.deleteCar",carName);
 		
 	}
 	

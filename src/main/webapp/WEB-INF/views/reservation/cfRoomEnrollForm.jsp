@@ -42,7 +42,7 @@
                         <th>회의실 대표 이미지</th>
                         <td>
                         	 <img id="firstImg" src="<c:out value='${CfRoom.firstImg}' default='resources/uploadFiles/addImg.png'/>"  width="150px" height="80px" onclick="$('#firstImgFile').click();">
-                             <input type="file" id="firstImgFile" style="display:none;" required>
+                             <input type="file" id="firstImgFile" style="display:none;" name="upfile" accept="image/*" required>
                         </td>
                     </tr>
                     <tr>
@@ -56,7 +56,6 @@
                     <tr>
                         <th>회의장비</th>
                         <td>
-                          
                             TV&nbsp;<input type="checkbox" name="equipment" value="TV" >&nbsp;
                             빔프로젝터&nbsp;<input type="checkbox" name="equipment" value="빔프로젝터">&nbsp;
                             에어컨&nbsp;<input type="checkbox" name="equipment" value="에어컨">&nbsp;
@@ -80,37 +79,22 @@
             <br><br>
             </div>
            <script>
-				/* $(function(){
+				 $(function(){
 					
-					$("#firstImgFile").change(function(){
-						
-						let formData= new FormData();
-						
-						let uploadFile = this.files[0]; 
-						formData.append("uploadFile",uploadFile);
-						formData.append("originalFile",'${CfRoom.firstImg}');
-						
-						
-						
-						
-						$.ajax({
-							url:"uploadFirstImg.cfr",
-							data:formData, 
-							processData:false,
-							contentType:false,
-							type:"POST",
-							success:function(result){
-								
-								$("#firstImg").attr("src",result);
-							},
-							error:function(){
-								console.log("업로드용 ajax통신 실패");
-							}
-						})
-						
-					});
+					 $("#firstImgFile").on("change", function(event) {
+
+						    var file = event.target.files[0];
+
+						    var reader = new FileReader(); 
+						    reader.onload = function(e) {
+
+						        $("#firstImg").attr("src", e.target.result);
+						    }
+						    reader.readAsDataURL(file);
+						});
+					
 				})
-				 */
+				
 			</script>
 
             <!-- 장비추가 모달 -->

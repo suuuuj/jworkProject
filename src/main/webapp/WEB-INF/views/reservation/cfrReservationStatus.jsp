@@ -13,12 +13,12 @@
     }
     #pagingArea{width:fit-content;margin:auto; margin-right: 520px; }
 	
-	.table{
-	border-right:none;
-	border-left:none;
-	border-top:none;
-	border-bottom:none;
+	#cfrResevation td{height:50px;}
+	
+    .ui-timepicker-container {
+    	z-index:10000000 !important;
 	}
+	
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -176,7 +176,7 @@
             		console.log("ajax통신실패");
             	}
             		
-        	})
+        	});
         	
         	
         }
@@ -221,7 +221,7 @@
                 </div>
                 <br>
                 <div style="width:800px">
-                    <table class="table"> 
+                    <table  style="width:800px; height:300px;"> 
                         <tr>
                             <th>회의실명</th>
                             <td id="inputCfrName"></td>
@@ -231,7 +231,6 @@
                             <td >
                                 <div style="width: 320px;">
                                     <img src="" width="150px" height="100px" id="firstImg">
-                                  
                                 </div>
                             </td>
                             
@@ -266,9 +265,9 @@
     
             <!-- Modal body -->
             <div class="modal-body">
-               <form action="reserv.cfr" method="post">
+	        <form action="reserv.cfr" method="post">
                 <input type="hidden" name="reservation" value="${loginUser.empNo}">
-                    <table class='table'>
+                    <table id="cfrResevation" style="width:800px; height:300px;">
                         <tr>
                             <th>회의실</th>
                             <td>
@@ -279,6 +278,7 @@
                         <tr>
                             <th>예약자</th>
                             <td>${loginUser.empName}${loginUser.empNo}</td>
+                            
                         </tr>
                         <tr>
                             <th>날짜</th>
@@ -286,7 +286,7 @@
                         </tr>
                         <tr>
                             <th>시간</th>
-                            <td><input type="time" name="startTime" required>-<input type="time" name="endTime" required></td>
+                            <td><input type="text" name="startTime"  class="timepicker"  required>-<input type="text" class="timepicker" name="endTime" required></td>
                         </tr>
                         <tr>
                             <th>인원</th>
@@ -299,19 +299,31 @@
                     </table>
                     <button type="submit" class="btn btn-primary btn-sm">예약하기</button>
                </form>
-            </div>
+	      </div>
     
         </div>
         </div>
     </div>
     <script>
-	  /*  $(function(){
-		   $("#useDate").datepicker({
-		    	  dateFormat: 'yy-mm-dd',
-		    	  minDate: 0
-		    	});
-		   
-	   }); */
+    $(function() {
+	    $(".timepicker").timepicker({
+	        timeFormat: 'h:mm p',
+	        interval: 60,
+	        minTime: '10',
+	        maxTime: '6:00pm',
+	        defaultTime: '11',
+	        startTime: '9:00',
+	        dynamic: false,
+	        dropdown: true,
+	        scrollbar: true        
+	    });
+	    
+		var date = new Date();
+		var yyyy = date.getFullYear();
+		var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
+		var dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
+		document.getElementById('useDate').valueAsDate = new Date();
+	});
     </script>
   
 </body>

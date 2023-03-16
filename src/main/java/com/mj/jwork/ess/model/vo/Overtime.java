@@ -27,5 +27,9 @@ public class Overtime {
 	private String failDate; // 반려일
 	private String firstApproval; // 1차결재자사번
 	private String secondApproval; // 2차결재자사번
-
+	
+	private String empName;
+	private String deptName;
+	private String jobName;
+	
 }

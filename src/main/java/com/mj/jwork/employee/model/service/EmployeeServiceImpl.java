@@ -85,6 +85,15 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public Employee ajaxSelectAddressEmployee(Employee e) {
 		return eDao.ajaxSelectAddressEmployee(sqlSession, e);
 	}
+	
+	// 메일 사원번호 입력시 사원조회 서비스 (ajax)
+	@Override
+	public Employee selectEmployee(int empNo) {
+		return eDao.selectEmployee(sqlSession, empNo);
+	}
+	
+	
+	
 
 	
 	// 사내 주소록 검색

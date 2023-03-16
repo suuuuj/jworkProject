@@ -1,4 +1,4 @@
-<%@ page language="java" contentType=`"text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -12,34 +12,12 @@
 <title>Insert title here</title>
 <style>
     /* outer영역 */
-    .outer{
-        width:960px;
-        height:1000px;
-        border:1px solid black;
-    }
-    /* 메뉴바영역 */
-    .title{
-        color:rgb(50,50,50);
-        margin-left: 30px;
-        margin-top:30px;
-    }
-    .selectBar{
-        margin-left: 30px;
-    }
-    .selectBar>span{
-        color:rgba(50, 50, 50, 0.79);
-        font-size:15px;
-        font-weight: 600;
-    }
-    .selectBar>div{
-        margin-top:10px;
-        height:3px;
-        float: left;
+    .businessOuter{
+        padding:50px;
+        margin:auto;
     }
     /* content영역 */
     .enrollForm{
-        margin-left:30px;
-        margin-right: 30px;
         margin-top: 30px;
     }
     .header{
@@ -82,25 +60,11 @@
 </style>
 </head>
 <body>
-    <div class="outer">
+    <div class="businessOuter">
 
-        <div class="title">
-            <h3 style="color:rgb(50,50,50); font-weight: 600;">신청<h3> 
-        </div>
-        <br>
-        <div class="selectBar">
-            <span>&nbsp;출장신청</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>시간외 근무신청</span> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>신청상세</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,172,0)">출장관리</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,172,0)">시간외 근무관리</span>
-            <br>
-            <div style="width:395px; background: rgb(234, 234, 234);">&nbsp;</div>
-            <div style="width:115px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:390px; background: rgb(234, 234, 234);">&nbsp;</div>
-        </div>
+        <h4><b>신청</b></h4>
 
-        <form action="" method="" class="enrollForm">
+        <form action="adminUpdate.bt" method="" class="enrollForm">
 
             
             <div class="body">

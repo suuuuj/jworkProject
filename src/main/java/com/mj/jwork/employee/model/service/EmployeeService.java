@@ -52,6 +52,9 @@ public interface EmployeeService {
 	int updateAddressOut(Employee e);
 
 
+	
+	// 메일 사원번호 입력시 사원조회 서비스 (ajax)
+	Employee selectEmployee(int empNo);
 
 
 }
