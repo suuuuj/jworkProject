@@ -182,4 +182,14 @@ public class EmployeeController {
 		return "employee/addressFavList";
 	}
 	
+	// 메일 사원번호 입력시 사원조회 서비스 (ajax)
+	@ResponseBody
+	@RequestMapping(value="findEmployee.ma", produces="application/json; charset=utf-8")
+	public String ajaxSelectEmployee(int empNo) {
+		Employee e = eService.selectEmployee(empNo);
+		
+		return new Gson().toJson(e);
+		
+	}
+	
 }

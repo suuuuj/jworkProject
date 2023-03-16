@@ -221,6 +221,14 @@
 	     left join job j on (e.job_code=j.job_code)
 	    where e.emp_No = #{empNo} <!-- 조회할 유저 사원번호 -->
 	</select>	
-
+	
+	
+	<select id="selectEmployee" resultMap="employeeResult">
+		select
+		       emp_no
+		     , emp_name
+		  from employee
+		 where emp_no = #{empNo}
+	</select>
 
 </mapper>

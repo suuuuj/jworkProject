@@ -70,7 +70,10 @@ public class EmployeeDao {
 		return sqlSession.selectOne("employeeMapper.ajaxSelectAddressEmployee", e);
 	}
 	
-	
+	// 메일 사원번호 입력시 사원조회 서비스 (ajax)
+	public Employee selectEmployee(SqlSessionTemplate sqlSession, int empNo) {
+		return sqlSession.selectOne("employeeMapper.selectEmployee", empNo);
+	}
 
 	
 

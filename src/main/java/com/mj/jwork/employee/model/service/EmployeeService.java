@@ -33,7 +33,9 @@ public interface EmployeeService {
 	
 	// 사내 주소록 상세 조회 페이지(ajax)
 	Employee ajaxSelectAddressEmployee(Employee e);
-
+	
+	// 메일 사원번호 입력시 사원조회 서비스 (ajax)
+	Employee selectEmployee(int empNo);
 
 
 }
