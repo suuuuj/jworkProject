@@ -269,8 +269,6 @@
             <version>v3-rev235-1.22.0</version>
         </dependency>
 
-		
-		      
 	</dependencies>
     <build>
         <plugins>
