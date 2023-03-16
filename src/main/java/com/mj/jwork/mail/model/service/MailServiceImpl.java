@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.mail.model.dao.MailDao;
 import com.mj.jwork.mail.model.vo.Mail;
+import com.mj.jwork.mail.model.vo.MailAt;
 
 @Service
 public class MailServiceImpl implements MailService{
@@ -76,10 +77,20 @@ public class MailServiceImpl implements MailService{
 	}
 	
 	@Override
-	public int insertMail(ArrayList<Mail> mList) {
-		return 0;
+	public int sendMail(Mail m) {
+		return mDao.sendMail(sqlSession, m);
 	}
 
+	@Override
+	public int insertMailDetail(Mail m) {
+		return mDao.insertMailDetail(sqlSession, m);
+	}
+	
+	@Override
+	public int insertMailAt(MailAt ma) {
+		return mDao.insertMailAt(sqlSession, ma);
+	}
+	
 	@Override
 	public int updateMailSend(ArrayList<Mail> mList) {
 		return 0;
@@ -104,6 +115,10 @@ public class MailServiceImpl implements MailService{
 	public Mail selectMail(int mailNo) {
 		return null;
 	}
+
+	
+
+	
 
 	
 

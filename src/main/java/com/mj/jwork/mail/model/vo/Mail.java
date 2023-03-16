@@ -39,4 +39,7 @@ public class Mail {
 	// 메일 조회 카테고리
 	private String mailCategory;
 	
+	// 전송시 받을 수신자 사원번호들(,로 연결)
+	private String receiverNo;
+	
 }

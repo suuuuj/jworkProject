@@ -141,10 +141,8 @@
 
                     // 메일 임시저장시 실행되는 함수
                     function saveMail(){
-                        const formData = new FormData($(".enroll-form"));
-
-
-
+                        $("#sendType").val('N');
+                        $("#mailForm").submit();
 
                     }
 
@@ -159,8 +157,11 @@
                         // 제목이 없다면
                         if($("#mailTitle").val() == ""){
                             if(confirm("메일 제목이 없습니다. 이대로 전송하시겠습니까?")){
+                                
+                                //let formData = new FormData(document.getElementById("mailForm"));
+                                //console.log(formData.get("senderNo"));
 
-                                $("#mailForm").attr("action", "sendMail.ma").submit();
+                                $("#mailForm").submit();
 
 
                             } else{
@@ -169,7 +170,7 @@
                             }
                         }
 
-
+                        $("#mailForm").submit();
 
                     }
 
@@ -184,7 +185,10 @@
                 <div class="space"></div>
                 
                 <div id="mailHeader">
-                    <form action="" id="mailForm" class="enroll-form" enctype="multipart/form-data">
+                    <form action="sendMail.ma" id="mailForm" method="post" class="enroll-form" enctype="multipart/form-data">
+                        <input type="hidden" name="senderNo" value="${ loginUser.empNo }">
+                        <input type="hidden" name="sender" value="${ loginUser.empName }">
+                        <input type="hidden" id="sendType" name="send" value="Y">
                         <table>
                             <tr>
                                 <td width="100px">받는 사람</td>
@@ -203,7 +207,7 @@
                             <tr>
                                 <td>파일 첨부</td>
                                 <td colspan="2">
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="fileInput" onclick="$('#attachment').click();">내PC</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="fileInput" onclick="$('#upfile').click();">내PC</button>
                                     <span class="attachNotice">첨부파일은 최대 5개까지 가능합니다.</span>
                                 </td>
                             </tr>
@@ -212,7 +216,7 @@
                                 <td colspan="2">
                                     <div class="fileArea">
                                         <div class="nofile">첨부된 파일이 없습니다.</div>
-                                        <input type="file" name="file[]" id="attachment" style="visibility: hidden; position: absolute;" multiple/>
+                                        <input type="file" name="upfile" id="upfile" style="display:none; "  multiple="multiple"/>
                                     </div>
                                 </td>
                             </tr>
@@ -234,6 +238,8 @@
             <br><br><br><br>
     
         <script>
+
+            // 사번으로 사원 조회해서 메일 수신자 목록에 추가하기
             $("#receiver").keydown(function() { // 'input[type="text"]'
                 if(event.keyCode == 13 || event.keyCode == 32) {
                     event.preventDefault();
@@ -279,26 +285,11 @@
                             console.log("사원 조회용 ajax 통신 실패");
                         }
                     })
-                    /*
-                    if($("#receiver-list").children().length == 0){ // li 요소가 없을 때
-                        $("#receiver-list").append($("<input type='hidden' name='receiver' value='" + receiver + "'><li class='receiver-li'>" + receiver + "</li><div class='receiver-delete'>&times;</div>"));
-                        $("#receiver-list").css("width", "$('#receiver-list').children().eq(0).val().length + 30");
-                        $(this).val("");
-                    } else { // li 요소가 있을 때
-                        for(let i=0; i<$("#receiver-list").children().length; i++){
-                            if($("#receiver-list").children().eq(i).text() == receiver){
-                                alert("중복된 사람입니다.");
-                                $(this).val("");
-                                return;
-                            }
-                        }
-                        $("#receiver-list").append($("<input type='hidden' name='receiver' value='" + receiver + "'><li class='receiver-li'>" + receiver + "</li><div class='receiver-delete'>&times;</div>"));
-                        $(this).val("");
-                    }
-                    */
+                    
                 }
             });
 
+            // X 버튼 눌러서 수신자 목록에서 제거
             $(document).on("click", ".receiver-delete", function(){
                 //console.log($(this).prev());
                 $(this).prev().remove();
@@ -311,6 +302,8 @@
         
         <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
         <script>
+            
+        
             
             $(function() {
                 $('#summernote').summernote({
@@ -344,7 +337,7 @@
                     // 추가한 폰트사이즈
                     fontSizes : [ '8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36', '50', '72']
                 });
-
+        
                 
             });
             /*
@@ -352,9 +345,8 @@
                 $('#summernote').summernote();
             });
             */
-
-            
-
+        </script>        
+        <script> 
             $(function(){
                 let f = 0;
                 $fileArea = $(".fileArea");
@@ -371,15 +363,13 @@
                     $("#receiver").attr("readonly", false);
                     $("#chart").attr("disabled", false);
                 })
-                
-                
-                
+
                 // 파일첨부
                 const dt = new DataTransfer(); // 입력 파일 조작
 
                 
                 
-                $("#attachment").on('change', function(e){
+                $("#upfile").on('change', function(e){
 
                     var maxFileCnt = 5; // 첨부파일 최대 개수
                     var attFileCnt = document.querySelectorAll('.file-block').length; // 기존 추가된 첨부파일 개수
@@ -407,53 +397,37 @@
                         this.files = dt.files;
                     }
 
-                    // 파일삭제 버튼 클릭시 실행되는 함수
-                    $('span.file-delete').click(function(){
-
-                        let name = $(this).next('span.name').text();
-                        // 파일 이름 display되지 않게
-                        $(this).parent().remove();
-                        for(let i = 0; i < dt.items.length; i++){
-                            // display 삭제된 파일 이름인 파일을 찾아서 파일 삭제
-                            if(name === dt.items[i].getAsFile().name){
-                                // Suppression du fichier dans l'objet DataTransfer
-                                dt.items.remove(i);
-                                continue;
-                            }
-                        }
-
-                        var attFileCnt = $(".file-block").length;
-                        // 첨부파일이 없을 때
-                        if(attFileCnt == 0){
-                            let noFile = $('<div class="nofile" />').text("첨부된 파일이 없습니다.");
-                            $(".fileArea").append(noFile);
-                        }
-
-                        // 삭제 후 입력 파일 파일 업데이트
-                        document.getElementById('attachment').files = dt.files;
-                    });
+                    
                 });
+
+                // 파일삭제 버튼 클릭시 실행되는 함수
+                $(document).on("click", "span.file-delete", function(){
+                    let name = $(this).next('span.name').text();
+                    // 파일 이름 display되지 않게
+                    $(this).parent().remove();
+                    for(let i = 0; i < dt.items.length; i++){
+                        // display 삭제된 파일 이름인 파일을 찾아서 파일 삭제
+                        if(name === dt.items[i].getAsFile().name){
+                            // Suppression du fichier dans l'objet DataTransfer
+                            dt.items.remove(i);
+                            continue;
+                        }
+                    }
+
+                    var attFileCnt = $(".file-block").length;
+                    // 첨부파일이 없을 때
+                    if(attFileCnt == 0){
+                        let noFile = $('<div class="nofile" />').text("첨부된 파일이 없습니다.");
+                        $(".fileArea").append(noFile);
+                    }
+
+                    // 삭제 후 입력 파일 파일 업데이트
+                    document.getElementById('upfile').files = dt.files;
+                })
                 
 
-
-
-
-            })
-            /*
-            function fileCheck(obj){
-                //console.log($(obj));
-                
-                if($(obj).val() != ""){
-                    $(obj).css("display", "inline");
-                    $(obj).prev().css("display", "inline");
-                } else{
-                    $(obj).css("display", "none");
-                    $(obj).prev().css("display", "none");
-                }
-                
-            }
-            */
-            
+            }) 
+               
         </script>
     </div>
     </div>

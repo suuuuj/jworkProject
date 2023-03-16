@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.mail.model.vo.Mail;
+import com.mj.jwork.mail.model.vo.MailAt;
 
 @Repository
 public class MailDao {
@@ -80,6 +81,24 @@ public class MailDao {
 	public int updateImportant(SqlSessionTemplate sqlSession, Mail m) {
 		
 		return sqlSession.update("mailMapper.updateImportant", m);
+		
+	}
+	
+	public int sendMail(SqlSessionTemplate sqlSession, Mail m) {
+		
+		return sqlSession.insert("mailMapper.sendMail", m);
+		
+	}
+	
+	public int insertMailDetail(SqlSessionTemplate sqlSession, Mail m) {
+		
+		return sqlSession.insert("mailMapper.insertMailDetail", m);
+		
+	}
+	
+	public int insertMailAt(SqlSessionTemplate sqlSession, MailAt ma) {
+		
+		return sqlSession.insert("mailMapper.insertMailAt", ma);
 		
 	}
 	

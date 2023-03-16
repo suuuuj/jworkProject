@@ -77,7 +77,7 @@ public class EssController {
 		
 		if(result > 0) {
 			session.setAttribute("alertMsg", "휴가등록이 완료되었습니다.");
-			return "redirect:/menu.le";
+			return "redirect:/list.le";
 		}else {
 			model.addAttribute("errorMsg", "휴가등록에 실패하였습니다.");
 			return "common/errorPage";
@@ -94,13 +94,14 @@ public class EssController {
 	@RequestMapping("list.le")
 	public ModelAndView selectLeave(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session, ModelAndView mv) {
 		
+		Employee e = (Employee)session.getAttribute("loginUser");
+		
 		// 페이징
-		int listCount = eService.selectLeaveListCount();
+		int listCount = eService.selectLeaveListCount(e);
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
 		
 		// 페이징 후 게시글 전체조회
-		Employee e = (Employee)session.getAttribute("loginUser");
-		ArrayList<Leave> list = eService.selectLeaveList(pi);
+		ArrayList<Leave> list = eService.selectLeaveList(e, pi);
 		
 		mv.addObject("e", e);
 		mv.addObject("pi", pi);
@@ -110,12 +111,51 @@ public class EssController {
 		return mv;
 	}
 	
+	/**
+	 * 휴가상세조회
+	 * @param le
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="detail.le", produces="application/json; charset=UTF-8")
 	public String selectLeaveDetail(Leave le) {
 		
 		Leave leave = eService.selectLeaveDetail(le);
 		return new Gson().toJson(leave);
+	}
+	
+	/**
+	 * 휴가삭제하기
+	 * @param leaveNo
+	 * @param session
+	 * @param mv
+	 * @return
+	 */
+	@RequestMapping("delete.le")
+	public ModelAndView deleteLeave(@RequestParam(value="no") int leaveNo, HttpSession session, ModelAndView mv) {
+		int result = eService.deleteLeave(leaveNo);
+		if(result > 0) {
+			session.setAttribute("alertMsg", "휴가등록 삭제에 성공하였습니다.");
+			mv.setViewName("redirect:/list.le");
+		}else {
+			mv.addObject("errorMsg", "휴가등록 삭제에 실패하였습니다.");
+			mv.setViewName("common/errorPage");
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping("adminList.le")
+	public String adminLeaveList(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session) {
+		// 페이징
+		int ListCount = eService.adminSelectLeaveListCount();
+		PageInfo pi = Pagination.getPageInfo(ListCount, currentPage, 15, 5);
+		
+		ArrayList<Leave> list = eService.adminSelectLeaveList(pi);
+		
+		session.setAttribute("list", list);
+		return "ess/adminLeaveList";
+		
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 package com.mj.jwork.mail.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,15 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.mj.jwork.common.model.vo.PageInfo;
+import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.common.template.Pagination;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.mail.model.service.MailServiceImpl;
 import com.mj.jwork.mail.model.vo.Mail;
+import com.mj.jwork.mail.model.vo.MailAt;
 
 @Controller
 public class MailController {
@@ -30,7 +35,7 @@ public class MailController {
 		
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		m.setEmpNo(empNo);
-		System.out.println(m);
+		//System.out.println(m);
 		
 		int listCount = mService.selectListCount(m);
 		int unReadCount = mService.selectUnReadListCount(m);
@@ -140,6 +145,92 @@ public class MailController {
 		int result = mService.updateImportant(m);
 		
 		return result > 0 ? "success" : "fail";
+		
+	}
+	
+	// 메일 보내기 서비스
+	@RequestMapping(value="sendMail.ma")
+	public ModelAndView sendMail(Mail m, @RequestPart(value="upfile") List<MultipartFile> upfile, HttpSession session, ModelAndView mv) {
+		
+		System.out.println(m);
+		System.out.println(upfile);
+		
+		
+		
+		
+		int mailResult = mService.sendMail(m);
+		int mailAtResult = 1;
+		int detailResult = 1;
+		
+		
+		if(mailResult > 0) {
+			
+			if(!upfile.get(0).getOriginalFilename().equals("")) {
+				for(int i=0; i<upfile.size(); i++) {
+					System.out.println(upfile.get(i).getOriginalFilename());
+					String saveFilePath = FileUpload.saveFile(upfile.get(i), session, "resources/mailUploadFiles/");
+					
+					MailAt ma = new MailAt();
+					ma.setOriginName(upfile.get(i).getOriginalFilename());
+					ma.setChangeName(saveFilePath);
+					
+					mailAtResult = mailAtResult * mService.insertMailAt(ma);
+					
+				}
+			}
+			
+			
+			
+			if(mailAtResult > 0) {
+				Mail md = new Mail();
+				if(m.getSend().equals("Y")) {
+					String[] receiverArr = m.getReceiver().split(",");
+					String[] receiverNoArr = m.getReceiverNo().split(",");
+					
+					for(int i=0; i<receiverArr.length; i++) {
+						
+						md.setEmpNo(Integer.parseInt(receiverNoArr[i]));
+						md.setEmpName(receiverArr[i]);
+						md.setType("R");
+						System.out.println(md);
+						detailResult = detailResult * mService.insertMailDetail(md);
+						
+						mv.addObject("send", "Y")
+						  .addObject("message", "메일 전송 성공!")
+						  .addObject("subMessage", "보낸 메일은 보낸 메일함에서 확인 가능합니다.");
+						
+					}
+					
+				} else {
+					mv.addObject("send", "N")
+					  .addObject("message", "임시저장 성공!")
+					  .addObject("subMessage", "임시저장 메일은 임시저장함에서 확인 가능합니다.");
+				}
+					
+				md.setEmpNo(m.getSenderNo());
+				md.setEmpName(m.getSender());
+				md.setType("S");
+				
+				detailResult = detailResult * mService.insertMailDetail(md);
+			}
+			
+		}
+		
+		if(mailResult * mailAtResult * detailResult > 0) {
+			mv.setViewName("mail/mailSuccess");
+		} else {
+			mv.setViewName("common/errorPage");
+		}
+		
+		return mv;
+		
+	}
+	
+	@RequestMapping("detail.ma")
+	public String selectMail(int mailNo) {
+		
+		
+		return "mail/mailDetailView";
 		
 	}
 	

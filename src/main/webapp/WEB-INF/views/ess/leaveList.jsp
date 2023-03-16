@@ -175,7 +175,7 @@
 	                                <input type="text" name="edDate" value="${ a.leaveEnd }">
 	                            </td>
 	                            <td>${ a.leaveCheck }</td>
-	                            <td onclick="event.cancelBubble=true"><button class="btn btn-warning" style="width:50px; height:25px; font-size:10px; line-height:1px;">취소</button></td>
+	                            <td onclick="event.cancelBubble=true"><button class="btn btn-warning" id="deleteBtn" style="width:50px; height:25px; font-size:10px; line-height:1px;">취소</button></td>
 	                        </tr>
                        	</c:forEach>
                     </tbody>
@@ -203,8 +203,19 @@
                                 }
                             });
                             
-                        })
+                        });
                     })
+                </script>
+
+                <script>
+                    $(function(){
+                            $("#deleteBtn").click(function(){
+                                if(confirm('휴가등록을 취소하시겠습니까?')){
+                                    location.href='delete.le?no=' + $(".leaveTable>tbody tr").children().eq(0).text();
+                                }
+                               
+                            })
+                        })
                 </script>
             
                 <br><br>

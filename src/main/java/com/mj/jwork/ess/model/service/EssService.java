@@ -3,6 +3,7 @@ package com.mj.jwork.ess.model.service;
 import java.util.ArrayList;
 
 import com.mj.jwork.common.model.vo.PageInfo;
+import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
 import com.mj.jwork.ess.model.vo.LeaveCategory;
@@ -17,11 +18,18 @@ public interface EssService {
 	int insertLeave(Leave le);
 	
 	// 전체휴가목록조회(select)
-	int selectLeaveListCount();
-	ArrayList<Leave> selectLeaveList(PageInfo pi);
+	int selectLeaveListCount(Employee e);
+	ArrayList<Leave> selectLeaveList(Employee e,PageInfo pi);
 	
 	// 휴가상세조회(select)
 	Leave selectLeaveDetail(Leave le);
+	
+	// 휴가신청삭제(update)
+	int deleteLeave(int leaveNo);
+	
+	// 관리자 : 휴가전체조회(select)
+	int adminSelectLeaveListCount();
+	ArrayList<Leave> adminSelectLeaveList(PageInfo pi);
 	
 	// 시간외근무/출장등록(insert)
 	int insertOvertime(Overtime o);
