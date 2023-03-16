@@ -1,6 +1,7 @@
 package com.mj.jwork.employee.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,41 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public Employee ajaxSelectAddressEmployee(Employee e) {
 		return eDao.ajaxSelectAddressEmployee(sqlSession, e);
+	}
+
+	
+	// 사내 주소록 검색
+	@Override
+	public int selectAddressInSearchCount(HashMap<String, Object> map) {
+		return eDao.selectAddressInSearchCount(sqlSession, map);
+	}
+	@Override
+	public ArrayList<Employee> selectAddressInSearchList(HashMap<String, Object> map, PageInfo pi) {
+		return eDao.selectAddressInSearchList(sqlSession, map, pi);
+	}
+
+	// 사내 주소록 즐겨찾기
+	@Override
+	public int ajaxInsertAddressFav(Employee e) {
+		return eDao.ajaxInsertAddressFav(sqlSession, e);
+	}
+	
+	// 사내 주소록 즐겨찾기 해제
+	@Override
+	public int ajaxDeleteAddressFav(Employee e) {
+		return eDao.ajaxDeleteAddressFav(sqlSession, e);
+	}
+	
+	// 개인 주소록 상세 조회 페이지(ajax)
+	@Override
+	public Employee ajaxSelectAddressOut(Employee e) {
+		return eDao.ajaxSelectAddressOut(sqlSession, e);
+	}
+	
+	// 개인 주소록 상세 수정
+	@Override
+	public int updateAddressOut(Employee e) {
+		return eDao.updateAddressOut(sqlSession, e);
 	}
 
 

@@ -37,14 +37,18 @@ public class Employee {
 	private String deptName;
 	private String teamName;
 	private String jobName;
+	
 	private String empFav;
 	private String addoutFav;
+	
+	private int addoutNo;
 	private String name;
 	private String bizName;
 	private String dept;
 	private String job;
 	private String bizPhone;
 	private String memo;
+	private int groupNo;
 	
 	private int loginNo;
 	

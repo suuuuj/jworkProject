@@ -1,6 +1,7 @@
 package com.mj.jwork.employee.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -68,6 +69,39 @@ public class EmployeeDao {
 	// 사내 주소록 상세 조회 페이지(ajax)
 	public Employee ajaxSelectAddressEmployee(SqlSessionTemplate sqlSession, Employee e) {
 		return sqlSession.selectOne("employeeMapper.ajaxSelectAddressEmployee", e);
+	}
+	
+	// 사내 주소록 검색
+	public int selectAddressInSearchCount(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.selectOne("employeeMapper.selectAddressInSearchCount", map);
+	}
+	public ArrayList<Employee> selectAddressInSearchList(SqlSessionTemplate sqlSession, HashMap<String, Object> map,
+			PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("employeeMapper.selectAddressInSearchList", map , rowBounds);
+	}
+	
+	// 사내 주소록 즐겨찾기
+	public int ajaxInsertAddressFav(SqlSessionTemplate sqlSession, Employee e) {
+		return sqlSession.insert("employeeMapper.ajaxInsertAddressFav", e);
+	}
+	
+	// 사내 주소록 즐겨찾기 해제
+	public int ajaxDeleteAddressFav(SqlSessionTemplate sqlSession, Employee e) {
+		return sqlSession.insert("employeeMapper.ajaxDeleteAddressFav", e);
+	}
+	
+	// 개인 주소록 상세 조회 페이지(ajax)
+	public Employee ajaxSelectAddressOut(SqlSessionTemplate sqlSession, Employee e) {
+		return sqlSession.selectOne("employeeMapper.ajaxSelectAddressOut", e);
+	}
+	
+	// 개인 주소록 상세 수정
+	public int updateAddressOut(SqlSessionTemplate sqlSession, Employee e) {
+		return sqlSession.update("employeeMapper.updateAddressOut", e);
 	}
 	
 	

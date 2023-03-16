@@ -1,6 +1,7 @@
 package com.mj.jwork.employee.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.vo.Department;
@@ -33,6 +34,23 @@ public interface EmployeeService {
 	
 	// 사내 주소록 상세 조회 페이지(ajax)
 	Employee ajaxSelectAddressEmployee(Employee e);
+
+	// 사내 주소록 검색
+	int selectAddressInSearchCount(HashMap<String, Object> map);
+	ArrayList<Employee> selectAddressInSearchList(HashMap<String, Object> map, PageInfo pi);
+	
+	// 사내 주소록 즐겨찾기
+	int ajaxInsertAddressFav(Employee e);
+	
+	// 사내 주소록 즐겨찾기 해제
+	int ajaxDeleteAddressFav(Employee e);
+	
+	// 개인 주소록 상세 조회 페이지(ajax)
+	Employee ajaxSelectAddressOut(Employee e);
+	
+	// 개인 주소록 상세 수정
+	int updateAddressOut(Employee e);
+
 
 
 
