@@ -328,7 +328,7 @@
                     		success: function(mailbox){
                     			if(mailbox != null){
                     				// db에 메일함 추가하였을 경우
-	                    			const mailBoxInput = '<div class="oneMailBox inputbox">'
+	                    			const mailBoxInput = '<div class="oneMailBox inputbox" hidden>'
 														   + '<input type="hidden" value="' + mailbox.mailBoxNo + '">'
 														   + '<input type="text" class="mailBoxName" value="' + mailbox.mailBoxName + '" readonly onkeyup="">'
 														   + '<span class="mailBoxBtn">'
@@ -336,7 +336,7 @@
 					                                            + '<img class="menuIcon deleteMailBox" src="resources/images/mail/delete.png" />'
 					                                       + '</span>'
 													   + '</div>'
-                                                       + '<div class="oneMailBox category" hidden>'
+                                                       + '<div class="oneMailBox category">'
                                                             + '<input type="hidden" value="' + mailbox.mailBoxNo + '">'
                                                             + '<button type="button" class="btn mailBoxNameBtn">' + mailbox.mailBoxName + '</button>'
                                                             + '<span class="mailBoxBtn">'
@@ -349,8 +349,8 @@
 	                    			$(".userMailBox").append(mailBoxInput);
 									
 	                    			// db에 추가 후 바로 해당 메일함 이름 수정가능하게 설정
-			                        const mailBoxArr = $(".mailBoxName");
-			                        const newMailBox = mailBoxArr.eq(mailBoxArr.length - 1);
+			                        const mailBoxArr = $(".mailBoxNameBtn");
+			                        const newMailBox = mailBoxArr.eq((mailBoxArr.length) - 1);
 			                        newMailBox.next().children().eq(0).click();
                                     $(".mailBoxOptions").remove();
                                     moveMailBoxList();		   

@@ -1,5 +1,7 @@
 package com.mj.jwork.mail.model.vo;
 
+import java.util.ArrayList;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,5 +43,11 @@ public class Mail {
 	
 	// 전송시 받을 수신자 사원번호들(,로 연결)
 	private String receiverNo;
+	
+	// 첨부파일 갯수(유무파악)
+	private int attachment;
+	
+	// 보낸메일함의 경우 단체메일을 한번에 담기위해
+	private ArrayList<Mail> mailList; // 1대 N 관계
 	
 }
