@@ -59,6 +59,10 @@ public class EssDao {
 		return (ArrayList)sqlSession.selectList("essMapper.adminSelectLeaveList", null, rowBounds);
 	}
 	
+	public Leave adminLeaveDetail(SqlSession sqlSession, int leaveNo) {
+		return sqlSession.selectOne("essMapper.adminLeaveDetail", leaveNo);
+	}
+	
 	public int insertOvertime(SqlSession sqlSession, Overtime o) {
 		return sqlSession.insert("essMapper.insertOvertime", o);
 	}

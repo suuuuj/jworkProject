@@ -1,4 +1,4 @@
-<%@ page language="java" contentType=`"text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -74,73 +74,67 @@
 </style>
 </head>
 <body>
-    <div class="outer">
 
-        <div class="title">
-            <h3 style="color:rgb(50,50,50); font-weight: 600;">휴가<h3> 
-        </div>
-        <br>
-        <div class="selectBar">
-            <span>&nbsp;휴가등록</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>휴가상세</span> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">휴가관리</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">휴가내역</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">전체휴가일정</span>
-            <br>
-            <div style="width:170px; background: rgb(234, 234, 234);">&nbsp;</div>
-            <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:663px; background: rgb(234, 234, 234);">&nbsp;</div>
-        </div>
+	<jsp:include page = "../common/menubar.jsp" />
+    <div class="leaveOuter">
+        <h4><b>휴가 > ${ lc.lcName } 등록</b></h4>
+       
+        <form action="insert.le" method="" class="enrollForm" name="leEnroll" onsubmit="return confirm('휴가신청을 등록하시겠습니까?');">
 
-        <form action="" method="" class="enrollForm">
-            
             <div class="header">
-                <img src="" alt="" style="width:50px; height:50px;">
-                <div style="margin-left: 10px; margin-top:15px; color:rgba(50, 50, 50); font-size: 15px; font-weight: 600;">연차</div>
+                <%-- <div style="margin-left: 10px; margin-top:15px; color:rgba(50, 50, 50); font-size: 15px; font-weight: 600;">${ l.lcName }</div> --%>
+                <input type="hidden" name="leaveCategory" value="${ l.lcNo }" >
             </div>
+            
             <br>
+            
             <div class="body">
                 <div style="display: flex;">
-                    <img src="" alt="" style="width:30px; height:30px">
+                    <img src="resources/images/ess/pencil.png" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">&nbsp;휴가일정, 필요정보 입력</div>
-                    <div style="background:rgb(234, 234, 234); width:700px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
+                    <div style="background:rgb(234, 234, 234); width:610px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br>
 
                 <div style="display: flex;">
-                    <img src="" alt="" style="width:30px; height:30px">
+                    <img src="resources/images/ess/mark.png" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        &nbsp;신청자&nbsp; <input type="text" name="" value="로그인사원이름"> 
-                        &nbsp;소속&nbsp; <input type="text" name="" value="로그인사원소속"> 
-                        &nbsp;신청일&nbsp; <input type="text" name="" value="SYSDATE"> 
-                    </div>
-                    <div style="background:rgb(234, 234, 234); width:400px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
-                </div>
-
-                <br>
-
-                <div style="display: flex;">
-                    <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        시작일&nbsp; <input type="date" name="" value="" style="width:150px; text-align: center; height:20px;"> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="date" name="" value="" style="width:150px; text-align: center; height:20px;"> 
+                        &nbsp;신청자&nbsp; <input type="text" name="" value="${ le.empName }"> 
+                        &nbsp;소속&nbsp; <input type="text" name="" value="${ le.deptName }">
+                        <input type="hidden" name="empNo" value="${ le.empNo }">
                     </div>
                     <div style="background:rgb(234, 234, 234); width:460px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
-                <br><br>
-                <div class="textWrap">
-                    <span class="textCount">0자</span><span class="textTotal">/200자</span>
+                <br>
+
+                <div style="display: flex;">
+                    <img src="resources/images/ess/clock.png" alt="" style="width:30px; height:30px">
+                    <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
+                        시작일&nbsp;&nbsp; <input type="text" name="leaveStart" value="${le.leaveStart}" readonly> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="text" name="leaveEnd" value="${le.leaveEnd}" readonly> 
+                    </div>
+                    <div style="background:rgb(234, 234, 234); width:441px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
-                <textarea name="" id="">글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200</textarea>
-                <div class="btnWrap" style="float: right; margin-top:160px;">
+
+                <br><br>
+                
+                <div class="textWrap">
+                    <div class="textCount">&nbsp;&nbsp;${le.leaveContent.length}자</div><div class="textTotal">/200자</div>
+                </div>
+                
+                
+	            <textarea name="leaveContent" id="textBox" cols="30" rows="10" maxlength="199" placeholder="휴가신청 내용을 입력해주세요." readonly>${le.leaveContent}</textarea>
+	            <div class="btnWrap" style="float: right; margin-top:160px;">
                     <button type="submit" class="btn btn-success">승인</button>
                     <button type="button" onclick="" class="btn btn-warning">반려</button>
                     <button type="button" onclick="" class="btn btn-secondary">목록</button>
                 </div>
-
+				
             </div>
-
-        </form>
+            
+	    </form>
 
     </div>
 </body>

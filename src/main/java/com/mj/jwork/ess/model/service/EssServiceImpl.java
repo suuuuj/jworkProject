@@ -62,6 +62,11 @@ public class EssServiceImpl implements EssService {
 	public ArrayList<Leave> adminSelectLeaveList(PageInfo pi) {
 		return eDao.adminSelectLeaveList(sqlSession, pi);
 	}
+	
+	@Override
+	public Leave adminLeaveDetail(int leaveNo) {
+		return eDao.adminLeaveDetail(sqlSession, leaveNo);
+	}
 
 	@Override
 	public int insertOvertime(Overtime o) {

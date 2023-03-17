@@ -37,7 +37,7 @@
         line-height:5px;
         margin-bottom: 3px;
     }
-    .businessTable, .overTable{
+    .businesstripTable, .overtimeTable{
         width:100%;
         border-top:1px solid rgb(234, 234, 234);
         text-align: center;
@@ -45,7 +45,7 @@
         color:rgb(50,50,50);
         border-top:1px solid rgb(234, 234, 234);
     }
-    .businessTable td, .overTable td{
+    .businesstripTable td, .overTable td{
         border-bottom: 1px solid rgb(234, 234, 234);
         color:rgb(50, 50, 50);
         height:30px;
@@ -56,29 +56,29 @@
         border:none;
         border-radius: 5px;
     }
-    .businessTable tbody input[type=text]{
+    .businesstripTable tbody input[type=text]{
         width:100px;
         height:20px;
         text-align: center;
         border:none;
     }
-    .overTable tbody input[type=text]{
+    .overtimeTable tbody input[type=text]{
     	width:60px;
         height:20px;
         text-align: center;
         border:none;
     }
-    .businessList, .overList{
+    .businesstripList, .overtimeList{
         height:350px;
     }
-    .businessTable button, .overTable button{
+    .businesstripTable button, .overtimeTable button{
         width:50px;
         height:25px;
         font-size: 11px;
         line-height:5px;
         color:white;
     }
-    .businessList tbody>tr, .overTable tbody>tr:hover{
+    .businesstripList tbody>tr:hover, .overtimeTable tbody>tr:hover{
     	opacity:0.7;
     	cursor:pointer;
     }
@@ -96,6 +96,44 @@
 	input[type=text]::placeholder{
 		font-size: 12px;
 	}
+	/* modal영역 */
+    .modal-content{
+        font-size: 14px;
+        border:1px solid red;
+        margin:auto;
+        height:550px;
+    }
+    .modal-body input{
+        border:1px solid rgb(170, 170, 170);
+        border-radius: 5px;
+    }
+    .modalS{
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+    .btextarea{
+        resize: none;
+        width:300px;
+        height:260px;
+        border:1px solid rgb(170, 170, 170);
+        border-radius: 5px;
+        padding:10px;
+    }
+	.otextarea{
+        resize: none;
+        width:300px;
+        height:200px;
+        border:1px solid rgb(170, 170, 170);
+        border-radius: 5px;
+        padding:10px;
+    }
+    .textWrap{
+        margin-left: 230px;
+        margin-bottom: 5px;
+        font-size: 13px;
+        font-weight: 600;
+        color:rgb(50,50,50)
+    }
 </style>
 </head>
 <body>
@@ -105,7 +143,7 @@
 	<div class="workingOuter">
 
 		<h4><b>신청</b></h4>
-
+		
 		<div class="select-area" style="float: right">
 			<input type="text" name="startDate" id="datepicker1" value="" placeholder="기간검색(시작일)"> 
 			<span style="font-size: 20px; color: rgb(170, 170, 170)">~</span> 
@@ -169,7 +207,6 @@
         </script>   
 
         <!-- 에러 해결 시작 - 홈짱 -->
-
         <script>
 
             jQuery.browser = {};
@@ -191,25 +228,24 @@
             })();
             
             </script>
-            
             <!-- 에러 해결 종료 - 홈짱 -->
 
 		<br>
 		<br>
-		<div class="businessList">
+		<div class="businesstripList">
 			<span style="font-size: 15px; font-weight: 600;">출장신청</span> 
 			<input type="text" name="" value="" id="bCount" style="font-size: 15px; color: rgb(0, 172, 0); font-weight: 600; border: none; text-align: left;">
 			<br>
 			<br>
-			<table class="businessTable">
+			<table class="businesstripTable">
 				<thead>
-					<tr
-						style="font-weight: 600; height: 30px; background-color: rgba(0, 172, 0, 0.219);">
-						<td width="120px">이름</td>
-						<td width="120px;">부서명</td>
-						<td width="120px;">신청종류</td>
+					<tr style="font-weight: 600; height: 30px; background-color: rgba(0, 172, 0, 0.219);">
+						<td width="60px;">No.</td>
+						<td width="110px">이름</td>
+						<td width="110px;">부서명</td>
+						<td width="110px;">신청종류</td>
 						<td width="300px;">일자</td>
-						<td width="180px;">결재현황</td>
+						<td width="150px;">결재현황</td>
 						<td width="70"></td>
 					</tr>
 				</thead>
@@ -218,14 +254,6 @@
 				</tbody>
 			</table>
 			
-			<script>
-				$(function(){
-					$(".businessTable tbody>tr").click(function(){
-						location.href = 'detail.bt?btNo=' + 
-					})
-				})
-			</script>
-
 			<br>
 			<br>
 
@@ -240,19 +268,20 @@
 		<br>
 		<br>
 
-		<div class="overList">
+		<div class="overtimeList">
 			<span style="font-size: 15px; font-weight: 600;">시간외 근무신청</span> 
 			<input type="text" name="" value="" id="oCount" style="font-size: 15px; color: rgb(0, 172, 0); font-weight: 600; border: none; text-align: left;">
 			<br>
 			<br>
-			<table class="overTable">
+			<table class="overtimeTable">
 				<thead>
 					<tr style="font-weight: 600; height: 30px; background-color: rgba(0, 172, 0, 0.219);">
-						<td width="120px">이름</td>
-						<td width="120px;">부서명</td>
-						<td width="120px;">신청종류</td>
-						<td width="120px;">일자</td>
-						<td width="200px;">시간</td>
+						<td width="60px;">No.</td>
+						<td width="110px">이름</td>
+						<td width="110px;">부서명</td>
+						<td width="110px;">신청종류</td>
+						<td width="110px;">일자</td>
+						<td width="180px;">시간</td>
 						<td width="150px;">결재현황</td>
 						<td width="70"></td>
 					</tr>
@@ -279,8 +308,9 @@
 	            	businesstripList(1);
 	            	
 	            	overtimeList(1);
-	            })
+	            });
 	            
+				// 출장전체조회
 	            function businesstripList(page){
 	            	$.ajax({
 	            		url:"list.bt",
@@ -299,7 +329,8 @@
 	            			// tbody
 	            			let value = "";
 	            			for(var i=0; i<bmap.bList.length; i++){
-	            				value += "<tr>"
+	            				value += "<tr onclick='btDetail(" + bmap.bList[i].btNo +");'>"
+										+ "<td>" + bmap.bList[i].btNo + "</td>"
 	            				        + "<td>" + bmap.bList[i].empName + "</td>"
 	            				        + "<td>" + bmap.bList[i].deptName + "</td>"
 	            				        + "<td>출장</td>"
@@ -308,13 +339,8 @@
 	            				        + "<td><button class='btn btn-warning' onclick='deleteBusinesstrip(" + bmap.bList[i].btNo +");'>취소</button></td>"
 	            				       + "</tr>";
 	            				       
-	            				$(".businessTable tbody").html(value);
+	            				$(".businesstripTable tbody").html(value);
 	            			};
-	            			
-	            			// tr click이벤트
-	            			$(".businessTable tbody>tr").click(function(){
-	            				location.href = 'detail.bt?btNo=' + bmap.bList[i].btNo;
-	            			})
 	            			
 	            			// 페이징바 만들때 해당 페이지숫자 클릭시 => businessTripList(클릭한숫자);
 	            			let page = "";
@@ -342,8 +368,33 @@
 	            			console.log("출장신청 ajax통신 실패");
 	            		}
 	            	});
-	            }
+	            };
+
+				// 출장 상세조회 ajax
+				function btDetail(btNo){
+					$.ajax({
+							url:"detail.bt",
+							type:"POST",
+							dataType:"json",
+							data:{
+								btNo : btNo
+							},
+							success:function(b){
+								console.log(b.btNo);
+								//console.log(result);
+								$(".modal-body input[name=btStart]").val(b.btStart);
+								$(".modal-body input[name=btEnd]").val(b.btEnd);
+								$(".btextarea").text(b.btContent);
+								$(".btextCount").text(b.btContent.length + '자');
+								$("#businesstripModal").modal('show');
+							},
+							error:function(){
+								console.log("출장상세조회 ajax통신 실패");
+							}
+						});
+				}
 	            
+				// 시간외근무전체조회 ajax
 	            function overtimeList(page){
 	            	$.ajax({
 	            		url:"list.ot",
@@ -362,7 +413,8 @@
 	            			// tbody
 	            			let value = "";
 	            			for(var i=0; i<omap.oList.length; i++){
-	            				value += "<tr>"
+	            				value += "<tr onclick='otDetail("+ omap.oList[i].otNo +");'>"
+										+ "<td>" + omap.oList[i].otNo + "</td>"
 	            				        + "<td>" + omap.oList[i].empName + "</td>"
 	            				        + "<td>" + omap.oList[i].deptName + "</td>"
 	            				        + "<td>" + omap.oList[i].otCategory + "</td>"
@@ -372,7 +424,7 @@
 	            				        + "<td><button class='btn btn-warning' onclick='deleteOvertime(" + omap.oList[i].otNo + ");'>취소</button></td>"
 	            				       + "</tr>";
 	            				       
-	            				$(".overTable tbody").html(value);
+	            				$(".overtimeTable tbody").html(value);
 	            			};
 	            			
 	            			// 페이징바 만들때 해당 페이지숫자 클릭시 => businessTripList(클릭한숫자);
@@ -403,6 +455,31 @@
 	            		}
 	            	});
 	            }
+
+				// 시간외근무 상세조회 ajax
+				function otDetail(otNo){
+					$.ajax({
+							url:"detail.ot",
+							type:"POST",
+							dataType:"json",
+							data:{
+								otNo : otNo
+							},
+							success:function(o){
+								//console.log(result);
+								$(".modal-body input[name=enrollDate]").val(o.enrollDate);
+								$(".modal-body input[name=otStart]").val(o.otStart);
+								$(".modal-body input[name=otEnd]").val(o.otEnd);
+								$(".modal-body input[name=otCategory]").val(o.otCategory);
+								$(".otextarea").text(o.otContent);
+								$(".otextCount").text(o.otContent.length + '자');
+								$("#overtimeModal").modal('show');
+							},
+							error:function(){
+								console.log("출장상세조회 ajax통신 실패");
+							}
+						});
+				}
 	            
 	            function deleteBusinesstrip(no){
 	            	if(confirm("출장신청을 삭제하시겠습니까?")){
@@ -417,11 +494,106 @@
 		            	location.href = 'delete.ot?otNo=' + no;
 	            }
 	            
-	            $()
-	            
-	            
             </script>
 
 	</div>
+
+	<!-- 출장 상세조회 Modal -->
+    <div class="modal fade" id="businesstripModal">
+        <div class="modal-dialog modal-dialog-centered"  style="width:400px;">
+            <div class="modal-content">
+        
+                <!-- Modal Header -->
+                <div class="modal-header">
+                <h4 class="modal-title" style="color:rgb(0,172,0); margin-left:20px;">출장신청</h4>
+                <button type="button" class="close" data-dismiss="modal" onclick="businesstripClose();">&times;</button>
+                </div>
+                
+                <!-- Modal body -->
+                <div class="modal-body" style="width:90%; margin:auto;">
+                    <span class="modalS">신청 날짜
+	                	&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="btStart" value="" style="width:100px;" readonly>
+		            	<span>~</span>
+		            	<input type="text" name="btEnd" value="" style="width:100px;" readonly>
+                    </span>
+                    <br><br>
+                    <span>신청 사유</span>
+                    <br>
+                    <div class="textWrap">
+                        <span class="btextCount"></span><span class="textTotal">/200자</span>
+                    </div>
+                    <textarea name="btContent" class="btextarea" readonly></textarea>
+                    
+                </div>
+                
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="businesstripClose();">Close</button>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function businesstripClose(){
+            $('#businesstripModal').modal('hide'); 
+            $('#businesstripModal').hide();
+            $('.jquery-modal').click();
+    }
+
+    </script>
+
+	<!-- 시간외근무 상세조회 Modal -->
+    <div class="modal fade" id="overtimeModal">
+        <div class="modal-dialog modal-dialog-centered"  style="width:400px;">
+            <div class="modal-content">
+        
+                <!-- Modal Header -->
+                <div class="modal-header">
+                <h4 class="modal-title" style="color:rgb(0,172,0); margin-left:20px;">시간외 근무신청</h4>
+                <button type="button" class="close" data-dismiss="modal" onclick="overtimeClose();">&times;</button>
+                </div>
+                
+                <!-- Modal body -->
+                <div class="modal-body" style="width:90%; margin:auto;">
+                    <span class="modalS">신청날짜</span> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="enrollDate" value="&nbsp;&nbsp;" style="width:220px;" readonly><br>
+                    <span class="modalS">근무시간
+	                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="otStart" value="&nbsp;&nbsp;" style="width:100px;" readonly>
+		                <span>~</span>
+		                <input type="text" name="otEnd" value="&nbsp;&nbsp;" style="width:100px;" readonly>
+                    </span>
+                    <br>
+					<span>근무사유
+						&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="otCategory" value="" style="width:220px;" readonly>
+					</span>
+					<br><br>
+                    <span>신청사유</span>
+                    <br>
+                    <div class="textWrap">
+                        <span class="otextCount"></span><span class="textTotal">/200자</span>
+                    </div>
+                    <textarea name="otContent" class="otextarea" readonly></textarea>
+                    
+                </div>
+                
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="overtimeClose();">Close</button>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function overtimeClose(){
+            $('#overtimeModal').modal('hide'); 
+            $('#overtimeModal').hide();
+            $('.jquery-modal').click();
+    }
+
+    </script>
 </body>
 </html>

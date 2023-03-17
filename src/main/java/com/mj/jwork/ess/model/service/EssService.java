@@ -31,6 +31,9 @@ public interface EssService {
 	int adminSelectLeaveListCount();
 	ArrayList<Leave> adminSelectLeaveList(PageInfo pi);
 	
+	// 관리자 : 휴가상세조회
+	Leave adminLeaveDetail(int leaveNo);
+	
 	// 시간외근무/출장등록(insert)
 	int insertOvertime(Overtime o);
 	int insertBusinesstrip(Businesstrip b);

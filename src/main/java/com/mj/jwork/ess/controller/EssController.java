@@ -86,7 +86,7 @@ public class EssController {
 	}
 	
 	/**
-	 * 휴가전체리스트/상세조회
+	 * 휴가전체리스트
 	 * @param currentPage
 	 * @param mv
 	 * @return
@@ -145,6 +145,12 @@ public class EssController {
 		return mv;
 	}
 	
+	/**
+	 * 관리자 : 휴가전체조회
+	 * @param currentPage
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("adminList.le")
 	public String adminLeaveList(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session) {
 		// 페이징
@@ -156,6 +162,17 @@ public class EssController {
 		session.setAttribute("list", list);
 		return "ess/adminLeaveList";
 		
+	}
+	
+	@RequestMapping("adminDetail.le")
+	public ModelAndView adminLeaveDetail(int leaveNo, ModelAndView mv) {
+			
+		Leave le = eService.adminLeaveDetail(leaveNo); 
+		
+		mv.addObject("leave", le);
+		mv.setViewName("ess/adminLeaveDetailView");
+		
+		return mv;
 	}
 	
 	/**
@@ -290,7 +307,7 @@ public class EssController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="list.bt", produces="application/json; charset=UTF-8")
-	public String ajaxSelectBusinesstripList(@RequestParam(value="bpage", defaultValue="1") int currentPage, int empNo, HttpSession session) {
+	public String ajaxSelectBusinesstripList(@RequestParam(value="bpage", defaultValue="1") int currentPage, int empNo) {
 		
 		// 페이징
 		int bListCount = eService.selectBusinesstripListCount(empNo);
@@ -334,25 +351,34 @@ public class EssController {
 		
 	}
 	
-	@RequestMapping("detail.bt")
-	public ModelAndView selectBusinesstrip(int btNo, ModelAndView mv) {
+	/**
+	 * 출장상세조회
+	 * @param btNo
+	 * @param mv
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="detail.bt", produces="application/json; charset=UTF-8")
+	public String selectBusinesstrip(int btNo) {
+		
 		Businesstrip b = eService.selectBusinesstrip(btNo);
 		
-		mv.addObject("b", b);
-		mv.setViewName("ess/businesstripDetailForm");
-		
-		return mv;
+		return new Gson().toJson(b);
 	}
 	
-	@RequestMapping("detail.ot")
-	public ModelAndView selectOvertime(int otNo, ModelAndView mv) {
+	/**
+	 * 시간외근무상세조회
+	 * @param otNo
+	 * @param mv
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="detail.ot", produces="application/json; charset=UTF-8")
+	public String selectOvertime(int otNo) {
 		
 		Overtime o = eService.selectOvertime(otNo);
 		
-		mv.addObject("o", o);
-		mv.setViewName("ess/overtimeDetailForm");
-		
-		return mv;
+		return new Gson().toJson(o);
 	}
 	
 	

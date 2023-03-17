@@ -145,7 +145,9 @@
 
             <script>
                 $(function(){
-                    $("")
+                    $(".leaveTable>tbody tr").click(function(){
+                        location.href = 'adminDetail.le?leaveNo=' + $(this).children().eq(0).text();
+                    })
                 })
             </script>
             

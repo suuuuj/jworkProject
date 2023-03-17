@@ -31,5 +31,8 @@ public class Leave {
 	private String failDate; // 반려일
 	private int firstApproval; // 1차결재자사번
 	private int secondApproval; // 2차결재자사번
+	
+	private int deptCode;
+	private int jobCode;
 
 }
