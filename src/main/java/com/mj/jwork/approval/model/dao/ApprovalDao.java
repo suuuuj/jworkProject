@@ -13,8 +13,8 @@ import com.mj.jwork.common.model.vo.PageInfo;
 public class ApprovalDao {
 
 	//결재문서 리스트 카운트
-	public int selectListCount(SqlSessionTemplate sqlSession, int empNo) {
-		return sqlSession.selectOne("approvalMapper.selectListCount", empNo);
+	public int selectListCount(SqlSessionTemplate sqlSession, Approval a) {
+		return sqlSession.selectOne("approvalMapper.selectListCount", a);
 	}
 
 	//결재문서 리스트 버튼 클릭시

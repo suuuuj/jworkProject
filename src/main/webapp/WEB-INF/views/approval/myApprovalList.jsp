@@ -49,9 +49,9 @@
 <body>
  <jsp:include page="../common/menubar.jsp"/>
         <div>
-            <h4 style="display: inline-block;" style="float: left;"><b>전체 문서 조회</b></h4>
+            <h4 style="display: inline-block;" style="float: left;"><b>기안 문서함</b></h4>
             <div align="right">
-                <button type="button" class="btn btn-outline-success" onclick="location.href='enrollForm.app'">내 결제 문서 작성</button>
+                <button type="button" class="btn btn-outline-success" onclick="location.href='enrollForm.app'">결재 문서 작성</button>
             </div>
         </div>
         <br>
@@ -101,138 +101,138 @@
                 </tr>
             </thead>
             <tbody id="defaultAllTB">
-           
-           
-            	<c:forEach var="a" items="${ list }">
-	                <tr>
-						<td class="ano">${ a.appNo }</td>
-	                    <td>${ a.createDate }</td>
-	                    <td>${ a.docType }</td>
-	                    <td>${ a.docTitle }</td>
-	                    <td>${ a.empName }</td>
-	                    <td>
-	                    	<c:if test="${ not empty a.docOriginName }">
-            					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder2-open" viewBox="0 0 16 16">
-								  <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14V3.5zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5V6zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7H1.633z"/>
-								</svg>
-            				</c:if>
-	                    </td>
-	                    <td>${ a.appStatus }</td>
-	                 </tr>
-                 </c:forEach>
+
             </tbody>
         </table>
+		<br>
+		<br>
+		<div id="pagingArea">
+			
+				<ul class="my pagination justify-content-end pagination-sm">
+			
+				</ul>
+		</div>
         
         <script>
-        	function selectAppList(status){
+        
+        	let statusCode = 100;
+	      
+        	function selectAppList(status, cpage){
         		$.ajax({
         			url: "btnList.app",
         			data:{
         				empNo: ${loginUser.empNo},
-        				appStatus: status
+        				appStatus: status,
+        				cpage: cpage
         				},
-        			success:function(list){
+        			success:function(map){
+        				//console.log(map);
+        				/*
+        					map
+        					{
+        					  listCount : 10,
+        					  pi : {currentPage:x, listCount:x, ... },
+        					  list : [{empNo:xx, ...}, {}, ]
+        					}
+        				*/
+        				
         				let value = "";
         				
-        				for(i=0; i<list.length; i++){
+        				for(i=0; i<map.list.length; i++){
         					value += "<tr>"
-        						     + "<td class='ano'>" + list[i].appNo + "</td>"
-								     + "<td>" + list[i].createDate + "</td>"
-								     + "<td>" + list[i].docType + "</td>"
-								     + "<td>" + list[i].docTitle + "</td>"
-								     + "<td>" + list[i].empName + "</td>"
+        						     + "<td class='ano'>" + map.list[i].appNo + "</td>"
+								     + "<td>" + map.list[i].createDate + "</td>"
+								     + "<td>" + map.list[i].docType + "</td>"
+								     + "<td>" + map.list[i].docTitle + "</td>"
+								     + "<td>" + map.list[i].empName + "</td>"
 								     + "<td>";
-					        if(list.docOriginName != null){
+					        if(map.list.docOriginName != null){
 						       value += "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-folder2-open' viewBox='0 0 16 16'> <path d='M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14V3.5zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5V6zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7H1.633z'/>";
 					        }
-					        value += "</td> <td>" + list[i].appStatus + "</td></tr>"
+					        value += "</td> <td>" + map.list[i].appStatus + "</td></tr>"
         				}
-        				
         				$("#appListTB tbody").html(value);
+        				
+        				//페이징바
+        	            let page="";
+        	            if(map.pi.currentPage ==1){
+        	               page += "<li class='page-item disabled' ><a class='page-link' href='#' style='color:rgb(196, 197, 197)'>Previous</a></li>"
+        	            }else{
+        	               page += "<li class='page-item'><a class='page-link' onclick='selectAppList(" + statusCode + ", " + (map.pi.currentPage-1) + ");'>Previous</a></li>"
+        	            }
+        	            
+        	            for(var p=map.pi.startPage; p<=map.pi.endPage; p++){
+        	               page += "<li class='page-item'><a class='page-link' onclick='selectAppList(" + statusCode + ", " + p + ");'>" + p + "</a></li>"
+        	            }
+        	            
+        	            if(map.pi.currentPage == map.pi.maxPage){
+        	               page += "<li class='page-item disabled'><a class='page-link ' href='#' style='color:rgb(196, 197, 197)'>Next</a></li>"
+        	            }else{
+        	               page += "<li class='page-item'><a class='page-link' onclick='selectAppList(" + statusCode + ", " + (map.pi.currentPage+1) + ");'>Next</a></li>"
+        	            }
+        	            
+        	            $(".pagination").html(page);
 						
-        		     },
-        			 error:function(){
-    					console.log("ajax 통신 실패");
-    				 }
+       		     }, error:function(){
+   						console.log("ajax 통신 실패");
+   				 	}
         		})
-        	}
+			}
         	
+        	$(function(){
+        		selectAppList(100, 1);
+        	})
+        	
+        	//각 버튼 누를시 뜨는 리스트
         	$("#allBtn").click(function(){
-        		selectAppList(100);
+        		selectAppList(100, 1);
 				$(this).css("background-color", "green").css("color", "white");
 				$("#ingBtn").css("background-color", "gray").css("color", "white");
 				$("#finBtn").css("background-color", "gray").css("color", "white");
 				$("#reBtn").css("background-color", "gray").css("color", "white");
-
+				statusCode = 100;
     		})
         	
         	$("#ingBtn").click(function(){
-        		selectAppList(1);
+        		selectAppList(1, 1);
 				$(this).css("background-color", "green").css("color", "white");
 				$("#allBtn").css("background-color", "gray").css("color", "white");
 				$("#finBtn").css("background-color", "gray").css("color", "white");
 				$("#reBtn").css("background-color", "gray").css("color", "white");
 
-
+				statusCode = 1;
     		})
     		
     		$("#finBtn").click(function(){
-        		selectAppList(2);
+        		selectAppList(2, 1);
 				$(this).css("background-color", "green").css("color", "white");
 				$("#allBtn").css("background-color", "gray").css("color", "white");
 				$("#ingBtn").css("background-color", "gray").css("color", "white");
 				$("#reBtn").css("background-color", "gray").css("color", "white");
+				
+				statusCode = 2;
     		})
     		
     		$("#reBtn").click(function(){
-        		selectAppList(3);
+        		selectAppList(3, 1);
 				$(this).css("background-color", "green").css("color", "white");
 				$("#allBtn").css("background-color", "gray").css("color", "white");
 				$("#finBtn").css("background-color", "gray").css("color", "white");
 				$("#ingBtn").css("background-color", "gray").css("color", "white");
+				
+				statusCode = 3;
     		})
         
-        </script>
-        
-        <script>
         	$(function(){
         		$(document).on("click", "#defaultAllTB>tr",function(){
         			location.href='myDetail.app?no='+$(this).children(".ano").text();
         		})
         	})
+
         </script>
         
-        
-        
         <br>
-        <div id="pagingArea">
-        <c:if test="${ not empty list}">
-            <ul class="my pagination justify-content-end pagination-sm">
-            
-            <c:choose>
-            	<c:when test="${ pi.currentPage eq 1 }">
-                	<li class="page-item disabled" ><a class="page-link" href="#" style="color:rgb(196, 197, 197)">Previous</a></li>
-          		</c:when>
-            	<c:otherwise>
-             	   <li class="page-item"><a class="page-link" href="mylist.app?cpage=${ pi.currentPage-1 }">Previous</a></li>
-                </c:otherwise>
-            </c:choose>
-            
-           	<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-        		<li class="page-item"><a class="page-link" href="mylist.app?cpage=${ p }">${ p }</a></li>
-        	</c:forEach>
-            
-            <c:choose>
-         		<c:when test="${ pi.currentPage eq pi.maxPage }">
-          			<li class="page-item disabled"><a class="page-link " href="#" style="color:rgb(196, 197, 197)">Next</a></li>
-          		</c:when>
-          		<c:otherwise>
-          			<li class="page-item"><a class="page-link" href="mylist.app?cpage=${ pi.currentPage+1 }">Next</a></li>
-          		</c:otherwise>
-        	</c:choose>
-              </ul>
-        </c:if>
-        </div>
+    
 
     </div> <!-- end of outer-->
 </div>

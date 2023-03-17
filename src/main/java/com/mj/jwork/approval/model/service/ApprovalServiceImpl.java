@@ -20,8 +20,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	// 결재문서 카운트
 	@Override
-	public int selectListCount(int empNo) {
-		return aDao.selectListCount(sqlSession, empNo);
+	public int selectListCount(Approval a) {
+		return aDao.selectListCount(sqlSession, a);
 	}
 	
 	//결재문서 리스트 버튼 클릭시

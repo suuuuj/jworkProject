@@ -45,7 +45,7 @@ public class ApprovalController {
 	@RequestMapping(value="btnList.app", produces="application/json; charset=utf-8")
 	public String ajaxSelectBtn(Approval a, @RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
 		
-		int listCount = aService.selectListCount(a.getEmpNo()); //페이징 매길 전체 게시글 수
+		int listCount = aService.selectListCount(a); //페이징 매길 전체 게시글 수
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
 		
 		ArrayList<Approval> list = aService.ajaxSelectBtn(pi,a);

@@ -26,6 +26,9 @@
 		  from approval
 		 where doc_status='Y'
 		   and emp_no = #{empNo}
+		   <if test="appStatus != 100">
+		   and app_status = #{appStatus}
+		   </if>
 		   
 	</select>
 	

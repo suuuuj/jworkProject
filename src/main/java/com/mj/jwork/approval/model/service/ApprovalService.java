@@ -8,7 +8,7 @@ import com.mj.jwork.common.model.vo.PageInfo;
 public interface ApprovalService{
 	
 	//내결재목록 버튼 클릭 (ajax)
-	int selectListCount(int empNo);
+	int selectListCount(Approval a);
 	ArrayList<Approval> ajaxSelectBtn(PageInfo pi,Approval a);
 	
 	//결재문서 상세 조회 서비스
