@@ -53,12 +53,6 @@
         cursor: pointer;
         opacity: 0.7;
     }
-    .paging-area button{
-        width:30px;
-        height:30px;
-        border:none;
-        border-radius: 5px;
-    }
     #pagingArea{
     	width:fit-content;
     	margin:auto;

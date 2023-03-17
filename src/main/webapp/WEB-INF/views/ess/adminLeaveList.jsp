@@ -15,8 +15,9 @@
     .leaveOuter{
         padding:50px;
         margin:auto;
+    }
     /* content영역 */
-    .vacation{
+    .leave-area{
         margin-top: 30px;
     }
     .select-area{
@@ -53,19 +54,21 @@
     .leaveTable{
         width:100%;
         text-align: center;
+        margin-top:30px;
         border-collapse: collapse;
         border-spacing: 0;
-        margin-top:30px;
         font-size: 14px;
-        color:rgb(50,50,50);
+        color:rgb(51,51,51);
     }
     .leaveTable>tbody tr:hover{
-        opacity: 0.7;
         cursor: pointer;
+        opacity: 0.7;
     }
     .leaveTable td{
-        border-bottom: 1px solid rgb(234, 234, 234);
+        width:182px;
         height:30px;
+        color:rgb(50,50,50);
+        border-bottom: 1px solid rgb(234, 234, 234);
     }
     .list-area input{
         border:none;
@@ -85,7 +88,7 @@
 
         <h4><b>휴가관리</b></h4>
         
-        <div class="vacation">
+        <div class="leave-area">
 
             <div class="select-area">
                 <select name="" id="">
@@ -139,6 +142,12 @@
                     </tbody>
                 </table>
             </div>
+
+            <script>
+                $(function(){
+                    $("")
+                })
+            </script>
             
             <br><br>
 

@@ -139,8 +139,15 @@
         <script>	
                     
         $(function(){
-        	
-            
+        	var minDate = new Date(); //오늘
+            var maxDate = new Date();  // 오늘
+            //var dd = maxDate.getDate()+3; // 오늘 + 3
+            //maxDate.setDate(dd);
+            //console.log(maxDate);
+            //var maxDate = maxDate.toISOString().substring(0,10); // yyyy-mm-dd
+            //console.log(maxDate); 
+           
+
             $("#datepicker1").datepicker({
                 changeMonth: true, 
                 changeYear: true,
@@ -154,14 +161,46 @@
                 dateFormat: "yy-mm-dd",
                 showAnim: "slide",
                 showMonthAfterYear: true, 
+                beforeShowDay: function(date){
+                    var day = date.getDay();        
+                    return [(day != 0 && day != 6)];
+                },
                 dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
                 monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
+                daysOfWeekDisabled : [0,6],
+                autoclose : true,
                 onSelect: function(selected){
-                	$("#datepicker2").datepicker("option", "minDate", selected);
+                    $("#datepicker2").datepicker("option", "minDate", selected);
+
+                    var selected = new Date(selected);
+
+                    /* 연차신청사용
+                    if(${lc.lcNo == 0}){
+                        var ss = selected.getDate() + 2;
+                    }
+                    */
+
+                    // 휴가카테고리별 사용일수 등록
+                    switch(${lc.lcNo}){
+                        case 1 : var ss = selected.getDate() + 2; break;
+                        case 2 : var ss = selected.getDate() + 89; break;
+                        case 3 : var ss = selected.getDate() + 0; break;
+                        case 4 : var ss = selected.getDate() + 2; break;
+                        case 5 : var ss = selected.getDate() + 89; break;
+                        case 6 : var ss = selected.getDate() + 4; break;
+                        case 7 : var ss = selected.getDate() + 119; break;
+                        case 8 : var ss = selected.getDate() + 0; break;
+                    }
+                    
+                    maxDate.setDate(ss);
+                    //console.log(maxDate);
+                    $("#datepicker2").datepicker("option", "maxDate", maxDate);
+                    
                 }
+
             });	
-            
-            $("#datepicker2").datepicker({
+
+           $("#datepicker2").datepicker({
                 changeMonth: true, 
                 changeYear: true,
                 minDate: '0',
@@ -174,11 +213,13 @@
                 dateFormat: "yy-mm-dd",
                 showAnim: "slide",
                 showMonthAfterYear: true, 
+                beforeShowDay: function(date){
+                    var day = date.getDay();        
+                    return [(day != 0 && day != 6)];
+                },
                 dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
-                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
-                onSelect: function(selected){
-                	$("#datepicker1").datepicker("option", "maxDate", selected);
-                }
+                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+                
             });	
             
             
