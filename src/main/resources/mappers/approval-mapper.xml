@@ -20,6 +20,18 @@
 		<result column="emp_name" property="empName"/>
 	</resultMap>
 	
+	<resultMap id="appLineResult" type="AppLine">
+		<id column="line_no" property="lineNo"/>
+		<result column="app_no" property="appNo"/>
+		<result column="emp_no" property="empNo"/>
+		<result column="app_level" property="appLevel"/>
+		<result column="confirm_status" property="confirmStatus"/>
+		<result column="app_date" property="appDate"/>
+		<result column="re_reason" property="reReason"/>
+		<result column="emp_name" property="empName"/>
+		<result column="job_name" property="jobName"/>
+	</resultMap>
+	
 	<!-- 게시글 수 카운트 -->
 	<select id="selectListCount" resultType="_int">
 		select count(*)
@@ -78,6 +90,25 @@
 		where doc_status='Y'
 		  and app_no = #{appNo}
 	</select>
+	
+	<!-- 문서 상세 조회 시 결재선 -->
+	 <select id="selectAppLine" resultMap="appLineResult">
+	   select
+			  line_no
+			, al.app_no
+			, emp_name
+			, job_name
+			, app_level
+			, confirm_status
+			, re_reason
+	     from app_line al
+	     join employee e on (e.emp_no = al.emp_no)
+		 join job j on (e.job_code = j.job_code)
+	    where al.app_no=#{appNo}
+	    order
+	       by app_level
+	    
+	 </select>
 	
 	<!-- 미결재 문서 게시글 수 카운트 -->
 	<select id="selectUnsignListCount" resultType="_int">

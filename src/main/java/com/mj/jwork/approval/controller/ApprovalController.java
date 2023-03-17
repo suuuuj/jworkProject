@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.mj.jwork.approval.model.service.ApprovalService;
+import com.mj.jwork.approval.model.vo.AppLine;
 import com.mj.jwork.approval.model.vo.Approval;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.Pagination;
@@ -64,7 +65,13 @@ public class ApprovalController {
 	@RequestMapping("myDetail.app")
 	public ModelAndView approvalDetail(int no, ModelAndView mv) {
 		Approval a = aService.selectApproval(no);
+		ArrayList<AppLine> al = aService.selectAppLine(no);
+		
 		mv.addObject("a",a).setViewName("approval/approvalDetail");
+		mv.addObject("al",al).setViewName("approval/approvalDetail");
+		
+		//System.out.println(al);
+		
 		return mv;
 	}
 	

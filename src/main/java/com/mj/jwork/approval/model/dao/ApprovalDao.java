@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.mj.jwork.approval.model.vo.AppLine;
 import com.mj.jwork.approval.model.vo.Approval;
 import com.mj.jwork.common.model.vo.PageInfo;
 
@@ -29,6 +30,12 @@ public class ApprovalDao {
 	public Approval selectApproval(SqlSessionTemplate sqlSession, int appNo) {
 		return sqlSession.selectOne("approvalMapper.selectApproval",appNo);
 	}
+	
+	//결재문서 결재선 조회
+	public ArrayList<AppLine> selectAppLine(SqlSessionTemplate sqlSession, int appNo) {
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectAppLine",appNo);
+	}
+
 	
 	//미결재문서 리스트 카운팅
 	public int selectUnsignListCount(SqlSessionTemplate sqlSession, int empNo) {
@@ -64,6 +71,7 @@ public class ApprovalDao {
 				return (ArrayList)sqlSession.selectList("approvalMapper.selectSignList",empNo,rowBounds);
 			}
 
+	
 	
 
 

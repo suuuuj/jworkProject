@@ -20,5 +20,8 @@ public class AppLine {
 	 private String confirmStatus;
 	 private String appDate;
 	 private String reReason;
+	 
+	 private String empName;
+	 private String jobName;
 
 }

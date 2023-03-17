@@ -2,6 +2,7 @@ package com.mj.jwork.approval.model.service;
 
 import java.util.ArrayList;
 
+import com.mj.jwork.approval.model.vo.AppLine;
 import com.mj.jwork.approval.model.vo.Approval;
 import com.mj.jwork.common.model.vo.PageInfo;
 
@@ -13,6 +14,7 @@ public interface ApprovalService{
 	
 	//결재문서 상세 조회 서비스
 	Approval selectApproval(int appNo);
+	ArrayList<AppLine> selectAppLine(int appNo);
 	
 	//미결재문서 리스트 조회
 	int selectUnsignListCount(int empNo);
@@ -21,6 +23,7 @@ public interface ApprovalService{
 	//결재문서 리스트 조회
 	int selectSignListCount(int empNo);
 	ArrayList<Approval> selectSignList(PageInfo pi, int empNo);
+	
 	
 	
 	

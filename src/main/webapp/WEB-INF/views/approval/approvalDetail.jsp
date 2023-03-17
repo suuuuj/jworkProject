@@ -64,6 +64,7 @@
 	     font-size: small;
 	     border: 1px solid lightgray;
          padding-left: 10px;
+         overflow: auto;
 	 }
 	
 	 #appThead{
@@ -94,7 +95,7 @@
 
         <h4><b>내 결재 문서</b></h4>
         <br>
-        <div class="approval-area" align="center">
+        <div class="approval-area" align="center"  style="height: auto;">
         <c:choose>
 	       	<c:when test="${ a.docType eq 0 }">
        			<br><br>
@@ -130,26 +131,35 @@
 
             </table>
             <table  id="selectApprovalLine" border="1">
-                <tr >
-                    <th width="90px" rowspan="3"style="text-align:center; background:rgb(237, 237, 237);">결재</th>
-                    <td height="25px" width="90px"> ${ loginUser.jobName }</td>
-                    <td width="90px"></td>
-                    <td width="90px"></td>
-                    <td width="90px"></td>
-                </tr>
-                <tr>
-                    <td height="70px"><img class="signLogo" src="resources/images/common/check.png"/></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-               
-                <tr>
-                    <td height="25px">${ loginUser.empName }</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+	                <tr>
+	                    <th width="90px" rowspan="3"style="text-align:center; background:rgb(237, 237, 237);">결재</th>
+	                    <td height="25px" width="90px"> ${ loginUser.jobName }</td>
+		        	<c:forEach var="al" items="${ al }">
+		                    <td width="90px">${ al.jobName }</td>
+		            </c:forEach>
+	                </tr>
+	            
+	                <tr>
+	                    <td height="70px"><img class="signLogo" src="resources/images/common/check.png"/></td>
+                    <c:forEach var="al" items="${ al }">
+                    	<c:choose>
+                    		<c:when test="${al.confirmStatus eq 1 }">
+	                    	<td width="90px"><img class="signLogo" src="resources/images/common/check.png"/></td>
+	                    	</c:when>
+	                   		<c:when test="${al.confirmStatus eq 2 }">
+	                    	<td><a id="returnFont" data-toggle="tooltip" title="${al.reReason }"><b>반려</b></a></td>
+	                    	</c:when>
+	                    </c:choose>
+		            </c:forEach>
+	                </tr>
+	               
+	                <tr>
+	                    <td height="25px">${ loginUser.empName }</td>
+	                <c:forEach var="al" items="${ al }">
+	                    <td>${ al.empName }</td>
+	                </c:forEach>
+	                </tr>
+	                
             </table>
             <script>
                 $(document).ready(function(){
@@ -161,7 +171,7 @@
             <table class="appContent" border="1">
                  <!--사직서 양식이면 년도표 나오게-->
                  <c:if test="${ a.docType eq 2 }">
-	                <tr>
+	                <tr align="center">
 	                    <th id="appThead">입사년도</th>
 	                    <td id="indate">${loginUser.enrollDate}</td>
 	                    <th id="appThead">퇴사 예정일</th>
@@ -174,11 +184,20 @@
                 </tr>
                 <tr>
                     <th style="background-color:rgb(237, 237, 237); height: 380px;">내용</th>
-                    <td colspan="3">${a.docContent }</td>
+                    <td colspan="3" style="vertical-align : top; padding: 10px;" >${a.docContent }</td>
                 </tr>
                 <tr>
                     <th id="appThead">첨부파일</th>
-                    <td colspan="3" style="text-align: left;"><a href="">의자.jpg</a></td>
+                    <td colspan="3" style="text-align: left;">
+                    <c:choose>
+                    	<c:when test="${ not empty a.docOriginName }">	
+                    		<a href="${ b.docChangeName }" download="${a.docOriginName}">${a.docOriginName}"</a>
+                   		</c:when>
+                   		<c:otherwise>
+                   			첨부파일이 없습니다.
+                   		</c:otherwise>
+                   	</c:choose>	
+                   	</td>
                 </tr>
 
             </table>
@@ -187,11 +206,9 @@
             <div id="buttonarea" align="right">
                 <button type="button" class="btn btn-light">상신취소</button>
             </div>
-            
-
-
-
-
+            <br>
+            <br>
+ 
         </div> <!--end of approval-area-->
 
     </div><!--end of outer-->

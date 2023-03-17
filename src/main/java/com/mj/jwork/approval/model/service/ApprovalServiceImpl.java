@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mj.jwork.approval.model.dao.ApprovalDao;
+import com.mj.jwork.approval.model.vo.AppLine;
 import com.mj.jwork.approval.model.vo.Approval;
 import com.mj.jwork.common.model.vo.PageInfo;
 
@@ -36,6 +37,12 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return aDao.selectApproval(sqlSession, appNo);
 	}
 	
+	//결재문서 결재선 조회
+	@Override
+	public ArrayList<AppLine> selectAppLine(int appNo) {
+		return aDao.selectAppLine(sqlSession, appNo);
+	}
+	
 	//미결재문서 카운팅
 	@Override
 	public int selectUnsignListCount(int empNo) {
@@ -60,6 +67,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public ArrayList<Approval> selectSignList(PageInfo pi, int empNo) {
 		return aDao.selectSignList(sqlSession,pi, empNo);
 	}
+
+	
 
 
 
