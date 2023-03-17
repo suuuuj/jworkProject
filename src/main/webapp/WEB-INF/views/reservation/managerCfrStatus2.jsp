@@ -1,33 +1,52 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.js"></script>
-<script src='fullcalendar-scheduler/dist/index.global.js'></script>
-<script>
-var calendar = new FullCalendar.Calendar(calendarEl, {
-  initialView: 'resourceDayGridDay',
-  resources: [
-    // your list of resources
-  ]
-});
-</script>
-</head>
-<body>
-<jsp:include page="../common/menubar.jsp"/>
-	<div class="content">
-        <div class="innerOuter">
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link href="fullcalendar/main.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="fullcalendar/main.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let earliestStartTime, lastEndTime
 
-            <div id='calendar'></div>
+        var calendarEl = document.getElementById("calendar");
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: "timeGridWeek",
+          allDaySlot: false,
+          events: {
+            url: "http://localhost:3000/events",
+            method: "GET",
+            failure: function () {
+              alert("there was an error while fetching events!");
+            },
+          },
+          eventDidMount: function(arg) {
+              const eventStartTime = arg.event.start.getHours()
+              const eventEndTime = arg.event.end.getHours()
 
-        </div>
-    </div>
+              if (!earliestStartTime) {
+                  // when undefined
+                  earliestStartTime = eventStartTime
+              } else if (eventStartTime < earliestStartTime) {
+                  earliestStartTime = eventStartTime
+              }
 
+              if (!lastEndTime) {
+                  // when undefined
+                  lastEndTime = eventEndTime
+              } else if (eventEndTime > lastEndTime){
+                  lastEndTime = eventEndTime
+              }
 
-
-</body>
+              calendar.setOption('slotMinTime', `${earliestStartTime}:00:00`);
+              calendar.setOption('slotMaxTime', `${lastEndTime + 1}:00:00`);
+          }
+        });
+        calendar.render();
+      });
+    </script>
+  </head>
+  <body>
+    <div id="calendar"></div>
+  </body>
 </html>

@@ -1,6 +1,7 @@
 package com.mj.jwork.approval.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,20 +30,8 @@ public class ApprovalController {
 	
 	// 내 결제 리스트 조회 페이징
 	@RequestMapping("mylist.app")
-	public String selectList(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
-		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		int listCount = aService.selectListCount(e.getEmpNo()); //페이징 매길 전체 게시글 수
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
-		ArrayList<Approval> list = aService.selectMyApprovalList(pi,e.getEmpNo()); // 게시글 목록 조회
-		
-		model.addAttribute("pi",pi);
-		model.addAttribute("list",list);
-		model.addAttribute("listCount",listCount);
-		
+	public String selectList() {
 		return "approval/myApprovalList";
-		
 	}
 	
 	// 결재문서 작성 form 페이지
@@ -56,13 +45,17 @@ public class ApprovalController {
 	@RequestMapping(value="btnList.app", produces="application/json; charset=utf-8")
 	public String ajaxSelectBtn(Approval a, @RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
 		
-		int listCount = aService.selectListCount(a.getEmpNo()); //페이징 매길 전체 게시글 수
+		int listCount = aService.selectListCount(a); //페이징 매길 전체 게시글 수
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
 		
-		ArrayList<Approval> all = aService.ajaxSelectBtn(pi,a);
+		ArrayList<Approval> list = aService.ajaxSelectBtn(pi,a);
 		
+		HashMap<String, Object> map = new HashMap();
+		map.put("listCount", listCount);
+		map.put("pi", pi);
+		map.put("list", list);
 		
-		return new Gson().toJson(all);
+		return new Gson().toJson(map);
 		
 	}
 	
@@ -75,13 +68,14 @@ public class ApprovalController {
 		return mv;
 	}
 	
-	// 미결제 리스트 조회 페이징
+	
+	// 미결재 리스트 조회 페이징
 		@RequestMapping("unsignlist.app")
 		public String selectUnsignList(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
 			
 			Employee e = (Employee)request.getSession().getAttribute("loginUser");
 			
-			int listCount = aService.selectListCount(e.getEmpNo()); //페이징 매길 전체 게시글 수
+			int listCount = aService.selectUnsignListCount(e.getEmpNo()); //페이징 매길 전체 게시글 수
 			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
 			ArrayList<Approval> list = aService.selectUnsignList(pi,e.getEmpNo()); // 게시글 목록 조회
 			
@@ -92,6 +86,26 @@ public class ApprovalController {
 			return "approval/unsignApprovalList";
 			
 		}
+		
+		// 결재 리스트 조회 페이징
+			@RequestMapping("signlist.app")
+			public String selectSignList(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
+				
+				Employee e = (Employee)request.getSession().getAttribute("loginUser");
+				
+				int listCount = aService.selectSignListCount(e.getEmpNo()); //페이징 매길 전체 게시글 수
+				PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+				ArrayList<Approval> list = aService.selectSignList(pi,e.getEmpNo()); // 게시글 목록 조회
+				
+				model.addAttribute("pi",pi);
+				model.addAttribute("list",list);
+				model.addAttribute("listCount",listCount);
+				
+				//System.out.println(list);
+				
+				return "approval/signApprovalList";
+				
+			}
 	
 	
 }
