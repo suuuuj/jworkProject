@@ -26,4 +26,7 @@ public class CarReservation {//차량예약테이블
 	 private String startTime;
 	 private String endTime;
 	 private String cause;//사유
+	 private String reject;
+	 
+	 private String empName;
 }

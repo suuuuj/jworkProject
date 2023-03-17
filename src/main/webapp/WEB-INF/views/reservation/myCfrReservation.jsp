@@ -9,7 +9,7 @@
      div{box-sizing: border-box;}
      .outer{
         width: 960px;
-        margin:20px;
+       
     }
     
  
@@ -32,7 +32,7 @@
 </head>
 <body>
      <jsp:include page="../common/menubar.jsp"/>
-    <div class="outer" style="width:900px;">
+    <div class="outer" style="width:900px;  margin:20px;">
         <h2>내 회의실 예약내역</h2>
         <hr><br>
         <div>

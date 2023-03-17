@@ -1,6 +1,5 @@
 package com.mj.jwork.reservation.controller;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -128,6 +127,7 @@ public class CfrResController {
 		return new Gson().toJson(result);
 		
 	}
+	
 	
 	
 	
