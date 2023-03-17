@@ -382,7 +382,7 @@
                     			data:{mailBoxNo: mailBoxNo},
                     			success:function(result){
                     				if(result == "success"){
-                    					location.replace("list.ma");
+                    					location.replace("list.ma?mailCategory=받은메일함");
                     				} else{
                     					alert("알 수 없는 이유로 삭제할 수 없습니다. 다시 시도해주세요.");
                     				}
