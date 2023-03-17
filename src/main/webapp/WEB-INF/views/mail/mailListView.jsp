@@ -19,6 +19,9 @@
             height: 500px;
         }
         */
+        a{
+            text-decoration: none !important;
+        }
         .content-title{
             font-size: 1.3em;
             width: 200px;
@@ -348,7 +351,7 @@
             <div class="mailContents">
                 <table>
                 	<c:forEach var="m" items="${ mList }">
-	                    <tr class="${ m.read eq 'N' ? 'font-bold' : ''}" mail-no="${ m.mailNo }">
+	                    <tr class="${ m.read eq 'N' ? 'font-bold' : ''}" mail-no="${ m.mailNo }" readDate="${m.readDate}">
 	                        <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
 	                        <c:choose>
 	                        	<c:when test="${ m.important eq 'Y' }">
@@ -360,15 +363,26 @@
 	                        </c:choose>
 	                        <c:choose>
 	                        	<c:when test="${ m.read eq 'Y' }">
-	                        		<!-- 읽은 메일 아이콘 수정하기!!!!!!!!!! -->
+                                    <!--읽은 메일-->
 	                        		<td width="30px"><img class="mailIcon" src="resources/images/mail/readMail.png"></td>
 	                        	</c:when>
 	                        	<c:otherwise>
+                                    <!--안읽은 메일-->
 	                        		<td width="30px"><img class="mailIcon" src="resources/images/mail/unReadMail.png"></td>
 	                        	</c:otherwise>
 	                        </c:choose>
+                            <c:choose>
+	                        	<c:when test="${ m.attachment eq 0 }">
+                                    <!--첨부파일 없는 경우-->
+	                        		<td width="30px"></td>
+	                        	</c:when>
+	                        	<c:otherwise>
+                                    <!--첨부파일 있는 경우-->
+	                        		<td width="30px"><img class="mailIcon" src="resources/images/mail/fileclip.png"></td>
+	                        	</c:otherwise>
+	                        </c:choose>
 	                        <td width="100px">${ m.sender }</td>
-	                        <td width="530px">${ m.mailTitle }</td>
+	                        <td width="500px">${ m.mailTitle }</td>
 	                        <td width="220px">${ m.registerDate }</td>
 	                    </tr>
                     </c:forEach>
@@ -447,6 +461,12 @@
                             }
                         })
                         
+
+                    })
+
+                    $(document).on("click", ".mailContents tr", function(){
+
+                        location.href='detail.ma?mailNo=' + $(this).attr("mail-no") + '&readDate=' + $(this).attr("readDate");
 
                     })
                     
