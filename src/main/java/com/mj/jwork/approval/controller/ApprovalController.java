@@ -67,52 +67,88 @@ public class ApprovalController {
 		Approval a = aService.selectApproval(no);
 		ArrayList<AppLine> al = aService.selectAppLine(no);
 		
-		mv.addObject("a",a).setViewName("approval/approvalDetail");
-		mv.addObject("al",al).setViewName("approval/approvalDetail");
+		mv.addObject("a",a).setViewName("approval/myApprovalDetail");
+		mv.addObject("al",al).setViewName("approval/myApprovalDetail");
 		
-		//System.out.println(al);
+		System.out.println(al);
 		
 		return mv;
 	}
 	
 	
 	// 미결재 리스트 조회 페이징
-		@RequestMapping("unsignlist.app")
-		public String selectUnsignList(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
-			
-			Employee e = (Employee)request.getSession().getAttribute("loginUser");
-			
-			int listCount = aService.selectUnsignListCount(e.getEmpNo()); //페이징 매길 전체 게시글 수
-			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
-			ArrayList<Approval> list = aService.selectUnsignList(pi,e.getEmpNo()); // 게시글 목록 조회
-			
-			model.addAttribute("pi",pi);
-			model.addAttribute("list",list);
-			model.addAttribute("listCount",listCount);
-			
-			return "approval/unsignApprovalList";
-			
-		}
+	@RequestMapping("unsignlist.app")
+	public String selectUnsignList(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
 		
-		// 결재 리스트 조회 페이징
-			@RequestMapping("signlist.app")
-			public String selectSignList(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
-				
-				Employee e = (Employee)request.getSession().getAttribute("loginUser");
-				
-				int listCount = aService.selectSignListCount(e.getEmpNo()); //페이징 매길 전체 게시글 수
-				PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
-				ArrayList<Approval> list = aService.selectSignList(pi,e.getEmpNo()); // 게시글 목록 조회
-				
-				model.addAttribute("pi",pi);
-				model.addAttribute("list",list);
-				model.addAttribute("listCount",listCount);
-				
-				//System.out.println(list);
-				
-				return "approval/signApprovalList";
-				
-			}
+		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+		
+		int listCount = aService.selectUnsignListCount(e.getEmpNo()); //페이징 매길 전체 게시글 수
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+		ArrayList<Approval> list = aService.selectUnsignList(pi,e.getEmpNo()); // 게시글 목록 조회
+		
+		model.addAttribute("pi",pi);
+		model.addAttribute("list",list);
+		model.addAttribute("listCount",listCount);
+		
+		return "approval/unsignApprovalList";
+		
+	}
+	
+	// 미결재문서 상세 조회 페이지
+	@RequestMapping("unsignDetail.app")
+	public ModelAndView unsignDetail(int no, ModelAndView mv) {
+		Approval a = aService.selectApproval(no);
+		ArrayList<AppLine> al = aService.selectAppLine(no);
+		
+		mv.addObject("a",a).setViewName("approval/unsignApprovalDetail");
+		mv.addObject("al",al).setViewName("approval/unsignApprovalDetail");
+		
+		//System.out.println(al);
+		
+		return mv;
+	}
+	
+		
+	// 결재 리스트 조회 페이징
+	@RequestMapping("signlist.app")
+	public String selectSignList(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
+		
+		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+		
+		int listCount = aService.selectSignListCount(e.getEmpNo()); //페이징 매길 전체 게시글 수
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+		ArrayList<Approval> list = aService.selectSignList(pi,e.getEmpNo()); // 게시글 목록 조회
+		
+		model.addAttribute("pi",pi);
+		model.addAttribute("list",list);
+		model.addAttribute("listCount",listCount);
+		
+		//System.out.println(list);
+		
+		return "approval/signApprovalList";
+		
+	}
+			
+		
+	// 임시보관함 리스트 조회 페이징
+	@RequestMapping("draftList.app")
+	public String selectdraftList(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
+		
+		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+		
+		int listCount = aService.selectdraftListCount(e.getEmpNo()); //페이징 매길 전체 게시글 수
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+		ArrayList<Approval> list = aService.selectdraftList(pi,e.getEmpNo()); // 게시글 목록 조회
+		
+		model.addAttribute("pi",pi);
+		model.addAttribute("list",list);
+		model.addAttribute("listCount",listCount);
+		
+		//System.out.println(list);
+		
+		return "approval/appDraftboxList";
+		
+	}
 	
 	
 }

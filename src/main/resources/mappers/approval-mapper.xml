@@ -172,6 +172,39 @@
 	    order
 	       by app_no desc
     </select>
+    
+     <!-- 임시저장함 문서 게시글 수 카운트 -->
+	<select id="selectdraftListCount" resultType="_int">
+		select
+		       count(*)
+		  from approval
+		 where emp_no = #{empNo}
+		   and app_status = 4
+		   and doc_status = 'D'
+		 order
+	        by app_no desc
+		  
+		   
+	</select>
+    
+    <!-- 임시저장함 리스트 조회 -->
+	<select id="selectdraftList" resultMap="approvalResult">
+		select  
+	          ap.app_no
+	        , emp_name
+	        , decode(doc_type,0,'기안서',1,'품의서',2,'사직서') as "doc_type"
+	        , to_char(create_date, 'YYYY-MM-DD')"create_date"
+	        , doc_title
+	        , doc_originname
+	        , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
+	     from approval ap
+	     join employee e on (ap.emp_no = e.emp_no)
+	    where doc_status = 'D'
+	      and app_status = 4
+	      and ap.emp_no = #{empNo}
+	    order
+	       by app_no desc
+    </select>
 	
 
 </mapper>

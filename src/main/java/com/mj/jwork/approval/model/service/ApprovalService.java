@@ -24,6 +24,10 @@ public interface ApprovalService{
 	int selectSignListCount(int empNo);
 	ArrayList<Approval> selectSignList(PageInfo pi, int empNo);
 	
+	//임시저장함 리스트 조회
+	int selectdraftListCount(int empNo);
+	ArrayList<Approval> selectdraftList(PageInfo pi, int empNo);
+	
 	
 	
 	

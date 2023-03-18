@@ -62,14 +62,31 @@ public class ApprovalDao {
 	//결재문서 리스트 조회
 	public ArrayList<Approval> selectSignList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
 		//건너뛸 게시물 개수
-				int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
-				//조회할 게시글 개수
-				int limit = pi.getBoardLimit();
-				
-				RowBounds rowBounds = new RowBounds(offset, limit);
-				
-				return (ArrayList)sqlSession.selectList("approvalMapper.selectSignList",empNo,rowBounds);
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		//조회할 게시글 개수
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectSignList",empNo,rowBounds);
 			}
+
+	
+	//임시저장함 리스트 조회
+	public int selectdraftListCount(SqlSessionTemplate sqlSession, int empNo) {
+		return sqlSession.selectOne("approvalMapper.selectdraftListCount", empNo);
+	}
+
+	public ArrayList<Approval> selectdraftList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+		//건너뛸 게시물 개수
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		//조회할 게시글 개수
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectdraftList",empNo,rowBounds);
+	}
 
 	
 	

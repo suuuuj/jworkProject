@@ -68,6 +68,18 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return aDao.selectSignList(sqlSession,pi, empNo);
 	}
 
+	//임시저장함 카운트
+	@Override
+	public int selectdraftListCount(int empNo) {
+		return aDao.selectdraftListCount(sqlSession, empNo);
+	}
+
+	//임시저장함 리스트 조회
+	@Override
+	public ArrayList<Approval> selectdraftList(PageInfo pi, int empNo) {
+		return aDao.selectdraftList(sqlSession,pi, empNo);
+	}
+
 	
 
 
