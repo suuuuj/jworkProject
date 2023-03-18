@@ -7,114 +7,188 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	.content{
+	div{
+        box-sizing: border-box;
+    }
+    .content{
         margin: auto; 
         padding:4%
     }
-    #selectApproval {
-       font-size: small;
-       text-align: center;
-       width: 300px;
-       display: inline-block;
-       border: 1px solid lightgray;
+	  .approval-area{
+	     width: 859px;
+	     border:1px solid black;
+	     height: 800px;
+	 }
+	
+	 #selectApproval {
+		 font-size: small;
+		 text-align: center;
+		 width: 300px;
+		 display: inline-block;
+		 border: 1px solid lightgray;
+	 }
+       #selectApproval td{
+		 border: 1px solid lightgray;
+	 }
+	 #selectApproval th{
+	     background-color: rgb(237, 237, 237);
+         border: 1px solid lightgray;
+	     height: 40px;
+	 }
+	
+	 #selectApprovalLine{
+	     width: 450px;
+	     font-size: small;
+	     display: inline-block;
+	     border: 1px solid lightgray;
+	     text-align: center;
+	 }
+     #selectApprovalLine th, #selectApprovalLine td{
+	     border: 1px solid lightgray;
+	 }
+	
+	 #returnFont{
+		 color: red;
+		 font-size: x-large
+	 }
+	
+	 .appContent{
+	     width: 754px;
+	 }
+     .appContent th{
+	     text-align:center;
+	     font-size: small;
+	     border: 1px solid lightgray;
+	 }
+     .appContent td{
+	     font-size: small;
+	     border: 1px solid lightgray;
+         padding-left: 10px;
+         overflow: auto;
+	 }
+	
+	 #appThead{
+	     background:rgb(237, 237, 237);
+	     width:129px;
+	     height: 27px;
+	 }
+	
+	 #indate{
+	     width:248px;
+	 }
 
+     .signLogo{
+        width: 42px;
     }
-    #selectApproval th{
-        background-color: rgb(237, 237, 237);
-        height: 40px;
-    }
-
-    #selectApprovalLine{
-        width: 450px;
-        font-size: small;
-        display: inline-block;
-        border: 1px solid lightgray;
-        text-align: center;
-    }
-
-    #returnFont{
-    	color: red;
-    	font-size: x-large
-    }
-
-    .appContent{
-        text-align:center;
-        font-size: small;
-        border: 1px solid lightgray;
-        width: 754px;
-       
-    }
-
-    #appThead{
-        background:rgb(237, 237, 237);
-        width:129px;
-        height: 27px;
-    }
-
-    #indate{
-        width:248px;
-    }
-
-    #buttonarea{
-    	display: inline-block;
-    	width: 750px;
-    }
-
-    #inputReturnReason{
-        width: 267px;
-        height: 110px;
-    }
+	
+	 #buttonarea{
+		 display: inline-block;
+		 width: 750px;
+	 }
+    
+    
+    
 </style>
 </head>
 <body>
-	        <h4><b>내 결재 문서</b></h4>
+	<jsp:include page="../common/menubar.jsp"/>
+
+        <h4><b>내 결재 문서</b></h4>
         <br>
-        <div class="approval-area" align="center">
-            <br><br>
-            <h2><b>사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;직&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서 </b></h2>
+        <div class="approval-area" align="center"  style="height: auto;">
+        <c:choose>
+	       	<c:when test="${ a.docType eq 0 }">
+       			<br><br>
+           		<h2><b>기&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;안&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서 </b></h2>
+       		</c:when>
+       		<c:when test="${ a.docType eq 1 }">
+       			<br><br>
+          			<h2><b>품&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;의&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서 </b></h2>
+       		</c:when>
+	        <c:otherwise>
+	        	<br><br>
+	            <h2><b>사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;직&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서 </b></h2>
+	        </c:otherwise>
+       	</c:choose>
             <br>
             <table id="selectApproval" border="1">
                 <tr>
                     <th style="width:140px">문서번호</th>
-                    <td width="180px">품의2023-1</td>
+                    <td width="180px">${ a.docNo }</td>
                 </tr>
                 <tr>
                     <th>기 안 자</th>
                     <td>
-                        김정만
+                        ${ a.empName }
                     </td>
                 </tr>
                 <tr>
                     <th>기 안 일</th>
                     <td>
-                        2023.02.21
+                        ${ a.createDate }
                     </td>
                 </tr>
 
             </table>
             <table  id="selectApprovalLine" border="1">
-                <tr >
-                    <th width="90px" rowspan="3"style="text-align:center; background:rgb(237, 237, 237);">결재</th>
-                    <td height="25px" width="90px">사원</td>
-                    <td width="90px">사원</td>
-                    <td width="90px">사원</td>
-                    <td width="90px">사원</td>
-                </tr>
-                <tr>
-                    <td height="70px"><img src="resources/img/check.jpg" alt="" /></td>
-                    <td><img src="resources/img/check.jpg" alt="" /></td>
-                    <td>
-                        <a id="returnFont" data-toggle="tooltip" title="안됩니다. 회사 돈이 부족해요.">반려</a>
-                    </td>
-                    <td></td>
-                </tr>
-               
-                <tr>
-                    <td height="25px">김정만</td>
-                    <td>김정만</td>
-                    <td>김정만</td>
-                    <td>김정만</td>
-                </tr>
+	                <tr>
+	                    <th width="90px" rowspan="3"style="text-align:center; background:rgb(237, 237, 237);">결재</th>
+	                    <td height="25px" width="90px"> ${ loginUser.jobName }</td>
+		        	<c:forEach var="al" items="${ al }">
+		                    <td width="90px">${ al.jobName }</td>
+		            </c:forEach>
+		            <c:choose>
+		            	<c:when test="${al.size()== 1}">
+		            		<td width="90px"></td>
+		            		<td width="90px"></td>
+		            	</c:when>
+		            	<c:when test="${al.size()== 2}">
+		            		<td width="90px"></td>
+		            	</c:when>
+		            </c:choose>
+	                </tr>
+	            
+	                <tr>
+	                    <td height="70px"><img class="signLogo" src="resources/images/common/check.png"/></td>
+                    <c:forEach var="al" items="${ al }">
+	                    <td width="90px">
+	                    	<c:choose>
+	                    		<c:when test="${al.confirmStatus eq 1 }">
+	                    				<img class="signLogo" src="resources/images/common/check.png"/>
+	                    			</c:when>
+	                   				<c:when test="${al.confirmStatus eq 2 }">
+	                    				<a id="returnFont" data-toggle="tooltip" title="${al.reReason }"><b>반려</b></a>
+	                    			</c:when>
+	                   	 	</c:choose>
+	                   	 </td>
+		            </c:forEach>
+		           <c:choose>
+		            	<c:when test="${al.size()== 1}">
+		            		<td width="90px"></td>
+		            		<td width="90px"></td>
+		            	</c:when>
+		            	<c:when test="${al.size()== 2}">
+		            		<td width="90px"></td>
+		            	</c:when>
+		            </c:choose>
+	                </tr>
+	               
+	                <tr>
+	                    <td height="25px">${ loginUser.empName }</td>
+	                <c:forEach var="al" items="${ al }">
+	                    <td>${ al.empName }</td>
+	                </c:forEach>
+	                <c:choose>
+		            	<c:when test="${al.size()== 1}">
+		            		<td width="90px"></td>
+		            		<td width="90px"></td>
+		            	</c:when>
+		            	<c:when test="${al.size()== 2}">
+		            		<td width="90px"></td>
+		            	</c:when>
+		            </c:choose>
+	                </tr>
+	                
             </table>
             <script>
                 $(document).ready(function(){
@@ -122,85 +196,51 @@
                 });
             </script>
 
-           
+           <br><br>
             <table class="appContent" border="1">
                  <!--사직서 양식이면 년도표 나오게-->
-                <tr>
-                    <th id="appThead">입사년도</th>
-                    <td id="indate">2021.11.11</td>
-                    <th id="appThead">퇴사 예정일</th>
-                    <td id="indate">2023.03.27</td>
-                </tr>
+                 <c:if test="${ a.docType eq 2 }">
+	                <tr align="center">
+	                    <th id="appThead">입사년도</th>
+	                    <td id="indate">${loginUser.enrollDate}</td>
+	                    <th id="appThead">퇴사 예정일</th>
+	                    <td id="indate">2023.03.27</td>
+	                </tr>
+                </c:if>
                 <tr>
                     <th id="appThead" >제목</th>
-                    <td width="624px" colspan="3">제목들어가는 자리</td>
+                    <td width="624px" colspan="3">${a.docTitle }</td>
                 </tr>
                 <tr>
                     <th style="background-color:rgb(237, 237, 237); height: 380px;">내용</th>
-                    <td colspan="3"></td>
+                    <td colspan="3" style="vertical-align : top; padding: 10px;" >${a.docContent }</td>
                 </tr>
                 <tr>
                     <th id="appThead">첨부파일</th>
-                    <td colspan="3" style="text-align: left;"><a href="">의자.jpg</a></td>
+                    <td colspan="3" style="text-align: left;">
+                    <c:choose>
+                    	<c:when test="${ not empty a.docOriginName }">	
+                    		<a href="${ b.docChangeName }" download="${a.docOriginName}">${a.docOriginName}"</a>
+                   		</c:when>
+                   		<c:otherwise>
+                   			첨부파일이 없습니다.
+                   		</c:otherwise>
+                   	</c:choose>	
+                   	</td>
                 </tr>
 
             </table>
             <br>
         
-            <div id="buttonarea" align="left">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal1">승인</button>
-                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#myModal2">반려</button>
-                
+            <div id="buttonarea" align="right">
+                <button type="button" class="btn btn-light">상신취소</button>
             </div>
-
-             <!-- The Modal -->
-            <div class="modal fade" id="myModal1">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                
-                        <!-- Modal body -->
-                        <div class="modal-body">
-                            승인하시겠습니까?
-                        </div>
-                    
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-success">승인</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="myModal2">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                
-                        <!-- Modal body -->
-                        <div class="modal-body">
-                           반려하시겠습니까?
-                           <br>
-                           <textarea name="" id="inputReturnReason" style="resize:none" placeholder="반려 이유를 입력해주세요."></textarea>
-                        </div>
-                    
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger" data-dismiss="modal">반려</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    
-                    </div>
-                </div>
-            </div>
-                        
-
-
-
-
+            <br>
+            <br>
+ 
         </div> <!--end of approval-area-->
 
-    </div><!--end of content-->
+    </div><!--end of outer-->
     </div>
     </div>
     </div>

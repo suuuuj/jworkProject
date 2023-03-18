@@ -332,7 +332,7 @@
                                 <a id="selectunSignList" href="unsignlist.app">미결재 문서함</a><br>
                                 <a id="selectSignList" href="signlist.app">결재 문서함</a><br>
                                 <a id="" href="">수신/참조 문서함</a><br>
-                                <a id="" href="">임시저장함</a><br>
+                                <a id="selectdraftList" href="draftList.app">임시저장함</a><br>
                             </div>
                         </div>
                     </div>
