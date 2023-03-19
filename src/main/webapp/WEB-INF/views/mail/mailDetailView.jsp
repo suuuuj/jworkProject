@@ -180,16 +180,16 @@
                     <tr>
                         <td colspan="2"><div class="space"></div></td>
                     </tr>
-                    <c:if test="${ malist.size() > 0 }">
+                    <c:if test="${ mi.malist.size() gt 0 }">
                     <tr>
-                        <td colspan="2" class="showFile"><span class="slideBTN">▼</span>첨부 <span>${ malist.size() }개</span></td>
+                        <td colspan="2" class="showFile"><span class="slideBTN">▼</span>첨부 <span>${ mi.malist.size() }개</span></td>
                         
                     </tr>
                     <tr>
                         <td colspan="2">
                             <div class="fileArea">
                                 <div class="yesfile">
-                                    <c:forEach var="ma" items="${ malist }">
+                                    <c:forEach var="ma" items="${ mi.malist }">
                                         <div class="file"><a href="${ ma.changeName }" download="${ ma.originName }">${ ma.originName }</a></div>
                                     </c:forEach>
                                 </div>

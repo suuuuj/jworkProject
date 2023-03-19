@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,10 @@ public class MailController {
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		
 		ArrayList<Mail> mList = mService.selectMailList(m, pi);
+		
+		//System.out.println(mList);
+		//System.out.println(mList.get(0).getMailList());
+		
 		mv.addObject("mailCategory", m.getMailCategory())
 		  .addObject("mailBoxNo", m.getMailBoxNo())
 		  .addObject("listCount", listCount)
@@ -227,10 +232,25 @@ public class MailController {
 	}
 	
 	@RequestMapping("detail.ma")
-	public String selectMail(int mailNo) {
+	public ModelAndView selectMail(Mail m, HttpSession session, ModelAndView mv) {
 		
+		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
+		int result = 1;
+		if(m.getReadDate().equals("")) {
+			m.setRead("Y");
+			result = mService.updateMailRead(m);
+		}
 		
-		return "mail/mailDetailView";
+		if(result > 0) {
+			Mail mi = mService.selectMail(m);
+			System.out.println(mi);
+			mv.addObject("mi", mi).setViewName("mail/mailDetailView");
+			
+		} else {
+			mv.setViewName("common/errorPage");
+		}
+		
+		return mv;
 		
 	}
 	

@@ -92,6 +92,17 @@ public class MailServiceImpl implements MailService{
 	}
 	
 	@Override
+	public int updateMailRead(Mail m) {
+		return mDao.updateMailRead(sqlSession, m);
+	}
+
+	
+	@Override
+	public Mail selectMail(Mail m) {
+		return mDao.selectMail(sqlSession, m);
+	}
+	
+	@Override
 	public int updateMailSend(ArrayList<Mail> mList) {
 		return 0;
 	}
@@ -111,11 +122,9 @@ public class MailServiceImpl implements MailService{
 		return 0;
 	}
 
-	@Override
-	public Mail selectMail(int mailNo) {
-		return null;
-	}
-
+	
+	
+	
 	
 
 	

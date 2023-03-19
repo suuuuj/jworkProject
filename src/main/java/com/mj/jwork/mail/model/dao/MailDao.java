@@ -102,5 +102,17 @@ public class MailDao {
 		
 	}
 	
+	public int updateMailRead(SqlSessionTemplate sqlSession, Mail m) {
+		
+		return sqlSession.update("mailMapper.updateMailRead", m);
+		
+	}
+	
+	public Mail selectMail(SqlSessionTemplate sqlSession, Mail m) {
+		
+		return sqlSession.selectOne("mailMapper.selectMail", m);
+		
+	}
+	
 	
 }

@@ -49,5 +49,6 @@ public class Mail {
 	
 	// 보낸메일함의 경우 단체메일을 한번에 담기위해
 	private ArrayList<Mail> mailList; // 1대 N 관계
+	private ArrayList<MailAt> malist;
 	
 }
