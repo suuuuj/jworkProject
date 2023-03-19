@@ -25,17 +25,15 @@
     .vacation{
         margin-top: 30px;
     }
-    .select-area{
-        margin-top: 30px;
-    }
-    .select-area select{
-        width:150px;
-        height:30px;
-        border:1px solid rgb(170, 170, 170);
-        border-radius: 5px;
-        color:rgb(50,50,50);
-        font-weight: 500;
-        font-size: 14px;
+    .btnArea button{
+        font-size: 13px;
+        height: 30px;
+		border: 0;
+		border-radius: 5px;
+		width: 100px;
+		color: rgb(50,50,50);
+        font-weight: 600;
+        margin-bottom: 6px;
     }
     .annualTable{
         width:100%;
@@ -116,10 +114,23 @@
         
         <div class="vacation">
 
-            <div class="select-area">
-                <button type="button" value="1년차 이상">1년차 이상</button>
-                <button type="button" value="1년차 미만">1년차 미만</button>
+            <div class="btnArea">
+                 <!-- 매년 1월1일에만 1년차이상 버튼 활설화되게 할 수 있을까? -->
+                <button type="button" id="updateYear">1년차 이상</button> 
+                <button type="button" id="updateMonth">1년차 미만</button>
             </div>
+
+            <script>
+                $(function(){
+                    $("#upateYear").click(function(){
+                        location.href = 'adminYear.le'
+                    });
+
+                    $("#updateMoth").click(function(){
+                        location.href = 'adminMonth.le'
+                    })
+                })
+            </script>
             <br>
             <div class="list-area">
                 <table class="annualTable">

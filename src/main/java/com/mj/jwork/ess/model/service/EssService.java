@@ -38,6 +38,11 @@ public interface EssService {
 	// 관리자 : 휴가결재선 반려
 	int adminReturnLeave(int leaveNo);
 	
+	// 관리자 : 연차등록
+	int adminInsertAnnual(int empNo);
+	int adminUpdateYear();
+	int adminUpdateMonth();
+	
 	// 관리자 : 연차전체조회
 	int adminAnnualListCount();
 	ArrayList<Annual> adminAnnualList(PageInfo pi);

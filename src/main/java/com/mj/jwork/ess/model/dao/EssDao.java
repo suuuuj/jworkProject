@@ -187,6 +187,22 @@ public class EssDao {
 		return (ArrayList)sqlSession.selectList("essMapper.adminAnnualList", null, rowBounds);
 	}
 	
+	public Annual adminAnnualDetail(SqlSession sqlSession, int empNo) {
+		return sqlSession.selectOne("essMapper.adminAnnualDeatil", empNo);
+	}
+	
+	public int adminUpdateYear(SqlSession sqlSession) {
+		return sqlSession.update("essMapper.adminUpdateYear");
+	}
+	
+	public int adminInsertAnnual(SqlSession sqlSession, int empNo) {
+		return sqlSession.insert("essMapper.adminInsertAnnual", empNo);
+	}
+	
+	public int adminUpdateMonth(SqlSession sqlSession) {
+		return sqlSession.update("essMapper.adminUpdateMonte");
+	}
+	
 	
 	
 	

@@ -199,6 +199,21 @@ public class EssServiceImpl implements EssService {
 		return eDao.adminReturnOvertime(sqlSession, otNo);
 	}
 
+	@Override
+	public int adminUpdateYear() {
+		return eDao.adminUpdateYear(sqlSession);
+	}
+
+	@Override
+	public int adminUpdateMonth() {
+		return eDao.adminUpdateMonth(sqlSession);
+	}
+
+	@Override
+	public int adminInsertAnnual(int empNo) {
+		return eDao.adminInsertAnnual(sqlSession, empNo);
+	}
+
 
 
 	

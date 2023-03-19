@@ -267,7 +267,7 @@
 		     , annual_category = 1
 	</update>
 	
-	<!-- 관리자 : 연차부여(일년) -->
+	<!-- 관리자 : 연차부여(일년) 
 	<update id="annualUpdateYear">
 		update annual
 		   set annual_count = 15
@@ -275,6 +275,7 @@
 		     , annual_category = 1
 		 where to_char(add_months(enroll_date, 12), 'YYYY-MM-DD') < to_char(trunc(sysdate, 'yyyy') ,'yyyy-mm-dd')
 	</update>
+	-->
 	
 	<!-- 관리자 : 연차관리 페이징 
 	<select id="adminAnnualListCount" resultType="_int">

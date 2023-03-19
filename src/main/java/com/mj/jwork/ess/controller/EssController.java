@@ -6,6 +6,7 @@ import java.util.HashMap;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -202,6 +203,45 @@ public class EssController {
 			mv.setViewName("common/errorPage");
 		}
 		
+		return mv;
+	}
+	
+	/**
+	 * 관리자 : 1년차이상 연차부여 (매년 1월1일)
+	 * @param mv
+	 * @return
+	 */
+	//@Scheduled(cron="0 0 09 1 1 *")
+	@RequestMapping("adminYear.le")
+	public ModelAndView adminUpdateYear(ModelAndView mv) {
+		
+		int result = eService.adminUpdateYear();
+		if(result > 0) {
+			mv.addObject("alertMsg", "연차등록이 완료되었습니다.");
+			mv.setViewName("ess/adminAnnualList");
+		}else {
+			mv.addObject("errorMsg", "연차등록에 실패하였습니다.");
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	/**
+	 * 관리자 : 1년미만 연차부여 (매월 1일)
+	 * @param mv
+	 * @return
+	 */
+	//@Scheduled(cron="0 0 09 1 * *")
+	@RequestMapping("adminMonth.le")
+	public ModelAndView adminUpdateMonth(ModelAndView mv) {
+		int result = eService.adminUpdateMonth();
+		if(result > 0) {
+			mv.addObject("alertMsg", "연차등록이 완료되었습니다.");
+			mv.setViewName("ess/adminAnnualList");
+		}else {
+			mv.addObject("errorMsg", "연차등록에 실패하였습니다.");
+			mv.setViewName("common/errorPage");
+		}
 		return mv;
 	}
 	
@@ -647,7 +687,8 @@ public class EssController {
 		return mv;
 	}
 	
-	
+	// 근래스케줄링
+	// @Scheduled(cron="0 0 02 * * ?") // 아무요일,매월,매일 12:00:00
 	
 	
 	
