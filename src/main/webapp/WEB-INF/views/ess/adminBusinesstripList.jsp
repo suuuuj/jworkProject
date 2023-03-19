@@ -94,7 +94,7 @@
                     </thead>
                     <tbody>
                     	<c:forEach var="b" items="${ list }">
-	                        <tr>
+	                        <tr onclick="btDetail(${b.btNo});">
 	                            <td>${ b.btNo }</td>
 	                            <td>${ b.empNo }</td>
 	                            <td>${ b.deptName }</td>
@@ -110,10 +110,9 @@
             </div>
 
             <script>
-                $(function(){
-                    $(".businessTable>tbody>tr").click(function(){
-                        location.href = 'adDetail.bt?btNo=' + $(this).children().eq(0).text();
-                    })
+                function btDetail(btNo){
+                    console.log(btNo);
+                    location.href = 'adDetail.bt?btNo=' + btNo;
                 }
             </script>
 

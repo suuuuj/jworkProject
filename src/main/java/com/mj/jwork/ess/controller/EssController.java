@@ -394,12 +394,13 @@ public class EssController {
 			model.addAttribute("errorMsg", "접근 권한이 없습니다.");
 			return "common/errorPage";
 		}else {
-			// 페이징
+			// 페이징, 리스트전체조회
 			int listCount = eService.adminSelectBusinesstripListCount();
 			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
 			
 			ArrayList<Businesstrip> list = eService.adminSelectBusinesstripList(pi);
 			
+			// 사원과 부서코드가 같으면서 직급코드가 3456인사람
 			session.setAttribute("list", list);
 			session.setAttribute("pi", pi);
 			return "ess/adminBusinesstripList";
@@ -419,6 +420,23 @@ public class EssController {
 		
 		mv.addObject("b", b);
 		mv.setViewName("ess/adminBusinesstripDetailView");
+		
+		return mv;
+	}
+	
+	@RequestMapping("adminUpdate.bt")
+	public ModelAndView adminUpdateBusinesstrip(int btNo, ModelAndView mv) {
+		
+		// 1차결재일이 null인경우 => 1차결재자인 직급코드 4,5에게 화면이 보여지게 
+		
+		// 1차결재일이 있는경우 => 2차결재자인 직급코드 3,4에게 화면이 보여지게 
+		/*
+		if() {
+			int result = eService.adminUpdateFirstBusinesstrip(btNo);
+		}else if() {
+			int result = eService.adminUpdateSecondBusinesstrip(btNo);
+		}
+		*/
 		
 		return mv;
 	}

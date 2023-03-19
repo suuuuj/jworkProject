@@ -52,7 +52,7 @@
         border:none;
         width:100px;
         height:30px;
-       border-radius: 5px;
+        border-radius: 5px;
         font-size:12px;
     }
     .textWrap{
