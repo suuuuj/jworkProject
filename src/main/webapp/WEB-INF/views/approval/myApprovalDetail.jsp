@@ -220,7 +220,7 @@
                     <td colspan="3" style="text-align: left;">
                     <c:choose>
                     	<c:when test="${ not empty a.docOriginName }">	
-                    		<a href="${ b.docChangeName }" download="${a.docOriginName}">${a.docOriginName}"</a>
+                    		<a href="${ a.docChangeName }" download="${a.docOriginName}">${a.docOriginName}"</a>
                    		</c:when>
                    		<c:otherwise>
                    			첨부파일이 없습니다.
@@ -233,10 +233,19 @@
             <br>
         
             <div id="buttonarea" align="right">
-                <button type="button" class="btn btn-light">상신취소</button>
+                <button type="button" class="btn btn-light" onclick="cancleFormSubmit();">상신취소</button>
             </div>
             <br>
             <br>
+            <form action="" method="post" id="cancleForm">
+            	<input type="hidden" name="no" value="${ a.appNo }">
+            </form>
+            
+            <script>
+            	function cancleFormSubmit(){
+            		$("#cancleForm").attr("action","cancelForm.app").submit();
+            	}
+            </script>
  
         </div> <!--end of approval-area-->
 

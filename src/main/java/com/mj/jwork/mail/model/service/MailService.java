@@ -46,6 +46,12 @@ public interface MailService {
 	// 첨부파일 업로드 서비스
 	int insertMailAt(MailAt ma);
 	
+	// 메일 읽음 업데이트
+	int updateMailRead(Mail m);
+	
+	// 메일 상세조회
+	Mail selectMail(Mail m);
+	
 	// 메일 수정(임시저장 => 보내기)
 	int updateMailSend(ArrayList<Mail> mList);
 	
@@ -58,7 +64,6 @@ public interface MailService {
 	// 메일 영구삭제
 	int deleteMail(ArrayList<Mail> mList);
 	
-	// 메일 상세조회
-	Mail selectMail(int mailNo);
+	
 	
 }

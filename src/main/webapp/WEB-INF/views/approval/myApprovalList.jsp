@@ -60,6 +60,7 @@
                 <tr>
                     <td class="btnArea">
                         <button type="button" id="allBtn" style="background: green;">전체</button>
+                        <button type="button" id="waitBtn" style="background: gray;">대기</button>
                         <button type="button" id="ingBtn" style="background: gray;">진행</button>
                         <button type="button" id="finBtn" style="background: gray;">완료</button>
                         <button type="button" id="reBtn" style="background: gray;">반려</button>
@@ -187,16 +188,29 @@
         	$("#allBtn").click(function(){
         		selectAppList(100, 1);
 				$(this).css("background-color", "green").css("color", "white");
+				$("#waitBtn").css("background-color", "gray").css("color", "white");
 				$("#ingBtn").css("background-color", "gray").css("color", "white");
 				$("#finBtn").css("background-color", "gray").css("color", "white");
 				$("#reBtn").css("background-color", "gray").css("color", "white");
 				statusCode = 100;
+    		})
+    		
+    		$("#waitBtn").click(function(){
+        		selectAppList(0, 1);
+				$(this).css("background-color", "green").css("color", "white");
+				$("#allBtn").css("background-color", "gray").css("color", "white");
+				$("#ingBtn").css("background-color", "gray").css("color", "white");
+				$("#finBtn").css("background-color", "gray").css("color", "white");
+				$("#reBtn").css("background-color", "gray").css("color", "white");
+
+				statusCode = 0;
     		})
         	
         	$("#ingBtn").click(function(){
         		selectAppList(1, 1);
 				$(this).css("background-color", "green").css("color", "white");
 				$("#allBtn").css("background-color", "gray").css("color", "white");
+				$("#waitBtn").css("background-color", "gray").css("color", "white");
 				$("#finBtn").css("background-color", "gray").css("color", "white");
 				$("#reBtn").css("background-color", "gray").css("color", "white");
 
@@ -207,6 +221,7 @@
         		selectAppList(2, 1);
 				$(this).css("background-color", "green").css("color", "white");
 				$("#allBtn").css("background-color", "gray").css("color", "white");
+				$("#waitBtn").css("background-color", "gray").css("color", "white");
 				$("#ingBtn").css("background-color", "gray").css("color", "white");
 				$("#reBtn").css("background-color", "gray").css("color", "white");
 				
@@ -217,6 +232,7 @@
         		selectAppList(3, 1);
 				$(this).css("background-color", "green").css("color", "white");
 				$("#allBtn").css("background-color", "gray").css("color", "white");
+				$("#waitBtn").css("background-color", "gray").css("color", "white");
 				$("#finBtn").css("background-color", "gray").css("color", "white");
 				$("#ingBtn").css("background-color", "gray").css("color", "white");
 				

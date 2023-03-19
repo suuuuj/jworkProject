@@ -80,6 +80,12 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return aDao.selectdraftList(sqlSession,pi, empNo);
 	}
 
+	//상신취소 문서 삭제하기
+	@Override
+	public int deleteApproval(int appNo) {
+		return aDao.deleteApproval(sqlSession, appNo);
+	}
+
 	
 
 

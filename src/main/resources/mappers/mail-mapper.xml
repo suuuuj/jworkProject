@@ -22,16 +22,56 @@
 		<result column="status" property="status" />
 		
 		<result column="mailbox_name" property="mailBoxName" />
+		<result column="receiver_no" property="receiverNo" />
+		<result column="attachment" property="attachment" />
 	</resultMap>
 	
-	<resultMap type="MailAt" id="mailAtResultMap">
+	<resultMap type="MailAt" id="mailAt">
 		<id column="attachment_no" property="attachmentNo" />
 		<result column="origin_name" property="originName" />
 		<result column="change_name" property="changeName" />
-		<result column="mail_no" property="mailNo" />
 		
 	</resultMap>
 	
+	<resultMap type="Mail" id="mailResultMap2">
+		<id column="mail_no" property="mailNo" />
+		<result column="sender" property="sender" />
+		<result column="mail_title" property="mailTitle" />
+		<result column="register_date" property="registerDate" />
+		<result column="attachment" property="attachment" />
+		<!-- 컬렉션 사용 -->
+		<collection property="mailList" ofType="Mail">
+			<result column="important" property="important" />
+			<result column="read" property="read" />
+			<result column="emp_name" property="empName" />
+			<result column="read_date" property="readDate" />
+		</collection>
+	</resultMap>
+	
+	<resultMap type="Mail" id="mailAtResultMap">
+		<id column="mail_no" property="mailNo" />
+		<result column="sender_no" property="senderNo" />
+		<result column="sender" property="sender" />
+		<result column="receiver" property="receiver" />
+		<result column="mail_title" property="mailTitle" />
+		<result column="mail_content" property="mailContent" />
+		<result column="register_date" property="registerDate" />
+		<result column="send" property="send" />
+		
+		<result column="mailbox_no" property="mailBoxNo" />
+		<result column="emp_no" property="empNo" />
+		<result column="emp_name" property="empName" />
+		<result column="read" property="read" />
+		<result column="read_date" property="readDate" />
+		<result column="important" property="important" />
+		<result column="type" property="type" />
+		<result column="status" property="status" />
+		
+		<result column="mailbox_name" property="mailBoxName" />
+		<result column="receiver_no" property="receiverNo" />
+		<result column="attachment" property="attachment" />
+		<collection property="malist" resultMap="mailAt" />
+	</resultMap>
 	
 	
 	<select id="selectListCount" resultType="_int">
@@ -118,7 +158,7 @@
 		    and read = 'N'
 	</select>
 	
-	<select id="selectMailList" resultMap="mailResultMap">
+	<select id="selectMailList" resultMap="mailResultMap2">
 		select
 		       m.mail_no
 		     , d.important
@@ -128,7 +168,7 @@
 		     , m.mail_title
 		     , to_char(m.register_date, 'YYYY.MM.DD HH24:MI:SS') "register_date"
 		     , (select count(*) from mail_at where mail_no = m.mail_no) "attachment"
-     		 , d.read_date
+     		 , to_char(d.read_date, 'YYYY.MM.DD HH24:MI:SS') "read_date"
 		  from mail m 
 		  join mail_detail d on (m.mail_no = d.mail_no)
 		 where 
@@ -267,6 +307,7 @@
 		     , mail_content
 		     , register_date
 		     , send
+		     , receiver_no
 		     )
 		values 
 		     (
@@ -280,6 +321,7 @@
 		     , #{mailContent}
 		     , sysdate
 		     , #{send}
+		     , #{receiverNo}
 		     )
 	</insert>
 	
@@ -327,5 +369,43 @@
 		     , seq_mno.currval
 		     )
 	</insert>
+	
+	<update id="updateMailRead">
+		update
+		       mail_detail
+		   set read = #{read}
+	     <if test='readDate == ""'>
+	    	 , read_date = sysdate
+	     </if>
+	     where mail_no = #{mailNo}
+	       and emp_no = #{empNo}
+	       and type = 'R'
+	</update>
+	
+	<select id="selectMail" resultMap="mailAtResultMap">
+		select md.*
+		     , attachment_no
+		     , origin_name
+		     , change_name
+		  from (select rownum, detail.*
+		          from (select 
+		                       mail_no
+		                     , sender_no
+		                     , sender
+		                     , receiver
+		                     , mail_title
+		                     , mail_content
+		                     , to_char(register_date, 'YYYY.MM.DD HH24:MI:SS') "register_date"
+		                     , send
+		                     , receiver_no
+		                     , important
+		                  from mail
+		                  join mail_detail using (mail_no)
+		                 where mail_no = #{ mailNo }
+		                   and emp_no = #{ empNo }) detail
+		            where rownum = 1) md
+		  left join mail_at ma on (ma.mail_no = md.mail_no)
+	</select>
+	
 	
 </mapper>

@@ -21,16 +21,17 @@
         */
         a{
             text-decoration: none !important;
+            color: black;
         }
         .content-title{
             font-size: 1.3em;
             width: 200px;
             font-weight: bold;
         }
-        .notRead, .mailBox{
+        .notRead, .mailBox, .cancelSend{
             color: black;
         }
-        .notRead, .mailBox:hover{
+        .notRead:hover, .mailBox:hover, .cancelSend:hover{
             cursor: pointer;
             color: black;
         }
@@ -45,10 +46,8 @@
         }
         .mailContents tr{
             height: 40px;
-            border: 0.5px solid rgb(241, 241, 241);
         }
         .mailContents tr:hover{
-            background: rgb(241, 241, 241);
             cursor: pointer;
         }
         .mailContents td{
@@ -79,6 +78,16 @@
         }
         .moveButtonArea{
             margin-left: 90px;
+        }
+        .smallsize{
+            font-size: 12px;
+        }
+        .middle{
+            font-size: 14px;
+        }
+        .detail{
+            display:none;
+            background-color: rgb(241, 248, 238);
         }
 
     </style>
@@ -349,43 +358,122 @@
 			
             <div class="space"></div>
             <div class="mailContents">
-                <table>
-                	<c:forEach var="m" items="${ mList }">
-	                    <tr class="${ m.read eq 'N' ? 'font-bold' : ''}" mail-no="${ m.mailNo }" readDate="${m.readDate}">
-	                        <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
-	                        <c:choose>
-	                        	<c:when test="${ m.important eq 'Y' }">
-	                        		<td width="30px" class="star" important="N"><img class="mailIcon" src="resources/images/mail/important.png"></td>
-	                        	</c:when>
-	                        	<c:otherwise>
-	                        		<td width="30px" class="star" important="Y"><img class="mailIcon" src="resources/images/mail/normal.png"></td>
-	                        	</c:otherwise>
-	                        </c:choose>
-	                        <c:choose>
-	                        	<c:when test="${ m.read eq 'Y' }">
-                                    <!--읽은 메일-->
-	                        		<td width="30px"><img class="mailIcon" src="resources/images/mail/readMail.png"></td>
-	                        	</c:when>
-	                        	<c:otherwise>
-                                    <!--안읽은 메일-->
-	                        		<td width="30px"><img class="mailIcon" src="resources/images/mail/unReadMail.png"></td>
-	                        	</c:otherwise>
-	                        </c:choose>
-                            <c:choose>
-	                        	<c:when test="${ m.attachment eq 0 }">
-                                    <!--첨부파일 없는 경우-->
-	                        		<td width="30px"></td>
-	                        	</c:when>
-	                        	<c:otherwise>
-                                    <!--첨부파일 있는 경우-->
-	                        		<td width="30px"><img class="mailIcon" src="resources/images/mail/fileclip.png"></td>
-	                        	</c:otherwise>
-	                        </c:choose>
-	                        <td width="100px">${ m.sender }</td>
-	                        <td width="500px">${ m.mailTitle }</td>
-	                        <td width="220px">${ m.registerDate }</td>
-	                    </tr>
-                    </c:forEach>
+                <table class="table table-hover">
+                <c:if test="${ mailCategory == '받은메일함' || mailCategory == '중요' || mailCategory == '휴지통' || mailCategory == '안읽은메일' || mailCategory == '사용자메일함' }">
+                	<c:choose>
+                        <c:when test="${ mList.size() ne 0 }">
+                            <!-- 목록 시작 -->
+                            <c:forEach var="m" items="${ mList }">
+                                <tr class='${ m.mailList.get(0).read == "N" ? "font-bold" : ""}' mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">
+                                    <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
+                                    <c:choose>
+                                        <c:when test='${ m.mailList.get(0).important eq "Y" }'>
+                                            <td width="30px" class="star" important="N"><img class="mailIcon" src="resources/images/mail/important.png"></td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td width="30px" class="star" important="Y"><img class="mailIcon" src="resources/images/mail/normal.png"></td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test="${ m.mailList.get(0).read eq 'Y' }">
+                                            <!--읽은 메일-->
+                                            <td width="30px"><img class="mailIcon" src="resources/images/mail/readMail.png"></td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <!--안읽은 메일-->
+                                            <td width="30px"><img class="mailIcon" src="resources/images/mail/unReadMail.png"></td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test="${ m.attachment eq 0 }">
+                                            <!--첨부파일 없는 경우-->
+                                            <td width="30px"></td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <!--첨부파일 있는 경우-->
+                                            <td width="30px"><img class="mailIcon" src="resources/images/mail/fileclip.png"></td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <td width="100px">${ m.sender }</td>
+                                    <td width="500px" class="mt" mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">${ m.mailTitle }</td>
+                                    <td width="220px">${ m.registerDate }</td>
+                                </tr>
+                            </c:forEach> 
+                        </c:when>
+                        <c:otherwise>
+                            <tr>
+                                <td colspan="7" width="940px">
+                                    메일이 없습니다.
+                                </td>
+                            </tr>
+                        </c:otherwise>
+                    </c:choose>      
+                </c:if>
+                <c:if test="${ mailCategory == '보낸메일함' }">
+                    <c:choose>
+                        <c:when test="${ mList.size() ne 0 }">
+                            <c:forEach var="m" items="${ mList }">
+                                <c:choose>
+                                    <c:when test="${ m.mailList.size() gt 1 }">
+                                        <tr mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">
+                                            <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
+                                            <td width="30px" mail-no="${ m.mailNo }" class="toggle">∨</td>
+                                            <td width="80px" class="middle">${ m.mailList.size() }명</td>
+                                            <td width="380px" class="middle sendMailDetail" mail-no="${ m.mailNo }">${ m.mailTitle }</td>
+                                            <td class="smallsize" width="170px">${ m.registerDate }</td>
+                                            <td class="smallsize" width="150px"></td>
+                                            <td width="80px"></td>
+                                        </tr>
+                                        <c:forEach var="md" items="${ m.mailList }">
+                                            <tr class='detail' mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">
+                                                <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
+                                                <td width="30px"></td>
+                                                <td width="80px" class="middle">${ md.empName }</td>
+                                                <td class="middle sendMailDetail" mail-no="${ m.mailNo }">${ m.mailTitle }</td>
+                                                <td class="smallsize">${ m.registerDate }</td>
+                                                <td class="smallsize">${ not empty md.readDate ? md.readDate : "읽지않음" }</td>
+                                                <c:choose>
+                                                    <c:when test="${ empty md.readDate }">
+                                                        <td><a href="#" class="smallsize cancelSend">❌발송취소</a></td>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <td></td>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <tr mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">
+                                            <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
+                                            <td width="30px"></td>
+                                            <td width="80px" class="middle">${ m.mailList.get(0).empName }</td>
+                                            <td width="380px" class="middle sendMailDetail" mail-no="${ m.mailNo }">${ m.mailTitle }</td>
+                                            <td class="smallsize" width="150px">${ m.registerDate }</td>
+                                            <td class="smallsize" width="170px">${ not empty m.mailList.get(0).readDate ? m.mailList.get(0).readDate : "읽지않음" }</td>
+                                            <c:choose>
+                                                <c:when test="${ empty m.mailList.get(0).readDate }">
+                                                    <td width="80px"><a href="#" class="smallsize cancelSend">❌발송취소</a></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td width="80px"></td>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </tr>
+                                    </c:otherwise>
+                                </c:choose>
+                                
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <tr>
+                                <td colspan="7" width="940px">
+                                    메일이 없습니다.
+                                </td>
+                            </tr>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
                 </table>
             </div>
             
@@ -395,28 +483,38 @@
                 <ul class="pagination">
 					<c:choose>
 						<c:when test="${ pi.currentPage eq 1 }">
-                    		<li class="page-item disabled"><a class="page-link" href="list.ma?cpage=${ pi.currentPage - 1 }">Previous</a></li>
+                    		<li class="page-item disabled"><a class="page-link" href="list.ma?cpage=${ pi.currentPage - 1 }&mailCategory=${ mailCategory }">Previous</a></li>
          				</c:when>
          				<c:otherwise>
-         					<li class="page-item"><a class="page-link" href="list.ma?cpage=${ pi.currentPage - 1 }">Previous</a></li>
+         					<li class="page-item"><a class="page-link" href="list.ma?cpage=${ pi.currentPage - 1 }&mailCategory=${ mailCategory }">Previous</a></li>
                     	</c:otherwise>
                     </c:choose>
                     
                     <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-                    	<li class="page-item"><a class="page-link" href="list.ma?cpage=${ p }">${ p }</a></li>
+                    	<li class="page-item"><a class="page-link" href="list.ma?cpage=${ p }&mailCategory=${ mailCategory }">${ p }</a></li>
                     </c:forEach>
                     <c:choose>
                     	<c:when test="${ pi.currentPage eq pi.maxPage }">
-                    		<li class="page-item disabled"><a class="page-link" href="list.ma?cpage=${ pi.currentPage + 1 }">Next</a></li>
+                    		<li class="page-item disabled"><a class="page-link" href="list.ma?cpage=${ pi.currentPage + 1 }&mailCategory=${ mailCategory }">Next</a></li>
 						</c:when>
                     	<c:otherwise>
-                    		<li class="page-item"><a class="page-link" href="list.ma?cpage=${ pi.currentPage + 1 }">Next</a></li>                  
+                    		<li class="page-item"><a class="page-link" href="list.ma?cpage=${ pi.currentPage + 1 }&mailCategory=${ mailCategory }">Next</a></li>                  
                     	</c:otherwise>
                     </c:choose>
                 </ul>
             </div>
 
             <script>
+                $(".toggle").click(function(){
+                    const mailNo = $(this).attr("mail-no");
+                    if($(this).text() == "∨"){
+                        $(this).text("∧");
+                    } else{
+                        $(this).text("∨");
+                    }
+                    $(".detail[mail-no=" + mailNo + "]").slideToggle();
+                })
+
                 $(function(){
                     $(document).on("click", ".star", function(){
 
@@ -464,9 +562,15 @@
 
                     })
 
-                    $(document).on("click", ".mailContents tr", function(){
+                    $(document).on("click", ".mailContents .mt", function(){
 
                         location.href='detail.ma?mailNo=' + $(this).attr("mail-no") + '&readDate=' + $(this).attr("readDate");
+
+                    })
+
+                    $(document).on("click", ".mailContents .sendMailDetail", function(){
+
+                        location.href='detail.ma?mailNo=' + $(this).attr("mail-no") + '&readDate=Y';
 
                     })
                     

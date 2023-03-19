@@ -28,6 +28,9 @@ public interface ApprovalService{
 	int selectdraftListCount(int empNo);
 	ArrayList<Approval> selectdraftList(PageInfo pi, int empNo);
 	
+	//상신취소 문서 삭제하기
+	int deleteApproval(int appNo);
+	
 	
 	
 	
