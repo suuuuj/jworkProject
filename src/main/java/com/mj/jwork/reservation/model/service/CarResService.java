@@ -15,4 +15,15 @@ public interface CarResService {
 	//나의 차량예약목록 조회
 	int selectMyResCount(int resevation);
 	ArrayList<CarReservation> selectMyRes(PageInfo pi,int resevation);
+	
+	//전체 예약 목록 조회
+	int selectResCount(String option);
+	ArrayList<CarReservation> selectResList(PageInfo pi,String option);
+	
+	//차량예약상세조회
+	
+	CarReservation selectCarRes(int resNo);
+	
+	//승인상태 변경
+	int updateApStatus(CarReservation c);
 }

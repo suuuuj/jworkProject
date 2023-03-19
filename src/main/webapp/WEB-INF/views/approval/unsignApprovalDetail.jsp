@@ -17,7 +17,6 @@
 	  .approval-area{
 	     width: 859px;
 	     border:1px solid black;
-	     height: 800px;
 	 }
 	
 	 #selectApproval {
@@ -85,6 +84,25 @@
 		 display: inline-block;
 		 width: 750px;
 	 }
+     
+     .modal {
+        width:300px
+    }
+ 
+    @media screen and (min-width: 768px) { 
+            .modal:before {
+                    display: inline-block;
+                    vertical-align: middle;
+                    content: " ";
+                    height: 100%;
+            }
+    }
+    
+    .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+    }
     
     
     
@@ -93,7 +111,7 @@
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
 
-        <h4><b>내 결재 문서</b></h4>
+        <h4><b>미결재 문서</b></h4>
         <br>
         <div class="approval-area" align="center"  style="height: auto;">
         <c:choose>
@@ -150,19 +168,20 @@
 	            
 	                <tr>
 	                    <td height="70px"><img class="signLogo" src="resources/images/common/check.png"/></td>
-                    <c:forEach var="al" items="${ al }">
-	                    <td width="90px">
-	                    	<c:choose>
-	                    		<c:when test="${al.confirmStatus eq 1 }">
-	                    				<img class="signLogo" src="resources/images/common/check.png"/>
-	                    			</c:when>
-	                   				<c:when test="${al.confirmStatus eq 2 }">
-	                    				<a id="returnFont" data-toggle="tooltip" title="${al.reReason }"><b>반려</b></a>
-	                    			</c:when>
-	                   	 	</c:choose>
-	                   	 </td>
-		            </c:forEach>
-		           <c:choose>
+                        <c:forEach var="al" items="${ al }">
+                    	
+                            <td width="90px">
+                                <c:choose>
+                                    <c:when test="${al.confirmStatus eq 1 }">
+                                        <img class="signLogo" src="resources/images/common/check.png"/>
+                                    </c:when>
+                                    <c:when test="${al.confirmStatus eq 2 }">
+                                        <a id="returnFont" data-toggle="tooltip" title="${al.reReason }"><b>반려</b></a>
+                                    </c:when>
+                                </c:choose>
+                            </td>
+                        </c:forEach>
+                         <c:choose>
 		            	<c:when test="${al.size()== 1}">
 		            		<td width="90px"></td>
 		            		<td width="90px"></td>
@@ -178,7 +197,7 @@
 	                <c:forEach var="al" items="${ al }">
 	                    <td>${ al.empName }</td>
 	                </c:forEach>
-	                <c:choose>
+	                 <c:choose>
 		            	<c:when test="${al.size()== 1}">
 		            		<td width="90px"></td>
 		            		<td width="90px"></td>
@@ -229,14 +248,57 @@
                    	</td>
                 </tr>
 
-            </table>
+            </table> 
             <br>
         
-            <div id="buttonarea" align="right">
-                <button type="button" class="btn btn-light">상신취소</button>
+            <div id="buttonarea" align="left">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal1">승인</button>
+                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#myModal2">반려</button>
+                
             </div>
             <br>
             <br>
+
+             <!-- The Modal -->
+            <div class="modal fade" id="myModal1">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            승인하시겠습니까?
+                        </div>
+                    
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="submit" class="signBtn btn btn-success">승인</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="myModal2">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                           반려하시겠습니까?
+                           <br>
+                           <textarea name="" id="inputReturnReason" style="resize:none" placeholder="반려 이유를 입력해주세요."></textarea>
+                        </div>
+                    
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger" data-dismiss="modal">반려</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
  
         </div> <!--end of approval-area-->
 

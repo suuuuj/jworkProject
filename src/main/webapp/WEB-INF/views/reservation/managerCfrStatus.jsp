@@ -5,7 +5,20 @@
 <html>
  <head>
 <style>
+	.fc-toolbar-chunk *{
+	 float:left!important;
+	 margin-left:14px!important;
+	}
+	.fc-daygrid-day-frame,.fc-timegrid-axis-frame-liquid,.fc-timegrid-axis{
+	display:none;
+	}
 	
+/* 	tr:has td[data-time='01:00:00'],tr:has td[data-time='02:00:00'],tr:has td[data-time='03:00:00'],
+	tr:has td[data-time='04:00:00'],tr:has td[data-time='05:00:00'],tr:has td[data-time='06:00:00'],tr:has td[data-time='07:00:00']
+	,tr:has td[data-time='08:00:00'],tr:has td[data-time='20:00:00'],tr:has td[data-time='21:00:00'],tr:has td[data-time='22:00:00'],
+	tr:has td[data-time='23:00:00'],tr:has td[data-time='00:00:00']{
+	display:none;
+	} */
 </style>
     <meta charset='utf-8' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.js'></script>
@@ -32,12 +45,20 @@
     	    		click:function(event){
     	    			onSelectEvent(event);
     	    		}
+            	},
+    	    	reserve:{
+    	    		 text:'회의실예약',
+    	    		 click:function(event){
+    	    			 
+    	    			 onSelectEvent(event);
+    	    		 }
     	    	}
+    	    	
     	    	
     	    },
     	    headerToolbar: {
-                left: 'info,prev,next',
-                center: 'title',
+                left: 'info,reserve',
+                center: 'prev,title,next',
                right:'today'
             },
             
@@ -88,8 +109,10 @@
     	    	   $.ajax({
        	    		url:"call.events",
        	    		success:function(list){
+       	    			console.log(list);
        	    			for(let i=0; i<list.length; i++){
-       	    				calendar.addResource({
+       	    				calendar.addEvent({
+       	    				
        	    				id:list[i].cfrName,
        	    				title:list[i].cfrName
        	    				})
@@ -158,6 +181,22 @@
 	            </div>
 	        </div>
 	    </div>
+	    <script>
+	    	function getEvent(){
+	    		var events;
+	    		 $.ajax({
+	       	    		url:"call.events",
+	       	    		success:function(list){
+	       	    			
+	       	    			events=list;
+	       	    			
+	       	    		}
+	       	    		
+	       	    	})
+	    		return events;
+	    	}
+	    	
+	    </script>
     
   </body>
 </html>

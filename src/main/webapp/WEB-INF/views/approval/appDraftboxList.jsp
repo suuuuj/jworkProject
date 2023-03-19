@@ -49,7 +49,7 @@
 <body>
  <jsp:include page="../common/menubar.jsp"/>
         <div>
-            <h4 style="display: inline-block;" style="float: left;"><b>미결재 문서함</b></h4>
+            <h4 style="display: inline-block;" style="float: left;"><b>임시저장함</b></h4>
             <div align="right">
                 <button type="button" class="btn btn-outline-success" onclick="location.href='enrollForm.app'">결재 문서 작성</button>
             </div>
@@ -63,7 +63,6 @@
                         <select class="searchBox">
                             <option selected>결재종류</option>
                             <option value="">제목</option>
-                            <option value="">작성자</option>
                         </select>
                         <input type="text" class="inputSearch">
                         <button type="button" class="btn btn-success btn-sm mr-2" onclick="">검색</button>
@@ -121,7 +120,7 @@
         <script>
         	$(function(){
         		$(document).on("click", "#defaultAllTB>tr",function(){
-        			location.href='unsignDetail.app?no='+$(this).children(".ano").text();
+        			location.href='signDetail.app?no='+$(this).children(".ano").text();
         		})
         	})
         </script>
@@ -138,12 +137,12 @@
                 	<li class="page-item disabled" ><a class="page-link" href="#" style="color:rgb(196, 197, 197)">Previous</a></li>
           		</c:when>
             	<c:otherwise>
-             	   <li class="page-item"><a class="page-link" href="unsignlist.app?cpage=${ pi.currentPage-1 }">Previous</a></li>
+             	   <li class="page-item"><a class="page-link" href="draftList.app?cpage=${ pi.currentPage-1 }">Previous</a></li>
                 </c:otherwise>
             </c:choose>
             
            	<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-        		<li class="page-item"><a class="page-link" href="unsignlist.app?cpage=${ p }">${ p }</a></li>
+        		<li class="page-item"><a class="page-link" href="draftList.app?cpage=${ p }">${ p }</a></li>
         	</c:forEach>
             
             <c:choose>
@@ -151,7 +150,7 @@
           			<li class="page-item disabled"><a class="page-link " href="#" style="color:rgb(196, 197, 197)">Next</a></li>
           		</c:when>
           		<c:otherwise>
-          			<li class="page-item"><a class="page-link" href="unsignlist.app?cpage=${ pi.currentPage+1 }">Next</a></li>
+          			<li class="page-item"><a class="page-link" href="draftList.app?cpage=${ pi.currentPage+1 }">Next</a></li>
           		</c:otherwise>
         	</c:choose>
               </ul>

@@ -8,28 +8,35 @@
      #pagingArea{width:fit-content;margin:auto;}
      div{box-sizing: border-box;}
 
-
+	#resDatilView td{
+	 height:50px;
+	
+	}
+	#resDatilView{
+		width:600px;
+	}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-      <jsp:include page="../common/menubar.jsp"/>
-    <div class="outer">
+     <jsp:include page="../common/menubar.jsp"/>
+    <div class="outer"  style="width:900px; margin:20px;">
         <h2>차량 예약 승인 관리</h2>
         <hr><br>
         <div>
             <div class="select-area">
-               <select name="" id="">
-                    <option value="">미승인예약</option>
-                    <option value="">전체예약</option>
+               <select name="option" id="option" >
+                    <option value="1">미승인예약</option>
+                    <option value="1,2,3" >전체예약</option>
                </select>
             </div>
             <br><br>
             <div id="">
-                <table class="table table-hover">
+                <table class="table table-hover text-center" style="width:900px;">
                     <thead>
                         <tr>
+                        	<th>예약번호<th>
                             <th>차량명</th>
                             <th>신청사원</th>
                             <th>신청일시</th>
@@ -38,41 +45,65 @@
                         </tr>
                    </thead>
                    <tbody>
-                        <tr>
-                            <td>소나타 2022허03</td>
-                            <td>김철수</td>
-                            <td>2023-02-24 09:00:01</td>
-                            <td>지방 출장(부산)</td>
+                        <c:forEach items="${list}" var="c">
+                        <tr class="datilView" onclick="detailView(${c.resNo});" data-toggle="modal" data-target="#ResDetailView">
+                        	<td class="resNo">${c.resNo }<td>
+                            <td class="carName">${c.carName }</td>
+                            <td class="reservation">${c.reservation}&nbsp;${c.empName }</td>
+                            <td class="resDate">${c.resDate }&nbsp;${c.startTime}~${c.endTime}</td>
+                            <td class="cause">${c.cause }</td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-primary">승인완료</button>
-                                <button type="button" class="btn btn-sm btn-warning">반려</button>
-                                <button type="button" class="btn btn-sm btn-secondary">승인대기</button>
+                            	<c:choose>
+	                            	<c:when test="${c.apStatus eq 1}">
+	                               	 	<button type="button" class="btn btn-sm btn-secondary">승인대기</button>
+	                                </c:when>
+	                                <c:when test="${c.apStatus eq 2}">
+	                               	 	<button type="button" class="btn btn-sm btn-primary" disabled>승인완료</button>
+	                                </c:when>
+	                                <c:otherwise>
+	                                	<button type="button" class="btn btn-sm btn-warning">반려</button>
+	                                </c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
+                        </c:forEach>
                    </tbody>
 
                 </table>
 
             </div>
+             <br>
+             <div id="pagingArea">
+	             <ul class="pagination">
+	             	<c:choose>
+	              	<c:when test="${pi.currentPage eq 1}">
+	                  	<li class="page-item disabled"><a class="page-link" href="#"><</a></li>
+	                 </c:when>
+	                 <c:otherwise>
+	                   <li class="page-item"><a class="page-link" href="confirmList.car?cpage=${pi.currentPage -1 }"><</a></li>
+	               	</c:otherwise>
+		           </c:choose>
+		           <c:forEach var="p"  begin="${pi.startPage}" end="${pi.endPage}">
+		              <li class="page-item"><a class="page-link" href="confirmList.car?cpage=${p}">${p}</a></li>
+		           </c:forEach>
+	                <c:choose>
+                		<c:when test="${pi.currentPage eq pi.maxPage}">
+                 			<li class="page-item disabled"><a class="page-link" href="#">></a></li>
+	           	 		</c:when>
+		           	 	<c:otherwise>
+		           	 		<li class="page-item"><a class="page-link" href="confirmList.car?cpage=${pi.currentPage + 1}">></a></li>
+		        		</c:otherwise>
+	          		</c:choose>
+	             </ul>
+         </div>
+            
         </div>
-        <br>
-        <div id="pagingArea">
-            <ul class="pagination">
-                <li class="page-item disabled"><a class="page-link" href="#"><</a></li>
-                <li class="page-item"><a class="page-link" href="list.bo?cpage=${p }">1</a></li>
-                <li class="page-item"><a class="page-link" href="list.bo?cpage=${p }">2</a></li>
-                <li class="page-item"><a class="page-link" href="list.bo?cpage=${p }">3</a></li>
-                <li class="page-item"><a class="page-link" href="list.bo?cpage=${pi.currentPage + 1 }">></a></li> 
-            </ul>
-        </div>
-
-    <!-- Button to Open the Modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-        Open modal
-    </button>
+       
+       
+   
     </div>
     <!-- 상세보기 모달 -->
-    <div class="modal" id="detail-view">
+    <div class="modal" id="ResDetailView">
         <div class="modal-dialog">
         <div class="modal-content">
     
@@ -80,32 +111,33 @@
             <div class="modal-header">
             <h4 class="modal-title">차량 예약 상세관리</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <input type="hidden" id="resNo">
             </div>
     
             <!-- Modal body -->
             <div class="modal-body">
-                <table>
+                <table id="resDatilView">
                     <tr>
                         <th>차량명</th>
-                        <td>소나타12313</td>
+                        <td id=carName></td>
                     </tr>
                     <tr>
                         <th>신청사원</th>
-                        <td>정철수사번(인사부)</td>
+                        <td id="reservation"></td>
                     </tr>
                     <tr>
                         <th>신청일시</th>
-                        <td>2023-02-24 08:00~ 2023-02-24 14:00</td>
+                        <td id="useDate"></td>
                     </tr>
                     <tr>
                         <th>신청사유</th>
-                        <td>부장호출</td>
+                        <td id="cause"></td>
                     </tr>
                     <tr>
                         <th>반려사유</th>
                         <td>
-                            <textarea name="" id="" cols="30" rows="10">
-                                사유~~
+                            <textarea name="reject" id="reject" cols="30" rows="5" style="resize:none;">
+                              
                             </textarea>
                         </td>
                     </tr>
@@ -113,15 +145,105 @@
             </div>
     
             <!-- Modal footer -->
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">닫기</button>
-            <button type="button" class="btn btn-primary btn-sm" onclick="">승인</button>
-            <button type="button" class="btn btn-danger btn-sm" onclick="">반려</button>
+            <div class="modal-footer" id="btn-area">
+	            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">닫기</button>
+	           
             </div>
     
         </div>
         </div>
     </div>
+    <script>
     
+    	 
+    	$(function(){
+    		$("#option").on("change",function(){
+    			$.ajax({
+    				url:"ajaxConfirmList.car",
+    				data:{option:$(this).val()},
+    				success:function(){
+    					  for(let i=0; i<list.length; i++){
+						$(".carName").text(list[i].carName);
+						$(".reservation").text(list[i].reservation);
+						$(".resDate").text(list[i].resDate);
+						$(".resNo").text(list[i].resNo);
+						$(".cause").text(list[i].cause); }
+    					console.log("옵션 조회용 ajax 통신 성공");
+    				},error:function(){
+    					console.log("옵션 조회용 ajax 통신 실패");
+    				}
+    			
+    			});
+    			
+    		})
+    	
+    	})
+    	 
+    
+    	/* 	$("#option").on("click",function(){
+    			console.log("ddd");
+    			location.href='confirmList.car?option='+$("#option option:selected").val();
+    			
+    		})ajax방식으로 페이징처리 해보기 */
+    
+    	
+    	function detailView(resNo){
+    		
+    		$.ajax({
+    			url:"detail.carRes",
+    			data:{resNo:resNo},
+    			success:function(c){
+    				$("#carName").text(c.carName);
+    				$("#reservation").text(c.empName + c.reservation);
+					$("#useDate").html(c.resDate+"&nbsp;"+ c.startTime +"~" +c.endTime);
+					$("#cause").text(c.cause);
+    				$("#reject").val(c.reject);
+    				$("#resNo").val(c.resNo);
+    				
+    				console.log(c.apStatus);
+    				if(c.apStatus == 1){
+    					let value="";
+    					
+        				value="<button type='button' class='btn btn-secondary btn-sm' data-dismiss='modal'>닫기</button>"
+        				+ "<button type='button' class='btn btn-primary btn-sm' onclick='changeStatus(2);'>승인"
+        				+"</button> <button type='button' class='btn btn-danger btn-sm' onclick='changeStatus(3)'>반려</button>";
+    					
+        				$("#btn-area").html(value);
+    					
+    				}else{
+						let value="";
+    				
+        				value="<button type='button' class='btn btn-secondary btn-sm' data-dismiss='modal'>닫기</button>";
+        				$("#btn-area").html(value);
+    				}
+    				
+    			},error:function(){
+    				
+    				console.log("예약 상세조회용 ajax 통신 실패");
+    			}
+    		});
+    	}
+    	
+    	function changeStatus(num){
+    		$.ajax({
+				url:"approve.res",
+				data:{apStatus:num,resNo:$("#resNo").val()},
+				success:function(num){
+					if(num==2){
+						alert("예약 승인 처리 완료되었습니다.");
+					}else{
+						alert("예약 반려 처리 완료되었습니다.");
+					}
+					location.reload();
+					
+				},error:function(){
+					console.log("옵션 조회용 ajax 통신 실패");
+				}
+			
+			});
+    	}
+    </script>
+
+  
 </body>
 </html>

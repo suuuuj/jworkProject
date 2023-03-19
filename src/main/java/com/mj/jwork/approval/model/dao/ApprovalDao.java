@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.mj.jwork.approval.model.vo.AppLine;
 import com.mj.jwork.approval.model.vo.Approval;
 import com.mj.jwork.common.model.vo.PageInfo;
 
@@ -29,6 +30,12 @@ public class ApprovalDao {
 	public Approval selectApproval(SqlSessionTemplate sqlSession, int appNo) {
 		return sqlSession.selectOne("approvalMapper.selectApproval",appNo);
 	}
+	
+	//결재문서 결재선 조회
+	public ArrayList<AppLine> selectAppLine(SqlSessionTemplate sqlSession, int appNo) {
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectAppLine",appNo);
+	}
+
 	
 	//미결재문서 리스트 카운팅
 	public int selectUnsignListCount(SqlSessionTemplate sqlSession, int empNo) {
@@ -55,15 +62,33 @@ public class ApprovalDao {
 	//결재문서 리스트 조회
 	public ArrayList<Approval> selectSignList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
 		//건너뛸 게시물 개수
-				int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
-				//조회할 게시글 개수
-				int limit = pi.getBoardLimit();
-				
-				RowBounds rowBounds = new RowBounds(offset, limit);
-				
-				return (ArrayList)sqlSession.selectList("approvalMapper.selectSignList",empNo,rowBounds);
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		//조회할 게시글 개수
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectSignList",empNo,rowBounds);
 			}
 
+	
+	//임시저장함 리스트 조회
+	public int selectdraftListCount(SqlSessionTemplate sqlSession, int empNo) {
+		return sqlSession.selectOne("approvalMapper.selectdraftListCount", empNo);
+	}
+
+	public ArrayList<Approval> selectdraftList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+		//건너뛸 게시물 개수
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		//조회할 게시글 개수
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectdraftList",empNo,rowBounds);
+	}
+
+	
 	
 
 

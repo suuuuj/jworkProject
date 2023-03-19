@@ -4,12 +4,15 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.Pagination;
 import com.mj.jwork.employee.model.vo.Employee;
@@ -41,20 +44,59 @@ public class CarResController {
 	
 	@RequestMapping("list.carMe")
 	public ModelAndView selectMyRes(HttpSession session,@RequestParam(value="cpage",defaultValue="1")int currentPage,ModelAndView mv) {
-		int reservation= ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		int reservation=((Employee)session.getAttribute("loginUser")).getEmpNo();
 		int listCount= cService.selectMyResCount(reservation);
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
-		System.out.println(((Employee)session.getAttribute("loginUser")).getEmpNo());
-		 System.out.println("maxPage:"+pi.getMaxPage());
-		 System.out.println("getBoardLimit:"+pi.getBoardLimit());
-		 System.out.println("getListCount:"+pi.getListCount());
-		 System.out.println("getPageLimit:"+pi.getPageLimit());
-		 System.out.println("getEndPage:"+pi.getEndPage());
+		PageInfo pi= Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		ArrayList<CarReservation>list = cService.selectMyRes(pi,reservation);
 		
 		mv.addObject("list",list).addObject("pi",pi).setViewName("reservation/myCarReservation");
 		return mv;
 		
+	}
+	
+	@RequestMapping("confirmList.car")
+		public ModelAndView selectResList(HttpSession session,@RequestParam(value="cpage",defaultValue="1")int currentPage,ModelAndView mv,String option) {
+			int listCount= cService.selectResCount(option);
+			PageInfo pi= Pagination.getPageInfo(listCount, currentPage, 5, 10);
+			ArrayList<CarReservation>list = cService.selectResList(pi,option);
+			
+			mv.addObject("list",list).addObject("pi",pi).setViewName("reservation/carReservationConfirm");
+			return mv;
+			
+		}
+	
+	@ResponseBody
+	@RequestMapping(value="detail.carRes",produces="application/json; charset=utf-8")
+	public String selectCarRes(int resNo) {
+		CarReservation c= cService.selectCarRes(resNo);
+		
+		return new Gson().toJson(c);
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="approve.res",produces="application/json; charset=utf-8")
+	public String updateApStatus(CarReservation c,HttpSession session) {
+		int approver=((Employee)session.getAttribute("loginUser")).getEmpNo();
+		c.setApprover(approver);
+		
+		int result= cService.updateApStatus(c);
+		return new Gson().toJson(c.getApStatus());
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="ajaxConfirmList.car",produces="application/json; charset=utf-8")
+	public String ajaxSelectConfirmList(HttpSession session,@RequestParam(value="cpage",defaultValue="1")int currentPage,ModelAndView mv,String option) {
+		
+		int listCount= cService.selectResCount(option);
+		PageInfo pi= Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		ArrayList<CarReservation>list = cService.selectResList(pi,option);
+		
+		JSONObject jObj = new JSONObject();
+		jObj.put("pi",pi);
+		jObj.put("list",list);
+		
+		return jObj.toJSONString(); 
 	}
 	
 	
