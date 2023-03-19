@@ -1,4 +1,4 @@
-<%@ page language="java" contentType=`"text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -17,34 +17,12 @@
 <title>Insert title here</title>
 <style>
     /* outer영역 */
-    .outer{
-        width:960px;
-        height:1000px;
-        border:1px solid black;
-    }
-    /* 메뉴영역 */
-    .title{
-        color:rgb(50,50,50);
-        margin-left: 30px;
-        margin-top:30px;
-    }
-    .selectBar{
-        margin-left: 30px;
-    }
-    .selectBar>span{
-        color:rgba(50, 50, 50, 0.79);
-        font-size:15px;
-        font-weight: 600;
-    }
-    .selectBar>div{
-        margin-top:10px;
-        height:3px;
-        float: left;
+    .annualOuter{
+        padding:50px;
+        margin:auto'
     }
     /* content영역 */
     .vacation{
-        margin-left:30px;
-        margin-right: 30px;
         margin-top: 30px;
     }
     .select-area{
@@ -84,22 +62,17 @@
 
     }
     .annualTable button{
-        width:60px;
-        height:30px;
+        width:50px;
+        height:25px;
         line-height: 5px;
-        font-size: 14px;
-    }
-    .paging-area button{
-        width:30px;
-        height:30px;
-        border:none;
-        border-radius: 5px;
+        font-size: 12px;
     }
     /* modal영역 */
     .modal-content{
-        height:600px;
-        width:400px;
         font-size: 14px;
+        border:1px solid red;
+        margin:auto;
+        height:550px;
     }
     .modal-body input{
         border:1px solid rgb(170, 170, 170);
@@ -109,10 +82,18 @@
         display: inline-block;
         margin-bottom: 10px;
     }
-    .modal-body textarea{
+    .btextarea{
         resize: none;
-        width:90%;
+        width:300px;
         height:260px;
+        border:1px solid rgb(170, 170, 170);
+        border-radius: 5px;
+        padding:10px;
+    }
+	.otextarea{
+        resize: none;
+        width:300px;
+        height:200px;
         border:1px solid rgb(170, 170, 170);
         border-radius: 5px;
         padding:10px;
@@ -127,31 +108,17 @@
 </style>
 </head>
 <body>
-    <div class="outer">
 
-        <div class="title">
-            <h3 style="color:rgb(50,50,50); font-weight: 600;">휴가<h3> 
-        </div>
-        <br>
-        <div class="selectBar">
-            <span>&nbsp;휴가등록</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>휴가상세</span> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">휴가관리</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">연차관리</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">전체휴가일정</span>
-            <br>
-            <div style="width:255px; background: rgb(234, 234, 234);">&nbsp;</div>
-            <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:578px; background: rgb(234, 234, 234);">&nbsp;</div>
-        </div>
+    <jsp:include page = "../common/menubar.jsp" />
+    <div class="annualOuter">
 
+        <h4><b>신청</b></h4>
+        
         <div class="vacation">
 
             <div class="select-area">
-                <select name="" id="">
-                    <option value="">&nbsp;- 연차부여현황 -</option>
-                    <option value="">&nbsp;미부여</option>
-                    <option value="">&nbsp;부여</option>
-                </select> 
+                <button type="button" value="1년차 이상">1년차 이상</button>
+                <button type="button" value="1년차 미만">1년차 미만</button>
             </div>
             <br>
             <div class="list-area">
@@ -171,64 +138,93 @@
                     </thead>
                     
                     <tbody>
-                        <tr >
-                            <td>4505301111</td>
-                            <td>개발1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td><input type="text" name="create" value="0" max="15" readonly></td>
-                            <td><input type="text" name="create" value="0" readonly></td>
-                            <td><input type="text" name="use" value="0" readonly></td>
-                            <td>2020.02.05</td>
-                            <td><button class="btn btn-success" id="">연차</button></td>
+                        <c:forEach var="a" items="${list}">
+                        <tr>
+                            <td>${a.empNo}</td>
+                            <td>${a.deptName}</td>
+                            <td>${a.jobName}</td>
+                            <td>${a.empName}</td>
+                            <td><input type="text" name="create" value="${a.annualCount}" max="15" readonly></td>
+                            <td><input type="text" name="create" value="${a.annualDate}" readonly></td>
+                            <td><input type="text" name="use" value="" readonly></td>
+                            <td>${a.annualDate}</td>
+                            <td><button class="btn btn-success" id="" onclick="anDetail(${a.empNo});">연차</button></td>
                         </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
 
             <script>
-                $(function(){
-                    $(".annualTable tbody button").click(function(){
-                        $("#annualModal").modal('show');
+                function anDetail(no){
+                    $.ajax({
+                        url:"anDetail.le",
+                        data:{empNo:no},
+                        success:function(result){
+
+                        }, 
+                        error:function(){
+                            console.log("연차부여모달 ajax통신 실패");
+                        }
                     })
                 })
             </script>
 
             <br><br>
-
-            <div class="paging-area" style="text-align:center;">
-                <button><</button>
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
-                <button>></button>
-            </div>
+            <div id="pagingArea">
+                    <ul class="pagination">
+                    
+                        <c:choose>
+                            <c:when test="${ pi.currentPage eq 1 }">
+                                <li class="page-item" disabled><a class="page-link" href="#"><</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item"><a class="page-link" href="list.le?cpage=${ pi.currentPage-1 }"><</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        
+                        <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+                            <li class="page-item"><a class="page-link" href="list.le?cpage=${ p }">${ p }</a></li>
+                        </c:forEach>
+                        
+                
+                                    <c:choose>
+                            <c:when test="${ pi.currentPage eq pi.maxPage }">
+                                <li class="page-item" disabled><a class="page-link" href="#">></a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item"><a class="page-link" href="list.le?cpage=${ pi.currentPage+1 }">></a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </ul>
             </div>
 
         </div>
 
     </div>
 
+    <!--
+        매월1일마다 연차탭이 abled 될 수 있도록 할수없을까? 
+    -->
+
     <!-- The Modal -->
     <div class="modal fade" id="annualModal">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered"  style="width:400px;">
             <div class="modal-content">
         
                 <!-- Modal Header -->
                 <div class="modal-header">
                 <h4 class="modal-title">연차등록</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" onclick="annualClose();">&times;</button>
                 </div>
                 
                 <!-- Modal body -->
                 <div class="modal-body" style="width:90%; margin:auto;">
-                    <span class="modalS">휴가등록</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;리프레쉬휴가" style="width:200px;" readonly><br>
-                    <span class="modalS">신청날짜</span> <br>
+                    <span class="modalS">사원번호</span> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="" style="width:200px;" readonly><br>
+                    <span class="modalS">사원이름</span> <br>
                     <input type="text" name="stDate" value="&nbsp;&nbsp;2023.03.20" style="width:133px;" readonly>
-                    <span>~</span>
+                    <span class="modalS">사원이름</span> <br>
                     <input type="text" name="edDate" value="&nbsp;&nbsp;2023.03.21" style="width:133px;" readonly>
                     <br><br>
                     <span>신청사유</span>
@@ -242,12 +238,21 @@
                 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="annualClose();">Close</button>
                 </div>
             
             </div>
         </div>
     </div>
+
+    <script>
+        function annualClose(){
+            $('#annualModal').modal('hide'); 
+            $('#annualModal').hide();
+            $('.jquery-modal').click();
+    }
+
+    </script>
     
 </body>
 </html>

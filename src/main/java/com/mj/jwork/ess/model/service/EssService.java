@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.vo.Employee;
+import com.mj.jwork.ess.model.vo.Annual;
 import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
 import com.mj.jwork.ess.model.vo.LeaveCategory;
@@ -33,6 +34,16 @@ public interface EssService {
 	
 	// 관리자 : 휴가상세조회
 	Leave adminLeaveDetail(int leaveNo);
+	
+	// 관리자 : 휴가결재선 반려
+	int adminReturnLeave(int leaveNo);
+	
+	// 관리자 : 연차전체조회
+	int adminAnnualListCount();
+	ArrayList<Annual> adminAnnualList(PageInfo pi);
+	
+	// 관리자 : 연차상세조회
+	Annual adminAnnualDetail(int empNo);
 	
 	// 시간외근무/출장등록(insert)
 	int insertOvertime(Overtime o);
@@ -67,6 +78,10 @@ public interface EssService {
 	int adminUpdateSecondBusinesstrip(Businesstrip b);
 	int adminUpdateFirstOvertime(Overtime o);
 	int adminUpdateSecondOvertime(Overtime o);
+	
+	// 관리자 : 시간외근무/출장 결재선 반려(update)
+	int adminReturnBusinesstrip(int btNo);
+	int adminReturnOvertime(int otNo);
 	
 	
 }

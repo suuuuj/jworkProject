@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.ess.model.dao.EssDao;
+import com.mj.jwork.ess.model.vo.Annual;
 import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
 import com.mj.jwork.ess.model.vo.LeaveCategory;
@@ -66,6 +67,26 @@ public class EssServiceImpl implements EssService {
 	@Override
 	public Leave adminLeaveDetail(int leaveNo) {
 		return eDao.adminLeaveDetail(sqlSession, leaveNo);
+	}
+	
+	@Override
+	public int adminReturnLeave(int leaveNo) {
+		return eDao.adminReturnLeave(sqlSession, leaveNo);
+	}
+	
+	@Override
+	public int adminAnnualListCount() {
+		return eDao.adminAnnualListCount(sqlSession);
+	}
+	
+	@Override
+	public ArrayList<Annual> adminAnnualList(PageInfo pi) {
+		return eDao.adminAnnualList(sqlSession, pi);
+	}
+
+	@Override
+	public Annual adminAnnualDetail(int empNo) {
+		return eDao.adminAnnualDetail(sqlSession, empNo);
 	}
 
 	@Override
@@ -167,6 +188,17 @@ public class EssServiceImpl implements EssService {
 	public int adminUpdateSecondOvertime(Overtime o) {
 		return eDao.adminUpdateSecondOvertime(sqlSession, o);
 	}
+
+	@Override
+	public int adminReturnBusinesstrip(int btNo) {
+		return eDao.adminReturnBusinesstrip(sqlSession, btNo);
+	}
+
+	@Override
+	public int adminReturnOvertime(int otNo) {
+		return eDao.adminReturnOvertime(sqlSession, otNo);
+	}
+
 
 
 	

@@ -23,12 +23,13 @@
     .header{
         display: flex;
     }
-    input{
+    input[type=text]{
         width:100px;
         border: 1px solid rgb(170, 170, 170);
         border-radius: 5px;
+        text-align: center; 
     }
-    textarea{
+    #textBox{
         resize: none;
         width:690px;
         height:190px;
@@ -51,27 +52,28 @@
         line-height: 5px;
     }
     .textWrap{
-        margin-left: 630px;
+        margin-left: 610px;
         margin-bottom: 5px;
         font-size: 13px;
         font-weight: 600;
         color:rgb(50,50,50)
     }
     .btnWrap button{
-        width:60px;
+        width:50px;
         height:30px;
-        font-size: 14px;
+        font-size: 12px;
         line-height: 5px;
     }
 </style>
 </head>
 <body>
+    <jsp:include page="../common/menubar.jsp"/>
     <div class="overtimeOuter">
 
         <h4><b>신청</b></h4>
 
         
-        <form action="insert.ot" class="enrollForm" name="otEnroll" onsubmit="return confirm('시간외 근무를 등록하시겠습니까?');">
+        <form action="adminUpdate.ot" class="enrollForm" name="otEnroll" onsubmit="return confirm('시간외 근무를 등록하시겠습니까?');">
 
             
             <div class="body">
@@ -86,9 +88,9 @@
                 <div style="display: flex;">
                     <img src="resources/images/ess/mark.png" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        &nbsp;&nbsp;신청자&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="" value="${ e.empName }"> 
-                        &nbsp;소속&nbsp; <input type="text" name="" value="${ e.deptName }"> 
-                        <input type="hidden" name="empNo" value="${ e.empNo }">
+                        &nbsp;&nbsp;신청자&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="" value="${ o.empName }"> 
+                        &nbsp;소속&nbsp; <input type="text" name="" value="${ o.deptName }"> 
+                        <input type="hidden" name="empNo" value="${ o.empNo }">
                     </div>
                     <div style="background:rgb(234, 234, 234); width:500px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
@@ -99,11 +101,7 @@
                     <img src="resources/images/ess/clock.png" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
                         &nbsp;구분&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                        &nbsp;<select name="otCategory" id="">
-                            <option value="0">시간외 근무</option>
-                            <option value="1">야간</option>
-                            <option value="2">주말</option>
-                        </select> 
+                        &nbsp;<input type="text" name="otCategory" value="${o.otCategory}" id="">
                     </div>
                     <div style="background:rgb(234, 234, 234); width:639px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
@@ -112,128 +110,24 @@
 
                 <div style="display: flex;">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px;">
-                        &nbsp;근무날짜 / 시간&nbsp; <input type="text" id="datepicker" name="enrollDate" value=""> 
+                        &nbsp;근무날짜 / 시간&nbsp; <input type="text" name="enrollDate" value="${o.enrollDate}"> 
 
-                        <!-- datepicker -->
-                        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
-                        
-                        <script>	  
-                        $(function(){
-                            
-                            $("#datepicker").datepicker({
-                                changeMonth: true, 
-                                changeYear: true,
-                                maxDate: '0',
-                                nextText: '다음 달',
-                                prevText: '이전 달',
-                                yearRange: 'c-50:c+20',
-                                showButtonPanel: true, 
-                                currentText: '오늘 날짜',
-                                closeText: '닫기',
-                                dateFormat: "yy-mm-dd",
-                                showAnim: "slide",
-                                showMonthAfterYear: true, 
-                                dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
-                                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
-                            });	
-                        });
-
-                        </script>
-
-                        <!-- 에러 해결 시작 - 홈짱 -->
-
-                        <script>
-
-                            jQuery.browser = {};
-                            
-                            (function () {
-                            
-                                jQuery.browser.msie = false;
-                            
-                                jQuery.browser.version = 0;
-                            
-                                if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
-                            
-                                    jQuery.browser.msie = true;
-                            
-                                    jQuery.browser.version = RegExp.$1;
-                            
-                                }
-                            
-                            })();
-                            
-                            </script>
-                            
-                            <!-- 에러 해결 종료 - 홈짱 -->
-
-                        <select name="otStart" value="" style="border:1px solid rgb(170, 170, 170); border-radius: 5px; width:80px; margin-left: 20px;">
-                            
-                            <!-- 30분단위 맞추는거 어렵다 따흐흑 -->
-                            <script>
-                                for(var i=0; i<49; i++){
-		                            var hour = "";
-		                            var min = ":00";
-		                            
-		                            if((Math.ceil(i/2))<9){
-		                            	
-		                                hour = (Math.floor(i/2));
-		                                
-		                            }else{
-		                            	
-		                                hour = (Math.floor(i/2));
-		                                if(hour<10){
-		                                    hour = "0"+hour;
-		                                }
-		                                if(i % 2 != 0){
-		                                    min = ":30";
-		                                }
-		                                document
-		                                .write('<option value=' + hour + min + '>' + hour + min + '</option>');
-		                                
-		                            }
-		                        }
-                            </script>
-                        </select>
-                        <span style="font-size: 20px;">~</span>
-                        <select name="otEnd" value="" id="" style="border:1px solid rgb(170, 170, 170); border-radius: 5px; width:80px; text-align: center; height:23px">
-                            <!-- 30분단위 select돌리기 수정하기 -->
-                            <script>
-                                for(var i=0; i<49; i++){
-		                            var hour = "";
-		                            var min = ":00";
-		                            
-		                            if((Math.ceil(i/2))<9){
-		                            	
-		                                hour = (Math.floor(i/2));
-		                                
-		                            }else{
-		                            	
-		                                hour = (Math.floor(i/2));
-		                                if(hour<10){
-		                                    hour = "0"+hour;
-		                                }
-		                                if(i % 2 != 0){
-		                                    min = ":30";
-		                                }
-		                                document
-		                                .write('<option value=' + hour + min + '>' + hour + min + '</option>');
-		                                
-		                            }
-		                        }
-                            </script>
-                        </select>&nbsp;
-                    </div>
+                        <input type="text" name="otStart" value="${o.otStart}" style="border:1px solid rgb(170, 170, 170); border-radius: 5px; width:80px; margin-left: 20px;">
+                         <span style="font-size: 20px;">~</span>
+                        <input type="text" name="otEnd" value="${o.otEnd}" id="" style="border:1px solid rgb(170, 170, 170); border-radius: 5px; width:80px; height:23px">
+                     </div>
                     <div style="background:rgb(234, 234, 234); width:450px; height:1px; margin-top:20px; margin-left: 5px;">&nbsp;</div>
                 </div>
 
                 <br><br>
                 <div class="textWrap">
-                    <div class="textCount">&nbsp;&nbsp;0자</div><div class="textTotal">/200자</div>
+                    <span class="textCount">&nbsp;&nbsp;${o.otContent.length()}자</span><span class="textTotal">/200자</span>
                 </div>
-                <textarea name="otContent" id="textBox" cols="30" rows="10" maxlength="199" placeholder="시간외 근무신청 내용을 입력해주세요."></textarea>
-                <div style="float: right; margin-top:160px;">
-                    <button type="reset" class="btn btn-secondary">취소</button>
-                    <button type="submit" class="btn btn-success">시간외근무신청</button>
+                <textarea name="otContent" id="textBox" cols="30" rows="10" maxlength="199" placeholder="시간외 근무신청 내용을 입력해주세요.">${o.otContent}</textarea>
+                <div class="btnWrap" style="float: right; margin-top:160px;">
+                    <button type="submit" class="btn btn-success">승인</button>
+                    <button type="button" class="btn btn-warning" id="otReturn">반려</button>
+                    <button type="button" onclick="location.href='admin.ot'" class="btn btn-secondary">목록</button>
                 </div>
 
             </div>
@@ -241,22 +135,17 @@
         </form>
 
         <script>
+
             $(function(){
-                $("#textBox").keyup(function(e){
-                    let content = $(this).val();
+                if(${not empty o.failDate} || ${not empty o.secondDate}){
+                    $("#otReturn").attr("disabled", true);
+                }
+            })
 
-                    if(content == 0 || content == ""){
-                        $(".textCount").text('0자');
-                    }else{
-                        $('.textCount').text(content.length + '자');
-                    }
-
-                    if(content.length > 200){
-                        $(this).val($(this).val().substring(0, 200));
-
-                        alert("글자수는 200자까지 입력 가능합니다.");
-                    };
-                });
+            $(function(){
+                $("#otReturn").click(function(){
+                    location.href='adminReturn.ot?otNo=${o.otNo}';
+                })
             })
         </script>
 

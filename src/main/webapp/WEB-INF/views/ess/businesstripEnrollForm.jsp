@@ -93,6 +93,8 @@
                         &nbsp;신청자&nbsp; <input type="text" name="" value="${ e.empName }"> 
                         &nbsp;소속&nbsp; <input type="text" name="" value="${ e.deptName }"> 
                         <input type="hidden" name="empNo" value="${ e.empNo }">
+                        <input type="hidden" name="deptCode" value="${ e.deptCode }">
+                        <input type="hidden" name="teamCode" value="${ e.teamCode }">
                     </div>
                     <div style="background:rgb(234, 234, 234); width:520px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
@@ -107,6 +109,8 @@
                     </div>
 
                     <!-- datepicker -->
+                    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+                    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
                     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
                     <script>	
                                 

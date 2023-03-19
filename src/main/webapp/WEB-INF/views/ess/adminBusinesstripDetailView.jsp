@@ -23,10 +23,11 @@
     .header{
         display: flex;
     }
-    input{
+    input[type=text]{
         width:100px;
         border: 1px solid rgb(170, 170, 170);
         border-radius: 5px;
+        text-align: center; 
     }
     #btText{
         resize: none;
@@ -111,13 +112,29 @@
                 <textarea name="" id="btText" cols="30" rows="10" placeholder="출장신청 내용을 입력해주세요.">${b.btContent}</textarea>
                 <div class="btnWrap" style="float: right; margin-top:160px;">
                     <button type="submit" class="btn btn-success">승인</button>
-                    <button type="button" onclick="adminReturn.bt" class="btn btn-warning">반려</button>
-                    <button type="button" onclick="admin.bt" class="btn btn-secondary">목록</button>
+                    <button type="button" onclick="btReturn(${b.btNo});" class="btn btn-warning" id="btReturn">반려</button>
+                    <button type="button" onclick="location.href='admin.bt'" class="btn btn-secondary">목록</button>
                 </div>
+                
 
             </div>
 
         </form>
+
+        <script>
+            $(function(){
+                if(${not empty b.failDate} || ${not empty b.secondDate}){
+                    $("#btReturn").attr("disabled", true);
+                }
+            })
+
+            function btReturn(no){
+                if(confirm("출장등록을 반려하시겠습니까?")){
+                    location.href='adminReturn.bt?btNo=' + no;
+                }
+                
+            }
+        </script>
         
 
 

@@ -100,6 +100,8 @@
                         &nbsp;신청자&nbsp; <input type="text" name="" value="${ e.empName }"> 
                         &nbsp;소속&nbsp; <input type="text" name="" value="${ e.deptName }">
                         <input type="hidden" name="empNo" value="${ e.empNo }">
+                        <input type="hidden" name="deptCode" value="${ e.deptCode }">
+                        <input type="hidden" name="teamCode" value="${ e.teamCode }">
                     </div>
                     <div style="background:rgb(234, 234, 234); width:460px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>

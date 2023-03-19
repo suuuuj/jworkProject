@@ -24,6 +24,8 @@
 	<resultMap id="businesstripResult" type="Businesstrip">
 		<id column="bt_no" property="btNo" />
 		<result column="emp_no" property="empNo" />
+		<result column="dept_code" property="deptCode" />
+		<result column="team_code" property="teamCode" />
 		<result column="emp_name" property="empName" />
 		<result column="dept_name" property="deptName" />
 		<result column="job_name" property="jobName" />
@@ -44,9 +46,10 @@
 		<id column="leave_no" property="leaveNo" />
 		<result column="emp_no" property="empNo" />
 		<result column="emp_name" property="empName" />
-		<result column="dept_code" property="deptCode" />
 		<result column="dept_name" property="deptName" />
 		<result column="job_code" property="jobCode" />
+		<result column="dept_code" property="deptCode" />
+		<result column="team_code" property="teamCode" />
 		<result column="job_name" property="jobName" />
 		<result column="leave_category" property="leaveCategory" />
 		<result column="lcategory_name" property="lcName" />
@@ -71,6 +74,8 @@
 	<resultMap id="overtimeResult" type="Overtime">
 		<id column="ot_no" property="otNo" />
 		<result column="emp_no" property="empNo" />
+		<result column="dept_code" property="deptCode" />
+		<result column="team_code" property="teamCode" />
 		<result column="emp_name" property="empName" />
 		<result column="dept_name" property="deptName" />
 		<result column="job_name" property="jobName" />
@@ -112,6 +117,8 @@
 		  (
 		  	leave_no
 		  , emp_no
+		  , dept_code
+		  , team_code
 		  , leave_category
 		  , leave_start
 		  , leave_end
@@ -122,6 +129,8 @@
 		  (
 		  	seq_leno.nextval
 		  , #{empNo}
+		  , #{deptCode}
+		  , #{teamCode}
 		  , #{leaveCategory}
 		  , #{leaveStart}
 		  , #{leaveEnd}
@@ -223,12 +232,16 @@
 		     , emp_name
 		     , e.dept_code
 		     , dept_name
+		     , e.team_code
 		     , e.job_code
 		     , job_name
 		     , l.enroll_date
 		     , lcategory_name
+		     , leave_content
 		     , leave_start
 		     , leave_end
+		     , fail_date
+		     , second_date
 		  from leave l
 		  join employee e on (l.emp_no = e.emp_no)
 		  join department d on (e.dept_code = d.dept_code)
@@ -238,6 +251,59 @@
 		   and leave_no = #{leaveNo} 
 	</select>
 	
+	<!-- 관리자 : 휴가결재선 반려 -->
+	<update id="adminReturnLeave">
+		update leave
+		   set fail_date = sysdate
+		     , leave_check = 3
+		 where leave_no = #{leaveNo}
+	</update>
+	
+	<!-- 관리자 : 연차부여(한달)  -->
+	<update id="annualUpdateMonth">
+		update annual
+		   set annual_count = 1
+		     , annual_date = sysdate
+		     , annual_category = 1
+	</update>
+	
+	<!-- 관리자 : 연차부여(일년) -->
+	<update id="annualUpdateYear">
+		update annual
+		   set annual_count = 15
+		     , annual_date = sysdate
+		     , annual_category = 1
+		 where to_char(add_months(enroll_date, 12), 'YYYY-MM-DD') < to_char(trunc(sysdate, 'yyyy') ,'yyyy-mm-dd')
+	</update>
+	
+	<!-- 관리자 : 연차관리 페이징 
+	<select id="adminAnnualListCount" resultType="_int">
+		select
+		       count(*)
+		  from annual
+	</select>
+	-->
+	
+	<!-- 관리자 : 연차관리 전체조회 
+	<select id="adminAnnualList" resultMap="annualResult">
+		select
+		       annual_no
+		     , a.emp_no
+		     , emp_name
+		     , dept_name
+		     , job_name
+		     , annual_count
+		     , annual_date
+		     , annual_category
+		  from annual a
+		  join employee e on (a.emp_no = e.emp_no) 
+		  join department d on (e.dept_code = d.dept_code)
+		  join job j on (e.job_code = j.job_code)
+	</select>
+	-->
+	
+	<!-- 관리자 : 연차관리 상세조회 -->
+	
 	<!-- 시간외근무등록 -->
 	<insert id="insertOvertime">
 		insert
@@ -245,6 +311,8 @@
 		  (
 		  	ot_no
 		  , emp_no
+		  , dept_code
+		  , team_code
 		  , enroll_date
 		  , ot_category
 		  , ot_start
@@ -255,6 +323,8 @@
 		  (
 		  	seq_otno.nextval
 		  , #{empNo}
+		  , #{deptCode}
+		  , #{teamCode}
 		  , #{enrollDate}
 		  , #{otCategory}
 		  , #{otStart}
@@ -270,6 +340,8 @@
 		  (
 		  	bt_no
 		  , emp_no
+		  , dept_code
+		  , team_code
 		  , bt_start
 		  , bt_end
 		  , bt_content
@@ -278,6 +350,8 @@
 		  (
 		  	seq_btno.nextval
 		  , #{empNo}
+		  , #{deptCode}
+		  , #{teamCode}
 		  , #{btStart}
 		  , #{btEnd}
 		  , #{btContent}
@@ -422,7 +496,7 @@
 		  join job j on (e.job_code = j.job_code)
 		 where ot_status = 'Y'
 		 order
-		    by ot_check desc
+		    by ot_no desc
 	</select>
 	
 	<!-- 관리자 : 출장 조회 -->
@@ -444,7 +518,7 @@
 		  join job j on (e.job_code = j.job_code)
 		 where bt_status = 'Y'
 		 order
-		    by bt_check desc
+		    by bt_no desc
 	</select>
 	
 	<!-- 관리자 : 출장상세조회 --> 
@@ -456,6 +530,8 @@
 		     , bt_start
 		     , bt_end
 		     , bt_content
+		     , fail_date
+		     , second_date
 		  from businesstrip b
 		  join employee e on (e.emp_no = b.emp_no)
 		  join department d on (e.dept_code = d.dept_code)
@@ -470,10 +546,12 @@
 		     , emp_name
 		     , dept_name
 		     , o.enroll_date
-		     , ot_category
+		     , decode(ot_category,0,'시간외근무',1,'야간',2,'주말') as "ot_category"
 		     , ot_start
 		     , ot_end
 		     , ot_content  
+		     , fail_date
+		     , second_date
 		  from overtime o
 		  join employee e on (o.emp_no = e.emp_no)
 		  join department d on (e.dept_code = d.dept_code)
@@ -483,26 +561,59 @@
 	
 	<!-- 관리자 : 출장1차결재선 
 	<update id="adminUpdateFirstBusinesstrip">
-	
+		update businesstrip
+		   set first_date = #{firstDate}
+		     , first_approval = #{firstNo}
+		     , bt_check = 1
+		 where bt_no = #{btNo}
 	</update>
 	-->
 	
 	<!-- 관리자 : 출장2차결재선 
 	<update id="adminUpdateSecondBusinesstrip">
-	
+		update businesstrip
+		   set second_date = #{secondDate}
+		     , second_approval = #{secondNo}
+		     , bt_check = 2
+		 where bt_no = #{btNo}
 	</update>
 	-->
 	
+	<!-- 관리자 : 출장 반려 -->
+	<update id="adminReturnBusinesstrip">
+		update businesstrip
+		   set fail_date = sysdate
+		     , bt_check = 3
+		 where bt_no = #{btNo}
+	</update>
+	
 	<!-- 관리자 : 시간외근무1차결재선 
 	<update id="adminUpdateFirstOvertime">
-	
+		update overtime
+		   set first_date = #{firstDate}
+		     , first_approval = #{firstNo}
+		     , ot_check = 1
+		 where ot_no = #{otNo}
 	</update>
 	-->
 	
 	<!-- 관리자 : 시간외근무2차결재선 
 	<update id="adminUpdateSecondOvertime">
-	
+		update overtime
+		   set second_date = #{secondDate}
+		     , second_approval = #{secondNo}
+		     , ot_check = 2
+		 where ot_no = #{otNo}
 	</update>
 	-->
+	
+	<!-- 관리자 : 시간외근무 반려 -->
+	<update id="adminReturnOvertime">
+		update overtime
+		   set fail_date = sysdate
+		     , ot_check = 3
+		 where ot_no = #{otNo}
+	</update>
+	
 
 </mapper>

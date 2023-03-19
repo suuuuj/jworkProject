@@ -18,6 +18,7 @@ import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.Pagination;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.ess.model.service.EssServiceImpl;
+import com.mj.jwork.ess.model.vo.Annual;
 import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
 import com.mj.jwork.ess.model.vo.LeaveCategory;
@@ -146,7 +147,7 @@ public class EssController {
 	}
 	
 	/**
-	 * 관리자 : 휴가전체조회
+	 * 관리자 : 휴가내역전체조회
 	 * @param currentPage
 	 * @param session
 	 * @return
@@ -164,15 +165,73 @@ public class EssController {
 		
 	}
 	
+	/**
+	 * 관리자 : 신청상세조회
+	 * @param leaveNo
+	 * @param mv
+	 * @return
+	 */
 	@RequestMapping("adminDetail.le")
 	public ModelAndView adminLeaveDetail(int leaveNo, ModelAndView mv) {
 			
-		Leave le = eService.adminLeaveDetail(leaveNo); 
+		Leave lc = eService.adminLeaveDetail(leaveNo); 
 		
-		mv.addObject("leave", le);
+		mv.addObject("lc", lc);
 		mv.setViewName("ess/adminLeaveDetailView");
 		
 		return mv;
+	}
+	
+	/**
+	 * 관리자 : 휴가결재선 반려
+	 * @param leaveNo
+	 * @param session
+	 * @param mv
+	 * @return
+	 */
+	@RequestMapping("adminReturn.le")
+	public ModelAndView adminReturnLeave(int leaveNo, HttpSession session, ModelAndView mv) {
+		
+		int result = eService.adminReturnLeave(leaveNo);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "휴가등록을 반려하였습니다.");
+			mv.setViewName("redirect:/adminList.le");
+		}else {
+			mv.addObject("errorMsg", "휴가등록 반려에 실패하였습니다.");
+			mv.setViewName("common/errorPage");
+		}
+		
+		return mv;
+	}
+	
+	/**
+	 * 관리자 : 연차내역전체조회
+	 * @param mv
+	 * @return
+	 */
+	@RequestMapping("adminAnnual.le")
+	public ModelAndView adminAnnualList(@RequestParam(value="capge") int currentPage, ModelAndView mv) {
+		int listCount = eService.adminAnnualListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 15, 5);
+		ArrayList<Annual> list = eService.adminAnnualList(pi);
+		mv.setViewName("ess/adminAnnualList");
+		return mv;
+	}
+	
+	/**
+	 * 관리자 : 연차상세조회
+	 * @param empNo
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="anDetail.le", produces="application/json; charset=UTF-8")
+	public String adminAnnualDetail(int empNo, HttpSession session, Model model) {
+		
+		Annual a = eService.adminAnnualDetail(empNo);
+		return new Gson().toJson(a);
 	}
 	
 	/**
@@ -288,6 +347,12 @@ public class EssController {
 		}
 	}
 	
+	/**
+	 * 신청조회
+	 * @param session
+	 * @param mv
+	 * @return
+	 */
 	@RequestMapping("list.wt")
 	public ModelAndView selectEnrollList(HttpSession session, ModelAndView mv) {
 		
@@ -391,7 +456,7 @@ public class EssController {
 		
 		int jobCode = ((Employee)session.getAttribute("loginUser")).getJobCode();
 		if(jobCode == 6 || jobCode == 7) {
-			model.addAttribute("errorMsg", "접근 권한이 없습니다.");
+			model.addAttribute("errorMsg", "접근권한이 없습니다.");
 			return "common/errorPage";
 		}else {
 			// 페이징, 리스트전체조회
@@ -400,7 +465,7 @@ public class EssController {
 			
 			ArrayList<Businesstrip> list = eService.adminSelectBusinesstripList(pi);
 			
-			// 사원과 부서코드가 같으면서 직급코드가 3456인사람
+			// 사원과 부서코드와 팀코드가 같으면서 직급코드가 3456인사람
 			session.setAttribute("list", list);
 			session.setAttribute("pi", pi);
 			return "ess/adminBusinesstripList";
@@ -424,25 +489,6 @@ public class EssController {
 		return mv;
 	}
 	
-	/*
-	@RequestMapping("adminUpdate.bt")
-	public ModelAndView adminUpdateBusinesstrip(int btNo, ModelAndView mv) {
-		
-		// 1차결재일이 null인경우 => 1차결재자인 직급코드 4,5에게 화면이 보여지게 
-		
-		// 1차결재일이 있는경우 => 2차결재자인 직급코드 3,4에게 화면이 보여지게 
-		
-		if() {
-			int result = eService.adminUpdateFirstBusinesstrip(btNo);
-		}else if() {
-			int result = eService.adminUpdateSecondBusinesstrip(btNo);
-		}
-		
-		
-		return mv;
-	}
-    */
-	
 	/**
 	 * 관리자 : 시간외근무조회
 	 * @return
@@ -462,6 +508,7 @@ public class EssController {
 			
 			ArrayList<Overtime> list = eService.adminSelectOvertimeList(pi);
 			
+			// 사원과 부서코드와 팀코드가 같으면서 직급코드가 3456인사람
 			mv.addObject("list", list);
 			mv.addObject("pi", pi);
 			mv.setViewName("ess/adminOvertimeList");
@@ -492,7 +539,7 @@ public class EssController {
 	 * @param session
 	 * @param mv
 	 * @return
-	 */
+	 
 	@RequestMapping("adminUpdate.bt")
 	public ModelAndView adminUpdateBusinesstrip(Businesstrip b, HttpSession session, ModelAndView mv) {
 		
@@ -521,7 +568,35 @@ public class EssController {
 		
 		return mv;
 	}
+	*/
 	
+	/**
+	 * 관리자 : 출장등록결재선 반려
+	 * @param btNo
+	 * @param mv
+	 * @return
+	 */
+	@RequestMapping("adminReturn.bt")
+	public ModelAndView adminReturnBusinesstrip(int btNo, HttpSession session, ModelAndView mv) {
+		int result = eService.adminReturnBusinesstrip(btNo);
+		if(result > 0) {
+			session.setAttribute("alertMsg", "출장등록을 반려하였습니다.");
+			mv.setViewName("redirect:/admin.bt");
+		}else {
+			mv.addObject("errorMsg", "출장등록 반려에 실패하였습니다.");
+			mv.setViewName("common/errorPage");
+		}
+		
+		return mv;
+	}
+	
+	/**
+	 * 관리자 : 시간외근무결재선 1차,2차
+	 * @param o
+	 * @param session
+	 * @param mv
+	 * @return
+	 
 	@RequestMapping("adminUpdate.ot")
 	public ModelAndView adminUpdateOvertime(Overtime o, HttpSession session, ModelAndView mv) {
 		
@@ -534,7 +609,7 @@ public class EssController {
 				mv.setViewName("admin.ot");
 				
 			}else {
-				mv.addObject("errorMsg", "결재선등록에 d실패하였습니다.");
+				mv.addObject("errorMsg", "결재선등록에 실패하였습니다.");
 				mv.setViewName("common/errorPage");
 			}
 		}else if(jobCode == 3 || jobCode == 2) {
@@ -546,6 +621,27 @@ public class EssController {
 				mv.addObject("errorMsg", "결재선등록에 실패하였습니다.");
 				mv.setViewName("common/errorPage");
 			}
+		}
+		
+		return mv;
+	}
+	*/
+	
+	/**
+	 * 관리자 : 시간외근무결재선 반려
+	 * @param otNo
+	 * @param mv
+	 * @return
+	 */
+	@RequestMapping("adminReturn.ot")
+	public ModelAndView adminReturnOvertime(int otNo, HttpSession session, ModelAndView mv) {
+		int result = eService.adminReturnOvertime(otNo);
+		if(result > 0) {
+			session.setAttribute("alertMsg", "시간외 근무등록록을 반려하였습니다.");
+			mv.setViewName("redirect:/admin.ot");
+		}else {
+			mv.addObject("errorMsg", "시간외 근무등록 반려에 실패하였습니다.");
+			mv.setViewName("common/errorPage");
 		}
 		
 		return mv;

@@ -17,26 +17,6 @@
         margin:auto;
     }
     /* content영역 */
-    .select-area{
-    	margin-top: 30px;
-    	font-size: 14px;
-        color:rgb(50,50,50);
-    }
-    .select-area input[type=date]{
-        width:110px;
-        height:30px;
-        border:1px solid rgb(170, 170, 170);
-        border-radius: 5px;
-        font-size: 14px;
-        color:rgb(50, 50, 50);
-    }
-    .select-area button{
-        width:60px;
-        height:30px;
-        font-size: 12px;
-        line-height:5px;
-        margin-bottom: 3px;
-    }
     .businesstripTable, .overtimeTable{
         width:100%;
         border-top:1px solid rgb(234, 234, 234);
@@ -45,16 +25,10 @@
         color:rgb(50,50,50);
         border-top:1px solid rgb(234, 234, 234);
     }
-    .businesstripTable td, .overTable td{
+    .businesstripTable td, .overtimeTable td{
         border-bottom: 1px solid rgb(234, 234, 234);
         color:rgb(50, 50, 50);
         height:30px;
-    }
-    .paging-area button{
-        width:30px;
-        height:30px;
-        border:none;
-        border-radius: 5px;
     }
     .businesstripTable tbody input[type=text]{
         width:100px;
@@ -69,7 +43,7 @@
         border:none;
     }
     .businesstripList, .overtimeList{
-        height:350px;
+        height:300px;
     }
     .businesstripTable button, .overtimeTable button{
         width:50px;
@@ -144,93 +118,6 @@
 
 		<h4><b>신청</b></h4>
 		
-		<div class="select-area" style="float: right">
-			<input type="text" name="startDate" id="datepicker1" value="" placeholder="기간검색(시작일)"> 
-			<span style="font-size: 20px; color: rgb(170, 170, 170)">~</span> 
-			<input type="text" name="endDate" id="datepicker2" value="" placeholder="기간검색(종료일)">
-			<button type="button" class="btn btn-success" onclick="">검색</button>
-		</div>
-
-		<!-- datepicker -->
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
-        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
-        <script>	
-                    
-        $(function(){
-        	
-            
-            $("#datepicker1").datepicker({
-                changeMonth: true, 
-                changeYear: true,
-                minDate: '0',
-                nextText: '다음 달',
-                prevText: '이전 달',
-                yearRange: 'c-50:c+20',
-                showButtonPanel: true, 
-                currentText: '오늘 날짜',
-                closeText: '닫기',
-                dateFormat: "yy-mm-dd",
-                showAnim: "slide",
-                showMonthAfterYear: true, 
-                dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
-                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
-                onSelect: function(selected){
-                	$("#datepicker2").datepicker("option", "minDate", selected);
-                }
-            });	
-            
-            $("#datepicker2").datepicker({
-                changeMonth: true, 
-                changeYear: true,
-                minDate: '0',
-                nextText: '다음 달',
-                prevText: '이전 달',
-                yearRange: 'c-50:c+20',
-                showButtonPanel: true, 
-                currentText: '오늘 날짜',
-                closeText: '닫기',
-                dateFormat: "yy-mm-dd",
-                showAnim: "slide",
-                showMonthAfterYear: true, 
-                dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
-                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
-                onSelect: function(selected){
-                	$("#datepicker1").datepicker("option", "maxDate", selected);
-                }
-            });	
-            
-            
-            
-        });
-        
-        </script>   
-
-        <!-- 에러 해결 시작 - 홈짱 -->
-        <script>
-
-            jQuery.browser = {};
-            
-            (function () {
-            
-                jQuery.browser.msie = false;
-            
-                jQuery.browser.version = 0;
-            
-                if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
-            
-                    jQuery.browser.msie = true;
-            
-                    jQuery.browser.version = RegExp.$1;
-            
-                }
-            
-            })();
-            
-            </script>
-            <!-- 에러 해결 종료 - 홈짱 -->
-
-		<br>
 		<br>
 		<div class="businesstripList">
 			<span style="font-size: 15px; font-weight: 600;">출장신청</span> 
@@ -255,7 +142,6 @@
 			</table>
 			
 			<br>
-			<br>
 
 			<div id="bpagingArea">
 				<ul class="pagination bpagination">
@@ -264,9 +150,6 @@
 			</div>
 
 		</div>
-
-		<br>
-		<br>
 
 		<div class="overtimeList">
 			<span style="font-size: 15px; font-weight: 600;">시간외 근무신청</span> 
@@ -291,7 +174,6 @@
 				</tbody>
 			</table>
 
-			<br>
 			<br>
 
 			<div id="opagingArea">
@@ -500,7 +382,7 @@
 
 	<!-- 출장 상세조회 Modal -->
     <div class="modal fade" id="businesstripModal">
-        <div class="modal-dialog modal-dialog-centered"  style="width:400px;">
+        <div class="modal-dialog modal-dialog-centered" style="width:400px;">
             <div class="modal-content">
         
                 <!-- Modal Header -->

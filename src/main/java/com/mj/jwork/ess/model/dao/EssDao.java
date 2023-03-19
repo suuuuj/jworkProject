@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.vo.Employee;
+import com.mj.jwork.ess.model.vo.Annual;
 import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
 import com.mj.jwork.ess.model.vo.LeaveCategory;
@@ -161,6 +162,29 @@ public class EssDao {
 	
 	public int adminUpdateSecondOvertime(SqlSession sqlSession, Overtime o) {
 		return sqlSession.update("essMapper.adminUpdateSecondBusinesstrip", o);
+	}
+	
+	public int adminReturnBusinesstrip(SqlSession sqlSession, int btNo) {
+		return sqlSession.update("essMapper.adminReturnBusinesstrip", btNo);
+	}
+	
+	public int adminReturnOvertime(SqlSession sqlSession, int otNo) {
+		return sqlSession.update("essMapper.adminReturnOvertime", otNo);
+	}
+	
+	public int adminReturnLeave(SqlSession sqlSession, int leaveNo) {
+		return sqlSession.update("essMapper.adminReturnLeave", leaveNo);
+	}
+	
+	public int adminAnnualListCount(SqlSession sqlSession) {
+		return sqlSession.selectOne("essMapper.adminAnnualListCount");
+	}
+	
+	public ArrayList<Annual> adminAnnualList(SqlSession sqlSession, PageInfo pi){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return (ArrayList)sqlSession.selectList("essMapper.adminAnnualList", null, rowBounds);
 	}
 	
 	
