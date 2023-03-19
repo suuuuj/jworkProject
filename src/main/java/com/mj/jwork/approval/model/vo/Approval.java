@@ -30,5 +30,6 @@ public class Approval {
 	 
 	 private String empName;
 	 private String docName;
+	 private String jobName;
 
 }
