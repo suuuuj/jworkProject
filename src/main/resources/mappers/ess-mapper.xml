@@ -261,29 +261,39 @@
 	
 	<!-- 관리자 : 연차부여(한달)  -->
 	<update id="annualUpdateMonth">
-		update annual
+		update annual a
 		   set annual_count = 1
 		     , annual_date = sysdate
 		     , annual_category = 1
+		 where a.emp_no in (
+							select
+       								emp_no
+  							   from employee e
+ 							  where to_char(add_months(e.enroll_date, 12), 'YYYY-MM-DD') <![CDATA[>]]> to_char(TRUNC(SYSDATE, 'YYYY') ,'YYYY-MM-DD')
+						   )
 	</update>
 	
-	<!-- 관리자 : 연차부여(일년) 
+	
+	<!-- 관리자 : 연차부여(일년) -->
 	<update id="annualUpdateYear">
-		update annual
+		update annual a
 		   set annual_count = 15
 		     , annual_date = sysdate
 		     , annual_category = 1
-		 where to_char(add_months(enroll_date, 12), 'YYYY-MM-DD') < to_char(trunc(sysdate, 'yyyy') ,'yyyy-mm-dd')
+		where a.emp_no in (
+							select
+       								emp_no
+  							   from employee e
+ 							  where to_char(add_months(e.enroll_date, 12), 'YYYY-MM-DD') <![CDATA[<]]> to_char(TRUNC(SYSDATE, 'YYYY') ,'YYYY-MM-DD')
+						  )
 	</update>
-	-->
 	
-	<!-- 관리자 : 연차관리 페이징 
+	<!-- 관리자 : 연차관리 페이징 -->
 	<select id="adminAnnualListCount" resultType="_int">
 		select
 		       count(*)
 		  from annual
 	</select>
-	-->
 	
 	<!-- 관리자 : 연차관리 전체조회 
 	<select id="adminAnnualList" resultMap="annualResult">
