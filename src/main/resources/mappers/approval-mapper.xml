@@ -18,6 +18,7 @@
 		<result column="app_count" property="appCount"/>
 		<result column="app_turn" property="appTurn"/>
 		<result column="emp_name" property="empName"/>
+		<result column="doc_name" property="docName"/>
 	</resultMap>
 	
 	<resultMap id="appLineResult" type="AppLine">
@@ -75,7 +76,7 @@
 		    , doc_no
 		    , emp_name
 		    , doc_type
-		    , decode(doc_type,0,'기안서',1,'품의서',2,'사직서') as "doc_type"
+		    , decode(doc_type,0,'기안서',1,'품의서',2,'사직서') as "doc_name"
 		    , to_char(create_date, 'YYYY-MM-DD')"create_date"
 		    , update_date
 		    , doc_title
@@ -205,6 +206,13 @@
 	    order
 	       by app_no desc
     </select>
+    
+    <update id="deleteApproval">
+    	update approval
+   		   set doc_status = 'N'
+         where app_no = #{appNo}
+    
+    </update>
 	
 
 </mapper>

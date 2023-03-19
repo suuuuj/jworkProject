@@ -29,5 +29,6 @@ public class Approval {
 	 
 	 
 	 private String empName;
+	 private String docName;
 
 }

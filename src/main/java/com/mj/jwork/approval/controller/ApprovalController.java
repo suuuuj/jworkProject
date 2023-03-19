@@ -1,9 +1,11 @@
 package com.mj.jwork.approval.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -70,9 +72,37 @@ public class ApprovalController {
 		mv.addObject("a",a).setViewName("approval/myApprovalDetail");
 		mv.addObject("al",al).setViewName("approval/myApprovalDetail");
 		
-		System.out.println(al);
+		//System.out.println(al);
 		
 		return mv;
+	}
+	
+	//상신 취소 페이지
+	@RequestMapping("cancelForm.app")
+	public String approvalCancleForm(int no, Model model) {
+		model.addAttribute("a",aService.selectApproval(no));
+		return "approval/approvalCancleForm";
+	}
+	
+	//결재문서 삭제하기(첨부파일 삭제 추가해야됨)
+	@RequestMapping("delete.app") 
+	public String deleteApproval(int no, HttpSession session, Model model){
+		//System.out.println(no);
+		int result = aService.deleteApproval(no);
+		session.setAttribute("alertMsg","문서가 삭제되었습니다.");
+		return "redirect:mylist.app";
+		
+//		if(result>0) {
+//			//삭제 성공했을 경우 첨부파일이 있을때
+//			if(!filePath.equals("")) {
+//				new File(session.getServletContext().getRealPath(filePath)).delete();
+//			}
+//			
+//			
+//		}else { // 삭제실패
+//			model.addAttribute("errorMsg", "문서 삭제 실패");
+//			return "common/errorPage";
+//		}
 	}
 	
 	

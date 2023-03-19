@@ -88,6 +88,11 @@ public class ApprovalDao {
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectdraftList",empNo,rowBounds);
 	}
 
+	//상신취소 문서 삭제하기
+	public int deleteApproval(SqlSessionTemplate sqlSession, int appNo) {
+		return sqlSession.update("approvalMapper.deleteApproval",appNo);
+	}
+
 	
 	
 
