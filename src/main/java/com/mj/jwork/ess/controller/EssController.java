@@ -424,22 +424,24 @@ public class EssController {
 		return mv;
 	}
 	
+	/*
 	@RequestMapping("adminUpdate.bt")
 	public ModelAndView adminUpdateBusinesstrip(int btNo, ModelAndView mv) {
 		
 		// 1차결재일이 null인경우 => 1차결재자인 직급코드 4,5에게 화면이 보여지게 
 		
 		// 1차결재일이 있는경우 => 2차결재자인 직급코드 3,4에게 화면이 보여지게 
-		/*
+		
 		if() {
 			int result = eService.adminUpdateFirstBusinesstrip(btNo);
 		}else if() {
 			int result = eService.adminUpdateSecondBusinesstrip(btNo);
 		}
-		*/
+		
 		
 		return mv;
 	}
+    */
 	
 	/**
 	 * 관리자 : 시간외근무조회
