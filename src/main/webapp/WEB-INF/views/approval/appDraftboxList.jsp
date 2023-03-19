@@ -120,7 +120,7 @@
         <script>
         	$(function(){
         		$(document).on("click", "#defaultAllTB>tr",function(){
-        			location.href='signDetail.app?no='+$(this).children(".ano").text();
+        			location.href='draftForm.app?no='+$(this).children(".ano").text();
         		})
         	})
         </script>

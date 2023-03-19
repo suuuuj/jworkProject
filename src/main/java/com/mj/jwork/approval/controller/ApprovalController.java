@@ -180,5 +180,13 @@ public class ApprovalController {
 		
 	}
 	
+	//임시저장함 문서 수정 페이지
+	@RequestMapping("draftForm.app")
+	public String approvalDraftForm(int no, Model model) {
+		System.out.println(no);
+		model.addAttribute("a",aService.selectApproval(no));
+		return "approval/appDraftboxForm";
+	}
+
 	
 }
