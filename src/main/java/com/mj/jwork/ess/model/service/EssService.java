@@ -14,11 +14,13 @@ public interface EssService {
 	
 	// 휴가 메인페이지 잔여휴가
 	Annual selectAnnualCount(int empNo);
+	
 	// 휴가 카테고리 조회 
 	LeaveCategory selectLeaveCategory(int no); 
 	
 	// 휴가등록(insert)
 	int insertLeave(Leave le);
+	int updateAnuualCount(Leave le);
 	
 	// 전체휴가목록조회(select)
 	int selectLeaveListCount(Employee e);

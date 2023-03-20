@@ -40,6 +40,11 @@ public class EssServiceImpl implements EssService {
 	}
 
 	@Override
+	public int updateAnuualCount(Leave le) {
+		return eDao.updateAnuualCount(sqlSession, le);
+	}
+	
+	@Override
 	public int selectLeaveListCount(Employee e) {
 		return eDao.selectLeaveListCount(sqlSession, e);
 	}
@@ -218,6 +223,7 @@ public class EssServiceImpl implements EssService {
 	public int adminReturnOvertime(int otNo) {
 		return eDao.adminReturnOvertime(sqlSession, otNo);
 	}
+
 
 
 

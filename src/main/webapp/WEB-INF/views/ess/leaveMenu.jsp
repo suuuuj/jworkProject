@@ -147,7 +147,7 @@
     <script>
     	function enrollForm(e){
     		
-    		location.href = "enrollForm.le?no=" + e;
+    		location.href = "enrollForm.le?no=" + e ;
     	}
     </script>
 

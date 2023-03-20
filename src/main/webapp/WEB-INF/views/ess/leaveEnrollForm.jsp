@@ -116,6 +116,7 @@
                     </div>
                     <div style="background:rgb(234, 234, 234); width:441px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
+                <input type="hidden" name="annualCount" value="">
 
                 <br><br>
                 
@@ -141,7 +142,7 @@
         <script>	
                     
         $(function(){
-        	var minDate = new Date(); //오늘
+            var minDate = new Date(); //오늘
             var maxDate = new Date();  // 오늘
             //var dd = maxDate.getDate()+3; // 오늘 + 3
             //maxDate.setDate(dd);
@@ -176,11 +177,9 @@
 
                     var selected = new Date(selected);
 
-                    /* 연차신청사용
                     if(${lc.lcNo == 0}){
-                        var ss = selected.getDate() + 2;
+                        var ss = selected.getDate() + ${a.annualCount - 1};
                     }
-                    */
 
                     // 휴가카테고리별 사용일수 등록
                     switch(${lc.lcNo}){
@@ -221,8 +220,10 @@
                 },
                 dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
                 monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
-                
             });	
+
+            
+            
             
             
             
@@ -273,6 +274,22 @@
                         alert("글자수는 200자까지 입력 가능합니다.");
                     };
                 });
+            })
+        </script>
+
+        <script>
+            $(function(){
+                const getDateDiff = (d1, d2) => {
+                const date1 = new Date(d1);
+                const date2 = new Date(d2);
+                
+                const diffDate = date1.getTime() - date2.getTime();
+                
+                return Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리세컨 * 초 * 분 * 시 = 일
+                }
+
+                getDateDiff("${e}", "2021-10-01");
+                // 30
             })
         </script>
         

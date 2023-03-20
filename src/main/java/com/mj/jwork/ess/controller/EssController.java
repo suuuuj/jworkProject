@@ -40,6 +40,7 @@ public class EssController {
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		Annual a = eService.selectAnnualCount(empNo);
 		session.setAttribute("a", a);
+		System.out.println(a);
 		return "ess/leaveMenu";
 	}
 
@@ -55,9 +56,12 @@ public class EssController {
 
 		Employee e = (Employee) session.getAttribute("loginUser");
 		LeaveCategory lc = eService.selectLeaveCategory(no);
-		// System.out.println(lc);
+		
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		Annual a = eService.selectAnnualCount(empNo);
 
 		if (lc != null) {
+			mv.addObject("a", a);
 			mv.addObject("lc", lc);
 			mv.addObject("e", e);
 			// session.setAttribute("loginUser", loginUser);
@@ -78,14 +82,29 @@ public class EssController {
 	@RequestMapping("insert.le")
 	public String insertLeave(Leave le, HttpSession session, Model model) {
 		
-		int result = eService.insertLeave(le);
-		
-		if(result > 0) {
-			session.setAttribute("alertMsg", "휴가등록이 완료되었습니다.");
-			return "redirect:/list.le";
+		System.out.println(le.getLeaveCategory());
+		if(le.getLeaveCategory() == 0) {
+			int result1 = eService.updateAnuualCount(le);
+			int result2 = eService.insertLeave(le);
+			
+			if(result1 > 0 && result2 >0) {
+				session.setAttribute("alertMsg", "휴가등록이 완료되었습니다.");
+				return "redirect:/list.le";
+			}else {
+				model.addAttribute("errorMsg", "휴가등록에 실패하였습니다.");
+				return "common/errorPage";
+			}
 		}else {
-			model.addAttribute("errorMsg", "휴가등록에 실패하였습니다.");
-			return "common/errorPage";
+			int result = eService.insertLeave(le);
+			
+			if(result > 0) {
+				session.setAttribute("alertMsg", "휴가등록이 완료되었습니다.");
+				return "redirect:/list.le";
+			}else {
+				model.addAttribute("errorMsg", "휴가등록에 실패하였습니다.");
+				return "common/errorPage";
+			}
+			
 		}
 		
 	}

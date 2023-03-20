@@ -153,6 +153,20 @@
 		  )
 	</insert> 
 	
+	<!-- 연차등록시 차감연차 -->
+	<insert id="updateAnuualCount">
+		insert 
+			  into annual(annual_no, emp_no, annual_count, annual_date, annual_category)
+			select 
+			       seq_anno.nextval
+			     , emp_no
+			     , - ((replace(#{leaveEnd},'-','') - replace(#{leaveStart},'-',''))) 
+			     , sysdate
+			     , 2
+			  from employee e
+			 where emp_no = #{empNo}
+	</insert>
+	
 	<!-- 휴가페이징 -->
 	<select id="selectLeaveListCount" resultType="_int">
 		select
@@ -274,37 +288,27 @@
 	</update>
 	
 	<!-- 관리자 : 연차부여(한달)  -->
-	<update id="adminUpdateMonth">
+	<insert id="adminUpdateMonth">
 		<![CDATA[
-		update annual a
-		   set annual_count = annual_count + 1
-		     , annual_date = sysdate
-		     , annual_category = 1
-		 where a.emp_no in (
-							select
-       								emp_no
-  							   from employee e
- 							  where to_char(add_months(e.enroll_date, 12), 'YYYY-MM-DD') > to_char(TRUNC(SYSDATE, 'YYYY') ,'YYYY-MM-DD')
-						   )
+		insert 
+		  into annual(annual_no, emp_no, annual_count, annual_date, annual_category)
+		select seq_anno.nextval, emp_no, 1, sysdate, 1
+		  from employee e
+		 where to_char(add_months(e.enroll_date, 12), 'YYYY-MM-DD') > to_char(TRUNC(SYSDATE, 'YYYY') ,'YYYY-MM-DD')
 		]]>
-	</update>
+	</insert>
 	
 	
 	<!-- 관리자 : 연차부여(일년) -->
-	<update id="adminUpdateYear">
+	<insert id="adminUpdateYear">
 		<![CDATA[
-		update annual a
-		   set annual_count = annual_count + 15
-		     , annual_date = sysdate
-		     , annual_category = 1
-		where a.emp_no in (
-							select
-       								emp_no
-  							   from employee e
- 							  where to_char(add_months(e.enroll_date, 12), 'YYYY-MM-DD') < to_char(TRUNC(SYSDATE, 'YYYY') ,'YYYY-MM-DD')
-						  )
+		insert 
+		  into annual(annual_no, emp_no, annual_count, annual_date, annual_category)
+		select seq_anno.nextval, emp_no, 15, sysdate, 1
+		  from employee e
+		 where to_char(add_months(e.enroll_date, 12), 'YYYY-MM-DD') < to_char(TRUNC(SYSDATE, 'YYYY') ,'YYYY-MM-DD')
 		]]>
-	</update>
+	</insert>
 	
 	<!-- 관리자 : 연차관리 페이징 -->
 	<select id="adminAnnualListCount" resultType="_int">
@@ -320,14 +324,16 @@
 		     , emp_name
 		     , dept_name
 		     , job_name
-		     , (select annual_count from annual a where annual_category = 1 and a.emp_no = e.emp_no) as "annual_create"
-		     , (select annual_count from annual a where annual_category = 2 and a.emp_no = e.emp_no) as "annual_use"
-		     , annual_count
+		     , (select sum(annual_count) from annual a where annual_category = 1 and a.emp_no = e.emp_no) as "annual_create"
+		     , (select sum(annual_count) from annual a where annual_category = 2 and a.emp_no = e.emp_no) as "annual_use"
+		     , sum(annual_count) as "annual_count"
 		     , to_char(e.enroll_date, 'yyyy-mm-dd') as "enroll_date"
 		  from employee e
 		  join annual a on (e.emp_no = a.emp_no)
 		  join department d on (e.dept_code = d.dept_code)
 		  join job j on (e.job_code = j.job_code)
+         group
+            by e.emp_no,emp_name, dept_name, job_name, e.enroll_date
 		 order
 		    by e.emp_no desc
 	</select>

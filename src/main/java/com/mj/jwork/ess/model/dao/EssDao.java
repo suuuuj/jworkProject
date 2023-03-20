@@ -192,7 +192,7 @@ public class EssDao {
 	}
 	
 	public int adminUpdateYear(SqlSession sqlSession) {
-		return sqlSession.update("essMapper.adminUpdateYear");
+		return sqlSession.insert("essMapper.adminUpdateYear");
 	}
 	
 	public int adminInsertAnnual(SqlSession sqlSession, int empNo) {
@@ -200,11 +200,15 @@ public class EssDao {
 	}
 	
 	public int adminUpdateMonth(SqlSession sqlSession) {
-		return sqlSession.update("essMapper.adminUpdateMonth");
+		return sqlSession.insert("essMapper.adminUpdateMonth");
 	}
 	
 	public Annual selectAnnualCount(SqlSession sqlSession, int empNo) {
 		return sqlSession.selectOne("essMapper.selectAnnualCount", empNo);
+	}
+	
+	public int updateAnuualCount(SqlSession sqlSession, Leave le) {
+		return sqlSession.insert("essMapper.updateAnuualCount", le);
 	}
 	
 	
