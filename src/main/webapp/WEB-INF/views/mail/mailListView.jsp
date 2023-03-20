@@ -620,7 +620,6 @@
                                     <li class="page-item"><a class="page-link" href="search.ma?cpage=${ pi.currentPage - 1 }&condition=${ condition }&keyword=${ keyword }">Previous</a></li>
                                 </c:otherwise>
                             </c:choose>
-         					<li class="page-item"><a class="page-link" href="list.ma?cpage=${ pi.currentPage - 1 }&mailCategory=${ mailCategory }">Previous</a></li>
                     	</c:otherwise>
                     </c:choose>
                     
