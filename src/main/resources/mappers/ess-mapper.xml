@@ -13,7 +13,7 @@
 		<result column="after_time" property="afterTime" />
 	</resultMap>
 	
-	<resultMap id="auualResult" type="Annual">
+	<resultMap id="annualResult" type="Annual">
 		<id column="annual_no" property="annualNo" />
 		<result column="emp_no" property="empNo" />
 		<result column="annual_count" property="annualCount" />
@@ -295,7 +295,7 @@
 		  from annual
 	</select>
 	
-	<!-- 관리자 : 연차관리 전체조회 
+	<!-- 관리자 : 연차관리 전체조회 -->
 	<select id="adminAnnualList" resultMap="annualResult">
 		select
 		       annual_no
@@ -311,7 +311,6 @@
 		  join department d on (e.dept_code = d.dept_code)
 		  join job j on (e.job_code = j.job_code)
 	</select>
-	-->
 	
 	<!-- 관리자 : 연차관리 상세조회 -->
 	

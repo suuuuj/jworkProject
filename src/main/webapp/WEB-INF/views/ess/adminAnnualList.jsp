@@ -35,6 +35,9 @@
         font-weight: 600;
         margin-bottom: 6px;
     }
+    .btnArea button:hover{
+        opacity: 0.7;
+    }
     .annualTable{
         width:100%;
         text-align: center;
@@ -123,11 +126,16 @@
             <script>
                 $(function(){
                     $("#upateYear").click(function(){
-                        location.href = 'adminYear.le'
+                        if(confirm("연도별 연차등록을 하시겠습니까?")){
+                            location.href = 'adminYear.le'
+                        }
+                        
                     });
 
                     $("#updateMoth").click(function(){
-                        location.href = 'adminMonth.le'
+                        if(confirm("월별 연차등록을 하시겠습니까?")){
+                            location.href = 'adminMonth.le'
+                        }
                     })
                 })
             </script>
