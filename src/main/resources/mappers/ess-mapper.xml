@@ -16,7 +16,13 @@
 	<resultMap id="annualResult" type="Annual">
 		<id column="annual_no" property="annualNo" />
 		<result column="emp_no" property="empNo" />
+		<result column="emp_name" property="empName" />
+		<result column="dept_name" property="deptName" />
+		<result column="job_name" property="jobName" />
+		<result column="enroll_date" property="enrollDate" />
 		<result column="annual_count" property="annualCount" />
+		<result column="annual_create" property="annualCreate" />
+		<result column="annual_use" property="annualUse" />
 		<result column="annual_date" property="annualDate" />
 		<result column="annual_category" property="annualCategory" />
 	</resultMap>
@@ -108,6 +114,14 @@
 		        lcategory_name
 		   from leave_category
 		  where lcategory_no = #{no}
+	</select>
+	
+	<!-- 휴가등록화면 잔여연차 -->
+	<select id="selectAnnualCount" resultMap="annualResult">
+		select 
+		        annual_count
+		   from annual
+		  where emp_no = #{empNo} 
 	</select>
 	
 	<!-- 휴가등록 -->
@@ -260,32 +274,36 @@
 	</update>
 	
 	<!-- 관리자 : 연차부여(한달)  -->
-	<update id="annualUpdateMonth">
+	<update id="adminUpdateMonth">
+		<![CDATA[
 		update annual a
-		   set annual_count = 1
+		   set annual_count = annual_count + 1
 		     , annual_date = sysdate
 		     , annual_category = 1
 		 where a.emp_no in (
 							select
        								emp_no
   							   from employee e
- 							  where to_char(add_months(e.enroll_date, 12), 'YYYY-MM-DD') <![CDATA[>]]> to_char(TRUNC(SYSDATE, 'YYYY') ,'YYYY-MM-DD')
+ 							  where to_char(add_months(e.enroll_date, 12), 'YYYY-MM-DD') > to_char(TRUNC(SYSDATE, 'YYYY') ,'YYYY-MM-DD')
 						   )
+		]]>
 	</update>
 	
 	
 	<!-- 관리자 : 연차부여(일년) -->
-	<update id="annualUpdateYear">
+	<update id="adminUpdateYear">
+		<![CDATA[
 		update annual a
-		   set annual_count = 15
+		   set annual_count = annual_count + 15
 		     , annual_date = sysdate
 		     , annual_category = 1
 		where a.emp_no in (
 							select
        								emp_no
   							   from employee e
- 							  where to_char(add_months(e.enroll_date, 12), 'YYYY-MM-DD') <![CDATA[<]]> to_char(TRUNC(SYSDATE, 'YYYY') ,'YYYY-MM-DD')
+ 							  where to_char(add_months(e.enroll_date, 12), 'YYYY-MM-DD') < to_char(TRUNC(SYSDATE, 'YYYY') ,'YYYY-MM-DD')
 						  )
+		]]>
 	</update>
 	
 	<!-- 관리자 : 연차관리 페이징 -->
@@ -298,21 +316,21 @@
 	<!-- 관리자 : 연차관리 전체조회 -->
 	<select id="adminAnnualList" resultMap="annualResult">
 		select
-		       annual_no
-		     , a.emp_no
+		       e.emp_no
 		     , emp_name
 		     , dept_name
 		     , job_name
+		     , (select annual_count from annual a where annual_category = 1 and a.emp_no = e.emp_no) as "annual_create"
+		     , (select annual_count from annual a where annual_category = 2 and a.emp_no = e.emp_no) as "annual_use"
 		     , annual_count
-		     , annual_date
-		     , annual_category
-		  from annual a
-		  join employee e on (a.emp_no = e.emp_no) 
+		     , to_char(e.enroll_date, 'yyyy-mm-dd') as "enroll_date"
+		  from employee e
+		  join annual a on (e.emp_no = a.emp_no)
 		  join department d on (e.dept_code = d.dept_code)
 		  join job j on (e.job_code = j.job_code)
+		 order
+		    by e.emp_no desc
 	</select>
-	
-	<!-- 관리자 : 연차관리 상세조회 -->
 	
 	<!-- 시간외근무등록 -->
 	<insert id="insertOvertime">

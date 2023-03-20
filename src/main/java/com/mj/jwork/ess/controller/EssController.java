@@ -36,7 +36,10 @@ public class EssController {
 	 * @return
 	 */
 	@RequestMapping("menu.le")
-	public String leaveMainPage() {
+	public String leaveMainPage(HttpSession session) {
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		Annual a = eService.selectAnnualCount(empNo);
+		session.setAttribute("a", a);
 		return "ess/leaveMenu";
 	}
 
@@ -213,12 +216,12 @@ public class EssController {
 	 */
 	//@Scheduled(cron="0 0 09 1 1 *")
 	@RequestMapping("adminYear.le")
-	public ModelAndView adminUpdateYear(ModelAndView mv) {
+	public ModelAndView adminUpdateYear(HttpSession session, ModelAndView mv) {
 		
 		int result = eService.adminUpdateYear();
 		if(result > 0) {
-			mv.addObject("alertMsg", "연차등록이 완료되었습니다.");
-			mv.setViewName("ess/adminAnnualList");
+			session.setAttribute("alertMsg", "연차등록이 완료되었습니다.");
+			mv.setViewName("redirect:/adminAnnual.le");
 		}else {
 			mv.addObject("errorMsg", "연차등록에 실패하였습니다.");
 			mv.setViewName("common/errorPage");
@@ -233,11 +236,11 @@ public class EssController {
 	 */
 	//@Scheduled(cron="0 0 09 1 * *")
 	@RequestMapping("adminMonth.le")
-	public ModelAndView adminUpdateMonth(ModelAndView mv) {
+	public ModelAndView adminUpdateMonth(HttpSession session, ModelAndView mv) {
 		int result = eService.adminUpdateMonth();
 		if(result > 0) {
-			mv.addObject("alertMsg", "연차등록이 완료되었습니다.");
-			mv.setViewName("ess/adminAnnualList");
+			session.setAttribute("alertMsg", "연차등록이 완료되었습니다.");
+			mv.setViewName("redirect:/adminAnnual.le");
 		}else {
 			mv.addObject("errorMsg", "연차등록에 실패하였습니다.");
 			mv.setViewName("common/errorPage");
@@ -251,10 +254,16 @@ public class EssController {
 	 * @return
 	 */
 	@RequestMapping("adminAnnual.le")
-	public ModelAndView adminAnnualList(@RequestParam(value="capge") int currentPage, ModelAndView mv) {
+	public ModelAndView adminAnnualList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv) {
+		
+		// 페이징
 		int listCount = eService.adminAnnualListCount();
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 15, 5);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+		
+		// 페이징 후 전체조회
 		ArrayList<Annual> list = eService.adminAnnualList(pi);
+		mv.addObject("pi", pi);
+		mv.addObject("list", list);
 		mv.setViewName("ess/adminAnnualList");
 		return mv;
 	}

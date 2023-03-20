@@ -12,6 +12,8 @@ import com.mj.jwork.ess.model.vo.Overtime;
 
 public interface EssService {
 	
+	// 휴가 메인페이지 잔여휴가
+	Annual selectAnnualCount(int empNo);
 	// 휴가 카테고리 조회 
 	LeaveCategory selectLeaveCategory(int no); 
 	

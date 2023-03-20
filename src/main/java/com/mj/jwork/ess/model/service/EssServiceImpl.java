@@ -25,6 +25,11 @@ public class EssServiceImpl implements EssService {
 	SqlSessionTemplate sqlSession;
 
 	@Override
+	public Annual selectAnnualCount(int empNo) {
+		return eDao.selectAnnualCount(sqlSession, empNo);
+	}
+
+	@Override
 	public LeaveCategory selectLeaveCategory(int no) {
 		return eDao.selectLeaveCategory(sqlSession, no);
 	}
@@ -213,6 +218,7 @@ public class EssServiceImpl implements EssService {
 	public int adminReturnOvertime(int otNo) {
 		return eDao.adminReturnOvertime(sqlSession, otNo);
 	}
+
 
 
 

@@ -294,7 +294,7 @@
                             <div class="menuDetail">
                                 <a id="" href="menu.le">휴가신청</a><br>
                                 <a id="" href="list.le">휴가상세</a><br>
-                                <a id="" href="adminAnnual.le" style="color:rgb(2, 152, 52)">휴가관리</a><br>
+                                <a id="" href="adminAnnual.le" style="color:rgb(2, 152, 52)">연차관리</a><br>
                                 <a id="" href="adminList.le"  style="color:rgb(2, 152, 52)">휴가내역</a><br>
                                 <a id="" href="" style="color:rgb(2, 152, 52)">전체휴가일정</a><br>
                             </div>

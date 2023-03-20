@@ -89,7 +89,7 @@
                 <img src="resources/images/ess/annual.png" alt=""> <br>
                 <span style="margin-left: 20px; font-size: 13px; color:rgb(80, 80, 80); font-weight: 600;">연차</span><br>
                 <span style="margin-left: 20px; font-size: 10px; color:rgb(170, 170, 170)">매월 1일</span>
-                <span style="float: right; margin-right: 20px; font-size: 10px; font-weight: 600;; color:rgb(0, 183, 0)">잔여 11일</span>
+                <span style="float: right; margin-right: 20px; font-size: 10px; font-weight: 600;; color:rgb(0, 183, 0)">잔여 ${a.annualCount}일</span>
             </div>
 
             <div class="leaveMenu" style="margin-left:12px;" onclick="enrollForm(1);">

@@ -18,6 +18,13 @@ public class Annual {
 	private int annualCount; // 발생및사용 휴가일수
 	private String annualDate; // 발생및사용 날짜
 	private String annualCategory; // 1:발생 2:사용
+	
+	private int annualCreate;
+	private int annualUse;
+	private String empName;
+	private String deptName;
+	private String jobName;
+	private String enrollDate;
  	
 
 }

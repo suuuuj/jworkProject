@@ -36,7 +36,8 @@
         margin-bottom: 6px;
     }
     .btnArea button:hover{
-        opacity: 0.7;
+        background-color: rgb(0,172,0);
+        color:white;
     }
     .annualTable{
         width:100%;
@@ -67,6 +68,10 @@
         height:25px;
         line-height: 5px;
         font-size: 12px;
+    }
+    #pagingArea{
+    	width:fit-content;
+    	margin:auto;
     }
     /* modal영역 */
     .modal-content{
@@ -118,41 +123,37 @@
         <div class="vacation">
 
             <div class="btnArea">
-                 <!-- 매년 1월1일에만 1년차이상 버튼 활설화되게 할 수 있을까? -->
-                <button type="button" id="updateYear">1년차 이상</button> 
-                <button type="button" id="updateMonth">1년차 미만</button>
+                <!-- 매년 1월1일에만 1년차이상 버튼 활설화되게 할 수 있을까? -->
+                <button type="button" onclick="updateYear();">1년차 이상</button> 
+                <button type="button" onclick="updateMonth();">1년차 미만</button>
             </div>
 
             <script>
-                $(function(){
-                    $("#upateYear").click(function(){
-                        if(confirm("연도별 연차등록을 하시겠습니까?")){
-                            location.href = 'adminYear.le'
-                        }
-                        
-                    });
+                 function updateYear(){
+                    if(confirm("연도별 연차등록을 하시겠습니까?")){
+                        location.href = 'adminYear.le';
+                    }
+                };
 
-                    $("#updateMoth").click(function(){
-                        if(confirm("월별 연차등록을 하시겠습니까?")){
-                            location.href = 'adminMonth.le'
-                        }
-                    })
-                })
+                function updateMonth(){
+                    if(confirm("월별 연차등록을 하시겠습니까?")){
+                        location.href = 'adminMonth.le';
+                    }
+                };
             </script>
             <br>
             <div class="list-area">
                 <table class="annualTable">
                     <thead>
                         <tr style="font-weight: 600; background: rgb(234, 234, 234);">
-                            <td width="100px;">사번</td>
+                            <td width="120px;">사번</td>
                             <td width="120px;">소속</td>
                             <td width="120px;">직위</td>
                             <td width="120px;">이름</td>
-                            <td width="100px;">발생</td>
-                            <td width="100px;">사용</td>
-                            <td width="100px;">잔여</td>
-                            <td width="160px;">입사일</td>
-                            <td width="90px;"></td>
+                            <td width="120px;">발생</td>
+                            <td width="120px;">사용</td>
+                            <td width="120px;">잔여</td>
+                            <td width="170px;">입사일</td>
                         </tr>
                     </thead>
                     
@@ -163,115 +164,52 @@
                             <td>${a.deptName}</td>
                             <td>${a.jobName}</td>
                             <td>${a.empName}</td>
-                            <td><input type="text" name="create" value="${a.annualCount}" max="15" readonly></td>
-                            <td><input type="text" name="create" value="${a.annualDate}" readonly></td>
-                            <td><input type="text" name="use" value="" readonly></td>
-                            <td>${a.annualDate}</td>
-                            <td><button class="btn btn-success" id="" onclick="anDetail(${a.empNo});">연차</button></td>
+                            <td><input type="text" name="create" value="${a.annualCreate}" max="15" readonly></td>
+                            <td><input type="text" name="create" value="${a.annualUse}" readonly></td>
+                            <td><input type="text" name="use" value="${a.annualCount}" readonly></td>
+                            <td>${a.enrollDate}</td>
                         </tr>
                         </c:forEach>
                     </tbody>
                 </table>
             </div>
 
-            <script>
-                function anDetail(no){
-                    $.ajax({
-                        url:"anDetail.le",
-                        data:{empNo:no},
-                        success:function(result){
-
-                        }, 
-                        error:function(){
-                            console.log("연차부여모달 ajax통신 실패");
-                        }
-                    })
-                })
-            </script>
-
             <br><br>
             <div id="pagingArea">
-                    <ul class="pagination">
-                    
-                        <c:choose>
-                            <c:when test="${ pi.currentPage eq 1 }">
-                                <li class="page-item" disabled><a class="page-link" href="#"><</a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li class="page-item"><a class="page-link" href="list.le?cpage=${ pi.currentPage-1 }"><</a></li>
-                            </c:otherwise>
-                        </c:choose>
-                        
-                        <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-                            <li class="page-item"><a class="page-link" href="list.le?cpage=${ p }">${ p }</a></li>
-                        </c:forEach>
-                        
-                
-                                    <c:choose>
-                            <c:when test="${ pi.currentPage eq pi.maxPage }">
-                                <li class="page-item" disabled><a class="page-link" href="#">></a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li class="page-item"><a class="page-link" href="list.le?cpage=${ pi.currentPage+1 }">></a></li>
-                            </c:otherwise>
-                        </c:choose>
-                    </ul>
+                <ul class="pagination">
+    
+                    <c:choose>
+                        <c:when test="${ pi.currentPage eq 1 }">
+                            <li class="page-item" disabled><a class="page-link" href="#"><</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link"
+                                href="adminAnnual.le?cpage=${ pi.currentPage-1 }"><</a></li>
+                        </c:otherwise>
+                    </c:choose>
+    
+                    <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+                        <li class="page-item"><a class="page-link"
+                            href="adminAnnual.le?cpage=${ p }">${ p }</a></li>
+                    </c:forEach>
+    
+    
+                    <c:choose>
+                        <c:when test="${ pi.currentPage eq pi.maxPage }">
+                            <li class="page-item" disabled><a class="page-link" href="#">></a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link"
+                                href="adminAnnual.le?cpage=${ pi.currentPage+1 }">></a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
             </div>
 
         </div>
 
     </div>
 
-    <!--
-        매월1일마다 연차탭이 abled 될 수 있도록 할수없을까? 
-    -->
-
-    <!-- The Modal -->
-    <div class="modal fade" id="annualModal">
-        <div class="modal-dialog modal-dialog-centered"  style="width:400px;">
-            <div class="modal-content">
-        
-                <!-- Modal Header -->
-                <div class="modal-header">
-                <h4 class="modal-title">연차등록</h4>
-                <button type="button" class="close" data-dismiss="modal" onclick="annualClose();">&times;</button>
-                </div>
-                
-                <!-- Modal body -->
-                <div class="modal-body" style="width:90%; margin:auto;">
-                    <span class="modalS">사원번호</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="" style="width:200px;" readonly><br>
-                    <span class="modalS">사원이름</span> <br>
-                    <input type="text" name="stDate" value="&nbsp;&nbsp;2023.03.20" style="width:133px;" readonly>
-                    <span class="modalS">사원이름</span> <br>
-                    <input type="text" name="edDate" value="&nbsp;&nbsp;2023.03.21" style="width:133px;" readonly>
-                    <br><br>
-                    <span>신청사유</span>
-                    <br>
-                    <div class="textWrap">
-                        <span class="textCount">0자</span><span class="textTotal">/200자</span>
-                    </div>
-                    <textarea name="" id="" readonly>글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200자인지궁금해서한번써봅니다얼마나들어가나보자글자수세볼꺼예요몇글자가200</textarea>
-                    
-                </div>
-                
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="annualClose();">Close</button>
-                </div>
-            
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function annualClose(){
-            $('#annualModal').modal('hide'); 
-            $('#annualModal').hide();
-            $('.jquery-modal').click();
-    }
-
-    </script>
     
 </body>
 </html>

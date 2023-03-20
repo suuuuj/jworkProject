@@ -200,7 +200,11 @@ public class EssDao {
 	}
 	
 	public int adminUpdateMonth(SqlSession sqlSession) {
-		return sqlSession.update("essMapper.adminUpdateMonte");
+		return sqlSession.update("essMapper.adminUpdateMonth");
+	}
+	
+	public Annual selectAnnualCount(SqlSession sqlSession, int empNo) {
+		return sqlSession.selectOne("essMapper.selectAnnualCount", empNo);
 	}
 	
 	
