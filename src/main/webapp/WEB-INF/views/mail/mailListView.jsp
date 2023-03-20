@@ -89,6 +89,11 @@
             display:none;
             background-color: rgb(241, 248, 238);
         }
+        .receiver{
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow: ellipsis !important;
+        }
 
     </style>
 </head>
@@ -358,13 +363,13 @@
 			
             <div class="space"></div>
             <div class="mailContents">
-                <table class="table table-hover">
+                <table class="table table-hover" style="table-layout:fixed">
                 <c:if test="${ mailCategory == '받은메일함' || mailCategory == '중요' || mailCategory == '휴지통' || mailCategory == '안읽은메일' || mailCategory == '사용자메일함' }">
                 	<c:choose>
                         <c:when test="${ mList.size() ne 0 }">
                             <!-- 목록 시작 -->
                             <c:forEach var="m" items="${ mList }">
-                                <tr class='${ m.mailList.get(0).read == "N" ? "font-bold" : ""}' mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">
+                                <tr class='${ m.mailList.get(0).read == "N" ? "font-bold" : ""} middle' mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">
                                     <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
                                     <c:choose>
                                         <c:when test='${ m.mailList.get(0).important eq "Y" }'>
@@ -474,6 +479,56 @@
                         </c:otherwise>
                     </c:choose>
                 </c:if>
+                <c:if test="${ mailCategory == '임시보관함' }">
+                	<c:choose>
+                        <c:when test="${ mList.size() ne 0 }">
+                            <!-- 목록 시작 -->
+                            <c:forEach var="m" items="${ mList }">
+                                <tr class='middle' mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">
+                                    <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
+                                    <c:choose>
+                                        <c:when test='${ m.mailList.get(0).important eq "Y" }'>
+                                            <td width="30px" class="star" important="N"><img class="mailIcon" src="resources/images/mail/important.png"></td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td width="30px" class="star" important="Y"><img class="mailIcon" src="resources/images/mail/normal.png"></td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test="${ m.mailList.get(0).read eq 'Y' }">
+                                            <!--읽은 메일-->
+                                            <td width="30px"><img class="mailIcon" src="resources/images/mail/readMail.png"></td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <!--안읽은 메일-->
+                                            <td width="30px"><img class="mailIcon" src="resources/images/mail/unReadMail.png"></td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test="${ m.attachment eq 0 }">
+                                            <!--첨부파일 없는 경우-->
+                                            <td width="30px"></td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <!--첨부파일 있는 경우-->
+                                            <td width="30px"><img class="mailIcon" src="resources/images/mail/fileclip.png"></td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <td width="100px" class="receiver">${ m.receiver }</td>
+                                    <td width="500px" class="writeMail" mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">${ m.mailTitle }</td>
+                                    <td width="220px">${ m.registerDate }</td>
+                                </tr>
+                            </c:forEach> 
+                        </c:when>
+                        <c:otherwise>
+                            <tr>
+                                <td colspan="7" width="940px">
+                                    메일이 없습니다.
+                                </td>
+                            </tr>
+                        </c:otherwise>
+                    </c:choose>      
+                </c:if>
                 </table>
             </div>
             
@@ -571,6 +626,12 @@
                     $(document).on("click", ".mailContents .sendMailDetail", function(){
 
                         location.href='detail.ma?mailNo=' + $(this).attr("mail-no") + '&readDate=Y';
+
+                    })
+
+                    $(document).on("click", ".mailContents .writeMail", function(){
+
+                        location.href='updateForm.ma?mailNo=' + $(this).attr("mail-no");
 
                     })
                     

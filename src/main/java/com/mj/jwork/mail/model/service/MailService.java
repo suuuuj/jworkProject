@@ -52,8 +52,10 @@ public interface MailService {
 	// 메일 상세조회
 	Mail selectMail(Mail m);
 	
-	// 메일 수정(임시저장 => 보내기)
-	int updateMailSend(ArrayList<Mail> mList);
+	// 메일 수정(임시저장or보내기)
+	int updateMail(Mail m);
+	
+	int deleteMailAt(int attachmentNo);
 	
 	// 메일 이동
 	int updateMailBox(ArrayList<Mail> mList);

@@ -1,11 +1,11 @@
 package com.mj.jwork.mail.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -206,6 +206,7 @@ public class MailController {
 						
 					}
 					
+					
 				} else {
 					mv.addObject("send", "N")
 					  .addObject("message", "임시저장 성공!")
@@ -243,10 +244,109 @@ public class MailController {
 		
 		if(result > 0) {
 			Mail mi = mService.selectMail(m);
-			System.out.println(mi);
+			//System.out.println(mi);
 			mv.addObject("mi", mi).setViewName("mail/mailDetailView");
 			
 		} else {
+			mv.setViewName("common/errorPage");
+		}
+		
+		return mv;
+		
+	}
+	
+	@RequestMapping("updateForm.ma")
+	public ModelAndView updateForm(Mail m, HttpSession session, ModelAndView mv) {
+		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
+		
+		Mail mi = mService.selectMail(m);
+		mv.addObject("mi", mi).setViewName("mail/mailUpdateForm");
+		
+		return mv;
+		
+	}
+	
+	@RequestMapping("updateMail.ma")
+	public ModelAndView updateMail(Mail m, @RequestPart(value="upfile") List<MultipartFile> upfile, String deleteAt, 
+													String deleteOrigins, HttpSession session, ModelAndView mv) {
+		
+		System.out.println(m);
+		System.out.println(upfile.size());
+		System.out.println(deleteOrigins);
+		String deleteAtArr[] = deleteAt.split(",");
+		String deleteOriginsArr[] = deleteOrigins.split(",");
+		
+		int result = mService.updateMail(m);
+		int attachResult = 1;
+		if(result > 0) {
+			for(int i=0; i<deleteAtArr.length; i++) {
+				
+				attachResult = attachResult * mService.deleteMailAt(Integer.parseInt(deleteAtArr[i]));
+				
+				if(attachResult > 0) {
+					new File(session.getServletContext().getRealPath(deleteOriginsArr[i])).delete();
+				}
+				
+			}
+			
+			int mailAtResult = 1;
+			if(attachResult > 0) {
+				if(!upfile.get(0).getOriginalFilename().equals("")) {
+					for(int i=0; i<upfile.size(); i++) {
+						System.out.println(upfile.get(i).getOriginalFilename());
+						String saveFilePath = FileUpload.saveFile(upfile.get(i), session, "resources/mailUploadFiles/");
+						
+						MailAt ma = new MailAt();
+						ma.setOriginName(upfile.get(i).getOriginalFilename());
+						ma.setChangeName(saveFilePath);
+						
+						mailAtResult = mailAtResult * mService.insertMailAt(ma);
+						
+					}
+				}
+				
+				if(mailAtResult > 0){
+					Mail md = new Mail();
+					if(m.getSend().equals("Y")) {
+						
+						int detailResult = 1;
+						String[] receiverArr = m.getReceiver().split(",");
+						String[] receiverNoArr = m.getReceiverNo().split(",");
+						
+						for(int i=0; i<receiverArr.length; i++) {
+							
+							md.setEmpNo(Integer.parseInt(receiverNoArr[i]));
+							md.setEmpName(receiverArr[i]);
+							md.setType("R");
+							System.out.println(md);
+							detailResult = detailResult * mService.insertMailDetail(md);
+							
+						}
+						if(detailResult > 0) {
+							mv.addObject("send", "Y")
+							  .addObject("message", "메일 전송 성공!")
+							  .addObject("subMessage", "보낸 메일은 보낸 메일함에서 확인 가능합니다.")
+							  .setViewName("mail/mailSuccess");
+						}else {
+							mv.setViewName("common/errorPage");
+						}
+						
+						
+					} else {
+						mv.addObject("send", "N")
+						  .addObject("message", "임시저장 성공!")
+						  .addObject("subMessage", "임시저장 메일은 임시저장함에서 확인 가능합니다.")
+						  .setViewName("mail/mailSuccess");
+					}
+				} else {
+					mv.setViewName("common/errorPage");
+				}
+				
+			}else {
+				mv.setViewName("common/errorPage");
+			}
+			
+		}else {
 			mv.setViewName("common/errorPage");
 		}
 		

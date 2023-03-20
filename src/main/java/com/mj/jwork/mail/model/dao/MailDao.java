@@ -114,5 +114,17 @@ public class MailDao {
 		
 	}
 	
+	public int updateMail(SqlSessionTemplate sqlSession, Mail m) {
+		
+		return sqlSession.update("mailMapper.updateMail", m);
+		
+	}
+	
+	public int deleteMailAt(SqlSessionTemplate sqlSession, int attachmentNo) {
+		
+		return sqlSession.delete("mailMapper.deleteMailAt", attachmentNo);
+		
+	}
+	
 	
 }

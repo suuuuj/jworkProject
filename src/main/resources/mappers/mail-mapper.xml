@@ -36,6 +36,7 @@
 	<resultMap type="Mail" id="mailResultMap2">
 		<id column="mail_no" property="mailNo" />
 		<result column="sender" property="sender" />
+		<result column="receiver" property="receiver" />
 		<result column="mail_title" property="mailTitle" />
 		<result column="register_date" property="registerDate" />
 		<result column="attachment" property="attachment" />
@@ -164,6 +165,7 @@
 		     , d.important
 		     , d.read
 		     , m.sender
+		     , m.receiver
 		     , d.emp_name
 		     , m.mail_title
 		     , to_char(m.register_date, 'YYYY.MM.DD HH24:MI:SS') "register_date"
@@ -341,7 +343,14 @@
 		     )
 		values 
 		     (
-		       seq_mno.currval
+		     <choose>
+		     	<when test='mailNo == ""'>
+		     		seq_mno.currval
+		     	</when>
+		     	<otherwise>
+		     		#{mailNo}
+		     	</otherwise>
+		     </choose>
 		     , #{empNo}
 		     , #{empName}
 		   <if test='"S".equals(type)'>
@@ -366,7 +375,14 @@
 		       seq_matno.nextval
 		     , #{originName}
 		     , #{changeName}
-		     , seq_mno.currval
+		     <choose>
+		     	<when test='mailNo == ""'>
+		     		,seq_mno.currval
+		     	</when>
+		     	<otherwise>
+		     		,#{mailNo}
+		     	</otherwise>
+		     </choose>
 		     )
 	</insert>
 	
@@ -406,6 +422,24 @@
 		            where rownum = 1) md
 		  left join mail_at ma on (ma.mail_no = md.mail_no)
 	</select>
+	
+	<update id="updateMail">
+		update
+		       mail
+		   set receiver = #{receiver}
+		     , mail_title = #{mailTitle}
+		     , mail_content = #{mailContent}
+		     , register_date = sysdate
+		     , send = #{send}
+		     , receiver_no = #{receiverNo}
+		 where mail_no = #{mailNo}
+	</update>
+	
+	<delete id="deleteMailAt">
+		delete
+		  from mail_at
+		 where attachment_no = #{attachmentNo}
+	</delete>
 	
 	
 </mapper>

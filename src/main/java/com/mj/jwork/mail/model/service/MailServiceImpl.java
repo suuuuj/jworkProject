@@ -103,8 +103,13 @@ public class MailServiceImpl implements MailService{
 	}
 	
 	@Override
-	public int updateMailSend(ArrayList<Mail> mList) {
-		return 0;
+	public int updateMail(Mail m) {
+		return mDao.updateMail(sqlSession, m);
+	}
+	
+	@Override
+	public int deleteMailAt(int attachmentNo) {
+		return mDao.deleteMailAt(sqlSession, attachmentNo);
 	}
 
 	@Override
@@ -121,6 +126,8 @@ public class MailServiceImpl implements MailService{
 	public int deleteMail(ArrayList<Mail> mList) {
 		return 0;
 	}
+
+	
 
 	
 	
