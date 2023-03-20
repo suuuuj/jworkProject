@@ -38,6 +38,7 @@
 		<result column="sender" property="sender" />
 		<result column="receiver" property="receiver" />
 		<result column="mail_title" property="mailTitle" />
+		<result column="mail_content" property="mailContent" />
 		<result column="register_date" property="registerDate" />
 		<result column="attachment" property="attachment" />
 		<!-- 컬렉션 사용 -->
@@ -114,7 +115,26 @@
 		    	and send = 'Y' 
 		    	and mailbox_no = #{mailBoxNo}
 		    </if>
-		   
+		   <if test='condition == "sender"'>
+		   		and emp_no = #{empNo}
+		   		and sender like '%' || #{keyword} || '%'
+		   </if>
+		   <if test='condition == "receiver"'>
+		   		and emp_no = #{empNo}
+		   		and receiver like '%' || #{keyword} || '%'
+		   </if>
+		   <if test='condition == "titleAndContent"'>
+		   		and emp_no = #{empNo}
+		   		and (mail_title like '%' || #{keyword} || '%'
+		   		 or mail_content like '%' || #{keyword} || '%')
+		   </if>
+		   <if test='condition == "all"'>
+		   		and emp_no = #{empNo}
+		   		and (sender like '%' || #{keyword} || '%'
+		   		 or receiver like '%' || #{keyword} || '%'
+		   		 or mail_title like '%' || #{keyword} || '%'
+		   		 or mail_content like '%' || #{keyword} || '%')
+		   </if>
 	</select>
 	
 	<select id="selectUnReadListCount" resultType="_int">
@@ -156,6 +176,26 @@
 		    	and send = 'Y' 
 		    	and mailbox_no = #{mailBoxNo}
 		    </if>
+		    <if test='condition == "sender"'>
+		   		and emp_no = #{empNo}
+		   		and sender like '%' || #{keyword} || '%'
+		   </if>
+		   <if test='condition == "receiver"'>
+		   		and emp_no = #{empNo}
+		   		and receiver like '%' || #{keyword} || '%'
+		   </if>
+		   <if test='condition == "titleAndContent"'>
+		   		and emp_no = #{empNo}
+		   		and (mail_title like '%' || #{keyword} || '%'
+		   		 or mail_content like '%' || #{keyword} || '%')
+		   </if>
+		   <if test='condition == "all"'>
+		   		and emp_no = #{empNo}
+		   		and (sender like '%' || #{keyword} || '%'
+		   		 or receiver like '%' || #{keyword} || '%'
+		   		 or mail_title like '%' || #{keyword} || '%'
+		   		 or mail_content like '%' || #{keyword} || '%')
+		   </if>
 		    and read = 'N'
 	</select>
 	
@@ -168,6 +208,7 @@
 		     , m.receiver
 		     , d.emp_name
 		     , m.mail_title
+		     , m.mail_content
 		     , to_char(m.register_date, 'YYYY.MM.DD HH24:MI:SS') "register_date"
 		     , (select count(*) from mail_at where mail_no = m.mail_no) "attachment"
      		 , to_char(d.read_date, 'YYYY.MM.DD HH24:MI:SS') "read_date"
@@ -207,6 +248,26 @@
 		    	and send = 'Y' 
 		    	and mailbox_no = #{mailBoxNo}
 		    </if>
+		    <if test='condition == "sender"'>
+		   		and emp_no = #{empNo}
+		   		and sender like '%' || #{keyword} || '%'
+		   </if>
+		   <if test='condition == "receiver"'>
+		   		and emp_no = #{empNo}
+		   		and receiver like '%' || #{keyword} || '%'
+		   </if>
+		   <if test='condition == "titleAndContent"'>
+		   		and emp_no = #{empNo}
+		   		and (mail_title like '%' || #{keyword} || '%'
+		   		 or mail_content like '%' || #{keyword} || '%')
+		   </if>
+		   <if test='condition == "all"'>
+		   		and emp_no = #{empNo}
+		   		and (sender like '%' || #{keyword} || '%'
+		   		 or receiver like '%' || #{keyword} || '%'
+		   		 or mail_title like '%' || #{keyword} || '%'
+		   		 or mail_content like '%' || #{keyword} || '%')
+		   </if>
 		 order
 		    by register_date desc
 	</select>

@@ -270,9 +270,6 @@ public class MailController {
 	public ModelAndView updateMail(Mail m, @RequestPart(value="upfile") List<MultipartFile> upfile, String deleteAt, 
 													String deleteOrigins, HttpSession session, ModelAndView mv) {
 		
-		System.out.println(m);
-		System.out.println(upfile.size());
-		System.out.println(deleteOrigins);
 		String deleteAtArr[] = deleteAt.split(",");
 		String deleteOriginsArr[] = deleteOrigins.split(",");
 		
@@ -350,6 +347,31 @@ public class MailController {
 			mv.setViewName("common/errorPage");
 		}
 		
+		return mv;
+		
+	}
+	
+	
+	@RequestMapping("search.ma")
+	public ModelAndView searchMail(@RequestParam(value="cpage", defaultValue="1") int currentPage, Mail m, ModelAndView mv, HttpSession session) {
+		
+		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
+		int listCount = mService.selectListCount(m);
+		int unReadCount = mService.selectUnReadListCount(m);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<Mail> mList = mService.selectMailList(m, pi);
+		
+		mv.addObject("mailCategory", "검색결과")
+		  .addObject("listCount", listCount)
+		  .addObject("unReadCount", unReadCount)
+		  .addObject("pi", pi)
+		  .addObject("mList", mList)
+		  .addObject("condition", m.getCondition())
+		  .addObject("keyword", m.getKeyword())
+		  .setViewName("mail/mailListView");
+		  
 		return mv;
 		
 	}

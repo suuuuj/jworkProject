@@ -94,6 +94,18 @@
             white-space:nowrap;
             text-overflow: ellipsis !important;
         }
+        .mailContents{
+            font-size: 11px;
+            color: gray;
+        }
+        .my>li>a{
+            color: rgb(14, 126, 14);
+            font-weight: bolder;
+        }
+        .my>li>a:hover{
+            color: rgb(14, 126, 14);
+            font-weight: bolder;
+        } 
 
     </style>
 </head>
@@ -307,7 +319,7 @@
 
                 <!-- 메일 검색 공간 -->
                 <div id="search-area">
-                    <form action="" method="get">
+                    <form action="search.ma" method="get">
                         <input type="hidden" name="cpage" value="1">
                         <select name="condition" id="condition">
                             <option value="all">선택</option>
@@ -316,7 +328,7 @@
                             <option value="titleAndContent">제목+내용</option>
                         </select>
                         <input type="text" name="keyword" id="keyword" value="${ keyword }">
-                        <button type="submit" class="btn btn-success btn-sm">검색</button>
+                        <button type="submit" id="searchBtn" class="btn btn-success btn-sm">검색</button>
         
                     </form>
                 </div>
@@ -324,6 +336,8 @@
 
 
             <script>
+                document.querySelector("#search-area option[value=${ condition }]").selected = true;
+
                 $(function(){
 
                     // 전채 선택 클릭 시 모든 메일 선택
@@ -401,6 +415,56 @@
                                     </c:choose>
                                     <td width="100px">${ m.sender }</td>
                                     <td width="500px" class="mt" mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">${ m.mailTitle }</td>
+                                    <td width="220px">${ m.registerDate }</td>
+                                </tr>
+                            </c:forEach> 
+                        </c:when>
+                        <c:otherwise>
+                            <tr>
+                                <td colspan="7" width="940px">
+                                    메일이 없습니다.
+                                </td>
+                            </tr>
+                        </c:otherwise>
+                    </c:choose>      
+                </c:if>
+                <c:if test="${ mailCategory == '검색결과' }">
+                	<c:choose>
+                        <c:when test="${ mList.size() ne 0 }">
+                            <!-- 목록 시작 -->
+                            <c:forEach var="m" items="${ mList }">
+                                <tr class='${ m.mailList.get(0).read == "N" ? "font-bold" : ""} middle' mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">
+                                    <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
+                                    <c:choose>
+                                        <c:when test='${ m.mailList.get(0).important eq "Y" }'>
+                                            <td width="30px" class="star" important="N"><img class="mailIcon" src="resources/images/mail/important.png"></td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td width="30px" class="star" important="Y"><img class="mailIcon" src="resources/images/mail/normal.png"></td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test="${ m.mailList.get(0).read eq 'Y' }">
+                                            <!--읽은 메일-->
+                                            <td width="30px"><img class="mailIcon" src="resources/images/mail/readMail.png"></td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <!--안읽은 메일-->
+                                            <td width="30px"><img class="mailIcon" src="resources/images/mail/unReadMail.png"></td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test="${ m.attachment eq 0 }">
+                                            <!--첨부파일 없는 경우-->
+                                            <td width="30px"></td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <!--첨부파일 있는 경우-->
+                                            <td width="30px"><img class="mailIcon" src="resources/images/mail/fileclip.png"></td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <td width="100px">${ m.sender }</td>
+                                    <td width="500px" class="mt" mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">${ m.mailTitle }<br><span class="mailContents">${ m.mailContent }</span></td>
                                     <td width="220px">${ m.registerDate }</td>
                                 </tr>
                             </c:forEach> 
@@ -535,25 +599,61 @@
             
             <!-- 페이징바 -->
             <div id="pagingArea">
-                <ul class="pagination">
+                <ul class="pagination my justify-content-end pagination-sm">
 					<c:choose>
 						<c:when test="${ pi.currentPage eq 1 }">
-                    		<li class="page-item disabled"><a class="page-link" href="list.ma?cpage=${ pi.currentPage - 1 }&mailCategory=${ mailCategory }">Previous</a></li>
+                            <c:choose>
+                                <c:when test="${ empty keyword }">
+                                    <li class="page-item disabled"><a class="page-link" href="list.ma?cpage=${ pi.currentPage - 1 }&mailCategory=${ mailCategory }">Previous</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="page-item disabled"><a class="page-link" href="search.ma?cpage=${ pi.currentPage - 1 }&condition=${ condition }&keyword=${ keyword }">Previous</a></li>
+                                </c:otherwise>
+                            </c:choose>
          				</c:when>
          				<c:otherwise>
+                            <c:choose>
+                                <c:when test="${ empty keyword }">
+                                    <li class="page-item"><a class="page-link" href="list.ma?cpage=${ pi.currentPage - 1 }&mailCategory=${ mailCategory }">Previous</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="page-item"><a class="page-link" href="search.ma?cpage=${ pi.currentPage - 1 }&condition=${ condition }&keyword=${ keyword }">Previous</a></li>
+                                </c:otherwise>
+                            </c:choose>
          					<li class="page-item"><a class="page-link" href="list.ma?cpage=${ pi.currentPage - 1 }&mailCategory=${ mailCategory }">Previous</a></li>
                     	</c:otherwise>
                     </c:choose>
                     
                     <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-                    	<li class="page-item"><a class="page-link" href="list.ma?cpage=${ p }&mailCategory=${ mailCategory }">${ p }</a></li>
+                        <c:choose>
+                            <c:when test="${ empty keyword }">
+                    	        <li class="page-item"><a class="page-link" href="list.ma?cpage=${ p }&mailCategory=${ mailCategory }">${ p }</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item"><a class="page-link" href="search.ma?cpage=${ p }&condition=${ condition }&keyword=${ keyword }">${ p }</a></li>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
                     <c:choose>
                     	<c:when test="${ pi.currentPage eq pi.maxPage }">
-                    		<li class="page-item disabled"><a class="page-link" href="list.ma?cpage=${ pi.currentPage + 1 }&mailCategory=${ mailCategory }">Next</a></li>
+                            <c:choose>
+                                <c:when test="${ empty keyword }">
+                                    <li class="page-item disabled"><a class="page-link" href="list.ma?cpage=${ pi.currentPage + 1 }&mailCategory=${ mailCategory }">Next</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="page-item disabled"><a class="page-link" href="search.ma?cpage=${ pi.currentPage + 1 }&condition=${ condition }&keyword=${ keyword }">Next</a></li>
+                                </c:otherwise>
+                            </c:choose>
 						</c:when>
                     	<c:otherwise>
-                    		<li class="page-item"><a class="page-link" href="list.ma?cpage=${ pi.currentPage + 1 }&mailCategory=${ mailCategory }">Next</a></li>                  
+                            <c:choose>
+                                <c:when test="${ empty keyword }">
+                                    <li class="page-item"><a class="page-link" href="list.ma?cpage=${ pi.currentPage + 1 }&mailCategory=${ mailCategory }">Next</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="page-item"><a class="page-link" href="search.ma?cpage=${ pi.currentPage + 1 }&condition=${ condition }&keyword=${ keyword }">Next</a></li>
+                                </c:otherwise>
+                            </c:choose>
                     	</c:otherwise>
                     </c:choose>
                 </ul>
