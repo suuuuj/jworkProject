@@ -119,7 +119,7 @@
 	<!-- 휴가등록화면 잔여연차 -->
 	<select id="selectAnnualCount" resultMap="annualResult">
 		select 
-		        annual_count
+		        sum(annual_count) as "annual_count"
 		   from annual
 		  where emp_no = #{empNo} 
 	</select>
