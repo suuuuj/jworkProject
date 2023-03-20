@@ -36,6 +36,10 @@ public interface ApprovalService{
 	//승인 올라가면 문서상태
 	int signStatus(int appNo);
 	
+	//반려버튼 눌렀을때
+	int returnBtn(AppLine al);
+	int returnStatus(int appNo);
+	
 	
 	
 	

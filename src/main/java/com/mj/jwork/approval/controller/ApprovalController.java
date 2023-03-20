@@ -206,6 +206,29 @@ public class ApprovalController {
 		}
 	}
 	
+	//결재반려
+	@RequestMapping("returnBtn.app")
+	public String approvalReturn(AppLine al,HttpSession session, Model model) {
+		System.out.println(al);
+		//승인 버튼 누른 후 app_line변경
+		int result1 = aService.returnBtn(al);
+		
+		if(result1>0) {
+			int result2 = aService.returnStatus(al.getAppNo()); 
+			session.setAttribute("alertMsg","반려 완료 되었습니다.");
+			return "redirect:unsignlist.app";
+		}else {// 승인 실패
+			model.addAttribute("errorMsg", "문서 반려 실패");
+			return "common/errorPage";
+			
+		}
+	}
+	
+	
+	
+	
+	
+	
 }
 
 

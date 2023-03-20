@@ -97,9 +97,18 @@ public class ApprovalDao {
 	public int signBtn(SqlSessionTemplate sqlSession, AppLine al) {
 		return sqlSession.update("approvalMapper.signBtn",al);
 	}
-
+	//승인 올라가면 문서상태
 	public int signStatus(SqlSessionTemplate sqlSession, int appNo) {
 		return sqlSession.update("approvalMapper.signStatus",appNo);
+	}
+
+	//반려버튼 눌렀을때
+	public int returnBtn(SqlSessionTemplate sqlSession, AppLine al) {
+		return sqlSession.update("approvalMapper.returnBtn",al);
+	}
+
+	public int returnStatus(SqlSessionTemplate sqlSession, int appNo) {
+		return sqlSession.update("approvalMapper.returnStatus",appNo);
 	}
 
 	

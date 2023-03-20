@@ -141,6 +141,7 @@
 	    where doc_status='Y'
 	      and confirm_status = 0
 	      and al.emp_no = #{empNo}
+	      and app_status in (0,1)
 	    order
 	       by app_no desc
       
@@ -241,7 +242,26 @@
 			                 else app_turn
 			                  end
   		 where app_no=#{appNo}
-
+    </update> 
+    
+     <!-- 반려 버튼 눌렀을때 app_line-->
+    <update id="returnBtn">
+    	update app_line
+  		   set 
+               confirm_status = 2
+             , re_reason = #{reReason}
+         where app_no= #{appNo}
+           and emp_no = #{empNo}
+   		   and app_level = (select app_turn
+	                          from approval
+	                         where app_no=#{appNo})
+    </update> 
+    
+    <!-- 반려 올라가면 문서상태  -->
+    <update id="returnStatus">
+		update approval
+		   set app_status = 3
+  		 where app_no=#{appNo}
     </update> 
 	
 

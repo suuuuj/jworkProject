@@ -270,8 +270,12 @@
             	function signBtn(){
             		$("#sign").attr("action","signBtn.app").submit();
             	}
+            	
+            	function returnBtn(){
+            		$("#sign").attr("action","returnBtn.app").submit();
+            	}
             </script>
-
+            
             <div class="modal fade" id="myModal2">
                 <div class="modal-dialog modal-dialog-centered modal-dialog modal-sm">
                     <div class="modal-content">
@@ -280,14 +284,15 @@
                         <div class="modal-body">
                            반려하시겠습니까?
                            <br>
-                           <textarea name="" id="inputReturnReason" style="resize:none" placeholder="반려 이유를 입력해주세요."></textarea>
+                           <textarea name="reReason" id="inputReturnReason" style="resize:none" placeholder="반려 이유를 입력해주세요."></textarea>
                         </div>
                     
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger" data-dismiss="modal">반려</button>
+                            <button type="submit" class="btn btn-danger" data-dismiss="modal"  onclick="returnBtn();">반려</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                         </div>
+                       
                     
                     </div>
                 </div>

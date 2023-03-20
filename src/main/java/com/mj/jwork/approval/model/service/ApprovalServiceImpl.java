@@ -97,6 +97,16 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return aDao.signStatus(sqlSession,appNo);
 	}
 
+	//반려버튼 눌렀을때
+	@Override
+	public int returnBtn(AppLine al) {
+		return aDao.returnBtn(sqlSession,al);
+	}
+	@Override
+	public int returnStatus(int appNo) {
+		return aDao.returnStatus(sqlSession,appNo);
+	}
+
 	
 
 
