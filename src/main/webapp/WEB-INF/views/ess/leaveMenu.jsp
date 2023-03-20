@@ -71,19 +71,7 @@
     <div class="leaveOuter">
 		
 		<h4><b>휴가</b></h4>
-        <!-- 
-        <div class="title">
-        <h1 style="color:rgb(50,50,50)">휴가<h1> 
-        </div>
-        <br>
-        <div class="selectBar">
-            <span>&nbsp;휴가등록</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>휴가상세</span> <br>
-            <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:67px; background: rgb(234, 234, 234);">&nbsp;</div>
-            <div style="width:766px; background: rgb(234, 234, 234);">&nbsp;</div>
-        </div> 
-        -->
-
+        
         <div class="vacation">
             <div class="leaveMenu" onclick="enrollForm(0);">
                 <img src="resources/images/ess/annual.png" alt=""> <br>
@@ -146,8 +134,16 @@
     
     <script>
     	function enrollForm(e){
-    		
-    		location.href = "enrollForm.le?no=" + e ;
+
+            if(e == 0){
+                if(${a.annualCount == 0}){
+                    alert("연차를 신청하실수 없습니다.");
+                }else {
+                    location.href = "enrollForm.le?no=" + e ;
+                }
+            }else{
+                location.href = "enrollForm.le?no=" + e ;
+            }
     	}
     </script>
 
