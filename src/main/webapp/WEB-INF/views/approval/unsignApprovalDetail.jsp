@@ -83,28 +83,12 @@
 	 #buttonarea{
 		 display: inline-block;
 		 width: 750px;
-	 }
-     
-     .modal {
-        width:300px
     }
- 
-    @media screen and (min-width: 768px) { 
-            .modal:before {
-                    display: inline-block;
-                    vertical-align: middle;
-                    content: " ";
-                    height: 100%;
-            }
+
+    #inputReturnReason{
+        width:265px;
+        height:100px;
     }
-    
-    .modal-dialog {
-            display: inline-block;
-            text-align: left;
-            vertical-align: middle;
-    }
-    
-    
     
 </style>
 </head>
@@ -151,7 +135,7 @@
             <table  id="selectApprovalLine" border="1">
 	                <tr>
 	                    <th width="90px" rowspan="3"style="text-align:center; background:rgb(237, 237, 237);">결재</th>
-	                    <td height="25px" width="90px"> ${ loginUser.jobName }</td>
+	                    <td height="25px" width="90px"> ${ a.jobName }</td>
 		        	<c:forEach var="al" items="${ al }">
 		                    <td width="90px">${ al.jobName }</td>
 		            </c:forEach>
@@ -193,7 +177,7 @@
 	                </tr>
 	               
 	                <tr>
-	                    <td height="25px">${ loginUser.empName }</td>
+	                    <td height="25px">${ a.empName }</td>
 	                <c:forEach var="al" items="${ al }">
 	                    <td>${ al.empName }</td>
 	                </c:forEach>
@@ -232,7 +216,7 @@
                 </tr>
                 <tr>
                     <th style="background-color:rgb(237, 237, 237); height: 380px;">내용</th>
-                    <td colspan="3" style="vertical-align : top; padding: 10px;" >${a.docContent }</td>
+                    <td colspan="3" style="vertical-align : top; padding: 10px; ">${a.docContent }</td>
                 </tr>
                 <tr>
                     <th id="appThead">첨부파일</th>
@@ -261,7 +245,7 @@
 
              <!-- The Modal -->
             <div class="modal fade" id="myModal1">
-                <div class="modal-dialog modal-sm">
+                <div class="modal-dialog modal-dialog-centered modal-dialog modal-sm" >
                     <div class="modal-content">
                 
                         <!-- Modal body -->
@@ -271,16 +255,25 @@
                     
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="submit" class="signBtn btn btn-success">승인</button>
+                            <button type="submit" class="signBtn btn btn-success" onclick="signBtn();">승인</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                         </div>
                     
                     </div>
                 </div>
             </div>
+            <form action="" id="sign">
+            	<input type="hidden" name="appNo" value="${ a.appNo }">
+            	<input type="hidden" name="empNo" value="${ loginUser.empNo }">
+            </form>
+            <script>
+            	function signBtn(){
+            		$("#sign").attr("action","signBtn.app").submit();
+            	}
+            </script>
 
             <div class="modal fade" id="myModal2">
-                <div class="modal-dialog modal-sm">
+                <div class="modal-dialog modal-dialog-centered modal-dialog modal-sm">
                     <div class="modal-content">
                 
                         <!-- Modal body -->

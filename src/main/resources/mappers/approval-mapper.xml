@@ -187,8 +187,6 @@
 		   and doc_status = 'D'
 		 order
 	        by app_no desc
-		  
-		   
 	</select>
     
     <!-- 임시저장함 리스트 조회 -->
@@ -209,13 +207,42 @@
 	    order
 	       by app_no desc
     </select>
+    
     <!-- 문서 삭제 -->
     <update id="deleteApproval">
     	update approval
    		   set doc_status = 'N'
          where app_no = #{appNo}
-    
     </update>
+    
+    <!-- 승인 버튼 눌렀을때 app_line-->
+    <update id="signBtn">
+    	update app_line
+  		   set 
+               confirm_status = 1
+             , app_date = sysdate 
+         where app_no= #{appNo}
+           and emp_no = #{empNo}
+   		   and app_level = (select app_turn
+	                          from approval
+	                         where app_no=#{appNo})
+    </update> 
+    <!-- 승인 올라가면 문서상태  -->
+    <update id="signStatus">
+		update approval
+		   set app_status = 
+          				    case
+			                when app_count = app_turn then 2
+			                else 1 
+			                 end
+             , app_turn =   
+             				 case
+			                 when app_count != app_turn then app_turn+1
+			                 else app_turn
+			                  end
+  		 where app_no=#{appNo}
+
+    </update> 
 	
 
 </mapper>

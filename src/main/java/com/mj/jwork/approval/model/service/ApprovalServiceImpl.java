@@ -85,6 +85,17 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int deleteApproval(int appNo) {
 		return aDao.deleteApproval(sqlSession, appNo);
 	}
+	
+	//승인 버튼 눌렀을때
+	@Override
+	public int signBtn(AppLine al) {
+		return aDao.signBtn(sqlSession,al);
+	}
+	//승인 올라가면 문서상태
+	@Override
+	public int signStatus(int appNo) {
+		return aDao.signStatus(sqlSession,appNo);
+	}
 
 	
 

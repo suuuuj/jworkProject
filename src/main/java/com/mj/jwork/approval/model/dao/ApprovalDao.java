@@ -92,6 +92,15 @@ public class ApprovalDao {
 	public int deleteApproval(SqlSessionTemplate sqlSession, int appNo) {
 		return sqlSession.update("approvalMapper.deleteApproval",appNo);
 	}
+	
+	//승인 버튼 눌렀을때
+	public int signBtn(SqlSessionTemplate sqlSession, AppLine al) {
+		return sqlSession.update("approvalMapper.signBtn",al);
+	}
+
+	public int signStatus(SqlSessionTemplate sqlSession, int appNo) {
+		return sqlSession.update("approvalMapper.signStatus",appNo);
+	}
 
 	
 	

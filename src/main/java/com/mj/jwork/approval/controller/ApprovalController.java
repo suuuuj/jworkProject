@@ -183,10 +183,49 @@ public class ApprovalController {
 	//임시저장함 문서 수정 페이지
 	@RequestMapping("draftForm.app")
 	public String approvalDraftForm(int no, Model model) {
-		System.out.println(no);
+		//System.out.println(no);
 		model.addAttribute("a",aService.selectApproval(no));
 		return "approval/appDraftboxForm";
 	}
 
+	//결재 승인
+	@RequestMapping("signBtn.app")
+	public String approvalSign(AppLine al,HttpSession session, Model model) {
+		//System.out.println(al.getAppNo());
+		//승인 버튼 누른 후 app_line변경
+		int result1 = aService.signBtn(al);
+		
+		if(result1>0) {
+			int result2 = aService.signStatus(al.getAppNo()); 
+			session.setAttribute("alertMsg","승인 완료 되었습니다.");
+			return "redirect:unsignlist.app";
+		}else {// 승인 실패
+			model.addAttribute("errorMsg", "문서 승인 실패");
+			return "common/errorPage";
+			
+		}
+	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -31,6 +31,11 @@ public interface ApprovalService{
 	//상신취소 문서 삭제하기
 	int deleteApproval(int appNo);
 	
+	//승인 버튼 눌렀을때
+	int signBtn(AppLine al);
+	//승인 올라가면 문서상태
+	int signStatus(int appNo);
+	
 	
 	
 	
