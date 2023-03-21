@@ -20,6 +20,7 @@
 		<result column="emp_name" property="empName"/>
 		<result column="doc_name" property="docName"/>
 		<result column="job_name" property="jobName"/>
+		<result column="re_reason" property="reReason"/>
 	</resultMap>
 	
 	<resultMap id="appLineResult" type="AppLine">

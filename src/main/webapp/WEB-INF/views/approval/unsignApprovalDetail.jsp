@@ -272,7 +272,14 @@
             	}
             	
             	function returnBtn(){
-            		$("#sign").attr("action","returnBtn.app").submit();
+            		var reReason = document.getElementById("inputReturnReason").value;
+	           		var reReasonHidden = document.createElement("input");
+	           		reReasonHidden.type = "hidden";
+	           		reReasonHidden.name = "reReason";
+	           		reReasonHidden.value = reReason;
+	           		$("#sign").append(reReasonHidden);
+            		
+	           		$("#sign").attr("action","returnBtn.app").submit();
             	}
             </script>
             
@@ -284,7 +291,7 @@
                         <div class="modal-body">
                            반려하시겠습니까?
                            <br>
-                           <textarea name="reReason" id="inputReturnReason" style="resize:none" placeholder="반려 이유를 입력해주세요."></textarea>
+	                           		<textarea name="reReason" id="inputReturnReason" style="resize:none" placeholder="반려 이유를 입력해주세요."></textarea>
                         </div>
                     
                         <!-- Modal footer -->
