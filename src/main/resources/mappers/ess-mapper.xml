@@ -338,6 +338,20 @@
 		    by e.emp_no desc
 	</select>
 	
+	<!-- 관리자 : 전체휴가일정 캘린더조회 -->
+	<select id="adminSelectAllLeaveList" resultMap="leaveResult">
+		select 
+		       emp_name
+		     , lcategory_name
+		     , leave_start
+		     , leave_end
+		  from leave l
+		  join employee e on (l.emp_no = e.emp_no)
+		  join leave_category c on (l.leave_category = c.lcategory_no)
+		 where leave_status = 'Y' 
+		   and leave_check = 0
+	</select>
+	
 	<!-- 시간외근무등록 -->
 	<insert id="insertOvertime">
 		insert

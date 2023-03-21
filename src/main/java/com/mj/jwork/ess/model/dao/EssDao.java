@@ -211,6 +211,9 @@ public class EssDao {
 		return sqlSession.insert("essMapper.updateAnuualCount", le);
 	}
 	
+	public ArrayList<Leave> adminSelectAllLeaveList(SqlSession sqlSession){
+		return (ArrayList)sqlSession.selectList("essMapper.adminSelectAllLeaveList");
+	}
 	
 	
 	

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType=`"text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -62,7 +62,10 @@
                 // 이벤트가 삭제되면 발생하는 이벤트
             },
             */
-            events:[
+           events:
+           [
+           /*
+            [ 
                 {
                     //title: String, 이벤트에 표시될제목,
                     //start: Date object, 이벤트 시작 날짜(& 시간),
@@ -70,57 +73,57 @@
                     //groupid: String, 이벤트그룹, 이벤트 드래그/리사이징 할 경우 동일한 그룹 이벤트들은 자동으로 같이 수정됨,
                     //editable: Boolean, 이벤트 드래그, 리사이징 등의 편집여부를 설정함(default:false)
                     
-                    //title:'출근' + 출근시간,
-                    //start:근무날짜
                     title:'[강백호]' + ' ' + '연차',
                     color:'rgb(39, 174, 96)',
                     textColor:'white',
                     start:'2023-03-07'
-                },
-                {
-                    title:'[서태웅]' + ' '+ '경조사',
-                    color:'rgb(39, 174, 96)',
-                    textColor:'white',
-                    start:'2023-03-07'
-                },
-                {
-                    title:'[정대만]' + ' '+ '경조사',
-                    color:'rgb(39, 174, 96)',
-                    textColor:'white',
-                    start:'2023-03-07'
-                },
-                {
-                    title:'[강백호]' + ' ' + '연차',
-                    color:'rgb(39, 174, 96)',
-                    textColor:'white',
-                    start:'2023-03-08'
-                },
-                {
-                    title:'[서태웅]' + ' '+ '경조사',
-                    color:'rgb(39, 174, 96)',
-                    textColor:'white',
-                    start:'2023-03-08'
-                },
-                {
-                    title:'[송태섭]' + ' '+ '경조사',
-                    color:'rgb(39, 174, 96)',
-                    textColor:'white',
-                    start:'2023-03-10'
-                },
-                {
-                    title:'[채치수]' + ' '+ '경조사',
-                    color:'rgb(39, 174, 96)',
-                    textColor:'white',
-                    start:'2023-03-16'
-                },
-                {
-                    title:'[서태웅]' + ' '+ '연차',
-                    color:'rgb(39, 174, 96)',
-                    textColor:'white',
-                    start:'2023-03-24'
                 }
+            ]
+            */
+            $(function(){
+                    $.ajax({
+                        url:"adminAllList.le",
+                        dataType:"JSON",
+                        type:"GET",
+                        success:function(list){
+                            //console.log(list);
+                            /*
+                            value = "{"
+                            for(i=0; i<list.length-1; i++){
+                                value += "title : [" + list[i].empName + "] " + list[i].lcName + ","
+                                       + "color : 'rgb(39, 174, 96)',"
+                                       + "textColor: 'white',"
+                                       + "start : " + list[i].leaveStart 
+                                       + "}, "
+                            }
+
+                            for(i=list.length-1; i<list.length; i++){
+                                value += "title : [" + list[i].empName + "] " + list[i].lcName + ","
+                                       + "color : 'rgb(39, 174, 96)',"
+                                       + "textColor: 'white',"
+                                       + "start : " + list[i].leaveStart 
+                                       + "}"
+                            }
+                            */
+                            //console.log(value);
+                            for(i=0; i<list.length; i++){
+                                calendar.addEvent({
+                                    title: "[" + list[i].empName + "] " + list[i].lcName ,
+                                    start: list[i].leaveStart,
+                                    color:'rgb(39, 174, 96)',
+                                    textColor:'white'
+                                })
+                            }
+                            
+                        },
+                        error:function(){
+                            console.log("전체휴가캘린더 ajax통신 실패");
+                        }
+                    })
+                })
 
             ]
+        
     });
 
     calendar.render();
@@ -129,34 +132,12 @@
 <title>Insert title here</title>
 <style>
     /* outer영역 */
-    .outer{
-        width:960px;
-        height:1000px;
-        border:1px solid black;
-    }
-    /* title영역 */
-    .title{
-        color:rgb(50,50,50);
-        margin-left: 30px;
-        margin-top:30px;
-    }
-    .selectBar{
-        margin-left: 30px;
-    }
-    .selectBar>span{
-        color:rgba(50, 50, 50, 0.79);
-        font-size:15px;
-        font-weight: 600;
-    }
-    .selectBar>div{
-        margin-top:10px;
-        height:3px;
-        float: left;
+    .leaveOuter{
+        padding:50px;
+        margin:auto;
     }
     /* content영역 */
     .AllLeaveList{
-        margin-left:30px;
-        margin-right: 30px;
         margin-top: 30px;
     }
     #calendar{
@@ -166,37 +147,15 @@
 </style>
 </head>
 <body>
-    <div class="outer">
 
-        <div class="title">
-            <h3 style="color:rgb(50,50,50); font-weight: 600;">휴가<h3> 
-        </div>
-        <br>
-        <div class="selectBar">
-            <span>&nbsp;휴가등록</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>휴가상세</span> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">휴가관리</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">휴가내역</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">전체휴가일정</span>
-            <br>
-            <div style="width:343px; background: rgb(234, 234, 234);">&nbsp;</div>
-            <div style="width:95px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:462px; background: rgb(234, 234, 234);">&nbsp;</div>
-        </div>
+    <jsp:include page = "../common/menubar.jsp" />
+    <div class="leaveOuter">
+
+        <h4><b>휴가</b></h4>
 
         <div class="AllLeaveList">
             <div id="calendar"></div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
     </div>
 </body>
 </html>

@@ -161,12 +161,12 @@
                             <li class="page-item" disabled><a class="page-link" href="#"><</a></li>
                         </c:when>
                         <c:otherwise>
-                            <li class="page-item"><a class="page-link" href="list.le?cpage=${ pi.currentPage-1 }"><</a></li>
+                            <li class="page-item"><a class="page-link" href="adminList.le?cpage=${ pi.currentPage-1 }"><</a></li>
                         </c:otherwise>
                     </c:choose>
                     
                     <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-                        <li class="page-item"><a class="page-link" href="list.le?cpage=${ p }">${ p }</a></li>
+                        <li class="page-item"><a class="page-link" href="adminList.le?cpage=${ p }">${ p }</a></li>
                     </c:forEach>
                     
               
@@ -175,7 +175,7 @@
                             <li class="page-item" disabled><a class="page-link" href="#">></a></li>
                         </c:when>
                         <c:otherwise>
-                            <li class="page-item"><a class="page-link" href="list.le?cpage=${ pi.currentPage+1 }">></a></li>
+                            <li class="page-item"><a class="page-link" href="adminList.le?cpage=${ pi.currentPage+1 }">></a></li>
                         </c:otherwise>
                     </c:choose>
                 </ul>

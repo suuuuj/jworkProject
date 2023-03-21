@@ -179,10 +179,11 @@ public class EssController {
 	public String adminLeaveList(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session) {
 		// 페이징
 		int ListCount = eService.adminSelectLeaveListCount();
-		PageInfo pi = Pagination.getPageInfo(ListCount, currentPage, 15, 5);
+		PageInfo pi = Pagination.getPageInfo(ListCount, currentPage, 5, 15);
 		
 		ArrayList<Leave> list = eService.adminSelectLeaveList(pi);
 		
+		session.setAttribute("pi", pi);
 		session.setAttribute("list", list);
 		return "ess/adminLeaveList";
 		
@@ -296,10 +297,43 @@ public class EssController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="anDetail.le", produces="application/json; charset=UTF-8")
-	public String adminAnnualDetail(int empNo, HttpSession session, Model model) {
+	public String adminAnnualDetail(int empNo) {
 		
 		Annual a = eService.adminAnnualDetail(empNo);
 		return new Gson().toJson(a);
+	}
+	
+	/**
+	 * 관리자 : 전체휴가일정캘린더
+	 * @param mv
+	 * @return
+	 */
+	@RequestMapping("adminAll.le")
+	public ModelAndView adminAllLeave(ModelAndView mv) {
+		mv.setViewName("ess/adminAllLeaveList");
+		return mv;
+	}
+	
+	/**
+	 * 관리자 : ajax 전체휴가일정
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="adminAllList.le", produces="application/json; charset=UTF-8")
+	public String adminAllLeaveList() {
+		
+		ArrayList<Leave> list = eService.adminSelectAllLeaveList();
+		//HashMap<String, ArrayList> map = new HashMap<>();
+		/*
+		for(int i = 0; i<list.size(); i++) {
+			map.put("title", "[" + list.get(i).getEmpName() + "]" + ' ' + list.get(i).getLcName());
+			map.put("color", "rgb(39, 174, 96)");
+            map.put("textColor", "white");
+			map.put("start", list.get(i).getLeaveStart());
+		}
+		*/
+		//map.put("list", list);
+		return new Gson().toJson(list);
 	}
 	
 	/**

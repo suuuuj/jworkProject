@@ -113,6 +113,11 @@ public class EssServiceImpl implements EssService {
 	public int adminInsertAnnual(int empNo) {
 		return eDao.adminInsertAnnual(sqlSession, empNo);
 	}
+	
+	@Override
+	public ArrayList<Leave> adminSelectAllLeaveList() {
+		return eDao.adminSelectAllLeaveList(sqlSession);
+	}
 
 	@Override
 	public int insertOvertime(Overtime o) {
@@ -223,6 +228,8 @@ public class EssServiceImpl implements EssService {
 	public int adminReturnOvertime(int otNo) {
 		return eDao.adminReturnOvertime(sqlSession, otNo);
 	}
+
+	
 
 
 

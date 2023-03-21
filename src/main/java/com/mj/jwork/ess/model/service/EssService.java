@@ -54,6 +54,9 @@ public interface EssService {
 	// 관리자 : 연차상세조회
 	Annual adminAnnualDetail(int empNo);
 	
+	// 관리자 : 전체휴가캘린더조회
+	ArrayList<Leave> adminSelectAllLeaveList(); 
+	
 	// 시간외근무/출장등록(insert)
 	int insertOvertime(Overtime o);
 	int insertBusinesstrip(Businesstrip b);
