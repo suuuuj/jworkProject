@@ -72,7 +72,7 @@
 
         <h4><b>신청</b></h4>
 
-        <form action="adminUpdate.bt" method="" class="enrollForm">
+        <form action="" method="" class="enrollForm">
 
             
             <div class="body">
@@ -87,8 +87,8 @@
                 <div style="display: flex;">
                     <img src="resources/images/ess/mark.png" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        &nbsp;신청자&nbsp; <input type="text" name="" value="${ b.empName }"> 
-                        &nbsp;소속&nbsp; <input type="text" name="" value="${ b.deptName }"> 
+                        &nbsp;신청자&nbsp; <input type="text" name="" value="${ bt.empName }"> 
+                        &nbsp;소속&nbsp; <input type="text" name="" value="${ bt.deptName }"> 
                         <input type="hidden" name="empNo" value="${ b.empNo }">
                     </div>
                     <div style="background:rgb(234, 234, 234); width:520px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
@@ -99,20 +99,20 @@
                 <div style="display: flex;">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
                         <img src="resources/images/ess/clock.png" alt="" style="width:30px; height:30px">
-                        시작일&nbsp; <input type="text" name="btStart" value="${b.btStart}"> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="text" name="btEnd" value="${b.btEnd}"> 
+                        시작일&nbsp; <input type="text" name="btStart" value="${bt.btStart}"> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일&nbsp; <input type="text" name="btEnd" value="${bt.btEnd}"> 
                     </div>
                     <div style="background:rgb(234, 234, 234); width:490px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
 
                 <br><br>
                 <div class="textWrap">
-                    <span class="textCount">${b.btContent.length()}자</span><span class="textTotal">/200자</span>
+                    <span class="textCount">${bt.btContent.length()}자</span><span class="textTotal">/200자</span>
                 </div>
-                <textarea name="" id="btText" cols="30" rows="10" placeholder="출장신청 내용을 입력해주세요.">${b.btContent}</textarea>
+                <textarea name="" id="btText" cols="30" rows="10" placeholder="출장신청 내용을 입력해주세요.">${bt.btContent}</textarea>
                 <div class="btnWrap" style="float: right; margin-top:160px;">
-                    <button type="submit" class="btn btn-success">승인</button>
-                    <button type="button" onclick="btReturn(${b.btNo});" class="btn btn-warning" id="btReturn">반려</button>
+                    <button type="button" class="btn btn-success" id="btSubmit">승인</button>
+                    <button type="button" class="btn btn-warning" id="btReturn">반려</button>
                     <button type="button" onclick="location.href='admin.bt'" class="btn btn-secondary">목록</button>
                 </div>
                 
@@ -122,8 +122,31 @@
         </form>
 
         <script>
+
             $(function(){
-                if(${not empty b.failDate} || ${not empty b.secondDate}){
+                if(${not empty bt.secondDate}){
+                    $("#btSubmit").attr("disabled", true);
+                }
+            })
+
+            $(function(){
+                $("#btSubmit").click(function(){
+                    if(${empty bt.firstDate}){
+                        if(confirm("시간외근무등록 1차승인을 진행하시겠습니까?")){
+                            location.href = 'adminFirst.bt?btNo=${bt.btNo}';
+                        }
+                    }else{
+                        if(confirm("시간외근무등록 2차승인을 진행하시겠습니까?")){
+                            location.href = 'adminSecond.bt?btNo=${bt.btNo}';
+                        }
+                    }
+                })
+            })
+        </script>
+
+        <script>
+            $(function(){
+                if(${not empty bt.failDate} || ${not empty bt.secondDate}){
                     $("#btReturn").attr("disabled", true);
                 }
             })

@@ -73,7 +73,7 @@
         <h4><b>신청</b></h4>
 
         
-        <form action="adminUpdate.ot" class="enrollForm" name="otEnroll" onsubmit="return confirm('시간외 근무를 등록하시겠습니까?');">
+        <form action="" class="enrollForm" name="otEnroll">
 
             
             <div class="body">
@@ -88,9 +88,9 @@
                 <div style="display: flex;">
                     <img src="resources/images/ess/mark.png" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        &nbsp;&nbsp;신청자&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="" value="${ o.empName }"> 
-                        &nbsp;소속&nbsp; <input type="text" name="" value="${ o.deptName }"> 
-                        <input type="hidden" name="empNo" value="${ o.empNo }">
+                        &nbsp;&nbsp;신청자&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="" value="${ ot.empName }"> 
+                        &nbsp;소속&nbsp; <input type="text" name="" value="${ ot.deptName }"> 
+                        <input type="hidden" name="empNo" value="${ ot.empNo }">
                     </div>
                     <div style="background:rgb(234, 234, 234); width:500px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
@@ -101,7 +101,7 @@
                     <img src="resources/images/ess/clock.png" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
                         &nbsp;구분&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                        &nbsp;<input type="text" name="otCategory" value="${o.otCategory}" id="">
+                        &nbsp;<input type="text" name="otCategory" value="${ot.otCategory}" id="">
                     </div>
                     <div style="background:rgb(234, 234, 234); width:639px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
@@ -110,22 +110,22 @@
 
                 <div style="display: flex;">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px;">
-                        &nbsp;근무날짜 / 시간&nbsp; <input type="text" name="enrollDate" value="${o.enrollDate}"> 
+                        &nbsp;근무날짜 / 시간&nbsp; <input type="text" name="enrollDate" value="${ot.enrollDate}"> 
 
-                        <input type="text" name="otStart" value="${o.otStart}" style="border:1px solid rgb(170, 170, 170); border-radius: 5px; width:80px; margin-left: 20px;">
+                        <input type="text" name="otStart" value="${ot.otStart}" style="border:1px solid rgb(170, 170, 170); border-radius: 5px; width:80px; margin-left: 20px;">
                          <span style="font-size: 20px;">~</span>
-                        <input type="text" name="otEnd" value="${o.otEnd}" id="" style="border:1px solid rgb(170, 170, 170); border-radius: 5px; width:80px; height:23px">
+                        <input type="text" name="otEnd" value="${ot.otEnd}" id="" style="border:1px solid rgb(170, 170, 170); border-radius: 5px; width:80px; height:23px">
                      </div>
                     <div style="background:rgb(234, 234, 234); width:450px; height:1px; margin-top:20px; margin-left: 5px;">&nbsp;</div>
                 </div>
 
                 <br><br>
                 <div class="textWrap">
-                    <span class="textCount">&nbsp;&nbsp;${o.otContent.length()}자</span><span class="textTotal">/200자</span>
+                    <span class="textCount">&nbsp;&nbsp;${ot.otContent.length()}자</span><span class="textTotal">/200자</span>
                 </div>
-                <textarea name="otContent" id="textBox" cols="30" rows="10" maxlength="199" placeholder="시간외 근무신청 내용을 입력해주세요.">${o.otContent}</textarea>
+                <textarea name="otContent" id="textBox" cols="30" rows="10" maxlength="199" placeholder="시간외 근무신청 내용을 입력해주세요.">${ot.otContent}</textarea>
                 <div class="btnWrap" style="float: right; margin-top:160px;">
-                    <button type="submit" class="btn btn-success">승인</button>
+                    <button type="button" class="btn btn-success" id="otSubmit">승인</button>
                     <button type="button" class="btn btn-warning" id="otReturn">반려</button>
                     <button type="button" onclick="location.href='admin.ot'" class="btn btn-secondary">목록</button>
                 </div>
@@ -137,14 +137,37 @@
         <script>
 
             $(function(){
-                if(${not empty o.failDate} || ${not empty o.secondDate}){
+                if(${not empty ot.secondDate}){
+                    $("#otSubmit").attr("disabled", true);
+                }
+            })
+
+            $(function(){
+                $("#otSubmit").click(function(){
+                    if(${empty ot.firstDate}){
+                        if(confirm("시간외근무등록 1차승인을 진행하시겠습니까?")){
+                            location.href = 'adminFirst.ot?otNo=${ot.otNo}';
+                        }
+                    }else{
+                        if(confirm("시간외근무등록 2차승인을 진행하시겠습니까?")){
+                            location.href = 'adminSecond.ot?otNo=${ot.otNo}';
+                        }
+                    }
+                })
+            })
+        </script>
+
+        <script>
+
+            $(function(){
+                if(${not empty ot.failDate} || ${not empty ot.secondDate}){
                     $("#otReturn").attr("disabled", true);
                 }
             })
 
             $(function(){
                 $("#otReturn").click(function(){
-                    location.href='adminReturn.ot?otNo=${o.otNo}';
+                    location.href='adminReturn.ot?otNo=${ot.otNo}';
                 })
             })
         </script>

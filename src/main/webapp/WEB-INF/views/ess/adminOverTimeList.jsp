@@ -117,21 +117,23 @@
                     <thead>
                         <tr style="font-weight: 600; background: rgb(234, 234, 234);">
                             <td width="40px">문서번호</td>
-                            <td width="120px">사번</td>
-                            <td width="120px">소속</td>
-                            <td width="120px">직위</td>
-                            <td width="120px">이름</td>
+                            <td width="100px">사번</td>
+                            <td width="100px">소속</td>
+                            <td width="110px">팀명</td>
+                            <td width="100px">직위</td>
+                            <td width="100px">이름</td>
                             <td width="120px">조정일</td>
-                            <td width="135px">제목</td>
-                            <td width="135px">진행상황</td>
+                            <td width="120px">제목</td>
+                            <td width="120px">진행상황</td>
                         </tr>
                     </thead>
                     <tbody>
                     	<c:forEach var="o" items="${ list }">
-	                        <tr>
+	                        <tr onclick="detailFunction(${o.otNo});">
 	                            <td>${ o.otNo }</td>
 	                            <td>${ o.empNo }</td>
 	                            <td>${ o.deptName }</td>
+                                <td>${ o.teamName }</td>
 	                            <td>${ o.jobName }</td>
 	                            <td>${ o.empName }</td>
 	                            <td>${ o.enrollDate }</td>
@@ -144,11 +146,9 @@
             </div>
 
             <script>
-                $(function(){
-                    $(".overTable>tbody tr").click(function(){
-                        location.href = 'adDetail.ot?otNo=' + $(this).children().eq(0).text();
-                    })
-                })
+                function detailFunction(no){
+                    location.href = 'adDetail.ot?otNo=' + no;
+                }
             </script>
 
         </div>
