@@ -18,21 +18,26 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <!-- sweetalert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <style>
-        /*
-        div, input, p{
-            border: 1px solid red;
+        /*sweetalert css*/
+        .swal-button{
+            background-color: rgb(172, 222, 172);
+            font-size: 12px;
+            text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
         }
-        
-        #mailHeader tr{
-            border-top: 0.1em solid blue;
-            height: 60px;
+        .swal-button:hover{
+            background-color: rgb(206, 236, 206);
+            font-size: 12px;
+            text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
         }
-        */
+        .swal-title { font-size: 20px;}
+
         .outer *{
-	 		font-family: 'Nanum Gothic', sans-serif;
-	 	}
+            font-family: 'Nanum Gothic', sans-serif;
+        }
         #addressHeader tr{height: 60px;}
         
         .outer{
@@ -132,43 +137,48 @@
            cursor:pointer;
         }
         .subTitle{
-            margin: 15px;
-            margin-top: 40px;
-            font-size: 18px;
-            font-weight: 0600;
+            margin: 15px; margin-top: 40px;
+            font-size: 16px; font-weight: 600;
         }
         .enrollBtn{
             margin: 15px;
         }
         .addressBox{margin: 10px;}
-        .mainAddressBox .btn-block{
-            text-align: left;
-        }
-        .myAddressBox{margin:10px}
         .addAddressBox{
-            color: gray;
+            border: 0px;
+            background-color: rgba(255, 255, 255, 0);
+        }
+        .oneAddressBox {
             font-size: 14px;
-            padding: 10px;
+            width: 146px;
         }
-        .editAddressBox {
-            float: right;
+        .oneAddressBox button{
+            border: 0; background-color: white;
         }
-        .editAddressBox button {
-            border: 0px;   
+
+        .allGroupName{
+            width: 120px; font-size: 14px;
+            padding-left: 20px; margin-bottom: 5px; padding-bottom: 2px;
         }
-        .oneAddressBox{
-            margin-top: 10px; 
-            font-size: 14px;
-        }
-        .addressGroupName{
+        .addressGroupName {
             width: 120px;
             border: none;
-            padding-left: 30px;
+            padding-left: 20px;
+            float: left;
+            margin-bottom: 5px;
+            padding-bottom: 2px;
         }
-        .addressGroupName:focus{
-            outline: 1px solid green;
-            border-radius: 5px;
-            background-color: rgba(246, 246, 246, 0.712);
+        #dropdownMenu{
+            float: left;
+        }
+        .editAddressBox button{
+            border: 0;
+            background-color: white;
+        }
+
+        #important {
+            float: left;
+            margin-top: 15px;
         }
 
         /*조직도*/
@@ -186,45 +196,25 @@
             display: none;
         }
 
-        /*내 일정 수정*/
+        /*주소록 그룹 수정*/
         #modifyModal, #addModal {
             margin: 30px;
         }
         .modalTitle {
             text-align: center;
             margin-bottom: 15px;
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 18px; font-weight: 600;
         }
         #modifyModal input[type="text"], #addModal input[type="text"] {
-            width: 250px;
-            height: 30px;
-            border-radius: 3px;
-            border: 1px solid gainsboro;
-            padding: 10px;
-        }
-        #modifyModal input[type="radio"], #addModal input[type="radio"] {
-            width: 1rem;
-            height: 1rem;
-            border-radius: 50%;
-            border: 1px solid gainsboro;
-            appearance: none;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        #modifyModal input[type="radio"]:checked, #addModal input[type="radio"]:checked {
-            box-shadow: 0 0 0 max(2px, 0.2em) rgb(244, 235, 235) !important;					/*ridge : 테두리가 튀어나온 것처럼 표시*/
-        }
-        #modifyModal input[type="radio"]:hover, #addModal input[type="radio"]:hover {
-            box-shadow: 0 0 0 max(2px, 0.2em) rgb(244, 235, 235);
-            cursor: pointer;
-        }
-
-        .modalSubTitle1, .modalSubTitle2 {
+            width: 180px; height: 30px;
+            border-radius: 5px; border: 1px solid gainsboro;
+            padding: 5px;
             font-size: 14px;
-            padding-top: 10px;
-            padding-left: 10px;
-            height: 50px;
+        }
+        .modalSubTitle {
+            font-size: 14px;
+            padding-top: 10px; padding-left: 10px;
+            height: 70px;
         }
 
         /*연락처 추가 모달*/
@@ -232,22 +222,38 @@
             width: 400px;
         }
         .addPerson {
-            padding: 15px;
+            padding: 15px; font-size: 15px;
         }
         .addPerson th {
             width: 100px; height: 35px;
             font-weight: 500;
         }
         .addPerson input, .addPerson select {
-            width: 200px; height: 35px;
+            width: 200px; height: 35px; padding: 5px; font-size: 14px;
             margin: 5px;
             border-radius: 5px; border: 1px solid gainsboro;
+        }
+        .addPerson input[type=checkbox] { display:none; }
+        .addPerson input[type=checkbox] + label { 
+            display: inline-block; 
+            cursor: pointer; 
+            padding-left: 22px; margin-left: 5px;
+            background: url('resources/images/common/star.png') left/15px no-repeat; 
+        }
+        .addPerson input[type=checkbox]:checked + label { 
+            background-image: url('resources/images/common/fullstar.png'); 
         }
 
     </style>
 </head>
 <body>
-	
+	<c:if test="${not empty alertMsg }">
+		<script>
+			//alertify.alert('${alertMsg}');
+            swal('${alertMsg}', '', 'success');
+		</script>
+		<c:remove var="alertMsg" scope="session"/>	
+	</c:if>
     <div class="totalOuter">
 
         <div class="outer">
@@ -296,16 +302,31 @@
                     </div>
 
                     <div class="subTitle">
-                        개인 주소록
+                        개인 주소록 &nbsp;&nbsp; 
+                        <span><button type="button" class="addAddressBox" data-bs-toggle="modal" data-bs-target="#addGroup"><img src="resources/images/common/plus1.png" width="13px"></button></span>
                     </div>
                     <div class="addressBox">
-                        <div class="oneAddressBox">
-                            <div class="addressGroupName" onclick="location.href='addressOut.emp'">개인 주소록</div>
+                        
+                        <div class="allGroupName" onclick="location.href='addressOut.emp'">개인 주소록</div>
+
+                        <!--반복문 돌리기-->
+                        <div class="oneAddressBox">    
+                            <!-- <div class="addressGroupName">ㅋㅋㅋㅋ</div>
+                            <div class="editScheduleBox dropdown dropend">
+                                <button class="" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="resources/images/mail/edit.png" width="20px">
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modifyGroup">그룹 수정</a></li>
+                                    <li><a class="dropdown-item" href="">그룹 삭제</a></li>
+                                </ul>
+                            </div> -->
                         </div>
-                        <div class="addAddressBox btn btn-sm" >+ 그룹 추가</div>
+
                     </div>
 
-                    <div class="subTitle">
+                    
+                    <div class="subTitle" id="important">
                         <span><img src="resources/images/common/fullstar.png" alt="" width="16px" style="margin-right: 10px; margin-top: -5px;"></span>
                         <span onclick="location.href='addressFav.emp'">중요</span>
                     </div>
@@ -313,128 +334,63 @@
                 
                 
 
-                <!-- 그룹수정 모달 -->
-                <div class="modal fade" id="modifyGroup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog ">
-                    <div class="modal-content">
-                        <div class="modal-body" id="modifyModal">
-
-                            <div class="modalTitle">캘린더 그룹 수정</div>
-                            <hr>
-                            <div class="modalSubTitle1">
-                                내 캘린더 이름 &nbsp;&nbsp;&nbsp;
-                                <input type="text" value="내 일정">
-                            </div>
-                            <div class="modalSubTitle2">
-                                내 캘린더 색상 &nbsp;&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(255, 91, 91);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(255, 191, 122);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(255, 255, 125);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(39, 174, 96);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(160, 251, 239);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(112, 213, 241);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(84, 161, 220);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(193, 178, 249);" checked>&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(240, 182, 216);">&nbsp;&nbsp;
-                            </div>
-                            <div align="center">
-                                <button type="submit" class="btn btn-success btn-sm" style="width: 70px;">수정</button>&nbsp;&nbsp;
-                                <button type="button" class="btn btn-outline-success btn-sm" style="width: 70px;" data-bs-dismiss="modal">취소</button>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-
-                <!-- 그룹추가 모달 -->
-                <div class="modal fade" id="addGroup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog ">
-                    <div class="modal-content">
-                        <div class="modal-body" id="addModal">
-
-                            <div class="modalTitle">캘린더 그룹 추가</div>
-                            <hr>
-                            <div class="modalSubTitle1">
-                                내 캘린더 이름 &nbsp;&nbsp;&nbsp;
-                                <input type="text">
-                            </div>
-                            <div class="modalSubTitle2">
-                                내 캘린더 색상 &nbsp;&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(255, 91, 91);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(255, 191, 122);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(255, 255, 125);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(39, 174, 96);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(160, 251, 239);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(112, 213, 241);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(84, 161, 220);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(193, 178, 249);">&nbsp;&nbsp;
-                                <input type="radio" name="color" value="" style="background-color: rgb(240, 182, 216);">&nbsp;&nbsp;
-                            </div>
-                            <div align="center">
-                                <button type="submit" class="btn btn-success btn-sm" style="width: 70px;">추가</button>&nbsp;&nbsp;
-                                <button type="button" class="btn btn-outline-success btn-sm" style="width: 70px;" data-bs-dismiss="modal">취소</button>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-
-
                 <!-- 연락처 추가 모달 -->
                 <div class="modal fade" id="addPerson" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-body" id="employeeModal">             
-                            <div class="addPerson">
-                                <table>
-                                    <tr>
-                                        <th>이름 <span><img src="resources/images/common/star.png" alt="" width="15px" style="margin-left: 5px;"></span></th>
-                                        <td><input type="text"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>회사</th>
-                                        <td><input type="text"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>부서</th>
-                                        <td><input type="text"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>직위</th>
-                                        <td><input type="text"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>이메일</th>
-                                        <td><input type="text"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>전화번호</th>
-                                        <td><input type="text"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>회사전화</th>
-                                        <td><input type="text"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>메모</th>
-                                        <td><input type="text"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>그룹</th>
-                                        <td>
-                                            <select name="" id="">
-                                                <option value="">선택안함</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
-                                
+                        <form action="insertAddressOut.emp">
+                            <div class="modal-body" id="employeeModal">             
+                                <div class="addPerson">
+                                    <table>
+                                        <tr>
+                                            <th>이름 <span><input type="checkbox" id="checkStar" name="checkStar" value="star"><label for="checkStar">&nbsp;</label></span></th>
+                                            <td><input type="text" name="name" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <th>회사</th>
+                                            <td><input type="text" name="bizName" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <th>부서</th>
+                                            <td><input type="text" name="dept" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <th>직급</th>
+                                            <td><input type="text" name="job" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <th>이메일</th>
+                                            <td><input type="text" name="email" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <th>전화번호</th>
+                                            <td><input type="text" name="phone" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <th>회사전화</th>
+                                            <td><input type="text" name="bizPhone" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <th>메모</th>
+                                            <td><input type="text" name="memo" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <th>그룹</th>
+                                            <td>
+                                                <select name="group" name="group" id="group">
+                                                    <option value="0">선택안함</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    
+                                </div>
+                                <div align="center">
+                                    <button type="submit" class="btn btn-success btn-sm" style="width: 70px;">추가</button>&nbsp;&nbsp;
+                                    <button type="button" class="btn btn-outline-success btn-sm" style="width: 70px;" data-bs-dismiss="modal">닫기</button>
+                                </div>
                             </div>
-                            <div align="center">
-                                <button type="submit" class="btn btn-success btn-sm" style="width: 70px;">추가</button>&nbsp;&nbsp;
-                                <button type="button" class="btn btn-outline-success btn-sm" style="width: 70px;" data-bs-dismiss="modal">닫기</button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                     </div>
                 </div>
@@ -444,46 +400,143 @@
             </div>
             
             <script>
-                $(function(){
-                    //그룹 수정 버튼 클릭 시
-                    $(document).on("click", ".addressAddressBox", function(){
-                        $(this).prev().attr("readonly", false);
-                        $(this).prev().select();
-                    })
-
-                    //그룹 input box 에서 포커스 아웃될 때
-                    $(document).on("focusout", ".addressGroupName", function(){
-                        $(this).attr("readonly", true);
-                        $(this).attr("border", "none");
-                    })
-
-                    //그룹 추가하기 클릭 시
-                    $(".addAddressBox").on("click", function(){
-                        const AddressBoxInput = "<div class='oneAddressBox'><input type='text' class='addressGroupName' value='새 메일함' readonly><span class='editAddressBox'><img class='menuIcon' src='resources/images/mail/edit.png'/></span>";
-                        $(".myAddressBox").append(addressBoxInput);
-                        const addressBoxArr = $(".addressGroupName");
-                        const newAddressBox = addressBoxArr.eq(addressBoxArr.length - 1);
-                        newAddressBox.next().click();
-                    })
-                
-
-                })
 
                 // 조직도 부서
                 $(function(){
                     $(".deptTitle").click(function(){
                         $(this).next().slideToggle();
                     })  
+                    groupList();
                 })
+
+                // 주소록 그룹 조회       
+                function groupList(){
+                    $.ajax({
+                        url:"selectAddressGroup.emp",
+                        success:function(glist){
+                            
+                            let value = "";
+
+                            for(let i=0; i<glist.length; i++){
+                                //console.log(glist[i].groupName);
+                                value += '<form action="addressOutSearch.emp">'
+                                       + '<div class="addressGroupName" ><button type=submit>' + glist[i].groupName + '</button></div>'
+                                       + '<input type="hidden" name="condition" value="groupName"><input type="hidden" name="keyword" value="' + glist[i].groupName + '">' 
+                                       + '<span class="editAddressBox dropdown dropend">'
+                                            + '<button class="" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">'
+                                                + '<img src="resources/images/mail/edit.png" width="20px">'
+                                            + '</button>'
+                                            + '<ul class="dropdown-menu" aria-labelledby="dropdownMenu">'
+                                                + '<li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modifyGroup" style="font-size:14px" onclick="updateGroup(' + glist[i].groupNo + ')">그룹 수정</a></li>'
+                                                + '<li><a class="dropdown-item" href="" style="font-size:14px" onclick="deleteGroup(' + glist[i].groupNo + ')">그룹 삭제</a></li>'
+                                            + '</ul>'
+                                       + '</span></form>' ;
+                                $("#group").append(
+                                    '<option id="' + glist[i].groupNo + '1' +'" value="'+ glist[i].groupNo +'">'+ glist[i].groupName +'</option>'
+                                )
+                            }
+
+                            $(".oneAddressBox").append(value);
+
+                        }, error: function(){
+                            console.log("주소록 그룹 조회 ajax 통신 실패");
+                        }
+                    })
+                }
                 
+                
+
 
             </script>
 
+            <!-- 그룹수정 모달 -->
+            <div class="modal fade" id="modifyGroup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-body" id="modifyModal">
+                        <div class="modalTitle">주소록 그룹 수정</div>
+                        <hr>
+                        <form action="updateAddGroupName.emp">
+                            <input type="hidden" name="groupNo" value="">
+                            <div class="modalSubTitle">
+                                내 주소록 이름 &nbsp;&nbsp;&nbsp;
+                                <input id="groupName" name="groupName" type="text" value="">
+                            </div>
+                            <div align="center">
+                                <button type="submit" class="btn btn-success btn-sm" style="width: 70px;">수정</button>&nbsp;&nbsp;
+                                <button type="button" class="btn btn-outline-success btn-sm" style="width: 70px;" data-bs-dismiss="modal">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- 그룹추가 모달 -->
+            <div class="modal fade" id="addGroup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-body" id="addModal">
+
+                        <div class="modalTitle">주소록 그룹 추가</div>
+                        <hr>
+                        <form action="insertAddressGroup.emp">
+                            <div class="modalSubTitle">
+                                내 주소록 이름 &nbsp;&nbsp;&nbsp;
+                                <input type="text" name="groupName" value="">
+                            </div>
+                            <div align="center">
+                                <button type="submit" class="btn btn-success btn-sm" style="width: 70px;">추가</button>&nbsp;&nbsp;
+                                <button type="button" class="btn btn-outline-success btn-sm" style="width: 70px;" data-bs-dismiss="modal">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+
             <div id="line"></div>
             <div class="content">
-            
-            
 
+            
+            <script>
+                // 주소록 그룹 수정
+                function updateGroup(groupNo) {
+                    $.ajax({
+                        url:"selectAddGroupName.emp",
+                        data:{groupNo:groupNo},
+                        success:function(g){
+                            $('#groupName').val(g.groupName);
+                            $("input[name=groupNo]").val(groupNo);
+                        }, error: function(){
+                            console.log("그룹수정 ajax 통신실패")
+                        }
+                    })
+                }
+
+                // 주소록 그룹 삭제
+                function deleteGroup(groupNo) {
+                    $.ajax({
+                        url:"deleteAddressGroup.emp",
+                        data:{groupNo:groupNo},
+                        success:function(result){           
+                            if(result == "success"){
+                                //swal('삭제완', '', 'success');
+                                alert("삭제완");        
+                            }
+                            console.log(result);
+                        }, error: function(){
+                            console.log("그룹삭제 ajax 통신실패")
+                        } 
+                    })
+
+                }
+
+                
+
+               
+
+            </script>
     
 </body>
 </html>

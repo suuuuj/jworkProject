@@ -73,6 +73,20 @@
         height: 35px;
         font-weight: 500;
     }
+
+    .pagination {
+        text-decoration: none;
+    }
+    .pagination a {
+        color: rgb(40, 40, 40); border: 0; font-size: 14px;
+    }
+    .pagination a:hover:not(.active) {background-color: rgb(238, 247, 227);}
+    .pagination a:hover {
+        text-decoration: none;
+    }
+    .page-item{
+        padding: 10px;
+    }
 </style>
 </head>
 <body>
@@ -90,7 +104,7 @@
                         <select name="condition" id="condition" style="width: 100px;">
                             <option value="empNo">사번</option>
                             <option value="empName">이름</option>
-                            <option value="deptName">부서</option>
+                            <option value="teamName">부서</option>
                         </select> 
                         <label>               
                         <input type="text" class="" id="keyword" name="keyword" value="${ keyword }">
@@ -143,24 +157,26 @@
                 <br>
         
                 <div id="paging-area" align="center">
-                    <c:if test="${ pi.currentPage ne 1 }"> <!-- 내가보고있는페이지가 1이 아닐경우 -->
-                        <a href="addressIn.emp?cpage=${ pi.currentPage - 1 }">&lt;</a>
-                    </c:if>
-                    
-                    <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-                        <c:choose>
-                            <c:when test="${ empty condition and empty keyword }"> <!-- 검색 전일 때 -->
-                                <a href="addressIn.emp?cpage=${ p }">[${ p }]</a>
-                            </c:when>
-                            <c:otherwise>	<!-- 검색 후 -->
-                                <a href="addressInSearch.emp?cpage=${ p }&condition=${ condition }&keyword=${ keyword }">[${ p }]</a>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                    
-                    <c:if test="${ pi.currentPage ne pi.maxPage }"><!-- 내가보고있는페이지가 마지막페이지가 아닐경우 -->
-                        <a href="addressIn.emp?cpage=${ pi.currentPage + 1 }">&gt;</a>
-                    </c:if>
+                    <ul class="pagination justify-content-center">
+                        <c:if test="${ pi.currentPage ne 1 }"> <!-- 내가보고있는페이지가 1이 아닐경우 -->
+                            <li class="page-item" disabled><a href="addressIn.emp?cpage=${ pi.currentPage - 1 }"><</a></li>
+                        </c:if>
+                        
+                        <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+                            <c:choose>
+                                <c:when test="${ empty condition and empty keyword }"> <!-- 검색 전일 때 -->
+                                    <li class="page-item"><a href="addressIn.emp?cpage=${ p }">${ p }</a></li>
+                                </c:when>
+                                <c:otherwise>	<!-- 검색 후 -->
+                                    <li class="page-item"><a href="addressInSearch.emp?cpage=${ p }&condition=${ condition }&keyword=${ keyword }">${ p }</a></li>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                        
+                        <c:if test="${ pi.currentPage ne pi.maxPage }"><!-- 내가보고있는페이지가 마지막페이지가 아닐경우 -->
+                            <li class="page-item"><a href="addressIn.emp?cpage=${ pi.currentPage + 1 }">></a></li>
+                        </c:if>
+                    </ul>
                 </div>
 
 
@@ -233,7 +249,7 @@
             // 상세 조회 모달
             function viewDetail(empNo) {
                 $.ajax({
-                    url:"selectAdressEmploye.emp",
+                    url:"selectAdressEmployee.emp",
                     data:{empNo:empNo},
                     success: function(e){
                         $('#empNo').text(e.empNo);
