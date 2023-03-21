@@ -35,5 +35,6 @@ public class Leave {
 	private int deptCode;
 	private int jobCode;
 	private int teamCode;
+	private String teamName;
 
 }

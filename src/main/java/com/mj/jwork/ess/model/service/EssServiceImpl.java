@@ -70,13 +70,23 @@ public class EssServiceImpl implements EssService {
 	}
 
 	@Override
-	public ArrayList<Leave> adminSelectLeaveList(PageInfo pi) {
-		return eDao.adminSelectLeaveList(sqlSession, pi);
+	public ArrayList<Leave> adminSelectLeaveList(PageInfo pi, Employee e) {
+		return eDao.adminSelectLeaveList(sqlSession, pi, e);
 	}
 	
 	@Override
-	public Leave adminLeaveDetail(int leaveNo) {
-		return eDao.adminLeaveDetail(sqlSession, leaveNo);
+	public Leave adminLeaveDetail(Leave le) {
+		return eDao.adminLeaveDetail(sqlSession, le);
+	}
+	
+	@Override
+	public int adminFirstLeave(Leave le) {
+		return eDao.adminFirstLeave(sqlSession, le);
+	}
+
+	@Override
+	public int adminSecondLeave(Leave le) {
+		return eDao.adminSecondLeave(sqlSession, le);
 	}
 	
 	@Override
@@ -170,13 +180,13 @@ public class EssServiceImpl implements EssService {
 	}
 
 	@Override
-	public ArrayList<Overtime> adminSelectOvertimeList(PageInfo pi) {
-		return eDao.adminSelectOvertimeList(sqlSession, pi);
+	public ArrayList<Overtime> adminSelectOvertimeList(PageInfo pi, Employee e) {
+		return eDao.adminSelectOvertimeList(sqlSession, pi, e);
 	}
 
 	@Override
-	public ArrayList<Businesstrip> adminSelectBusinesstripList(PageInfo pi) {
-		return eDao.adminSelectBusinesstripList(sqlSession, pi);
+	public ArrayList<Businesstrip> adminSelectBusinesstripList(PageInfo pi, Employee e) {
+		return eDao.adminSelectBusinesstripList(sqlSession, pi, e);
 	}
 
 	@Override
@@ -190,33 +200,33 @@ public class EssServiceImpl implements EssService {
 	}
 
 	@Override
-	public Businesstrip adminSelectBusinesstrip(int btNo) {
-		return eDao.adminSelectBusinesstrip(sqlSession, btNo);
+	public Businesstrip adminSelectBusinesstrip(Businesstrip b) {
+		return eDao.adminSelectBusinesstrip(sqlSession, b);
 	}
 
 	@Override
-	public Overtime adminSelectOvertime(int otNo) {
-		return eDao.adminSelectOvertime(sqlSession, otNo);
+	public Overtime adminSelectOvertime(Overtime o) {
+		return eDao.adminSelectOvertime(sqlSession, o);
 	}
 
 	@Override
-	public int adminUpdateFirstBusinesstrip(Businesstrip b) {
-		return eDao.adminUpdateFirstBusinesstrip(sqlSession, b);
+	public int adminFirstBusinesstrip(Businesstrip b) {
+		return eDao.adminFirstBusinesstrip(sqlSession, b);
 	}
 
 	@Override
-	public int adminUpdateSecondBusinesstrip(Businesstrip b) {
-		return eDao.adminUpdateSecondBusinesstrip(sqlSession, b);
+	public int adminSecondBusinesstrip(Businesstrip b) {
+		return eDao.adminSecondBusinesstrip(sqlSession, b);
 	}
 
 	@Override
-	public int adminUpdateFirstOvertime(Overtime o) {
-		return eDao.adminUpdateFirstOvertime(sqlSession, o);
+	public int adminFirstOvertime(Overtime o) {
+		return eDao.adminFirstOvertime(sqlSession, o);
 	}
 
 	@Override
-	public int adminUpdateSecondOvertime(Overtime o) {
-		return eDao.adminUpdateSecondOvertime(sqlSession, o);
+	public int adminSecondOvertime(Overtime o) {
+		return eDao.adminSecondOvertime(sqlSession, o);
 	}
 
 	@Override
