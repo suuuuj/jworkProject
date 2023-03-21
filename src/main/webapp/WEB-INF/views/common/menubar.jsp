@@ -243,7 +243,7 @@
 
                 <div class="menubarArea">
                     <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/homepage.png" alt="" />홈피드</div>
+                        <div class="mainMenu" onclick="location.href='mainPage.ess'"><img class="menuIcon" src="resources/images/common/homepage.png" alt="" />홈피드</div>
                         <div class="menu-wrap">
 
                         </div>

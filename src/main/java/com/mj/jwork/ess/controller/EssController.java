@@ -31,6 +31,12 @@ public class EssController {
 
 	@Autowired
 	private EssServiceImpl eService;
+	
+	@RequestMapping("mainPage.ess")
+	public ModelAndView mainPage(ModelAndView mv) {
+		mv.setViewName("common/mainPage");
+		return mv;
+	}
 
 	/**
 	 * 휴가메뉴창 띄우기
