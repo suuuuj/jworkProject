@@ -502,5 +502,12 @@
 		 where attachment_no = #{attachmentNo}
 	</delete>
 	
+	<delete id="deleteMail">
+		delete
+		  from mail_detail
+		 where mail_no = #{ mailNo }
+		   and emp_no = #{ empNo }
+	</delete>
+	
 	
 </mapper>
