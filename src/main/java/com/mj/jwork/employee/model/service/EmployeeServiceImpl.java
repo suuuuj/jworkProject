@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.dao.EmployeeDao;
+import com.mj.jwork.employee.model.vo.AddressGroup;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.employee.model.vo.Team;
@@ -92,10 +93,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return eDao.selectEmployee(sqlSession, empNo);
 	}
 	
-	
-	
-
-	
 	// 사내 주소록 검색
 	@Override
 	public int selectAddressInSearchCount(HashMap<String, Object> map) {
@@ -129,7 +126,130 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public int updateAddressOut(Employee e) {
 		return eDao.updateAddressOut(sqlSession, e);
 	}
-
-
 	
+	// 개인 주소록 검색
+	@Override
+	public int selectAddressOutSearchCount(HashMap<String, Object> map) {
+		return eDao.selectAddressOutSearchCount(sqlSession, map);
+	}
+	@Override
+	public ArrayList<Employee> selectAddressOutSearchList(HashMap<String, Object> map, PageInfo pi) {
+		return eDao.selectAddressOutSearchList(sqlSession, map, pi);
+	}
+	
+	// 개인 주소록 즐겨찾기
+	@Override
+	public int ajaxInsertAddressOutFav(Employee e) {
+		return eDao.ajaxInsertAddressOutFav(sqlSession, e);
+	}
+	
+	// 개인 주소록 즐겨찾기 해제
+	@Override
+	public int ajaxDeleteAddressOutFav(Employee e) {
+		return eDao.ajaxDeleteAddressOutFav(sqlSession, e);
+	}
+	
+	// 주소록 그룹 조회(ajax)
+	@Override
+	public ArrayList<Employee> ajaxSelectAddressGroup(int empNo) {
+		return eDao.ajaxSelectAddressGroup(sqlSession, empNo);
+	}
+	
+	// 주소록 그룹 수정 - 조회(ajax)
+	@Override
+	public Employee ajaxSelectAddGroupName(int groupNo) {
+		return eDao.ajaxSelectAddGroupName(sqlSession, groupNo);
+	}
+	// 주소록 그룹 수정
+	@Override
+	public int updateAddGroupName(Employee e) {
+		return eDao.updateAddGroupName(sqlSession, e);
+	}
+	
+	// 주소록 그룹 삭제
+	@Override
+	public int ajaxDeleteAddGroup(int groupNo) {
+		return eDao.ajaxDeleteAddGroup(sqlSession, groupNo);
+	}
+	@Override
+	public int ajaxUpdateAddoutGrNo(int groupNo) {
+		return eDao.ajaxUpdateAddoutGrNo(sqlSession, groupNo);
+	}
+	
+	// 주소록 그룹 추가
+	@Override
+	public int insertAddressGroup(Employee e) {
+		return eDao.insertAddressGroup(sqlSession, e);
+	}
+	
+	// 주소록 연락처 추가
+	@Override
+	public int insertAddressOut(Employee e) {
+		return eDao.insertAddressOut(sqlSession, e);
+	}
+	@Override
+	public int insertAddressOutFav(Employee e) {
+		return eDao.insertAddressOutFav(sqlSession, e);
+	}
+	
+	// 즐겨찾기된 사내 주소록 리스트 조회
+	@Override
+	public int favAddressInListCount(int loginNo) {
+		return eDao.favAddressInListCount(sqlSession, loginNo);
+	}
+	@Override
+	public ArrayList<Employee> ajaxFavAddressInList(int loginNo, PageInfo iPi) {
+		return eDao.ajaxFavAddressInList(sqlSession, loginNo, iPi);
+	}
+	
+	// 주소록 연락처 삭제
+	@Override
+	public int deleteAddressOut(int addoutNo) {
+		return eDao.deleteAddressOut(sqlSession, addoutNo);
+	}
+	
+	// 즐겨찾기된 개인 주소록 리스트 조회
+	@Override
+	public int favAddressOutListCount(int loginNo) {
+		return eDao.favAddressOutListCount(sqlSession, loginNo);
+	}
+	@Override
+	public ArrayList<Employee> ajaxFavAddressOutList(int loginNo, PageInfo oPi) {
+		return eDao.ajaxFavAddressOutList(sqlSession, loginNo, oPi);
+	}
+	
+	// 캘린더 그룹 조회
+	@Override
+	public ArrayList<Employee> ajaxSelectSchGroup(int loginNo) {
+		return eDao.ajaxSelectSchGroup(sqlSession, loginNo);
+	}
+	
+	// 캘린더 그룹 수정 - 조회(ajax)
+	@Override
+	public Employee ajaxSelectSchGroupName(int groupNo) {
+		return eDao.ajaxSelectSchGroupName(sqlSession, groupNo);
+	}
+	// 캘린더 그룹 수정
+	@Override
+	public int updateSchGroupName(Employee e) {
+		return eDao.updateSchGroupName(sqlSession, e);
+	}
+	
+	// 캘린더 그룹 삭제
+	@Override
+	public int ajaxDeleteSchGroup(int groupNo) {
+		return eDao.ajaxDeleteSchGroup(sqlSession, groupNo);
+	}
+	@Override
+	public int ajaxUpdateSchGrNo(int groupNo) {
+		return eDao.ajaxUpdateSchGrNo(sqlSession, groupNo);
+	}
+	
+	// 캘린더 그룹 추가
+	@Override
+	public int insertSchGroup(Employee e) {
+		return eDao.insertSchGroup(sqlSession, e);
+	}
+	
+
 }

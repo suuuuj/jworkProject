@@ -28,6 +28,7 @@
 		<!-- 외부 주소록 -->
 		<result column="addout_no" property="addoutNo"></result>
 		<result column="addout_fav" property="addoutFav"></result>
+		<result column="date_fav" property="dateFav"></result>
 		<result column="name" property="name"></result>
 		<result column="biz_name" property="bizName"></result>
 		<result column="dept" property="dept"></result>
@@ -35,6 +36,10 @@
 		<result column="biz_phone" property="bizPhone"></result>
 		<result column="memo" property="memo"></result>
 		<result column="group_no" property="groupNo"></result>
+		<result column="group_no" property="group"></result>
+		<result column="group_name" property="groupName"></result>
+		<!-- 일정 -->
+		<result column="group_color" property="groupColor"></result>
 		<!-- <result column="" property=""></result> -->
 	</resultMap>
 	
@@ -181,7 +186,7 @@
 		 where status = 'Y'
 	</select>
 	<select id="selectAddressOutList" resultMap="employeeResult">
-		select
+       select
 		 	   addout_no
 		     , name
 		     , biz_name
@@ -191,16 +196,14 @@
 		     , phone
 		     , biz_phone
 		     , memo
-             , group_name
 		     , (select
 		               1
 		          from address_fav
 		         where emp_no = #{empNo}
 		           and addout_fav = addout_no) as "addout_fav"
-		  from address_out o
-     left join address_gr g on (g.emp_no=o.emp_no) 
+		  from address_out
 		 where status='Y'
-		   and o.emp_no = #{empNo}
+		   and emp_no = #{empNo}
 	</select>
 	
 	<!-- 사내 주소록 상세 조회 페이지(ajax) -->
@@ -233,16 +236,16 @@
 		select
 		       count(*)
 		  from employee e
-		  left join department d on (e.dept_code=d.dept_code)
+		  left join team t on (e.team_code=t.team_code)
 		 where e.status = 'Y'
 		   <if test="condition == 'empNo'">
-		   and emp_no    		<!-- 사번으로 검색시 -->
+		   and emp_no    	<!-- 사번으로 검색시 -->
 		   </if>
 		   <if test="condition == 'empName'">
 		   and emp_name   	<!-- 이름으로 검색시 -->
 		   </if>
-		   <if test="condition == 'deptName'">
-		   and dept_name   	<!-- 내용으로 검색시 -->
+		   <if test="condition == 'teamName'">
+		   and team_name   	<!-- 부서로 검색시 -->
 		   </if>
 		        like '%' || #{keyword} || '%'
 	</select>
@@ -277,7 +280,7 @@
 		  		and emp_name  
 		  	</when>
 		  	<otherwise>		    
-		   		and dept_name  
+		   		and team_name  
 		   	</otherwise> 
 		 </choose>
 		        like '%' || #{keyword} || '%'
@@ -292,11 +295,13 @@
 			 (
 			   emp_no
 			 , emp_fav
+			 , date_fav
 			 )
 		values
 			 (
 			   #{loginNo}	<!-- 즐겨찾기한사원번호(로그인한사원번호) -->
 			 , #{empNo} 	<!-- 즐겨찾기된사원번호 -->
+			 , sysdate
 			 )
 	</insert>
 	
@@ -347,7 +352,7 @@
 	   and emp_no = #{loginNo}	<!-- 로그인한 유저 사원번호 -->
 	</update>
 
-	
+	<!-- 메일 사원번호 입력시 사원조회 서비스 -->
 	<select id="selectEmployee" resultMap="employeeResult">
 		select
 		       emp_no
@@ -355,5 +360,330 @@
 		  from employee
 		 where emp_no = #{empNo}
 	</select>
-
+	
+	<!-- 개인 주소록 검색 -->
+	<select id="selectAddressOutSearchCount" resultType="_int">
+		select
+		       count(*)
+		  from address_out o
+		  left join address_gr g on (g.emp_no=o.emp_no)
+		 where o.status = 'Y'
+		   and o.group_no = g.group_no
+		   <if test="condition == 'name'">
+		   and name    		<!-- 이름으로 검색시 -->
+		   </if>
+		   <if test="condition == 'groupName'">
+		   and group_name   <!-- 그룹으로 검색시 -->
+		   </if>
+		   <if test="condition == 'bizName'">
+		   and biz_name   	<!-- 회사이름으로 검색시 -->
+		   </if>
+		        like '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="selectAddressOutSearchList" resultMap="employeeResult">
+		select
+		 	   addout_no
+		     , name
+		     , biz_name
+		     , dept
+		     , job
+		     , email
+		     , phone
+		     , biz_phone
+		     , memo
+		     , group_name
+		     , (select
+		               1
+		          from address_fav
+		         where emp_no = #{empNo}
+		           and addout_fav = addout_no) as "addout_fav"
+		  from address_out o
+		  left join address_gr g on (g.emp_no=o.emp_no)
+		 where o.status='Y'
+		   and o.group_no = g.group_no
+		   and o.emp_no = #{empNo}
+		 <choose>
+		 	<when test="condition == 'name'">
+		   		and name  
+		    </when>
+		    <when test="condition == 'groupName'">
+		   		and group_name  
+		    </when>
+		  	<otherwise>		    
+		   		and biz_name  
+		   	</otherwise> 
+		 </choose>
+		        like '%' || #{keyword} || '%'
+	</select>
+	
+	<!-- 개인 주소록 즐겨찾기 -->
+	<insert id="ajaxInsertAddressOutFav">
+		insert
+		  into address_fav
+			 (
+			   emp_no
+			 , addout_fav
+			 , date_fav
+			 )
+		values
+			 (
+			   #{loginNo}	<!-- 즐겨찾기한사원번호(로그인한사원번호) -->
+			 , #{addoutNo} 	<!-- 즐겨찾기된개인주소록번호 -->
+			 , sysdate
+			 )
+	</insert>
+	
+	<!-- 개인 주소록 즐겨찾기 해제 -->
+	<update id="ajaxDeleteAddressOutFav">
+		delete 
+		  from address_fav
+		 where addout_fav = #{addoutNo}	<!-- 즐겨찾기된사원번호 -->
+		   and emp_no = #{loginNo} 		<!-- 로그인한사원번호 -->
+	</update>
+	
+	<!-- 주소록 그룹 조회 -->
+	<select id="ajaxSelectAddressGroup" resultMap="employeeResult">
+		select
+			   group_no
+			 , group_name
+		  from address_gr
+		 where emp_no = #{empNo} <!-- 로그인한사원번호 -->
+		 order
+		    by group_no
+	</select>
+	
+	<!-- 주소록 그룹 수정 -->
+	<select id="ajaxSelectAddGroupName" resultMap="employeeResult">
+		select group_name
+    	  from address_gr
+   		 where group_no = #{groupNo}
+	</select>
+	<update id="updateAddGroupName">
+		 update
+		        address_gr
+		    set group_name = #{groupName} 
+		  where group_no = #{groupNo} 
+	</update>
+	
+	<!-- 주소록 그룹 삭제 -->
+	<delete id="ajaxDeleteAddGroup">
+		delete 
+		  from address_gr
+		 where group_no = #{groupNo}
+	</delete>
+	<update id="ajaxUpdateAddoutGrNo">
+		update
+		       address_out
+		   set group_no = 0 
+         where group_no = #{groupNo} 
+	</update>
+	
+	<!-- 주소록 그룹 추가 -->
+	<insert id="insertAddressGroup">
+		insert
+			   into address_gr
+			   (
+			     group_no
+			   , group_name
+			   , emp_no
+			   )
+			   VALUES
+			   (
+			     seq_agrno.nextval	
+			   , #{groupName}
+			   , #{loginNo}
+			   )
+	</insert>
+	
+	<!-- 주소록 연락처 추가 -->
+	<insert id="insertAddressOut">
+		insert
+			   into address_out
+			   (
+			     addout_no
+			   , name
+			   , biz_name
+			   , dept
+			   , job
+			   , email
+			   , phone
+			   , biz_phone
+			   , memo
+			   , group_no
+			   , emp_no
+			   )
+			   VALUES
+			   (
+			     SEQ_ADNO.NEXTVAL
+			   , #{name}
+			   , #{bizName}
+			   , #{dept}
+			   , #{job}
+			   , #{email}
+			   , #{phone}
+			   , #{bizPhone}
+			   , #{memo}
+			   , #{group}
+			   , #{loginNo}
+			   )
+	</insert>
+	<insert id="insertAddressOutFav">
+		insert
+		  into address_fav
+			 (
+			   emp_no
+			 , addout_fav
+			 , date_fav
+			 )
+		values
+			 (
+			   #{loginNo}			<!-- 즐겨찾기한사원번호(로그인한사원번호) -->
+			 , SEQ_ADNO.CURRVAL 	<!-- 잘 모르겠음 --><!-- 즐겨찾기된개인주소록번호 -->
+			 , sysdate
+			 )
+	</insert>
+	
+	<!-- 주소록 연락처 삭제 -->
+	<update id="deleteAddressOut">
+		update
+		       address_out
+		   set status = 'N'
+		 where addout_no = #{addoutNo}
+	</update>
+	
+	<!-- 즐겨찾기된 사내 주소록 리스트 조회 -->
+	<select id="favAddressInListCount" resultType="_int">
+		select
+		       count(*)
+		  from address_fav
+		 where emp_no = #{loginNo}
+           and emp_fav is not null
+	</select>
+	<select id="ajaxFavAddressInList" resultMap="employeeResult">
+	   select
+		       e.emp_no
+		     , emp_name
+		     , dept_name
+		     , team_name
+		     , job_name
+		     , email
+		     , phone
+		     , emp_phone
+		     , task
+		     , (select
+		               1
+		          from address_fav
+		         where emp_no = #{loginNo}
+		           and emp_fav = e.emp_no) as "emp_fav"
+		  from employee e
+		  left join department d on (e.dept_code=d.dept_code)
+		  left join team t on (e.team_code=t.team_code)
+		  left join job j on (e.job_code=j.job_code)
+		 where e.status='Y'
+		   and j.job_code >= 2
+           and (select
+		               1
+		          from address_fav
+		         where emp_no = #{loginNo}
+		           and emp_fav = e.emp_no )= 1
+		 order
+		    by j.job_code desc
+	</select>
+	
+	<!-- 즐겨찾기된 개인 주소록 리스트 조회 -->
+	<select id="favAddressOutListCount" resultType="_int">
+		select
+		       count(*)
+		  from address_fav
+		 where emp_no = #{loginNo}
+           and addout_fav is not null
+	</select>
+	<select id="ajaxFavAddressOutList" resultMap="employeeResult">
+		select
+		 	   addout_no
+		     , name
+		     , biz_name
+		     , dept
+		     , job
+		     , email
+		     , phone
+		     , biz_phone
+		     , memo
+             , group_no
+		     , (select
+		               1
+		          from address_fav
+		         where emp_no = o.emp_no
+		           and addout_fav = addout_no) as "addout_fav"
+		  from address_out o
+		 where o.status='Y'
+		   and o.emp_no = #{empNo}
+           and (select
+		               1
+		          from address_fav
+		         where emp_no = o.emp_no
+		           and addout_fav = addout_no) = 1
+	</select>
+	
+	<!-- 캘린더 그룹 조회 -->
+	<select id="ajaxSelectSchGroup" resultMap="employeeResult">
+		select
+			   group_no
+			 , group_name
+             , group_color
+		  from sch_group
+		 where emp_no = #{loginNo}
+		 order
+		    by group_no
+	</select>
+	
+	<!-- 캘린더 그룹 수정 -->
+	<select id="ajaxSelectSchGroupName" resultMap="employeeResult">
+		select 
+               group_name
+             , group_color
+    	  from sch_group
+   		 where group_no = #{groupNo}
+	</select>
+	<update id="updateSchGroupName">
+		 update
+		        sch_group
+		    set group_name = #{groupName}
+              , group_color = #{groupColor}
+		  where group_no = #{groupNo} 
+	</update>
+	
+	<!-- 캘린더 그룹 삭제 -->
+	<delete id="ajaxDeleteSchGroup">
+		delete 
+		  from sch_group
+		 where group_no = #{groupNo}
+	</delete>
+	<update id="ajaxUpdateSchGrNo">
+		update
+		       schedule
+		   set group_no = 0 
+         where group_no = #{groupNo} 
+	</update>
+	
+	<!-- 캘린더 그룹 추가 -->
+	<insert id="insertSchGroup">
+		insert
+			   into sch_group
+			   (
+			     group_no
+			   , group_name
+               , group_color
+			   , emp_no
+			   )
+			   VALUES
+			   (
+			     seq_sgrno.nextval	
+			   , #{groupName}
+               , #{groupColor}
+			   , #{loginNo}
+			   )
+	</insert>
+	
 </mapper>

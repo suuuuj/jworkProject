@@ -40,6 +40,7 @@ public class Employee {
 	
 	private String empFav;
 	private String addoutFav;
+	private String dateFav;
 	
 	private int addoutNo;
 	private String name;
@@ -49,7 +50,12 @@ public class Employee {
 	private String bizPhone;
 	private String memo;
 	private int groupNo;
+	private String groupName;
 	
 	private int loginNo;
+	private String checkStar;
+	private int group;
+	private String groupColor;
+	
 	
 }

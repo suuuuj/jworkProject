@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.mj.jwork.common.model.vo.PageInfo;
+import com.mj.jwork.employee.model.vo.AddressGroup;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.employee.model.vo.Team;
@@ -50,11 +51,70 @@ public interface EmployeeService {
 	
 	// 개인 주소록 상세 수정
 	int updateAddressOut(Employee e);
-
-
+	
+	// 개인 주소록 검색
+	int selectAddressOutSearchCount(HashMap<String, Object> map);
+	ArrayList<Employee> selectAddressOutSearchList(HashMap<String, Object> map, PageInfo pi);
 	
 	// 메일 사원번호 입력시 사원조회 서비스 (ajax)
 	Employee selectEmployee(int empNo);
+	
+	// 개인 주소록 즐겨찾기(ajax)
+	int ajaxInsertAddressOutFav(Employee e);
+	
+	// 개인 주소록 즐겨찾기 해제(ajax)
+	int ajaxDeleteAddressOutFav(Employee e);
+	
+	// 주소록 그룹 조회(ajax)
+	ArrayList<Employee> ajaxSelectAddressGroup(int empNo);
+	
+	// 주소록 그룹 수정 - 조회(ajax)
+	Employee ajaxSelectAddGroupName(int groupNo);
+	// 주소록 그룹 수정
+	int updateAddGroupName(Employee e);
+	
+	// 주소록 그룹 삭제
+	int ajaxDeleteAddGroup(int groupNo);
+	int ajaxUpdateAddoutGrNo(int groupNo);
+	
+	// 주소록 그룹 추가
+	int insertAddressGroup(Employee e);
+	
+	// 주소록 연락처 추가
+	int insertAddressOut(Employee e);
+	int insertAddressOutFav(Employee e);
+	
+	// 주소록 연락처 삭제
+	int deleteAddressOut(int addoutNo);
+	
+	// 즐겨찾기된 사내 주소록 리스트 조회
+	int favAddressInListCount(int loginNo);
+	ArrayList<Employee> ajaxFavAddressInList(int loginNo, PageInfo iPi);
+
+	// 즐겨찾기된 개인 주소록 리스트 조회
+	int favAddressOutListCount(int loginNo);
+	ArrayList<Employee> ajaxFavAddressOutList(int loginNo, PageInfo oPi);
+	
+	// 캘린더 그룹 조회
+	ArrayList<Employee> ajaxSelectSchGroup(int loginNo);
+	
+	// 캘린더 그룹 수정 - 조회(ajax)
+	Employee ajaxSelectSchGroupName(int groupNo);
+	// 캘린더 그룹 수정
+	int updateSchGroupName(Employee e);
+
+	// 캘린더 그룹 삭제
+	int ajaxDeleteSchGroup(int groupNo);
+	int ajaxUpdateSchGrNo(int groupNo);
+	
+	// 캘린더 그룹 추가
+	int insertSchGroup(Employee e);
+	
+
+
+
+	
+
 
 
 }
