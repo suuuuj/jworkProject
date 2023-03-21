@@ -105,7 +105,10 @@
         .my>li>a:hover{
             color: rgb(14, 126, 14);
             font-weight: bolder;
-        } 
+        }
+        .keyword{
+            color: green;
+        }
 
     </style>
 </head>
@@ -336,7 +339,10 @@
 
 
             <script>
-                document.querySelector("#search-area option[value=${ condition }]").selected = true;
+                if(${not empty condition}){
+                    document.querySelector("#search-area option[value=${ condition }]").selected = true;
+                }
+                
 
                 $(function(){
 
@@ -464,7 +470,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                     <td width="100px">${ m.sender }</td>
-                                    <td width="500px" class="mt" mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">${ m.mailTitle }<br><span class="mailContents">${ m.mailContent }</span></td>
+                                    <td width="500px" class="mt" mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">${ m.mailTitle }<div class="mailContents">${ m.mailContent }</div></td>
                                     <td width="220px">${ m.registerDate }</td>
                                 </tr>
                             </c:forEach> 
@@ -733,6 +739,23 @@
                         location.href='updateForm.ma?mailNo=' + $(this).attr("mail-no");
 
                     })
+                    
+                    if(${ not empty keyword }){
+                        const keyword = "${keyword}";
+                        const $mail = $(".mt");
+                        //console.log($mail);
+
+                        $mail.each(function(){
+                            var html = $(this).html(); 
+                            const regex = new RegExp(`${keyword}`, 'gi');
+                            //console.log(regex);
+                            let newHtml = html.replace(regex, "<span class='keyword'>${ keyword }</span>");
+                            //console.log(newHtml);
+                            $(this).html(newHtml);
+                        })
+
+                    }
+                    
                     
 
                 })
