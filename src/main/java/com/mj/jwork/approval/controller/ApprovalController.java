@@ -158,6 +158,20 @@ public class ApprovalController {
 		return "approval/signApprovalList";
 		
 	}
+	
+	// 결재문서 상세 조회 페이지
+	@RequestMapping("signDetail.app")
+	public ModelAndView signDetail(int no, ModelAndView mv) {
+		Approval a = aService.selectApproval(no);
+		ArrayList<AppLine> al = aService.selectAppLine(no);
+		
+		mv.addObject("a",a).setViewName("approval/signApprovalDetail");
+		mv.addObject("al",al).setViewName("approval/signApprovalDetail");
+		
+		//System.out.println(al);
+		
+		return mv;
+	}
 			
 		
 	// 임시보관함 리스트 조회 페이징
@@ -209,7 +223,7 @@ public class ApprovalController {
 	//결재반려
 	@RequestMapping("returnBtn.app")
 	public String approvalReturn(AppLine al,HttpSession session, Model model) {
-		System.out.println(al);
+		//System.out.println(al);
 		//승인 버튼 누른 후 app_line변경
 		int result1 = aService.returnBtn(al);
 		
