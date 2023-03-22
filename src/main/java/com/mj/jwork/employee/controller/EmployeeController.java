@@ -117,7 +117,7 @@ public class EmployeeController {
 		
 		ArrayList<Team> teamList = eService.ajaxSelectTeamList();
 		
-		Map<String, ArrayList> data = new HashMap<String, ArrayList>();
+		Map<String, ArrayList> data = new HashMap<>();
 		data.put("empList",empList);
 		data.put("deptList",deptList);
 		data.put("teamList",teamList);
