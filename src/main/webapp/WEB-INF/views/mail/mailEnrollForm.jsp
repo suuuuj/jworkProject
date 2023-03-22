@@ -322,6 +322,34 @@
                         })
 
                     })
+
+
+                    // 주소록에서 사원을 클릭할 때
+                    $(document).on("click", ".emp", function(){
+
+                        const empNo = $(this).attr("empNo");
+                        const empName = $(this).attr("empName");
+                        //console.log(empNo + empName);
+
+                        if($("#receiver-list").children().length == 0){ 
+                        // li 요소가 없을 때
+                            $("#receiver-list").append($("<input type='hidden' name='receiverNo' value='" + empNo + "'><input type='hidden' name='receiver' value='" + empName + "'><li class='receiver-li'>" + empName + "</li><div class='receiver-delete'>&times;</div>"));
+                            $("#receiver-list").css("width", "$('#receiver-list').children().eq(0).val().length + 30");
+                        } else { 
+                        // li 요소가 있을 때
+                            for(let i=0; i<$("#receiver-list").children().length; i++){
+                                if($("#receiver-list").children().eq(i).val() == empNo){
+                                    alert("중복된 사람입니다.");
+                                    return;
+                                }
+                            }
+                            $("#receiver-list").append($("<input type='hidden' name='receiverNo' value='" + empNo + "'><input type='hidden' name='receiver' value='" + empName + "'><li class='receiver-li'>" + empName + "</li><div class='receiver-delete'>&times;</div>"));
+                            
+                        }
+
+
+
+                    })
                     
         
                     
@@ -361,7 +389,7 @@
                                     $("#receiver").focus();
                                 } else { // li 요소가 있을 때
                                     for(let i=0; i<$("#receiver-list").children().length; i++){
-                                        if($("#receiver-list").children().eq(i).text() == receiver){
+                                        if($("#receiver-list").children().eq(i).val() == e.empNo){
                                             alert("중복된 사람입니다.");
                                             $("#receiver").val("");
                                             $("#receiver").focus();
@@ -385,6 +413,8 @@
             // X 버튼 눌러서 수신자 목록에서 제거
             $(document).on("click", ".receiver-delete", function(){
                 //console.log($(this).prev());
+                $(this).prev().prev().prev().remove();
+                $(this).prev().prev().remove();
                 $(this).prev().remove();
                 $(this).remove();
             })
