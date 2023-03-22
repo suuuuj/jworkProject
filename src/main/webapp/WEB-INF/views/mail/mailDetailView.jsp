@@ -414,6 +414,10 @@
 
                     })
 
+                    $("#reply").click(function(){
+                        $("#postForm").attr("action", "reply.ma").submit();
+                    })
+
 
                 })
 
@@ -524,6 +528,18 @@
                         <td></td>
                     </tr>
                 </table>
+
+                <!-- 답장 혹은 전달시 보낼 값들이 담긴 form -->
+                <form action="" mothod="post" id="postForm">
+                    <input type="hidden" name="mailNo" value="${mi.mailNo}">
+                    <input type="hidden" name="senderNo" value="${mi.senderNo}">
+                    <input type="hidden" name="sender" value="${mi.sender}">
+                    <input type="hidden" name="receiver" value="${mi.receiver}">
+                    <input type="hidden" name="receiverNo" value="${mi.receiverNo}">
+                    <input type="hidden" name="mailTitle" value="${mi.mailTitle}">
+                    <input type="hidden" name="mailContent" value="${mi.mailContent}">
+                    <input type="hidden" name="registerDate" value="${mi.registerDate}">
+                </form>
             </div>
             <script>
                 

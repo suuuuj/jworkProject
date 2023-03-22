@@ -212,7 +212,14 @@
                                 <td width="100px">받는 사람</td>
                                 <td>
                                     <div class="receiverInput">
-                                        <ul id="receiver-list"></ul>
+                                        <ul id="receiver-list">
+                                            <c:if test="${ not empty reply }">
+                                                <input type='hidden' name='receiverNo' value='${ reply.senderNo }'>
+                                                <input type='hidden' name='receiver' value='${ reply.sender }'>
+                                                <li class='receiver-li'>${ reply.sender }</li>
+                                                <div class='receiver-delete'>&times;</div>
+                                            </c:if>
+                                        </ul>
                                         <input type="text" id="receiver" value="">
                                     </div>
                                 </td>
@@ -255,7 +262,17 @@
                             <tr>
                                 <td>내용</td>
                                 <td colspan="2" rowspan="2">
-                                    <textarea name="mailContent" id="summernote"></textarea>
+                                    <textarea name="mailContent" id="summernote">
+                                        <c:if test="${ not empty reply }">
+                                            <br><br><br><br>
+                                            - - - - - Original Message - - - - - <br>
+                                            <b>From : </b> ${ reply.sender } <br>
+                                            <b>To : </b> ${ reply.receiver } <br>
+                                            <b>Sent : </b> ${ reply.registerDate } <br>
+                                            <b>Subject : </b> ${ reply.mailTitle } <br><br>
+                                            ${ reply.mailContent }
+                                        </c:if>
+                                    </textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -275,7 +292,7 @@
             <script>
                 $(document).ready(function(){
                     
-                    
+                    // 주소록 버튼 클릭시
                     $(document).on("click", "#chart", function(){
 
                         $.ajax({
