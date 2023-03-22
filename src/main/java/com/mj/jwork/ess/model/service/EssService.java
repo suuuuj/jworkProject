@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.ess.model.vo.Annual;
+import com.mj.jwork.ess.model.vo.Attendence;
 import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
 import com.mj.jwork.ess.model.vo.LeaveCategory;
@@ -12,6 +13,7 @@ import com.mj.jwork.ess.model.vo.Overtime;
 
 public interface EssService {
 	
+	// ----------------휴가, 출장, 시간외근무 ------------------------------------
 	// 휴가 메인페이지 잔여휴가
 	Annual selectAnnualCount(int empNo);
 	
@@ -99,5 +101,17 @@ public interface EssService {
 	int adminReturnBusinesstrip(int btNo);
 	int adminReturnOvertime(int otNo);
 	
+	// ------------------- 근태 ------------------------------------
+	// 근태 스케줄링
+	int adminInsertAttendence();
 	
+	// 메인페이지 : 근태시퀀스
+	Attendence selectAttendenceNo(int empNo);
+	
+	// 출퇴근시간 insert
+	int insertStartAttendence(Attendence a);
+	int insertEndAttendence(Attendence a);
+	
+	// 출퇴근 상세조회
+	Attendence selectAttendence(Attendence a);
 }

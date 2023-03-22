@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.ess.model.vo.Annual;
+import com.mj.jwork.ess.model.vo.Attendence;
 import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
 import com.mj.jwork.ess.model.vo.LeaveCategory;
@@ -223,7 +224,25 @@ public class EssDao {
 		return sqlSession.update("essMapper.adminSecondLeave", le);
 	}
 	
+	public int adminInsertAttendence(SqlSession sqlSession) {
+		return sqlSession.insert("essMapper.adminInsertAttendence");
+	}
 	
+	public Attendence selectAttendenceNo(SqlSession sqlSession, int empNo) {
+		return sqlSession.selectOne("essMapper.selectAttendenceNo", empNo);
+	}
+	
+	public int insertStartAttendence(SqlSession sqlSession, Attendence a) {
+		return sqlSession.update("essMapper.insertStartAttendence", a);
+	}
+	
+	public int insertEndAttendence(SqlSession sqlSession, Attendence a) {
+		return sqlSession.update("essMapper.insertEndAttendence", a);
+	}
+	
+	public Attendence selectAttendence(SqlSession sqlSession, Attendence a) {
+		return sqlSession.selectOne("essMapper.selectAttendence", a);
+	}
 	
 	
 	
