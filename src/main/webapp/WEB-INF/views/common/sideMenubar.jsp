@@ -29,7 +29,7 @@
 
 <!-- sweetalert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
 
 <!-- 구글 글씨체 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">

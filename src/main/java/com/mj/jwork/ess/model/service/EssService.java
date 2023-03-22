@@ -34,10 +34,14 @@ public interface EssService {
 	
 	// 관리자 : 휴가전체조회(select)
 	int adminSelectLeaveListCount();
-	ArrayList<Leave> adminSelectLeaveList(PageInfo pi);
+	ArrayList<Leave> adminSelectLeaveList(PageInfo pi, Employee e);
 	
 	// 관리자 : 휴가상세조회
-	Leave adminLeaveDetail(int leaveNo);
+	Leave adminLeaveDetail(Leave le);
+	
+	// 관리자 : 휴가 1차,2차결재
+	int adminFirstLeave(Leave le);
+	int adminSecondLeave(Leave le);
 	
 	// 관리자 : 휴가결재선 반려
 	int adminReturnLeave(int leaveNo);
@@ -78,18 +82,18 @@ public interface EssService {
 	// 관리자 : 시간외근무/출장 조회(select)
 	int adminSelectOvertimeListCount();
 	int adminSelectBusinesstripListCount();
-	ArrayList<Overtime> adminSelectOvertimeList(PageInfo pi);
-	ArrayList<Businesstrip> adminSelectBusinesstripList(PageInfo pi);
+	ArrayList<Overtime> adminSelectOvertimeList(PageInfo pi, Employee e);
+	ArrayList<Businesstrip> adminSelectBusinesstripList(PageInfo pi, Employee e);
 	
 	// 관리자 : 시간외근무/출장 상세조회(select)
-	Businesstrip adminSelectBusinesstrip(int btNo);
-	Overtime adminSelectOvertime(int otNo);
+	Businesstrip adminSelectBusinesstrip(Businesstrip b);
+	Overtime adminSelectOvertime(Overtime o);
 	
 	// 관리자 : 시간외근무/출장 결재선(update)
-	int adminUpdateFirstBusinesstrip(Businesstrip b);
-	int adminUpdateSecondBusinesstrip(Businesstrip b);
-	int adminUpdateFirstOvertime(Overtime o);
-	int adminUpdateSecondOvertime(Overtime o);
+	int adminFirstBusinesstrip(Businesstrip b);
+	int adminSecondBusinesstrip(Businesstrip b);
+	int adminFirstOvertime(Overtime o);
+	int adminSecondOvertime(Overtime o);
 	
 	// 관리자 : 시간외근무/출장 결재선 반려(update)
 	int adminReturnBusinesstrip(int btNo);

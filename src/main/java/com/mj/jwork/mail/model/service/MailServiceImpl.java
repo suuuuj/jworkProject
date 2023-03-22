@@ -113,18 +113,8 @@ public class MailServiceImpl implements MailService{
 	}
 
 	@Override
-	public int updateMailBox(ArrayList<Mail> mList) {
-		return 0;
-	}
-
-	@Override
-	public int updateMailTrash(ArrayList<Mail> mList) {
-		return 0;
-	}
-
-	@Override
-	public int deleteMail(ArrayList<Mail> mList) {
-		return 0;
+	public int deleteMail(Mail m) {
+		return mDao.deleteMail(sqlSession, m);
 	}
 
 	

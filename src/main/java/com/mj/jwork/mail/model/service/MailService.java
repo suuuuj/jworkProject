@@ -57,14 +57,8 @@ public interface MailService {
 	
 	int deleteMailAt(int attachmentNo);
 	
-	// 메일 이동
-	int updateMailBox(ArrayList<Mail> mList);
-	
-	// 메일 휴지통
-	int updateMailTrash(ArrayList<Mail> mList);
-	
 	// 메일 영구삭제
-	int deleteMail(ArrayList<Mail> mList);
+	int deleteMail(Mail m);
 	
 	
 	

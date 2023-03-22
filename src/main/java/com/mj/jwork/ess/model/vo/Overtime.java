@@ -25,13 +25,15 @@ public class Overtime {
 	private String firstDate; // 1차결재일
 	private String secondDate; // 2차결재일
 	private String failDate; // 반려일
-	private String firstApproval; // 1차결재자사번
-	private String secondApproval; // 2차결재자사번
+	private int firstApproval; // 1차결재자사번
+	private int secondApproval; // 2차결재자사번
 	
 	private String empName;
 	private String deptName;
 	private String jobName;
+	private int jobCode;
 	private int deptCode;
 	private int teamCode;
+	private String teamName;
 	
 }

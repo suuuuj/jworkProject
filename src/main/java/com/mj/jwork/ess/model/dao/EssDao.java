@@ -51,17 +51,17 @@ public class EssDao {
 		return sqlSession.selectOne("essMapper.adminSelectLeaveListCount");
 	}
 	
-	public ArrayList<Leave> adminSelectLeaveList(SqlSession sqlSession, PageInfo pi){
+	public ArrayList<Leave> adminSelectLeaveList(SqlSession sqlSession, PageInfo pi, Employee e){
 
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("essMapper.adminSelectLeaveList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("essMapper.adminSelectLeaveList", e, rowBounds);
 	}
 	
-	public Leave adminLeaveDetail(SqlSession sqlSession, int leaveNo) {
-		return sqlSession.selectOne("essMapper.adminLeaveDetail", leaveNo);
+	public Leave adminLeaveDetail(SqlSession sqlSession, Leave le) {
+		return sqlSession.selectOne("essMapper.adminLeaveDetail", le);
 	}
 	
 	public int insertOvertime(SqlSession sqlSession, Overtime o) {
@@ -114,22 +114,22 @@ public class EssDao {
 		return sqlSession.selectOne("essMapper.adminSelectBusinesstripListCount");
 	}
 	
-	public ArrayList<Overtime> adminSelectOvertimeList(SqlSession sqlSession, PageInfo pi){
+	public ArrayList<Overtime> adminSelectOvertimeList(SqlSession sqlSession, PageInfo pi, Employee e){
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("essMapper.adminSelectOvertimeList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("essMapper.adminSelectOvertimeList", e, rowBounds);
 	}
 	
-	public ArrayList<Businesstrip> adminSelectBusinesstripList(SqlSession sqlSession, PageInfo pi){
+	public ArrayList<Businesstrip> adminSelectBusinesstripList(SqlSession sqlSession, PageInfo pi, Employee e){
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("essMapper.adminSelectBusinessetripList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("essMapper.adminSelectBusinessetripList", e, rowBounds);
 	}
 	
 	public Businesstrip selectBusinesstrip(SqlSession sqlSession, int btNo) {
@@ -140,28 +140,28 @@ public class EssDao {
 		return sqlSession.selectOne("essMapper.selectOvertime", otNo);
 	}
 	
-	public Businesstrip adminSelectBusinesstrip(SqlSession sqlSession, int btNo) {
-		return sqlSession.selectOne("essMapper.adminSelectBusinesstrip", btNo);
+	public Businesstrip adminSelectBusinesstrip(SqlSession sqlSession, Businesstrip b) {
+		return sqlSession.selectOne("essMapper.adminSelectBusinesstrip", b);
 	}
 	
-	public Overtime adminSelectOvertime(SqlSession sqlSession, int otNo) {
-		return sqlSession.selectOne("essMapper.adminSelectOvertime", otNo);
+	public Overtime adminSelectOvertime(SqlSession sqlSession, Overtime o) {
+		return sqlSession.selectOne("essMapper.adminSelectOvertime", o);
 	}
 	
-	public int adminUpdateFirstBusinesstrip(SqlSession sqlSession, Businesstrip b) {
-		return sqlSession.update("essMapper.adminUpdateFirstBusinesstrip", b);
+	public int adminFirstBusinesstrip(SqlSession sqlSession, Businesstrip b) {
+		return sqlSession.update("essMapper.adminFirstBusinesstrip", b);
 	}
 	
-	public int adminUpdateSecondBusinesstrip(SqlSession sqlSession, Businesstrip b) {
-		return sqlSession.update("essMapper.adminUpdateSecondBusinesstrip", b);
+	public int adminSecondBusinesstrip(SqlSession sqlSession, Businesstrip b) {
+		return sqlSession.update("essMapper.adminSecondBusinesstrip", b);
 	}
 	
-	public int adminUpdateFirstOvertime(SqlSession sqlSession, Overtime o) {
-		return sqlSession.update("essMapper.adminUpdateFirstBusinesstrip", o);
+	public int adminFirstOvertime(SqlSession sqlSession, Overtime o) {
+		return sqlSession.update("essMapper.adminFirstOvertime", o);
 	}
 	
-	public int adminUpdateSecondOvertime(SqlSession sqlSession, Overtime o) {
-		return sqlSession.update("essMapper.adminUpdateSecondBusinesstrip", o);
+	public int adminSecondOvertime(SqlSession sqlSession, Overtime o) {
+		return sqlSession.update("essMapper.adminSecondOvertime", o);
 	}
 	
 	public int adminReturnBusinesstrip(SqlSession sqlSession, int btNo) {
@@ -213,6 +213,14 @@ public class EssDao {
 	
 	public ArrayList<Leave> adminSelectAllLeaveList(SqlSession sqlSession){
 		return (ArrayList)sqlSession.selectList("essMapper.adminSelectAllLeaveList");
+	}
+	
+	public int adminFirstLeave(SqlSession sqlSession ,Leave le) {
+		return sqlSession.update("essMapper.adminFirstLeave", le);
+	}
+	
+	public int adminSecondLeave(SqlSession sqlSession, Leave le) {
+		return sqlSession.update("essMapper.adminSecondLeave", le);
 	}
 	
 	

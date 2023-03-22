@@ -116,14 +116,15 @@
                 <table class="leaveTable">
                     <thead>
                         <tr style="font-weight: 600; background: rgb(234, 234, 234);">
-                            <td width="90px;">문서번호</td>
-                            <td width="120px;">사번</td>
-                            <td width="120px;">소속</td>
-                            <td width="120px;">직위</td>
-                            <td width="120px;">이름</td>
-                            <td width="120px;">조정일</td>
-                            <td width="130px;">제목</td>
-                            <td width="190px;">진행상황</td>
+                            <td width="">문서번호</td>
+                            <td width="">사번</td>
+                            <td width="">소속</td>
+                            <td width="">팀명</td>
+                            <td width="">직위</td>
+                            <td width=";">이름</td>
+                            <td width="">조정일</td>
+                            <td width="">제목</td>
+                            <td width="">진행상황</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -132,6 +133,7 @@
                                 <td>${ l.leaveNo }</td>
                                 <td>${ l.empNo }</td>
                                 <td>${ l.deptName }</td>
+                                <td>${l.teamName}</td>
                                 <td>${ l.jobName }</td>
                                 <td>${ l.empName }</td>
                                 <td>${ l.enrollDate }</td>

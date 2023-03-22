@@ -94,7 +94,7 @@
             white-space:nowrap;
             text-overflow: ellipsis !important;
         }
-        .mailContents{
+        .mailcontents{
             font-size: 11px;
             color: gray;
         }
@@ -105,7 +105,10 @@
         .my>li>a:hover{
             color: rgb(14, 126, 14);
             font-weight: bolder;
-        } 
+        }
+        .keyword{
+            color: green;
+        }
 
     </style>
 </head>
@@ -120,7 +123,14 @@
             <div class="btnArea">
                 <input id="checkAll" type="checkbox"> &nbsp;&nbsp;
                 <button id="readBtn" class="btn btn-outline-success btn-sm" disabled>읽음</button>&nbsp;
-                <button id="deleteBtn" class="btn btn-outline-success btn-sm" disabled>삭제</button>&nbsp;
+                <c:choose>
+                    <c:when test="${mailCategory == '휴지통'}">
+                        <button id="deleteEverBtn" class="btn btn-outline-success btn-sm" disabled>영구삭제</button>&nbsp;
+                    </c:when>
+                    <c:otherwise>
+                        <button id="deleteBtn" class="btn btn-outline-success btn-sm" disabled>삭제</button>&nbsp;
+                    </c:otherwise>
+                </c:choose>
                 <!--
                 <button type="button" id="moveBtn" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#move" disabled>이동</button>&nbsp;-->
                 
@@ -159,7 +169,6 @@
                         </ul>
                         
                 </span>&nbsp;
-                <button id="deliveryBtn" class="btn btn-outline-success btn-sm" disabled>전달</button>&nbsp;
 
                 <script>
                     $(function(){
@@ -266,7 +275,7 @@
                                     success: function(result){
 
                                         if(result == "success"){
-                                            location.replace("list.ma");
+                                            location.replace("list.ma?mailCategory=${mailCategory}");
                                         } else{
                                             alert("알 수 없는 오류로 실패했습니다. 다시 시도해주세요.");
                                         }
@@ -278,6 +287,74 @@
                             }
 
                             
+                        })
+
+                        // 삭제 버튼 클릭시
+                        $("#deleteBtn").click(function(){
+                            $("#moveMailBoxNo").val("0");
+                            $("#moveMailType").val("");
+                            $("#moveStatus").val("N");
+
+                            var checkedMailList = [];
+                            $("input[name=mailNo]:checked").each(function(){
+                                checkedMailList.push($(this).val());
+                            })
+                            //const $checkedMails = $("input:checkbox[name=mailNo]:checked").val();
+                            console.log(checkedMailList);
+
+                            $.ajax({
+                                url:"moveMail.ma",
+                                data:{
+                                    empNo: ${ loginUser.empNo },
+                                    mailNoList: checkedMailList,
+                                    mailBoxNo: $("#moveMailBoxNo").val(),
+                                    type: $("#moveMailType").val(),
+                                    status: $("#moveStatus").val()
+                                },
+                                success: function(result){
+
+                                    if(result == "success"){
+                                        location.replace("list.ma?mailCategory=${mailCategory}");
+                                    } else{
+                                        alert("알 수 없는 오류로 실패했습니다. 다시 시도해주세요.");
+                                    }
+
+                                }, error: function(){
+                                    console.log("메일 삭제 서비스용 ajax 통신 실패");
+                                }
+                            })
+
+                        })
+
+                        // 영구 삭제 버튼 클릭시
+                        $("#deleteEverBtn").click(function(){
+
+                            var checkedMailList = [];
+                            $("input[name=mailNo]:checked").each(function(){
+                                checkedMailList.push($(this).val());
+                            })
+                            //const $checkedMails = $("input:checkbox[name=mailNo]:checked").val();
+                            console.log(checkedMailList);
+
+                            $.ajax({
+                                url:"deleteMail.ma",
+                                data:{
+                                    empNo: ${ loginUser.empNo },
+                                    mailNoList: checkedMailList
+                                },
+                                success: function(result){
+
+                                    if(result == "success"){
+                                        location.replace("list.ma?mailCategory=${mailCategory}");
+                                    } else{
+                                        alert("알 수 없는 오류로 실패했습니다. 다시 시도해주세요.");
+                                    }
+
+                                }, error: function(){
+                                    console.log("메일 삭제 서비스용 ajax 통신 실패");
+                                }
+                            })
+
                         })
 
 
@@ -336,7 +413,10 @@
 
 
             <script>
-                document.querySelector("#search-area option[value=${ condition }]").selected = true;
+                if(${not empty condition}){
+                    document.querySelector("#search-area option[value=${ condition }]").selected = true;
+                }
+                
 
                 $(function(){
 
@@ -464,7 +544,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                     <td width="100px">${ m.sender }</td>
-                                    <td width="500px" class="mt" mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">${ m.mailTitle }<br><span class="mailContents">${ m.mailContent }</span></td>
+                                    <td width="500px" class="mt" mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">${ m.mailTitle }<div class="mailcontents">${ m.mailContent }</div></td>
                                     <td width="220px">${ m.registerDate }</td>
                                 </tr>
                             </c:forEach> 
@@ -733,6 +813,23 @@
                         location.href='updateForm.ma?mailNo=' + $(this).attr("mail-no");
 
                     })
+                    
+                    if(${ not empty keyword }){
+                        const keyword = "${keyword}";
+                        const $mail = $(".mt");
+                        //console.log($mail);
+
+                        $mail.each(function(){
+                            var html = $(this).html(); 
+                            const regex = new RegExp('${keyword}', 'gi');
+                            //console.log(regex);
+                            let newHtml = html.replace(regex, "<span class='keyword'>${ keyword }</span>");
+                            //console.log(newHtml);
+                            $(this).html(newHtml);
+                        })
+
+                    }
+                    
                     
 
                 })

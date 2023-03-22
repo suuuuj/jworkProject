@@ -35,6 +35,14 @@
         font-weight: 600;
         margin-bottom: 6px;
     }
+    .btnArea select{
+        border-radius: 5px;
+        font-size: 13px;
+        height:30px;
+        width:120px;
+        border:1px solid rgb(170, 170, 170);
+        color:rgb(50,50,50);
+    }
     .btnArea button:hover{
         background-color: rgb(0,172,0);
         color:white;
@@ -126,6 +134,12 @@
                 <!-- 매년 1월1일에만 1년차이상 버튼 활설화되게 할 수 있을까? -->
                 <button type="button" onclick="updateYear();">1년차 이상</button> 
                 <button type="button" onclick="updateMonth();">1년차 미만</button>
+                <select style="float:right;">
+                    <option value="">-- 부서별조회 --</option>
+                    <option value="">개발부</option>
+                    <option value="">총무부</option>
+                    <option value="">인사부</option>
+                </select>
             </div>
 
             <script>

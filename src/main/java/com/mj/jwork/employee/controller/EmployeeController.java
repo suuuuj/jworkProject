@@ -21,6 +21,7 @@ import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.common.template.Pagination;
 import com.mj.jwork.employee.model.service.EmployeeService;
+import com.mj.jwork.employee.model.vo.AddressGroup;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.employee.model.vo.Team;
@@ -144,7 +145,7 @@ public class EmployeeController {
 	
 	// 사내 주소록 상세 조회 페이지(ajax)
 	@ResponseBody
-	@RequestMapping(value="selectAdressEmploye.emp", produces="application/json; charset=utf-8")
+	@RequestMapping(value="selectAdressEmployee.emp", produces="application/json; charset=utf-8")
 	public String ajaxSelectAddressEmployee(Employee e, HttpSession session) {
 		
 		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
@@ -232,11 +233,19 @@ public class EmployeeController {
 		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		e.setLoginNo(loginNo);
 		
+		ArrayList<Employee> glist = eService.ajaxSelectAddressGroup(loginNo);
 		Employee out = eService.ajaxSelectAddressOut(e);
-		//System.out.println(out);
-		return new Gson().toJson(out);
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("glist", glist);
+		map.put("out", out);
+		
+		
+		//System.out.println(map);
+		return new Gson().toJson(map);
 
 	}
+	
 	
 	// 개인 주소록 상세 수정 
 	@RequestMapping("updateAddressOut.emp")
@@ -245,19 +254,65 @@ public class EmployeeController {
 		e.setLoginNo(loginNo);
 		
 		int result = eService.updateAddressOut(e);
-		System.out.println(result);
+		//System.out.println(result);
 		if(result>0) {
-			session.setAttribute("alertMsg", "정보 변경 성공");
+			session.setAttribute("alertMsg", "수정완");
 			return "redirect:addressOut.emp";	
 		}else {
-			model.addAttribute("errorMsg", "사원정보 변경 실패");
+			model.addAttribute("errorMsg", "수정실패");
 			return "common/errorPage";
 		}
 	}
 	
+	// 개인 주소록 검색
+	@RequestMapping("addressOutSearch.emp")
+	public String addressOutSearch(@RequestParam(value="cpage", defaultValue="1") int currentPage, String condition, String keyword, Model model, HttpSession session) {
+		
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("empNo", empNo);
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		
+		int searchCount = eService.selectAddressOutSearchCount(map);
+		
+		PageInfo pi = Pagination.getPageInfo(searchCount, currentPage, 5, 15);
+		ArrayList<Employee> list = eService.selectAddressOutSearchList(map, pi);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", list);
+		
+		model.addAttribute("condition", condition);
+		model.addAttribute("keyword", keyword);
+		
+		return "employee/addressOutList";
+	}
 	
-	
+	// 개인 주소록 즐겨찾기(ajax)
+		@ResponseBody
+		@RequestMapping("insertAddressOutFav.emp")
+		public String ajaxInsertAddressOutFav(Employee e, HttpSession session, Model model) {
+			
+			int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+			e.setLoginNo(loginNo);
+			
+			int result = eService.ajaxInsertAddressOutFav(e);
+			return result > 0 ? "success" : "fail";
+		}
+		
+	// 개인 주소록 즐겨찾기 해제(ajax)
+	@ResponseBody
+	@RequestMapping("deleteAddressOutFav.emp")
+	public String ajaxDeleteAddressOutFav(Employee e, HttpSession session, Model model) {
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		e.setLoginNo(loginNo);
+		
+		int result = eService.ajaxDeleteAddressOutFav(e);
+		return result > 0 ? "success" : "fail";
 
+	}
    
 	// 즐겨찾기 주소록 페이지
 	@RequestMapping("addressFav.emp")
@@ -274,5 +329,207 @@ public class EmployeeController {
 		return new Gson().toJson(e);
 		
 	}
+	
+	// 주소록 그룹 조회(ajax)
+	@ResponseBody
+	@RequestMapping(value="selectAddressGroup.emp", produces="application/json; charset=UTF-8")
+	public String ajaxSelectAddressGroup(HttpSession session) {	
+		
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		ArrayList<Employee> glist = eService.ajaxSelectAddressGroup(empNo);	
+
+		return new Gson().toJson(glist);				
+	}
+	
+	// 주소록 그룹 수정 - 조회(ajax)
+	@ResponseBody
+	@RequestMapping(value="selectAddGroupName.emp", produces="application/json; charset=UTF-8")
+	public String ajaxSelectAddGroupName(int groupNo) {	
+		
+		Employee e = eService.ajaxSelectAddGroupName(groupNo);
+		return new Gson().toJson(e);				
+	}
+	// 주소록 그룹 수정
+	@RequestMapping("updateAddGroupName.emp")
+	public String updateAddGroupName(Employee e, HttpSession session, Model model) {	
+		
+		int result = eService.updateAddGroupName(e);
+		if(result>0) {
+			session.setAttribute("alertMsg", "수정완");
+			return "redirect:addressOut.emp";	
+		}else {
+			model.addAttribute("errorMsg", "수정실패");
+			return "common/errorPage";
+		}				
+	}
+	
+	// 주소록 그룹 삭제
+	@ResponseBody
+	@RequestMapping("deleteAddressGroup.emp")
+	public String ajaxDeleteAddGroup(int groupNo, HttpSession session, Model model) {	
+		
+		int result = eService.ajaxDeleteAddGroup(groupNo);
+		eService.ajaxUpdateAddoutGrNo(groupNo);
+
+		return result > 0 ? "success" : "fail";				
+	}
+	
+	// 주소록 그룹 추가
+	@RequestMapping("insertAddressGroup.emp")
+	public String insertAddressGroup(Employee e, HttpSession session, Model model) {
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		e.setLoginNo(loginNo);
+		
+		int result = eService.insertAddressGroup(e);
+		if(result > 0) {
+			session.setAttribute("alertMsg", "추가완");
+			return "redirect:addressOut.emp";
+		}else {
+			model.addAttribute("errorMsg", "추가실패");
+			return "common/errorPage";
+		}
+	}
+	
+	// 주소록 연락처 추가
+	@RequestMapping("insertAddressOut.emp")
+	public String insertAddressOut(Employee e, String checkStar, HttpSession session, Model model) {
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		e.setLoginNo(loginNo);
+		
+		if(checkStar == "star") {
+			int result1 = eService.insertAddressOut(e);
+			int result2 = eService.insertAddressOutFav(e);		
+			System.out.println(result2);
+			// 즐겨찾기 작동안함! ㅠㅠ
+			if(result1*result2 > 0) {
+				session.setAttribute("alertMsg", "추가완");
+				return "redirect:addressOut.emp";
+			}else {
+				model.addAttribute("errorMsg", "추가실패");
+				return "common/errorPage";
+			}
+		}else {
+			int result = eService.insertAddressOut(e);
+			if(result > 0) {
+				session.setAttribute("alertMsg", "추가완");
+				return "redirect:addressOut.emp";
+			}else {
+				model.addAttribute("errorMsg", "추가실패");
+				return "common/errorPage";
+			}
+		}
+		
+	}
+	
+	// 주소록 연락처 삭제(ajax)
+	@ResponseBody
+	@RequestMapping("deleteAddressOut.emp")
+	public String deleteAddressOut(Integer addoutNo, HttpSession session, Model model) {
+		//System.out.println(addoutNo);
+		int result = eService.deleteAddressOut(addoutNo);
+		return result > 0 ? "success" : "fail";
+	}
+	
+	
+	// 즐겨찾기된 사내 주소록 리스트 조회(ajax)
+	@ResponseBody
+	@RequestMapping(value="favAddressInList.emp", produces="application/json; charset=UTF-8")
+	public String ajaxFavAddressInList(@RequestParam(value="ipage", defaultValue="1") int currentPage, HttpSession session) {	
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		
+		int iListCount = eService.favAddressInListCount(loginNo);
+		PageInfo iPi = Pagination.getPageInfo(iListCount, currentPage, 5, 5);
+			
+		ArrayList<Employee> iList = eService.ajaxFavAddressInList(loginNo, iPi);	
+		
+		HashMap<String, Object> imap = new HashMap();
+		imap.put("iListCount", iListCount);
+		imap.put("iPi", iPi);
+		imap.put("iList", iList);
+		
+		return new Gson().toJson(imap);				
+	}
+	
+	// 즐겨찾기된 개인 주소록 리스트 조회(ajax)
+	@ResponseBody
+	@RequestMapping(value="favAddressOutList.emp", produces="application/json; charset=UTF-8")
+	public String ajaxFavAddressOutList(@RequestParam(value="opage", defaultValue="1") int currentPage, HttpSession session) {	
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		
+		int oListCount = eService.favAddressOutListCount(loginNo);
+		PageInfo oPi = Pagination.getPageInfo(oListCount, currentPage, 5, 5);
+			
+		ArrayList<Employee> oList = eService.ajaxFavAddressOutList(loginNo, oPi);	
+		
+		HashMap<String, Object> omap = new HashMap();
+		omap.put("oListCount", oListCount);
+		omap.put("oPi", oPi);
+		omap.put("oList", oList);
+		
+		return new Gson().toJson(omap);				
+	}
+	
+	// 캘린더 그룹 조회(ajax)
+	@ResponseBody
+	@RequestMapping(value="selectSchGroup.emp", produces="application/json; charset=UTF-8")
+	public String ajaxSelectSchGroup(HttpSession session) {	
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		ArrayList<Employee> slist = eService.ajaxSelectSchGroup(loginNo);	
+
+		return new Gson().toJson(slist);				
+	}
+	
+	// 캘린더 그룹 수정 - 조회(ajax)
+	@ResponseBody
+	@RequestMapping(value="selectSchGroupName.emp", produces="application/json; charset=UTF-8")
+	public String ajaxSelectSchGroupName(int groupNo) {	
+		Employee e = eService.ajaxSelectSchGroupName(groupNo);
+		return new Gson().toJson(e);				
+	}
+	// 캘린더 그룹 수정
+	@RequestMapping("updateSchGroupName.emp")
+	public String updateSchGroupName(Employee e, HttpSession session, Model model) {	
+		int result = eService.updateSchGroupName(e);
+		if(result>0) {
+			session.setAttribute("alertMsg", "수정완");
+			return "redirect:schedule.emp";
+		}else {
+			model.addAttribute("errorMsg", "수정실패");
+			return "common/errorPage";
+		}				
+	}
+	
+	// 캘린더 그룹 삭제
+	@ResponseBody
+	@RequestMapping("deleteSchGroup.emp")
+	public String ajaxDeleteSchGroup(int groupNo, HttpSession session, Model model) {	
+		int result = eService.ajaxDeleteSchGroup(groupNo);
+		eService.ajaxUpdateSchGrNo(groupNo);
+		
+		return result > 0 ? "success" : "fail";				
+	}
+	
+	// 주소록 그룹 추가
+	@RequestMapping("insertSchGroup.emp")
+	public String insertSchGroup(Employee e, HttpSession session, Model model) {
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		e.setLoginNo(loginNo);
+		
+		int result = eService.insertSchGroup(e);
+		if(result > 0) {
+			session.setAttribute("alertMsg", "추가완");
+			return "redirect:schedule.emp";
+		}else {
+			model.addAttribute("errorMsg", "추가실패");
+			return "common/errorPage";
+		}
+	}
+
 	
 }

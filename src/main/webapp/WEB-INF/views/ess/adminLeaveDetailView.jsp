@@ -57,7 +57,7 @@
     <div class="leaveOuter">
         <h4><b>휴가 > ${ lc.lcName } 등록</b></h4>
        
-        <form action="adminUpdate.le" method="" class="enrollForm" name="leEnroll" onsubmit="return confirm('휴가승인을 등록하시겠습니까?');">
+        <form action="" method="" class="enrollForm" name="leEnroll">
 
             <br>
             
@@ -102,14 +102,37 @@
                 
 	            <textarea name="leaveContent" id="textBox" cols="30" rows="10" maxlength="199" placeholder="휴가신청 내용을 입력해주세요.">${lc.leaveContent}</textarea>
 	            <div class="btnWrap" style="float: right; margin-top:160px;">
-                    <button type="submit" class="btn btn-success">승인</button>
-                    <button type="button" onclick="leaveReturn(${lc.leaveNo});" class="btn btn-warning" id="leaveReturn">반려</button>
+                    <button type="bttton" class="btn btn-success" id="leaveSubmit">승인</button>
+                    <button type="button" class="btn btn-warning" id="leaveReturn">반려</button>
                     <button type="button" onclick="location.href='admin.ot'" class="btn btn-secondary">목록</button>
                 </div>
 				
             </div>
             
 	    </form>
+
+        <script>
+
+            $(function(){
+                if(${not empty lc.secondDate}){
+                    $("#leaveSubmit").attr("disabled", true);
+                }
+            })
+
+            $(function(){
+                $("#leaveSubmit").click(function(){
+                    if(${empty lc.firstDate}){
+                        if(confirm("휴가등록 1차승인을 진행하시겠습니까?")){
+                            location.href = 'adminFirst.le?leaveNo=${lc.leaveNo}';
+                        }
+                    }else{
+                        if(confirm("휴가등록 2차승인을 진행하시겠습니까?")){
+                            location.href = 'adminSecond.le?leaveNo=${lc.leaveNo}';
+                        }
+                    }
+                })
+            })
+        </script>
 
         <script>
 
@@ -122,7 +145,7 @@
             $(function(){
                 $("#leaveReturn").click(function(){
                     if(confirm("휴가등록을 반려하시겠습니까?")){
-                        location.href='adminReturn.le?leaveNo=${lc.leaveNo}';
+                        location.href='adminReturn.le?leaveNo=${lc.leaveNo}?firstApproval=${firstApproval}';
                     }
                     
                 })
