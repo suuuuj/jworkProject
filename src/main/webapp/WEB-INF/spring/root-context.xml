@@ -7,9 +7,9 @@
 	
 	<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@gd1class.iptime.org:8877:xe" />
-		<property name="username" value="gdj57_jwork" />
-		<property name="password" value="gdj57_jwork" />
+		<property name="url" value="jdbc:oracle:thin:@gd1class.iptime.org:8877:xe" /> <!-- jdbc:oracle:thin:@gd1class.iptime.org:8877:xe -->
+		<property name="username" value="gdj57_jwork" /> <!-- gdj57_jwork -->
+		<property name="password" value="gdj57_jwork" /> <!-- gdj57_jwork -->
 	</bean>
 	
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
