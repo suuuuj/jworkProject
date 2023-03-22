@@ -231,7 +231,7 @@ public class MailController {
 	}
 	
 	@RequestMapping("detail.ma")
-	public ModelAndView selectMail(Mail m, HttpSession session, ModelAndView mv) {
+	public ModelAndView selectMail(Mail m, String mailCategory, HttpSession session, ModelAndView mv) {
 		
 		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
 		int result = 1;
@@ -243,7 +243,7 @@ public class MailController {
 		if(result > 0) {
 			Mail mi = mService.selectMail(m);
 			//System.out.println(mi);
-			mv.addObject("mi", mi).setViewName("mail/mailDetailView");
+			mv.addObject("mi", mi).addObject("mailCategory", mailCategory).setViewName("mail/mailDetailView");
 			
 		} else {
 			mv.setViewName("common/errorPage");

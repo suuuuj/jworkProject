@@ -115,7 +115,21 @@
             font-size: 15px;
         }
         .mailIcon{width:20px;}
-
+        #addMoveMailBoxInput{
+        	border: 1px solid green;
+        	border-radius: 5px;
+        	padding-left: 5px;
+            width: 150px; height: 30px;
+        }
+        #addMoveMailBoxInput:focus{
+        	outline: 1px solid green;
+        }
+        .moveAddMailBox{
+            width: 240px;
+        }
+        .moveButtonArea{
+            margin-left: 90px;
+        }
     </style>
 </head>
 <body>
@@ -123,28 +137,329 @@
 	<jsp:include page="../common/mailMenubar.jsp"/>
         <br>
         <div class="mailOuter">
-            <span class="content-title"><a class="prev" href="#">〈</a>&nbsp;&nbsp;&nbsp;받은 메일함&nbsp;&nbsp;</span> <a class="notRead" href="#">0</a>&nbsp;/&nbsp;<a class="mailBox" href="#">230</a> 
+            <span class="content-title"><a class="prev" href="#">〈</a>&nbsp;&nbsp;&nbsp;${mailCategory}&nbsp;&nbsp;</span>
             <div class="line"></div>
             <div class="space"></div>
             
-            <button id="reply" type="button" class="btn btn-outline-secondary btn-sm">답장</button>&nbsp;
-            <button id="deliver" type="button" class="btn btn-outline-secondary btn-sm">전달</button>&nbsp;
-            <button id="delete" type="button" class="btn btn-outline-secondary btn-sm">삭제</button>&nbsp;
-            <button id="move" type="button" class="btn btn-outline-secondary btn-sm">이동</button>&nbsp;
+            <button id="reply" type="button" class="btn btn-outline-success btn-sm">답장</button>&nbsp;
+            <button id="deliver" type="button" class="btn btn-outline-success btn-sm">전달</button>&nbsp;
+            <c:choose>
+                <c:when test="${mailCategory == '휴지통'}">
+                    <button id="deleteEverBtn" class="btn btn-outline-success btn-sm">영구삭제</button>&nbsp;
+                </c:when>
+                <c:otherwise>
+                    <button id="deleteBtn" class="btn btn-outline-success btn-sm" >삭제</button>&nbsp;
+                </c:otherwise>
+            </c:choose>
+            <!-- 메일함 이동 관련 구역 -->
+            <span class="moveMailBox dropdown">
+                <button id="moveBtn" class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">이동</button>
+                    <ul class="dropdown-menu">
+                        <div class="mailBoxOptions">
+                            <li>
+                                <a class="dropdown-item moveMailType" href="#" value="R">받은메일함</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item moveMailType" href="#" value="S">보낸메일함</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item moveStatus" href="#" value="N">휴지통</a>
+                            </li>
+                            
+                        </div>
+                        <br>
+                        <li>
+                            <div class="moveAddMailBox dropdown-item-text">
+                                <input type="text" id="addMoveMailBoxInput">&nbsp;<button id="moveAddMailBox" class="btn btn-outline-success btn-sm">추가</button>
+                            </div>
+                        </li>
+                        <br>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <div class="moveButtonArea">
+                                <input type="hidden" id="moveMailBoxNo" value="">
+                                <input type="hidden" id="moveMailType" value="">
+                                <input type="hidden" id="moveStatus" value="">
+                                <button id="move" class="btn btn-outline-success btn-sm" mailNo="${mi.mailNo}">이동</button>
+                            </div>
+                        </li>
+                    </ul>
+                    
+            </span>&nbsp;
+
+            <script>
+                $(function(){
+                    
+                    moveMailBoxList();
+                    const randomName = generateRandomString();
+                    $("#addMoveMailBoxInput").val(randomName);
+
+                    
+                    // 이동 드롭다운에서 메일함 추가 버튼 클릭 시
+                    $("#moveAddMailBox").click(function(){
+
+                        const newMailBoxName = $("#addMoveMailBoxInput").val();
+
+                        $.ajax({
+                            url: "insertMailBox.ma",
+                            data: {
+                                empNo: ${loginUser.empNo},
+                                mailBoxName: newMailBoxName
+                            },
+                            success: function(mailbox){
+                                if(mailbox != null){
+                                    // db에 메일함 추가하였을 경우
+                                    const mailBoxOption = '<li>'
+                                                            + '<a class="dropdown-item moveMailBoxNo" href="#" value="' + mailbox.mailBoxNo + '">' + mailbox.mailBoxName + '</a>'
+                                                        + '</li>'
+                                                        
+                                    
+                                    $(".mailBoxOptions").append(mailBoxOption);
+                                    
+                                    // input 에 작성한값 지우고 새 랜덤폴더명 예시로 보여주기
+                                    $("#addMoveMailBoxInput").val(generateRandomString());
+                                    $(".oneMailBox").remove();
+                                    loadMailBox();		   
+                                                
+                                } else{
+                                    // db에 메일함 추가되지 않았을 경우
+                                    alert("알 수 없는 이유로 메일함을 추가할 수 없습니다. 다시 시도해주세요.");
+                                    $(".mailBoxOptions").remove();
+                                    moveMailBoxList();
+
+                                        
+                                }
+                                
+                            }, error: function(){
+                                console.log("메일함 추가용 ajax 통신 실패");
+                            }
+                        })
+
+                    })
+
+                    // 이동 메일함 리스트 클릭시 해당 메일함 번호 및 타입 추출
+                    $(document).on("click", ".moveMailBoxNo", function(){
+                        const $moveMailBoxNo = $(this).attr("value");
+                        //console.log($moveMailBoxNo);
+                        $("#moveMailBoxNo").val($moveMailBoxNo);
+                        $("#moveMailType").val("");
+                        $("#moveStatus").val("Y");
+                    })
+
+                    // 이동 메일함 리스트 클릭시 해당 메일함 번호 및 타입 추출
+                    $(document).on("click", ".moveMailType", function(){
+                        const $moveMailType = $(this).attr("value");
+                        //console.log($moveMailBoxNo);
+                        $("#moveMailBoxNo").val("0");
+                        $("#moveMailType").val($moveMailType);
+                        $("#moveStatus").val("Y");
+                    })
+
+                    // 이동 메일함 리스트 클릭시 해당 메일함 번호 및 타입 추출
+                    $(document).on("click", ".moveStatus", function(){
+                        const $moveStatus = $(this).attr("value");
+                        //console.log($moveMailBoxNo);
+                        $("#moveMailBoxNo").val("0");
+                        $("#moveMailType").val("");
+                        $("#moveStatus").val($moveStatus);
+                    })
+
+                    // 이동 드롭다운의 "이동" 버튼 클릭시
+                    $("#move").click(function(){
+                        const $mailNo = ${mi.mailNo};
+                        const $mailBoxNo = $("#moveMailBoxNo").val();
+                        const $mailType = $("#moveMailType").val();
+                        const $mailStatus = $("#moveStatus").val();
+                        if($mailBoxNo == "" && $mailType == "" && $mailStatus == ""){
+                            alert("이동할 메일함을 선택해주세요.");
+                        }else{
+                            var checkedMailList = [];
+                            
+                            checkedMailList.push($mailNo);
+                            
+                            //const $checkedMails = $("input:checkbox[name=mailNo]:checked").val();
+                            //console.log(checkedMailList);
+
+                            $.ajax({
+                                url:"moveMail.ma",
+                                data:{
+                                    empNo: ${ loginUser.empNo },
+                                    mailNoList: checkedMailList,
+                                    mailBoxNo: $mailBoxNo,
+                                    type: $mailType,
+                                    status: $mailStatus
+                                },
+                                success: function(result){
+
+                                    if(result == "success"){
+                                        location.replace("list.ma?mailCategory=${mailCategory}");
+                                    } else{
+                                        alert("알 수 없는 오류로 실패했습니다. 다시 시도해주세요.");
+                                    }
+
+                                }, error: function(){
+                                    console.log("메일 이동 서비스용 ajax 통신 실패");
+                                }
+                            })
+                        }
+
+                        
+                    })
+
+                    // 삭제 버튼 클릭시
+                    $("#deleteBtn").click(function(){
+                        const $mailNo = ${mi.mailNo};
+                        $("#moveMailBoxNo").val("0");
+                        $("#moveMailType").val("");
+                        $("#moveStatus").val("N");
+
+                        var checkedMailList = [];
+                        checkedMailList.push($mailNo);
+                        $.ajax({
+                            url:"moveMail.ma",
+                            data:{
+                                empNo: ${ loginUser.empNo },
+                                mailNoList: checkedMailList,
+                                mailBoxNo: $("#moveMailBoxNo").val(),
+                                type: $("#moveMailType").val(),
+                                status: $("#moveStatus").val()
+                            },
+                            success: function(result){
+
+                                if(result == "success"){
+                                    location.replace("list.ma?mailCategory=${mailCategory}");
+                                } else{
+                                    alert("알 수 없는 오류로 실패했습니다. 다시 시도해주세요.");
+                                }
+
+                            }, error: function(){
+                                console.log("메일 삭제 서비스용 ajax 통신 실패");
+                            }
+                        })
+
+                    })
+
+                    // 영구 삭제 버튼 클릭시
+                    $("#deleteEverBtn").click(function(){
+
+                        if(confirm("메일을 영구삭제하시겠습니까?\n영구 삭제한 메일은 복구할 수 없습니다.")){
+                            const $mailNo = ${mi.mailNo};
+                            var checkedMailList = [];
+                            checkedMailList.push($mailNo);
+                            $.ajax({
+                                url:"deleteMail.ma",
+                                data:{
+                                    empNo: ${ loginUser.empNo },
+                                    mailNoList: checkedMailList
+                                },
+                                success: function(result){
+
+                                    if(result == "success"){
+                                        location.replace("list.ma?mailCategory=${mailCategory}");
+                                    } else{
+                                        alert("알 수 없는 오류로 실패했습니다. 다시 시도해주세요.");
+                                    }
+
+                                }, error: function(){
+                                    console.log("메일 삭제 서비스용 ajax 통신 실패");
+                                }
+                            })
+                        }
+
+                    })
+
+
+                    // 별 눌렀을 때
+                    $(document).on("click", ".star", function(){
+
+                        const $mailNo = ${ mi.mailNo };
+                        // 업데이트할 중요값 원래 N => Y | Y => N
+                        const $important = $(this).attr("important");
+                        
+                        $.ajax({
+                            url: "important.ma",
+                            data: {
+                                empNo:${loginUser.empNo},
+                                mailNo: $mailNo,
+                                important: $important
+                            },
+                            success: function(result){
+                                //console.log(result);
+                            	if(result == "success"){
+                                    
+                            		if($important == 'N'){
+                                        // 중요하지 않은 것으로 변경 시
+                                        $("tr[mail-no=" + $mailNo + "]").children().children().eq(0).attr("important", "Y");
+                                        $("tr[mail-no=" + $mailNo + "]").children().children().eq(0).html('<img class="mailIcon" src="resources/images/mail/normal.png">');
+                                        
+                            		} else{
+                                        // 중요 메일로 변경 시
+                                        $("tr[mail-no=" + $mailNo + "]").children().children().eq(0).attr("important", "N");
+                                        $("tr[mail-no=" + $mailNo + "]").children().children().eq(0).html('<img class="mailIcon" src="resources/images/mail/important.png">');
+                                        
+                            		}
+                            		
+                            	} else{
+                            		alert("알 수 없는 오류로 실패하였습니다. 다시 시도해주세요.");
+                            	}
+                            	
+                            	
+                            }, error: function(){
+								
+                            	console.log("메일 중요 서비스용 ajax 통신 실패");
+                            	
+                            }
+                        })
+                        
+
+                    })
+
+
+                })
+
+                // 이동 메일함 리스트 조회
+                function moveMailBoxList(){
+                    $.ajax({
+                        url: "mailBoxList.ma",
+                        data:{ empNo:${ loginUser.empNo }},
+                        success:function(mblist){
+                            
+                            let count = mblist.length;
+                            let value= "";
+                            
+                            for(let i=0; i<count; i++){
+                                
+                                value += '<li>'
+                                        +   '<a class="dropdown-item moveMailBoxNo" href="#" value="' + mblist[i].mailBoxNo + '">' + mblist[i].mailBoxName + '</a>'
+                                        + '</li>'
+                            }
+                            
+                            $(".mailBoxOptions").append(value);
+                            
+                        }, error: function(){
+                            console.log("메일함 조회용 ajax 통신 실패");
+                        }
+                    })
+                }
+                    
+
+            </script>
+
+
 
             <div class="space"></div>
             <div class="line2"></div>
             <div class="space"></div>
             <div id="mailDetail">
                 <table>
-                    <tr>
+                    <tr mail-no="${ mi.mailNo }">
                         <td colspan="2" height="40px">
                             <c:choose>
-	                        	<c:when test="${ m.important eq 'Y' }">
+	                        	<c:when test="${ mi.important eq 'Y' }">
 	                        		<span class="star" important="N"><img class="mailIcon" src="resources/images/mail/important.png"></span>
 	                        	</c:when>
 	                        	<c:otherwise>
-	                        		<span class="star" important="Y"><img class="mailIcon" src="resources/images/mail/normal.png">
+	                        		<span class="star" important="Y"><img class="mailIcon" src="resources/images/mail/normal.png"></span>
 	                        	</c:otherwise>
 	                        </c:choose>
                             <span class="mailTitle">${ mi.mailTitle }</span>
@@ -155,7 +470,7 @@
                         <td>
                             <div class="sender">
                                 <span id="sender">
-                                    ${ m.sender }
+                                    ${ mi.sender }
                                 </span>
                             </div>
                             
