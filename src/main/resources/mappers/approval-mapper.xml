@@ -101,6 +101,7 @@
 	   select
 			  line_no
 			, al.app_no
+			, al.emp_no
 			, emp_name
 			, job_name
 			, app_level

@@ -133,6 +133,7 @@ public class ApprovalController {
 		mv.addObject("a",a).setViewName("approval/unsignApprovalDetail");
 		mv.addObject("al",al).setViewName("approval/unsignApprovalDetail");
 		
+		//System.out.println(a);
 		//System.out.println(al);
 		
 		return mv;
