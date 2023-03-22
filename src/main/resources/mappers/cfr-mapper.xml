@@ -106,7 +106,7 @@
            ,status
         from CFR_RESERVATION
         where RESERVATION = #{reservation}
-        order by USE_DATE
+        order by USE_DATE 
 	
 	</select>
 	<select id="ajaxSelectCfrList" resultMap="cfrResult">
@@ -161,11 +161,12 @@
            from cfr_reservation
          where status = 2
 	</select>
-	<delete id="deleteCfrRes" >
-		delete
-		from cfr_reservation
+	<update id="deleteCfrRes" >
+		update
+		 cfr_reservation
+		 set status=3
 		where res_no=#{resNo}
-	</delete>
+	</update>
 	<update id="updateCfrRes">
 		update
 		cfr_reservation

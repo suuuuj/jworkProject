@@ -66,7 +66,7 @@
 	                                <button type="button" class="btn btn-sm btn-secondary" >이용완료</button>
 	                                </div>
 	                            </c:when>
-	                            <c:when test="${c.status eq 3}">'
+	                            <c:when test="${c.status eq 3}">
 	                           		 <div class="statusArea">
 	                                <button type="button" class="btn btn-sm btn-warning" >취소완료</button>
 	                                </div>
