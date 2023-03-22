@@ -458,7 +458,7 @@
             <div class="space"></div>
             <div class="mailContents">
                 <table class="table table-hover" style="table-layout:fixed">
-                <c:if test="${ mailCategory == '받은메일함' || mailCategory == '중요' || mailCategory == '휴지통' || mailCategory == '안읽은메일' || mailCategory == '사용자메일함' }">
+                <c:if test="${ mailCategory == '받은메일함' || mailCategory == '중요' || mailCategory == '휴지통' || mailCategory == '안읽은메일함' || mailCategory == '사용자메일함' }">
                 	<c:choose>
                         <c:when test="${ mList.size() ne 0 }">
                             <!-- 목록 시작 -->

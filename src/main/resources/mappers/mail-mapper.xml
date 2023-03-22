@@ -115,6 +115,10 @@
 		    	and send = 'Y' 
 		    	and mailbox_no = #{mailBoxNo}
 		    </if>
+		    <if test='mailCategory == "안읽은메일함"'>
+		    	and read='N'
+		    	and emp_no = #{empNo}
+		    </if>
 		   <if test='condition == "sender"'>
 		   		and emp_no = #{empNo}
 		   		and sender like '%' || #{keyword} || '%'
@@ -175,6 +179,10 @@
 		    <if test='mailCategory == "사용자메일함"'>
 		    	and send = 'Y' 
 		    	and mailbox_no = #{mailBoxNo}
+		    </if>
+		    <if test='mailCategory == "안읽은메일함"'>
+		    	and read='N'
+		    	and emp_no = #{empNo}
 		    </if>
 		    <if test='condition == "sender"'>
 		   		and emp_no = #{empNo}
@@ -247,6 +255,10 @@
 		    <if test='mailCategory == "사용자메일함"'>
 		    	and send = 'Y' 
 		    	and mailbox_no = #{mailBoxNo}
+		    </if>
+		    <if test='mailCategory == "안읽은메일함"'>
+		    	and read='N'
+		    	and emp_no = #{empNo}
 		    </if>
 		    <if test='condition == "sender"'>
 		   		and emp_no = #{empNo}

@@ -195,7 +195,7 @@
                             <a href="list.ma?mailCategory=받은메일함" id="receiveMailBox" class="btn btn-block">받은메일함</a>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-block">안읽은메일함</a>
+                            <a href="list.ma?mailCategory=안읽은메일함" class="btn btn-block">안읽은메일함</a>
                         </div>
                         <div>
                             <a href="list.ma?mailCategory=보낸메일함" class="btn btn-block">보낸메일함</a>

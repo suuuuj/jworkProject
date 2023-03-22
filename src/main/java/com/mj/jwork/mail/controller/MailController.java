@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -157,11 +158,8 @@ public class MailController {
 	@RequestMapping(value="sendMail.ma")
 	public ModelAndView sendMail(Mail m, @RequestPart(value="upfile") List<MultipartFile> upfile, HttpSession session, ModelAndView mv) {
 		
-		System.out.println(m);
-		System.out.println(upfile);
-		
-		
-		
+		//System.out.println(m);
+		//System.out.println(upfile);
 		
 		int mailResult = mService.sendMail(m);
 		int mailAtResult = 1;
@@ -377,25 +375,30 @@ public class MailController {
 	}
 	
 	// 메일 이동 서비스
-		@ResponseBody
-		@RequestMapping("deleteMail.ma")
-		public String ajaxDeleteMail(Mail m, @RequestParam(value="mailNoList[]") ArrayList<Integer> mailNoList) {
-			
+	@ResponseBody
+	@RequestMapping("deleteMail.ma")
+	public String ajaxDeleteMail(Mail m, @RequestParam(value="mailNoList[]") ArrayList<Integer> mailNoList) {
+		
+		//System.out.println(m);
+		//System.out.println(mailNoList);
+		int result = 1;
+		for(int i=0; i<mailNoList.size(); i++) {
+			//System.out.println(mailNoList.get(i));
+			m.setMailNo(mailNoList.get(i));
 			//System.out.println(m);
-			//System.out.println(mailNoList);
-			int result = 1;
-			for(int i=0; i<mailNoList.size(); i++) {
-				//System.out.println(mailNoList.get(i));
-				m.setMailNo(mailNoList.get(i));
-				//System.out.println(m);
-				result = result * mService.deleteMail(m);
-				
-			}
-			
-			return result > 0 ? "success" : "fail";
+			result = result * mService.deleteMail(m);
 			
 		}
-	
+		
+		return result > 0 ? "success" : "fail";
+		
+	}
+		
+	// 트리 포워딩
+	@RequestMapping("tree.ma")
+	public String tree() {
+		return "mail/tree";
+	}
 	
 	
 }
