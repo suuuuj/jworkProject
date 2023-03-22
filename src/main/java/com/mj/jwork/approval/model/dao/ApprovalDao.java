@@ -111,6 +111,11 @@ public class ApprovalDao {
 		return sqlSession.update("approvalMapper.returnStatus",appNo);
 	}
 
+	//결재 insert - 임시저장
+	public int saveApproval(SqlSessionTemplate sqlSession, Approval a) {
+		return sqlSession.insert("approvalMapper.saveApproval",a);
+	}
+
 	
 	
 

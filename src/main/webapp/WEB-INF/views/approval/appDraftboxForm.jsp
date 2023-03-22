@@ -169,7 +169,7 @@
             </table>
             <p id="appMsg">* 순서대로 결재가 진행됩니다.</p>
             
-            <script>
+           <!--  <script>
                 $(function(){
                     $(".quit").hide();
                     $(".request").hide();
@@ -193,34 +193,40 @@
                 })
             
             
-            </script>
+            </script> -->
             
-            <div class="approvalContent quit" align="center">
-                <br>
-                <h3><b>사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;직&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
-                <table border="1" id="resignationAddForm">
-                    <tr>
-                        <th id="appThead">입사년도</th>
-                        <td id="indate">${ loginUser.enrollDate }</td>
-                        <th id="appThead">퇴사 예정일</th>
-                        <td id="indate"><input type="date" name="" id=""></td>
-                    </tr>
-                </table>
-                <br>
-            </div>
-
-            <div class="approvalContent request" align="center">
-                <br>
-                <h3><b>품&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;의&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
-                <br>
-            </div>
-
-            <div class="approvalContent up" align="center">
-                <br>
-                <h3><b>기&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;안&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
-                <br>
-            </div>
-
+            <c:choose>
+	            <c:when test="${a.docType == 2 }">
+		            <div class="approvalContent quit" align="center">
+		                <br>
+		                <h3><b>사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;직&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
+		                <table border="1" id="resignationAddForm">
+		                    <tr>
+		                        <th id="appThead">입사년도</th>
+		                        <td id="indate">${ loginUser.enrollDate }</td>
+		                        <th id="appThead">퇴사 예정일</th>
+		                        <td id="indate"><input type="date" name="" id=""></td>
+		                    </tr>
+		                </table>
+		                <br>
+		            </div>
+	            </c:when>
+            
+				<c:when test="${a.docType == 1 }">
+		            <div class="approvalContent request" align="center">
+		                <br>
+		                <h3><b>품&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;의&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
+		                <br>
+		            </div>
+		       </c:when>
+		       <c:otherwise>
+		            <div class="approvalContent up" align="center">
+		                <br>
+		                <h3><b>기&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;안&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
+		                <br>
+		            </div>
+	            </c:otherwise>
+			</c:choose>
            
 
             <div class="approvalContent" align="center">
