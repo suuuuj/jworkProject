@@ -261,7 +261,7 @@
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="" href="">조직도</a><br>
-                                <a id="" href="">부서 관리</a><br>
+                                <a id="" href="department.ad">부서 관리</a><br>
                                 <a id="" href="">사원 관리</a><br>
                             </div>
                         </div>

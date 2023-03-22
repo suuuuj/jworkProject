@@ -108,10 +108,29 @@
 
                  }, */
                  events: [
-               
                  	<c:forEach var="c" items="${list}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.reservation} ${c.startTime }~${c.endTime }', color: '#d6dfcc'},
-                        console.log(c.resNo); 
+                 		<c:if test="${c.cfrName eq '1회의실'}">
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#FF5B5B'},
+                  		</c:if>
+                     	<c:if test="${c.cfrName eq '2회의실'}">
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#f7C38C'},
+                  		</c:if>
+                     	<c:if test="${c.cfrName eq '3회의실'}">
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#FFFF7D'},
+                  		</c:if>
+                     	<c:if test="${c.cfrName eq '4회의실'}">
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#61Cf8F'},
+                  		</c:if>
+                     	<c:if test="${c.cfrName eq '5회의실'}">
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#8DD7EE'},
+                  		</c:if>
+                     	<c:if test="${c.cfrName eq '6회의실'}">
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#54A1DC'},
+                  		</c:if>
+                     	<c:if test="${c.cfrName eq '7회의실'}">
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#F0B6D8'},
+                  		</c:if>
+                     	
                     </c:forEach>
                  ]
     	  })
@@ -126,6 +145,7 @@
     </script>
     
   </head>
+  
   <body>
    <jsp:include page="../common/menubar.jsp"/>
 	<div class="content">
@@ -172,7 +192,7 @@
 	        </div>
 	    </div> -->
 	    <script>
-	    /* 	function getEvent(){
+	    /*  	function getEvent(){
 	    		var events;
 	    		 $.ajax({
 	       	    		url:"call.events",
@@ -184,7 +204,7 @@
 	       	    		
 	       	    	})
 	    		return events;
-	    	} */
+	    	}  */
 	    	
 	    </script>
 	       <!--회의실 예약 모달 -->

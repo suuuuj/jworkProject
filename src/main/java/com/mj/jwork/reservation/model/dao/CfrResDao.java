@@ -50,4 +50,8 @@ public class CfrResDao {
 		
 		return sqlSession.delete("cfrMapper.deleteCfrRes",resNo);
 	}
+	
+	public int updateCfrRes(SqlSessionTemplate sqlSession, CfrReservation c) {
+		return sqlSession.update("cfrMapper.updateCfrRes",c);
+	}
 }

@@ -24,7 +24,7 @@
     .detail-img{display: inline-block;}
     .outer{
         width: 960px;
-        margin:20px;
+       
     }
     figure {
   text-align: center;
@@ -44,15 +44,15 @@
 </head>
 <body>
       <jsp:include page="../common/menubar.jsp"/>
-    <div class="outer" style="width:940px;">
+    <div class="outer" style="width:940px;  margin:20px;">
         <h2>회의실 관리</h2>
-        <hr><br>
+        <hr>
         <div>
             <div class="btn-area" style="width:960px;">
                 <a class="btn btn-secondary" href="enrollForm.cfr">+회의실 등록</a>
-                <button type="button" class="btn btn-secondary">회의실 예약 내역</button>
+<!--                 <button type="button" class="btn btn-secondary">회의실 예약 내역</button> -->
             </div>
-            <br><br>
+            <br>
             <div id="img-area" style="position: relative;">
             	
 				<c:forEach var="c" items="${list}">                
@@ -71,6 +71,7 @@
 	                </div>
 	             </c:forEach>         
             </div>
+            <br>
             <script>
             	function deleteCfr(cfrName){
             		

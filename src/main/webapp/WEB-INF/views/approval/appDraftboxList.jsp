@@ -85,7 +85,7 @@
             <thead >
                 <tr>
 					<th scope="col">번호</th>
-                    <th scope="col">기안일</th>
+                    <th scope="col">저장일</th>
                     <th scope="col">결재종류</th>
                     <th scope="col">제목</th>
                     <th scope="col">작성자</th>

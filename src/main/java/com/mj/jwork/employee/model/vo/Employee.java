@@ -53,7 +53,7 @@ public class Employee {
 	private String groupName;
 	
 	private int loginNo;
-	private String checkStar;
+	private int checkStar;
 	private int group;
 	private String groupColor;
 	

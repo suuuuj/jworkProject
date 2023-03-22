@@ -352,16 +352,13 @@
                 if(confirm("연락처를 삭제하시겠습니까?")){
                     $.ajax({
                         url:"deleteAddressOut.emp",
-                        data:{addoutNo:addoutNo},
-                        dataType: "json",
+                        data:{addoutNo: addoutNo},
                         success: function(result){
-                            
-                                //swal('삭제완', '', 'success');
-                                alert('삭제완');
-                                document.location.href = document.location.href;
-                                console.log("연락처 삭제 ajax 통신성공");
-                                // 삭제 잘 되는데 왜 통신실패지
-                            
+                                if(result == "success"){
+                                   //swal('삭제완', '', 'success');
+                                    alert('삭제완');
+                                    document.location.href = document.location.href;
+                                }
                         }, error: function(){
                             console.log("연락처 삭제 ajax 통신실패");
                         }

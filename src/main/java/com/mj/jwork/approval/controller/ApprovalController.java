@@ -1,6 +1,5 @@
 package com.mj.jwork.approval.controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -20,6 +20,7 @@ import com.mj.jwork.approval.model.service.ApprovalService;
 import com.mj.jwork.approval.model.vo.AppLine;
 import com.mj.jwork.approval.model.vo.Approval;
 import com.mj.jwork.common.model.vo.PageInfo;
+import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.common.template.Pagination;
 import com.mj.jwork.employee.model.vo.Employee;
 
@@ -238,6 +239,38 @@ public class ApprovalController {
 			
 		}
 	}
+	
+	//결재 insert - 임시저장
+	@RequestMapping("saveApp.app")
+	public String saveApproval(Approval a, MultipartFile upfile, HttpSession session, Model model) {
+		System.out.println(a);
+		System.out.println(upfile);
+		
+		if(!upfile.getOriginalFilename().equals("")) {
+			String saveFilePath = FileUpload.saveFile(upfile,session,"resources/uploadFiles/");
+			
+			a.setDocOriginName(upfile.getOriginalFilename());
+			a.setDocFilePath(saveFilePath);
+			
+		}
+		
+		int result = aService.saveApproval(a);
+		
+		if(result>0) {
+			session.setAttribute("alertMsg","임시저장 되었습니다.");
+			return "redirect:draftList.app";
+		}else {// 승인 실패
+			model.addAttribute("errorMsg", "임시저장 실패");
+			return "common/errorPage";
+			
+		}
+		
+		
+		
+		
+				
+	}
+	
 	
 	
 	
