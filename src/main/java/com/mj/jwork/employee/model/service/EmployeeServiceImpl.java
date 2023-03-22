@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.dao.EmployeeDao;
-import com.mj.jwork.employee.model.vo.AddressGroup;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
+import com.mj.jwork.employee.model.vo.Job;
 import com.mj.jwork.employee.model.vo.Team;
 
 @Service
@@ -250,6 +250,49 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public int insertSchGroup(Employee e) {
 		return eDao.insertSchGroup(sqlSession, e);
 	}
+
+	// 부서 관리 - 부서 추가
+	@Override
+	public int insertDept(Department d) {
+		return eDao.insertDept(sqlSession, d);
+	}
+	
+	// 부서 관리 - 부서 삭제
+	@Override
+	public int ajaxDeleteDept(int deptCode) {
+		return eDao.ajaxDeleteDept(sqlSession, deptCode);
+	}
+	
+	// 부서관리 - 팀 추가
+	@Override
+	public int insertTeam(Team t) {
+		return eDao.insertTeam(sqlSession, t);
+	}
+	
+	// 부서 관리 - 팀 삭제
+	@Override
+	public int ajaxDeleteTeam(int teamCode) {
+		return eDao.ajaxDeleteTeam(sqlSession, teamCode);
+	}
+	
+	// 부서 관리 - 직급 조회
+	@Override
+	public ArrayList<Job> ajaxSelectJobList() {
+		return eDao.ajaxSelectJobList(sqlSession);
+	}
+	
+	// 부서 관리 - 직급 추가
+	@Override
+	public int insertJob(Job j) {
+		return eDao.insertJob(sqlSession, j);
+	}
+	
+	// 부서 관리 - 직급 삭제
+	@Override
+	public int ajaxDeleteJob(int jobCode) {
+		return eDao.ajaxDeleteJob(sqlSession, jobCode);
+	}
+	
 	
 
 }

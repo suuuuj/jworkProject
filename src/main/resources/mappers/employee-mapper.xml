@@ -56,6 +56,12 @@
 		<result column="dept_code" property="deptCode"></result>
 	</resultMap>
 	
+	<resultMap id="jobResult" type="Job">
+		<id column="job_code" property="jobCode" />
+		<result column="job_name" property="jobName"></result>
+		<result column="status" property="status"></result>
+	</resultMap>
+	
 	<!-- 로그인 -->
 	<select id="loginEmployee" resultMap="employeeResult">
 		select
@@ -685,5 +691,85 @@
 			   , #{loginNo}
 			   )
 	</insert>
+	
+	<!-- 부서 관리 - 부서 추가 -->
+	<insert id="insertDept">
+		insert
+			   into department
+			   (
+			     dept_code
+			   , dept_name
+			   )
+			   VALUES
+			   (
+			     SEQ_DNO.nextval	
+			   , #{deptName}
+			   )
+	</insert>
+	
+	<!-- 부서 관리 - 부서 삭제 -->
+	<update id="ajaxDeleteDept">
+		update
+		       department
+		   set status = 'N' 
+         where dept_code = #{deptCode} 
+	</update>
+	
+	<!-- 부서 관리 - 팀 추가 -->
+	<insert id="insertTeam">
+		insert
+			   into team
+			   (
+			     team_code
+			   , team_name
+               , dept_code
+			   )
+			   VALUES
+			   (
+			     SEQ_TNO.nextval	
+			   , #{teamName}
+               , #{deptCode}
+			   )
+	</insert>
+	
+	<!-- 부서 관리 - 팀 삭제 -->
+	<update id="ajaxDeleteTeam">
+		update
+		       team
+		   set status = 'N' 
+         where team_code = #{teamCode} 
+	</update>
+	
+	<!-- 부서 관리 - 직급 조회 -->
+	<select id="ajaxSelectJobList" resultMap="jobResult">
+		select
+			 job_code
+		   , job_name
+		from job
+	   where status= 'Y'
+	</select>
+	
+	<!-- 부서 관리 - 직급 추가 -->
+	<insert id="insertJob">
+		insert
+			   into job
+			   (
+			     job_code
+			   , job_name
+			   )
+			   VALUES
+			   (
+			     SEQ_JNO.nextval	
+			   , #{jobName}
+			   )
+	</insert>
+	
+	<!-- 부서 관리 - 직급 삭제 -->
+	<update id="ajaxDeleteJob">
+		update
+		       job
+		   set status = 'N' 
+         where job_code = #{jobCode} 
+	</update>
 	
 </mapper>

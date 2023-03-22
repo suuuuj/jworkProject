@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.mj.jwork.common.model.vo.PageInfo;
-import com.mj.jwork.employee.model.vo.AddressGroup;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
+import com.mj.jwork.employee.model.vo.Job;
 import com.mj.jwork.employee.model.vo.Team;
 
 public interface EmployeeService {
@@ -109,6 +109,28 @@ public interface EmployeeService {
 	
 	// 캘린더 그룹 추가
 	int insertSchGroup(Employee e);
+	
+	// 부서 관리 - 부서 추가
+	int insertDept(Department d);
+	
+	// 부서 관리 - 부서 삭제
+	int ajaxDeleteDept(int deptCode);
+	
+	// 부서 관리 - 팀 추가
+	int insertTeam(Team t);
+	
+	// 부서 관리 - 팀 삭제
+	int ajaxDeleteTeam(int teamCode);
+	
+	// 부서 관리 - 직급 조회
+	ArrayList<Job> ajaxSelectJobList();
+	
+	// 부서 관리 - 직급 추가
+	int insertJob(Job j);
+	
+	// 부서 관리 - 직급 삭제
+	int ajaxDeleteJob(int jobCode);
+
 	
 
 

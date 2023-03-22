@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
+import com.mj.jwork.employee.model.vo.Job;
 import com.mj.jwork.employee.model.vo.Team;
 
 @Repository
@@ -222,6 +223,41 @@ public class EmployeeDao {
 	// 캘린더 그룹 추가
 	public int insertSchGroup(SqlSessionTemplate sqlSession, Employee e) {
 		return sqlSession.insert("employeeMapper.insertSchGroup", e);
+	}
+	
+	// 부서 관리 - 부서 추가
+	public int insertDept(SqlSessionTemplate sqlSession, Department d) {
+		return sqlSession.insert("employeeMapper.insertDept", d);
+	}
+	
+	// 부서 관리 - 부서 삭제
+	public int ajaxDeleteDept(SqlSessionTemplate sqlSession, int deptCode) {
+		return sqlSession.update("employeeMapper.ajaxDeleteDept", deptCode);
+	}
+	
+	// 부서 관리 - 팀 추가
+	public int insertTeam(SqlSessionTemplate sqlSession, Team t) {
+		return sqlSession.insert("employeeMapper.insertTeam", t);
+	}
+	
+	// 부서 관리 - 팀 삭제
+	public int ajaxDeleteTeam(SqlSessionTemplate sqlSession, int teamCode) {
+		return sqlSession.update("employeeMapper.ajaxDeleteTeam", teamCode);
+	}
+	
+	// 부서 관리 - 직급 조회
+	public ArrayList<Job> ajaxSelectJobList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxSelectJobList");
+	}
+	
+	// 부서 관리 - 직급 추가
+	public int insertJob(SqlSessionTemplate sqlSession, Job j) {
+		return sqlSession.insert("employeeMapper.insertJob", j);
+	}
+	
+	// 부서 관리 - 직급 삭제
+	public int ajaxDeleteJob(SqlSessionTemplate sqlSession, int jobCode) {
+		return sqlSession.update("employeeMapper.ajaxDeleteJob", jobCode);
 	}
 	
 	

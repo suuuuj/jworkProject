@@ -21,9 +21,9 @@ import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.common.template.Pagination;
 import com.mj.jwork.employee.model.service.EmployeeService;
-import com.mj.jwork.employee.model.vo.AddressGroup;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
+import com.mj.jwork.employee.model.vo.Job;
 import com.mj.jwork.employee.model.vo.Team;
 
 @Controller
@@ -393,17 +393,16 @@ public class EmployeeController {
 	
 	// 주소록 연락처 추가
 	@RequestMapping("insertAddressOut.emp")
-	public String insertAddressOut(Employee e, String checkStar, HttpSession session, Model model) {
+	public String insertAddressOut(Employee e, HttpSession session, Model model) {
 		
 		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		e.setLoginNo(loginNo);
 		
-		if(checkStar == "star") {
+		if(e.getCheckStar() == 1) {
 			int result1 = eService.insertAddressOut(e);
 			int result2 = eService.insertAddressOutFav(e);		
-			System.out.println(result2);
-			// 즐겨찾기 작동안함! ㅠㅠ
-			if(result1*result2 > 0) {
+
+			if(result1 > 0 && result2 >0) {
 				session.setAttribute("alertMsg", "추가완");
 				return "redirect:addressOut.emp";
 			}else {
@@ -427,7 +426,6 @@ public class EmployeeController {
 	@ResponseBody
 	@RequestMapping("deleteAddressOut.emp")
 	public String deleteAddressOut(Integer addoutNo, HttpSession session, Model model) {
-		//System.out.println(addoutNo);
 		int result = eService.deleteAddressOut(addoutNo);
 		return result > 0 ? "success" : "fail";
 	}
@@ -514,7 +512,7 @@ public class EmployeeController {
 		return result > 0 ? "success" : "fail";				
 	}
 	
-	// 주소록 그룹 추가
+	// 캘린더 그룹 추가
 	@RequestMapping("insertSchGroup.emp")
 	public String insertSchGroup(Employee e, HttpSession session, Model model) {
 		
@@ -530,6 +528,100 @@ public class EmployeeController {
 			return "common/errorPage";
 		}
 	}
-
+	
+	// 부서 관리 페이지
+	@RequestMapping("department.ad")
+	public String selectDepartment() {
+		return "employee/adminDepartment";
+	}
+	
+	// 부서 관리 - 부서 조회(ajax)
+	@ResponseBody
+	@RequestMapping(value="selectDept.ad", produces="application/json; charset=UTF-8")
+	public String ajaxSelectDept(HttpSession session) {		
+		ArrayList<Department> deptList = eService.ajaxSelectDeptList();
+		return new Gson().toJson(deptList);				
+	}
+	
+	// 부서 관리 - 부서 추가
+	@RequestMapping("insertDept.ad")
+	public String insertDept(Department d, HttpSession session, Model model) {		
+		int result = eService.insertDept(d);
+		if(result > 0) {
+			session.setAttribute("alertMsg", "추가완");
+			return "redirect:department.ad";
+		}else {
+			model.addAttribute("errorMsg", "추가실패");
+			return "common/errorPage";
+		}
+	}
+	
+	// 부서 관리 - 부서 삭제
+	@ResponseBody
+	@RequestMapping("deleteDept.ad")
+	public String ajaxDeleteDept(int deptCode, HttpSession session, Model model) {	
+		int result = eService.ajaxDeleteDept(deptCode);	
+		return result > 0 ? "success" : "fail";				
+	}
+	
+	// 부서 관리 - 팀 조회(ajax)
+	@ResponseBody
+	@RequestMapping(value="selectTeam.ad", produces="application/json; charset=UTF-8")
+	public String ajaxSelectTeam(HttpSession session) {		
+		ArrayList<Team> teamList = eService.ajaxSelectTeamList();
+		return new Gson().toJson(teamList);				
+	}
+	
+	// 부서 관리 - 팀 추가
+	@RequestMapping("insertTeam.ad")
+	public String insertTeam(Team t, HttpSession session, Model model) {		
+		int result = eService.insertTeam(t);
+		if(result > 0) {
+			session.setAttribute("alertMsg", "추가완");
+			return "redirect:department.ad";
+		}else {
+			model.addAttribute("errorMsg", "추가실패");
+			return "common/errorPage";
+		}
+	}
+	
+	// 부서 관리 - 팀 삭제
+	@ResponseBody
+	@RequestMapping("deleteTeam.ad")
+	public String ajaxDeleteTeam(int teamCode, HttpSession session, Model model) {	
+		int result = eService.ajaxDeleteTeam(teamCode);	
+		return result > 0 ? "success" : "fail";				
+	}
+	
+	// 부서 관리 - 직급 조회(ajax)
+	@ResponseBody
+	@RequestMapping(value="selectJob.ad", produces="application/json; charset=UTF-8")
+	public String ajaxSelectJob(HttpSession session) {		
+		ArrayList<Job> jobList = eService.ajaxSelectJobList();
+		return new Gson().toJson(jobList);				
+	}
+	
+	// 부서 관리 - 직급 추가
+	@RequestMapping("insertJob.ad")
+	public String insertJob(Job j, HttpSession session, Model model) {		
+		int result = eService.insertJob(j);
+		if(result > 0) {
+			session.setAttribute("alertMsg", "추가완");
+			return "redirect:department.ad";
+		}else {
+			model.addAttribute("errorMsg", "추가실패");
+			return "common/errorPage";
+		}
+	}
+	
+	// 부서 관리 - 직급 삭제
+	@ResponseBody
+	@RequestMapping("deleteJob.ad")
+	public String ajaxDeleteJob(int jobCode, HttpSession session, Model model) {	
+		int result = eService.ajaxDeleteJob(jobCode);	
+		return result > 0 ? "success" : "fail";				
+	}
+	
+	
 	
 }
