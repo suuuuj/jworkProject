@@ -165,4 +165,15 @@
 		from cfr_reservation
 		where res_no=#{resNo}
 	</delete>
+	<update id="updateCfrRes">
+		update
+		cfr_reservation
+	set START_TIME =#{startTime},
+		end_time =#{endTime},
+		CAPACITY =#{capacity},
+		CF_TITLE=#{cfTitle},
+		use_Date=#{useDate},
+		CFR_NAME=#{cfrName}
+		where res_no=#{resNo}
+	</update>
 </mapper>
