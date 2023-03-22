@@ -19,10 +19,10 @@
         line-height: 30px;
 	}
 	
-	.fc-toolbar-chunk div,.fc-toolbar-chunk button{
+	/* .fc-toolbar-chunk div,.fc-toolbar-chunk button{
 	disply:inline-block !important;
 	 width: 960px!important;
-	}
+	} */
 	
 	
 </style>

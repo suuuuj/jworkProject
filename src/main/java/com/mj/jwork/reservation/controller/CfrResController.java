@@ -107,7 +107,7 @@ public class CfrResController {
 		return new Gson().toJson(list);
 		
 		}
-	
+	/*
 	//회의실 예약 내역 조회
 	@ResponseBody
 	@RequestMapping(value="call.events",produces="application/json; charset=utf-8")
@@ -117,7 +117,16 @@ public class CfrResController {
 		return new Gson().toJson(list);
 		
 	}
+	*/
 	
+	//회의실 예약 내역 조회
+	/*
+	 * @RequestMapping("call.events") public String selectResList(Model m) {
+	 * ArrayList<CfrReservation>list = cRService.selectResList();
+	 * m.addAttribute("list",list); return "reservation/managerCfrStatus";
+	 * 
+	 * }
+	 */
 	//회의실 예약 취소
 	@ResponseBody
 	@RequestMapping(value="delete.cfrRes",produces="application/json; charset=utf-8")

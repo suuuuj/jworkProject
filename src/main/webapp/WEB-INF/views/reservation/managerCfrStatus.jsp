@@ -30,27 +30,29 @@
     	  var calendar = new FullCalendar.Calendar(calendarEl, {
     		  schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
     		 timeZone: 'UTC',
-    		 minTime:'08:00:00',
-    		 maxTime:'19:00:00',
+    		 slotMinTime: "09:00:00", // 최소시간
+             slotMaxTime: "20:00:00", // 최대시간 (23시까지만 화면에 보여짐)
     	    initialView: 'resourceTimeGridDay',
     	    dateClick: function(info) {
-                alert('Clicked on: ' + info.dateStr); // 날짜 띄우는 것까지 성공 ㅅㅂ
+               // alert('Clicked on: ' + info.dateStr); // 날짜 띄우는 것까지 성공 ㅅㅂ
                 // change the day's background color just for fun
-                info.dayEl.style.backgroundColor = 'red';
-                $("#calendarModal").modal("show");
+              /*   info.dayEl.style.backgroundColor = '#d6dfcc'; */
+                $("#reservationForm").modal("show");
             },
     	    customButtons:{
     	    	info:{
     	    		text:'회의실정보',
-    	    		click:function(event){
-    	    			onSelectEvent(event);
+    	    		click:function(){
+    	    			  $("#cfrInfo").modal("show");
+    	    			 selectList();
     	    		}
             	},
     	    	reserve:{
     	    		 text:'회의실예약',
     	    		 click:function(event){
     	    			 
-    	    			 onSelectEvent(event);
+    	    			 $("#reservationForm").modal("show");
+    	    			 selectList();
     	    		 }
     	    	}
     	    	
@@ -90,7 +92,7 @@
     	    		
     	    	})
     	    ],
-    	    select:function(arg) {
+    	    /* select:function(arg) {
                 var title = prompt('Event Title:');
                 if(title) {
                       calendar.addEvent({
@@ -104,34 +106,22 @@
 
                     calendar.unselect()
 
-                 },
-    	    events: [
-    	    	   $.ajax({
-       	    		url:"call.events",
-       	    		success:function(list){
-       	    			console.log(list);
-       	    			for(let i=0; i<list.length; i++){
-       	    				calendar.addEvent({
-       	    				
-       	    				id:list[i].cfrName,
-       	    				title:list[i].cfrName
-       	    				})
-       	    			}
-       	    		}
-       	    		
-       	    	})
-    	    	
-    	    ]
+                 }, */
+                 events: [
+               
+                 	<c:forEach var="c" items="${list}">
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.reservation} ${c.startTime }~${c.endTime }', color: '#d6dfcc'},
+                        console.log(c.resNo); 
+                    </c:forEach>
+                 ]
     	  })
 
     	  calendar.render();
     	});
 		
     
-   
-    
+ 
     	
-    
    
     </script>
     
@@ -141,10 +131,10 @@
 	<div class="content">
 	
         <div class="innerOuter">
-			
+			<!-- 
                 <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#cfrInfo" onclick="selectList();">회의실 정보</button>
-                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#reservationForm" onclick="selectList();">예약하기</button>&nbsp;
-            <div id='calendar'>
+                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#reservationForm" onclick="selectList();">예약하기</button>&nbsp; -->
+            <div id='calendar' style="margin:20px;">
           
            
             </div>
@@ -152,7 +142,7 @@
         </div>
     </div>
     <!-- Edit Modal -->
-		<div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		<!-- <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
 	        aria-hidden="true">
 	        <div class="modal-dialog" role="document">
 	            <div class="modal-content">
@@ -180,9 +170,9 @@
 	    
 	            </div>
 	        </div>
-	    </div>
+	    </div> -->
 	    <script>
-	    	function getEvent(){
+	    /* 	function getEvent(){
 	    		var events;
 	    		 $.ajax({
 	       	    		url:"call.events",
@@ -194,9 +184,191 @@
 	       	    		
 	       	    	})
 	    		return events;
-	    	}
+	    	} */
 	    	
 	    </script>
+	       <!--회의실 예약 모달 -->
+    <div class="modal" id="reservationForm">
+        <div class="modal-dialog">
+        <div class="modal-content">
     
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <h4 class="modal-title">회의실 예약</h4>
+            <button type="button" class="close" data-dismiss="modal" onclick=" $('#reservationForm').modal('hide');">&times;</button>
+            </div>
+    
+            <!-- Modal body -->
+            <div class="modal-body">
+	        <form action="reserv.cfr" method="post">
+                <input type="hidden" name="reservation" value="${loginUser.empNo}">
+                    <table id="cfrResevation" style="width:800px; height:300px;">
+                        <tr>
+                            <th>회의실</th>
+                            <td>
+                           		<select name="cfrName" id="cfrName" required> 
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>예약자</th>
+                            <td>${loginUser.empName}${loginUser.empNo}</td>
+                            
+                        </tr>
+                        <tr>
+                            <th>날짜</th>
+                            <td><input type="date" name="useDate" id="useDate" required></td>
+                        </tr>
+                        <tr>
+                            <th>시간</th>
+                          	<td>
+                            <select name="startTime">
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00</option>
+                            </select>
+                            -
+                            <select name="endTime">
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00</option>
+                            </select>
+                            </td>
+                          <!--   <td><input type="text" name="startTime"  class="timepicker"  required>-<input type="text" class="timepicker" name="endTime" required></td> -->
+                        </tr>
+                        <tr>
+                            <th>인원</th>
+                            <td><input type="number" name="capacity" required></td>
+                        </tr>
+                        <tr>
+                            <th>회의제목</th>
+                            <td><input type="text" name="cfTitle"required></td>
+                        </tr>
+                    </table>
+                    <button type="submit" class="btn btn-primary btn-sm">예약하기</button>
+               </form>
+	      </div>
+    
+        </div>
+        </div>
+    </div>
+      <!--회의실 정보 모달 -->
+    <div class="modal" id="cfrInfo">
+        <div class="modal-dialog">
+        <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <h4 class="modal-title">회의실 정보</h4>
+            <button type="button" class="close" data-dismiss="modal" onclick=" $('#cfrInfo').modal('hide');">&times;</button>
+            </div>
+    
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div id="btn-area">
+                	
+                </div>
+                <br>
+                <div style="width:800px">
+                    <table  style="width:800px; height:300px;"> 
+                        <tr>
+                            <th>회의실명</th>
+                            <td id="inputCfrName"></td>
+                        </tr>
+                        <tr>
+                            <th>회의실 이미지</th>
+                            <td >
+                                <div style="width: 320px;">
+                                    <img src="" width="150px" height="100px" id="firstImg">
+                                </div>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <th>수용인원</th>
+                            <td id="capacity"></td>
+                        </tr>
+                        <tr>
+                            <th>회의장비</th>
+                            <td id="equipment"></td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+    
+        </div>
+        </div>
+    </div>
+      <script>
+        function selectList(){
+        	
+        	$.ajax({
+        		url:"alist.cfr",
+            	success:function(list){
+            		console.log(list);
+            		let value="";
+            		let value2="";
+            		for(var i=0; i<list.length; i++){
+            			
+            			value+="<button type='button' class='btn btn-sm btn-light'value='"
+            					+list[i].cfrName+"' onclick='detailCfr($(this).val());'>" +list[i].cfrName
+            					+"</button>";
+            			
+            			value2+="<option>"+list[i].cfrName+"</option>";
+            		}
+            		
+            		$("#btn-area").html(value);
+            		$("select[name=cfrName]").html(value2);
+            		
+            		
+            	},error:function(){
+            		console.log("ajax통신실패");
+            	}
+            		
+        	});
+        	
+        	
+        }
+        
+        function detailCfr(cfrName){
+        	
+        	$.ajax({
+        		url:"adetail.cfr"
+        	   ,data:{cfrName:cfrName}
+        	   ,success:function(c){
+        			$("#inputCfrName").text(c.cfrName);
+        			$("#firstImg").attr("src",c.firstImg);
+        			$("#capacity").text(c.capacity);
+        			var equipment = c.equipment.split(","); 
+        			$("#equipment").text(equipment);
+        	   },error:function(){
+        		   
+        		   console.log("ajax통신에러");
+        	   }
+        	   
+        	});
+        	
+        	
+        }
+         
+     </script>
+  
   </body>
 </html>
