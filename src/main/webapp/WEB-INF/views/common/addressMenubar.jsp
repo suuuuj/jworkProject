@@ -175,7 +175,9 @@
             border: 0;
             background-color: white;
         }
-
+        .hover {
+            display: flex;
+        }
         #important {
             float: left;
             margin-top: 15px;
@@ -311,16 +313,7 @@
 
                         <!--반복문 돌리기-->
                         <div class="oneAddressBox">    
-                            <!-- <div class="addressGroupName">ㅋㅋㅋㅋ</div>
-                            <div class="editScheduleBox dropdown dropend">
-                                <button class="" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="resources/images/mail/edit.png" width="20px">
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modifyGroup">그룹 수정</a></li>
-                                    <li><a class="dropdown-item" href="">그룹 삭제</a></li>
-                                </ul>
-                            </div> -->
+                            
                         </div>
 
                     </div>
@@ -343,7 +336,7 @@
                                 <div class="addPerson">
                                     <table>
                                         <tr>
-                                            <th>이름 <span><input type="checkbox" id="checkStar" name="checkStar" value="star"><label for="checkStar">&nbsp;</label></span></th>
+                                            <th>이름 <span><input type="checkbox" id="checkStar" name="checkStar" value="1"><label for="checkStar">&nbsp;</label></span></th>
                                             <td><input type="text" name="name" value=""></td>
                                         </tr>
                                         <tr>
@@ -419,24 +412,33 @@
 
                             for(let i=0; i<glist.length; i++){
                                 //console.log(glist[i].groupName);
-                                value += '<form action="addressOutSearch.emp">'
-                                       + '<div class="addressGroupName" ><button type=submit>' + glist[i].groupName + '</button></div>'
-                                       + '<input type="hidden" name="condition" value="groupName"><input type="hidden" name="keyword" value="' + glist[i].groupName + '">' 
-                                       + '<span class="editAddressBox dropdown dropend">'
-                                            + '<button class="" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">'
-                                                + '<img src="resources/images/mail/edit.png" width="20px">'
-                                            + '</button>'
-                                            + '<ul class="dropdown-menu" aria-labelledby="dropdownMenu">'
-                                                + '<li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modifyGroup" style="font-size:14px" onclick="updateGroup(' + glist[i].groupNo + ')">그룹 수정</a></li>'
-                                                + '<li><a class="dropdown-item" href="" style="font-size:14px" onclick="deleteGroup(' + glist[i].groupNo + ')">그룹 삭제</a></li>'
-                                            + '</ul>'
-                                       + '</span></form>' ;
+                                value += '<div class="hover">'
+                                            + '<form action="addressOutSearch.emp">'
+                                                + '<div class="addressGroupName" ><button type=submit>' + glist[i].groupName + '</button></div>'
+                                                + '<input type="hidden" name="condition" value="groupName"><input type="hidden" name="keyword" value="' + glist[i].groupName + '">' 
+                                                + '<span class="editAddressBox dropdown dropend">'
+                                                        + '<button class="" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false" style="display:none">'
+                                                            + '<img src="resources/images/mail/edit.png" width="20px">'
+                                                        + '</button>'
+                                                        + '<ul class="dropdown-menu" aria-labelledby="dropdownMenu">'
+                                                            + '<li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modifyGroup" style="font-size:14px" onclick="updateGroup(' + glist[i].groupNo + ')">그룹 수정</a></li>'
+                                                            + '<li><a class="dropdown-item" href="" style="font-size:14px" onclick="deleteGroup(' + glist[i].groupNo + ')">그룹 삭제</a></li>'
+                                                        + '</ul>'
+                                                + '</span>'
+                                            + '</form>'
+                                    + '</div>'
                                 $("#group").append(
                                     '<option id="' + glist[i].groupNo + '1' +'" value="'+ glist[i].groupNo +'">'+ glist[i].groupName +'</option>'
                                 )
+    
                             }
-
                             $(".oneAddressBox").append(value);
+                            $('.hover').mouseover(function(){
+                                $(this).children().children().next().next().children("button").show();
+                            });
+                            $('.hover').mouseout(function(){
+                                $(this).children().children().next().next().children("button").hide();
+                            });
 
                         }, error: function(){
                             console.log("주소록 그룹 조회 ajax 통신 실패");
@@ -522,7 +524,8 @@
                         success:function(result){           
                             if(result == "success"){
                                 //swal('삭제완', '', 'success');
-                                alert("삭제완");        
+                                alert("삭제완"); 
+                                document.location.href = document.location.href;      
                             }
                             console.log(result);
                         }, error: function(){
