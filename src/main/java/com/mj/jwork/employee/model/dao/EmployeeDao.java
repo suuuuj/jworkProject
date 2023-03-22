@@ -224,7 +224,12 @@ public class EmployeeDao {
 		return sqlSession.insert("employeeMapper.insertSchGroup", e);
 	}
 	
-	
+	// 조직도
+	public ArrayList<Department> selectEmployeeChart(SqlSessionTemplate sqlSession){
+		
+		return (ArrayList)sqlSession.selectList("employeeMapper.selectEmployeeChart");
+		
+	}
 
 	
 

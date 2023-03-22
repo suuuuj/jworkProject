@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.mj.jwork.common.model.vo.PageInfo;
-import com.mj.jwork.employee.model.vo.AddressGroup;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.employee.model.vo.Team;
@@ -110,7 +109,8 @@ public interface EmployeeService {
 	// 캘린더 그룹 추가
 	int insertSchGroup(Employee e);
 	
-
+	// 조직도 조회
+	ArrayList<Department> selectEmployeeChart();
 
 
 	

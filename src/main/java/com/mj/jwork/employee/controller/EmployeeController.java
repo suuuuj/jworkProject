@@ -21,7 +21,6 @@ import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.common.template.Pagination;
 import com.mj.jwork.employee.model.service.EmployeeService;
-import com.mj.jwork.employee.model.vo.AddressGroup;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.employee.model.vo.Team;
@@ -529,6 +528,17 @@ public class EmployeeController {
 			model.addAttribute("errorMsg", "추가실패");
 			return "common/errorPage";
 		}
+	}
+	
+	// 조직도
+	@ResponseBody
+	@RequestMapping(value="employeeChart.emp", produces="application/json; charset=UTF-8")
+	public String ajaxEmployeeChart() {
+		
+		ArrayList<Department> deptList = eService.selectEmployeeChart();
+		
+		return new Gson().toJson(deptList);
+		
 	}
 
 	

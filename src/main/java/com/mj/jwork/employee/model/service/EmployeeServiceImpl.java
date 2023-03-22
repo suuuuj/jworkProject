@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.dao.EmployeeDao;
-import com.mj.jwork.employee.model.vo.AddressGroup;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.employee.model.vo.Team;
@@ -249,6 +248,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public int insertSchGroup(Employee e) {
 		return eDao.insertSchGroup(sqlSession, e);
+	}
+
+	@Override
+	public ArrayList<Department> selectEmployeeChart() {
+		return eDao.selectEmployeeChart(sqlSession);
 	}
 	
 

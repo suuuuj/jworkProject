@@ -6,9 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+
 <!-- include summernote css/js-->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 
+<!-- 조직도 트리 -->
+<script src="http://code.jquery.com/jquery-latest.js"></script> 
+<link rel="stylesheet" type="text/css" href="resources/css/treeview/jquery.treeview.css"/>
+<link rel="stylesheet" type="text/css" href="resources/css/treeview/screen.css"/>
 <style>
     .mailOuter{
         padding-left: 30px;
@@ -120,6 +126,18 @@
         form .files{
             width: auto;
         }
+        #tree{
+            font-size: 12px;
+        }
+    
+        .emp:hover{
+            cursor: pointer;
+        }
+        .employeeChart{
+            height: 300px;
+            width: 200px;
+            overflow: auto;
+        }
 
 </style>
 </head>
@@ -198,7 +216,21 @@
                                         <input type="text" id="receiver" value="">
                                     </div>
                                 </td>
-                                <td width="60px"><button type="button" id="chart" class="btn btn-outline-secondary btn-sm">주소록</button></td>
+                                <td width="60px">
+                                    <button type="button" id="chart" class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">주소록</button>
+                                    <li class="dropdown-menu">
+                                        <div class="employeeChart">
+                                            <ul id="tree" class="filetree treeview-famfamfam">
+            
+                        
+                                                
+                                          
+                                            </ul>
+                                            
+                                        </div>
+                                        
+                                    </li>
+                                </td>
                             </tr>
                             <tr>
                                 <td>제목</td>
@@ -236,8 +268,69 @@
 
             
             <br><br><br><br>
-    
+        
+            <script src="resources/js/treeview/jquery.cookie.js" type="text/javascript"></script>
+            <script src="resources/js/treeview/jquery.treeview.js" type="text/javascript"></script>
+        
+            <script>
+                $(document).ready(function(){
+                    
+                    
+                    $(document).on("click", "#chart", function(){
+
+                        $.ajax({
+                            url: "employeeChart.emp",
+                            success: function(deptList){
+                                //console.log(deptList);
+                                let chart = "";
+                                for(let i=0; i<deptList.length; i++){
+                                    //console.log(deptList[i]);
+                                    if(deptList[i].deptName == "사장"){
+                                        chart += "<li><span class='emp' empNo='" + deptList[i].teamList[0].empList[0].empNo + "' empName='" + deptList[i].teamList[0].empList[0].empName + "'>" 
+                                                                            + deptList[i].teamList[0].empList[0].jobName + '&nbsp;' + deptList[i].teamList[0].empList[0].empName + "</span></li>";
+                                    } else{
+                                        chart += '<li class="closed"><span class="folder">' + deptList[i].deptName + '</span>';
+                                        for(let j=0; j<deptList[i].teamList.length; j++){
+                                            if(deptList[i].teamList[j].teamName == "임원"){
+                                                for (let k=0; k<deptList[i].teamList[j].empList.length; k++){
+                                                    chart += '<ul><li><span class="emp" empNo="' + deptList[i].teamList[j].empList[k].empNo + '" empName="' + deptList[i].teamList[j].empList[k].empName + '">'
+                                                            + deptList[i].teamList[j].empList[k].jobName + '&nbsp;' + deptList[i].teamList[j].empList[k].empName + '</span></li></ul>';
+                                                }
+                                            } else{
+                                                chart += '<ul><li class="closed"><span class="folder">' + deptList[i].teamList[j].teamName + '</span>';
+                                                for(let k=0; k<deptList[i].teamList[j].empList.length; k++){
+                                                    chart += '<ul><li><span class="emp" empNo="' + deptList[i].teamList[j].empList[k].empNo + '" empName="' + deptList[i].teamList[j].empList[k].empName + '">'
+                                                        + deptList[i].teamList[j].empList[k].jobName + '&nbsp;' + deptList[i].teamList[j].empList[k].empName + '</span></li></ul>';
+                                                }
+                                                chart+= '</li></ul>';
+
+                                            }
+                                            
+                                        }
+                                        chart += "</li>";
+                                    }
+                                    
+                                }
+
+                                $("#tree").html(chart);
+                                $("#tree").treeview({});
+
+                            }, error: function(){
+                                console.log("조직도 조회용 ajax 통신 실패");
+                            }
+
+                        })
+
+                    })
+                    
+        
+                    
+                });
+            </script>
+
+
         <script>
+            
 
             // 사번으로 사원 조회해서 메일 수신자 목록에 추가하기
             $("#receiver").keydown(function() { // 'input[type="text"]'
@@ -299,13 +392,32 @@
 
 
         </script>
-        
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+        
         <script>
             
         
             
             $(function() {
+                /*
+                $(function() {
+                    $('#summernote').summernote({
+                        height: 300,                 // set editor height
+                        minHeight: null,             // set minimum height of editor
+                        maxHeight: null,             // set maximum height of editor
+                        focus: true,                 // set focus to editable area after initializing summernote
+                        lang: "ko-KR"                // 한글 설정
+                    });
+                });
+        
+                $(function() {
+                    $('#summernote').summernote();
+                });
+                */
+
+
+                
                 $('#summernote').summernote({
                     height : 550, // 기본 길이
                     minHeight : 550,
@@ -337,9 +449,11 @@
                     // 추가한 폰트사이즈
                     fontSizes : [ '8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36', '50', '72']
                 });
-        
+                
                 
             });
+            
+
             /*
             $(function() {
                 $('#summernote').summernote();
@@ -408,7 +522,7 @@
                     for(let i = 0; i < dt.items.length; i++){
                         // display 삭제된 파일 이름인 파일을 찾아서 파일 삭제
                         if(name === dt.items[i].getAsFile().name){
-                            // Suppression du fichier dans l'objet DataTransfer
+                            // DataTransfer 개체에서 파일 삭제
                             dt.items.remove(i);
                             continue;
                         }

@@ -56,6 +56,21 @@
 		<result column="dept_code" property="deptCode"></result>
 	</resultMap>
 	
+	<!-- 조직도 조회 resultMap -->
+	<resultMap id="chartResult" type="Department">
+		<result column="dept_name" property="deptName" />
+		<collection property="teamList" ofType="Team">
+			<result column="team_name" property="teamName"/>
+			<collection property="empList" ofType="Employee">
+				<result column="job_name" property="jobName"/>
+				<result column="emp_no" property="empNo"/>
+				<result column="emp_name" property="empName"/>
+			</collection>
+		</collection>
+	</resultMap>
+	
+	
+	
 	<!-- 로그인 -->
 	<select id="loginEmployee" resultMap="employeeResult">
 		select
@@ -685,5 +700,19 @@
 			   , #{loginNo}
 			   )
 	</insert>
+	
+	<select id="selectEmployeeChart" resultMap="chartResult">
+		select
+		       nvl2(dept_name, dept_name, '사장') "dept_name"
+		     , nvl2(team_name, team_name, '임원') "team_name"
+		     , job_name
+		     , e.emp_no
+		     , e.emp_name
+		  from employee e
+		  full outer join department d on (d.dept_code = e.dept_code)
+		  left join team t on (t.team_code = e.team_code)
+		  left join job j on (j.job_code = e.job_code)
+		 order by d.dept_code nulls first, t.team_code nulls first, j.job_code	
+	</select>
 	
 </mapper>
