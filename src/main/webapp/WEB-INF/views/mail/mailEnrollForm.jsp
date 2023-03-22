@@ -347,11 +347,8 @@
                             
                         }
 
-
-
                     })
                     
-        
                     
                 });
             </script>
@@ -412,7 +409,6 @@
 
             // X 버튼 눌러서 수신자 목록에서 제거
             $(document).on("click", ".receiver-delete", function(){
-                //console.log($(this).prev());
                 $(this).prev().prev().prev().remove();
                 $(this).prev().prev().remove();
                 $(this).prev().remove();

@@ -8,7 +8,9 @@
 <title>Insert title here</title>
 <!-- include summernote css/js-->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-
+<!-- 조직도 트리 -->
+<script src="http://code.jquery.com/jquery-latest.js"></script> 
+<link rel="stylesheet" type="text/css" href="resources/css/treeview/jquery.treeview.css"/>
 <style>
     .mailOuter{
         padding-left: 30px;
@@ -120,6 +122,19 @@
         form .files{
             width: auto;
         }
+        #tree{
+            font-size: 12px;
+        }
+    
+        .emp:hover{
+            cursor: pointer;
+        }
+        .employeeChart{
+            padding-left: 10px;
+            height: 300px;
+            width: 200px;
+            overflow: auto;
+        }
 
 </style>
 </head>
@@ -199,7 +214,21 @@
                                         <input type="text" id="receiver" value="">
                                     </div>
                                 </td>
-                                <td width="60px"><button type="button" id="chart" class="btn btn-outline-secondary btn-sm">주소록</button></td>
+                                <td width="60px">
+                                    <button type="button" id="chart" class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">주소록</button>
+                                    <li class="dropdown-menu">
+                                        <div class="employeeChart">
+                                            <ul id="tree" class="filetree treeview-famfamfam">
+            
+                        
+                                                
+                                          
+                                            </ul>
+                                            
+                                        </div>
+                                        
+                                    </li>
+                                </td>
                             </tr>
                             <tr>
                                 <td>제목</td>
@@ -250,7 +279,89 @@
 
             
             <br><br><br><br>
-    
+            <script src="resources/js/treeview/jquery.cookie.js" type="text/javascript"></script>
+            <script src="resources/js/treeview/jquery.treeview.js" type="text/javascript"></script>
+        
+            <script>
+                $(document).ready(function(){
+                    
+                    // 주소록 버튼 클릭시
+                    $(document).on("click", "#chart", function(){
+
+                        $.ajax({
+                            url: "employeeChart.emp",
+                            success: function(deptList){
+                                //console.log(deptList);
+                                let chart = "";
+                                for(let i=0; i<deptList.length; i++){
+                                    //console.log(deptList[i]);
+                                    if(deptList[i].deptName == "사장"){
+                                        chart += "<li><span class='emp' empNo='" + deptList[i].teamList[0].empList[0].empNo + "' empName='" + deptList[i].teamList[0].empList[0].empName + "'>" 
+                                                                            + deptList[i].teamList[0].empList[0].jobName + '&nbsp;' + deptList[i].teamList[0].empList[0].empName + "</span></li>";
+                                    } else{
+                                        chart += '<li class="closed"><span class="folder">' + deptList[i].deptName + '</span>';
+                                        for(let j=0; j<deptList[i].teamList.length; j++){
+                                            if(deptList[i].teamList[j].teamName == "임원"){
+                                                for (let k=0; k<deptList[i].teamList[j].empList.length; k++){
+                                                    chart += '<ul><li><span class="emp" empNo="' + deptList[i].teamList[j].empList[k].empNo + '" empName="' + deptList[i].teamList[j].empList[k].empName + '">'
+                                                            + deptList[i].teamList[j].empList[k].jobName + '&nbsp;' + deptList[i].teamList[j].empList[k].empName + '</span></li></ul>';
+                                                }
+                                            } else{
+                                                chart += '<ul><li class="closed"><span class="folder">' + deptList[i].teamList[j].teamName + '</span>';
+                                                for(let k=0; k<deptList[i].teamList[j].empList.length; k++){
+                                                    chart += '<ul><li><span class="emp" empNo="' + deptList[i].teamList[j].empList[k].empNo + '" empName="' + deptList[i].teamList[j].empList[k].empName + '">'
+                                                        + deptList[i].teamList[j].empList[k].jobName + '&nbsp;' + deptList[i].teamList[j].empList[k].empName + '</span></li></ul>';
+                                                }
+                                                chart+= '</li></ul>';
+
+                                            }
+                                            
+                                        }
+                                        chart += "</li>";
+                                    }
+                                    
+                                }
+
+                                $("#tree").html(chart);
+                                $("#tree").treeview({});
+
+                            }, error: function(){
+                                console.log("조직도 조회용 ajax 통신 실패");
+                            }
+
+                        })
+
+                    })
+
+
+                    // 주소록에서 사원을 클릭할 때
+                    $(document).on("click", ".emp", function(){
+
+                        const empNo = $(this).attr("empNo");
+                        const empName = $(this).attr("empName");
+                        //console.log(empNo + empName);
+
+                        if($("#receiver-list").children().length == 0){ 
+                        // li 요소가 없을 때
+                            $("#receiver-list").append($("<input type='hidden' name='receiverNo' value='" + empNo + "'><input type='hidden' name='receiver' value='" + empName + "'><li class='receiver-li'>" + empName + "</li><div class='receiver-delete'>&times;</div>"));
+                            $("#receiver-list").css("width", "$('#receiver-list').children().eq(0).val().length + 30");
+                        } else { 
+                        // li 요소가 있을 때
+                            for(let i=0; i<$("#receiver-list").children().length; i++){
+                                if($("#receiver-list").children().eq(i).val() == empNo){
+                                    alert("중복된 사람입니다.");
+                                    return;
+                                }
+                            }
+                            $("#receiver-list").append($("<input type='hidden' name='receiverNo' value='" + empNo + "'><input type='hidden' name='receiver' value='" + empName + "'><li class='receiver-li'>" + empName + "</li><div class='receiver-delete'>&times;</div>"));
+                            
+                        }
+
+                    })
+                    
+                });
+            </script>
+
         <script>
             $(function(){
                 // 기존 정보들
@@ -361,14 +472,10 @@
 
             // X 버튼 눌러서 수신자 목록에서 제거
             $(document).on("click", ".receiver-delete", function(){
-                //console.log($(this).prev().prev().prev().val());
-                //console.log($(this).prev().prev().val());
                 $(this).prev().prev().prev().remove();
                 $(this).prev().prev().remove();
                 $(this).prev().remove();
                 $(this).remove();
-                console.log($("input[name=receiverNo]"));
-                console.log($("input[name=receiver]"));
             })
 
 
