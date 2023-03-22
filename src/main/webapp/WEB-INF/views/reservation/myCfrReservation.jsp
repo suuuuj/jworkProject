@@ -56,14 +56,20 @@
                             <td class="text-center">
                             <c:choose>
 	                            <c:when test="${c.status eq 2}">
+	                            	<div class="statusArea">
 		                                <button type="button" class="btn btn-sm btn-primary"  data-toggle="modal" id="change" data-target="#changeForm" onclick="change('${c.resNo}');">일정변경</button>
-		                                <button type="button" class="btn btn-sm btn-warning" onclick="deleteCfrRes('${c.resNo}');">예약취소</button>
+		                                <button type="button" class="btn btn-sm btn-danger" onclick="deleteCfrRes('${c.resNo}');">예약취소</button>
+	                            	</div>
 	                            </c:when>
 	                            <c:when test="${c.status eq 4}">
-	                                <button type="button" class="btn btn-sm btn-secondary">이용완료</button>
+	                            	<div class="statusArea">
+	                                <button type="button" class="btn btn-sm btn-secondary" >이용완료</button>
+	                                </div>
 	                            </c:when>
 	                            <c:when test="${c.status eq 3}">'
-	                                <button type="button" class="btn btn-sm btn-danger" >취소완료</button>
+	                           		 <div class="statusArea">
+	                                <button type="button" class="btn btn-sm btn-warning" >취소완료</button>
+	                                </div>
 	                            </c:when>
                              </c:choose>
 	                         </td>
@@ -76,6 +82,67 @@
                 </table>
 
             </div>
+            <script>
+            $(function(){
+            
+            	
+            	$.ajax({
+            			url:"list.aCfrMe",
+            			success:function(list){
+            				
+            				var today = new Date();
+
+                        	var year = today.getFullYear();
+                        	var month = ('0' + (today.getMonth() + 1)).slice(-2);
+                        	var day = ('0' + today.getDate()).slice(-2);
+                        	var dateString = year + '-' + month  + '-' + day;
+                        	
+                        	var dateString = year + '-' + month  + '-' + day;
+                        	var hours = ('0' + today.getHours()).slice(-2); 
+                        	var minutes = ('0' + today.getMinutes()).slice(-2);
+                        	var timeString = hours + ':' + minutes;
+            				
+            				var sysdate;
+            				today=  dateString+" "+timeString;
+            				sysdate= new Date(today);
+            				//console.log(sysdate);
+            				var usedate;
+            				for(let i=0; i<list.length; i++){
+            				usedate=new Date(list[i].useDate+" "+list[i].endTime);
+            			
+            				let value;
+        	    			if(usedate < sysdate){
+        	    				   var resNoArr = [];
+        	    				   resNoArr.push(list[i].resNo);
+        	    				 $.ajax({
+        	    					url:"update.status",
+        	    					data:{resNoArr:resNoArr},
+        	    					dataType : 'json',
+        	    					traditional : true,
+        	    					success:function(result){
+        	    						if(result>0){
+        	    							
+        	    						console.log("상태업데이트ajax통신성공");
+        	    						}
+        	    					},error:function(){
+        	    						console.log("상태업데이트ajax통신실패");
+        	    					}
+        	    					
+        	    				}) 
+        	    				
+        	    				}
+        	    			}
+            		  }
+            		
+            		
+            	});
+            	
+            	
+            
+            })
+            
+            
+            </script>
             
             <br><br>
             <div id="pagingArea">

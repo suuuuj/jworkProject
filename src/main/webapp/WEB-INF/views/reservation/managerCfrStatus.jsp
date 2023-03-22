@@ -13,12 +13,6 @@
 	display:none;
 	}
 	
-/* 	tr:has td[data-time='01:00:00'],tr:has td[data-time='02:00:00'],tr:has td[data-time='03:00:00'],
-	tr:has td[data-time='04:00:00'],tr:has td[data-time='05:00:00'],tr:has td[data-time='06:00:00'],tr:has td[data-time='07:00:00']
-	,tr:has td[data-time='08:00:00'],tr:has td[data-time='20:00:00'],tr:has td[data-time='21:00:00'],tr:has td[data-time='22:00:00'],
-	tr:has td[data-time='23:00:00'],tr:has td[data-time='00:00:00']{
-	display:none;
-	} */
 </style>
     <meta charset='utf-8' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.js'></script>
@@ -34,10 +28,11 @@
              slotMaxTime: "20:00:00", // 최대시간 (23시까지만 화면에 보여짐)
     	    initialView: 'resourceTimeGridDay',
     	    dateClick: function(info) {
-               // alert('Clicked on: ' + info.dateStr); // 날짜 띄우는 것까지 성공 ㅅㅂ
+                //alert('Clicked on: ' + info.dateStr); // 날짜 띄우는 것까지 성공 ㅅㅂ
                 // change the day's background color just for fun
               /*   info.dayEl.style.backgroundColor = '#d6dfcc'; */
-                $("#reservationForm").modal("show");
+               // $("#reservationForm").modal("show");
+              
             },
     	    customButtons:{
     	    	info:{

@@ -29,4 +29,8 @@ public interface CfrResService {
 	
 	//일정변경
 	int updateCfrRes(CfrReservation c);
+	
+	//예약상태변경
+	
+	int updateStatus(String resNoArr);
 }
