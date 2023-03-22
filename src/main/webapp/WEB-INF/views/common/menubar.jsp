@@ -278,9 +278,9 @@
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/working.png" alt="" />근무</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
-                                <a id="" href="">근태현황</a><br>
-                                <a id="" href="">근태이력</a><br>
-                                <a id="" href="">근태수정</a><br>
+                                <a id="" href="workCalendar.at">근태현황</a><br>
+                                <a id="" href="list.at">근태이력</a><br>
+                                <a id="" href="modify.at">근태수정</a><br>
                                 <a id="" href="" style="color:rgb(2, 152, 52)">근태조정</a><br>
                                 <a id="" href="" style="color:rgb(2, 152, 52)">근태관리</a><br>
                                 <a id="" href="" style="color:rgb(2, 152, 52)">근태통계</a><br>

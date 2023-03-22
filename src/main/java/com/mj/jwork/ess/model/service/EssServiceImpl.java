@@ -269,6 +269,21 @@ public class EssServiceImpl implements EssService {
 		return eDao.selectAttendence(sqlSession, a);
 	}
 
+	@Override
+	public int selectAttendenceListCount() {
+		return eDao.selectAttendenceListCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Attendence> selectAttendenceList(PageInfo pi, int empNo) {
+		return eDao.selectAttendenceList(sqlSession, pi, empNo);
+	}
+
+	@Override
+	public int insertAllAttendenceTime(Attendence a) {
+		return eDao.insertAllAttendenceTime(sqlSession, a);
+	}
+
 
 	
 

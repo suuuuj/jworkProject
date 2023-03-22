@@ -244,6 +244,22 @@ public class EssDao {
 		return sqlSession.selectOne("essMapper.selectAttendence", a);
 	}
 	
+	public int selectAttendenceListCount(SqlSession sqlSession) {
+		return sqlSession.selectOne("essMapper.selectAttendenceListCount");
+	}
+	
+	public ArrayList<Attendence> selectAttendenceList(SqlSession sqlSession, PageInfo pi, int empNo){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("essMapper.selectAttendenceList", empNo, rowBounds);
+	}
+	
+	public int insertAllAttendenceTime(SqlSession sqlSession, Attendence a) {
+		return sqlSession.update("essMapper.insertAllAttendenceTime", a);
+	}
+	
 	
 	
 }

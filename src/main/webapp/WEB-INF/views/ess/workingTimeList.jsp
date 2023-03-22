@@ -1,4 +1,4 @@
-<%@ page language="java" contentType=`"text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -16,35 +16,12 @@
 <title>Insert title here</title>
 <style>
     /* outer영역 */
-    .outer{
-        width:960px;
-        height:1000px;
-        border:1px solid black;
-    }
-
-    /* 메뉴바 */
-    .title{
-        color:rgb(50,50,50);
-        margin-left: 30px;
-        margin-top:30px;
-    }
-    .selectBar{
-        margin-left: 30px;
-    }
-    .selectBar>span{
-        color:rgba(50, 50, 50, 0.79);
-        font-size:15px;
-        font-weight: 600;
-    }
-    .selectBar>div{
-        margin-top:10px;
-        height:3px;
-        float: left;
+    .workingOuter{
+        padding:50px;
+        margin: auto;
     }
     /* content영역 */
     .work-area{
-        margin-left:30px;
-        margin-right: 30px;
         margin-top: 30px;
     }
     .workSelect{
@@ -91,11 +68,16 @@
         opacity: 0.7;
         cursor: pointer;
     }
-    .paging-area button{
-        width:30px;
-        height:30px;
-        border:none;
+    input[type=text]{
+        width:100px;
+        height:25px;
+        border: 1px solid rgb(170, 170, 170);
         border-radius: 5px;
+        text-align: center; 
+    }
+    #pagingArea{
+    	width:fit-content;
+    	margin:auto;
     }
     /* modal영역 */
     .modal-content{
@@ -132,35 +114,22 @@
     .textWrap div{
         display: inline-block; 
     }
+    
 </style>
 </head>
 <body>
-    <div class="outer">
+    <jsp:include page="../common/menubar.jsp"/>
+    <div class="workingOuter">
 
-        <div class="title">
-            <h3 style="color:rgb(50,50,50); font-weight: 600;">근무<h3> 
-        </div>
-        <br>
-        <div class="selectBar">
-            <span>&nbsp;근태현황</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>근태이력</span> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>근태수정</span> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">근태조정</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">근태관리</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">근태통계</span>
-            <br>
-            <div style="width:83px; background: rgb(234, 234, 234);">&nbsp;</div>
-            <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:741px; background: rgb(234, 234, 234);">&nbsp;</div>
-        </div>
+        <h4><b>근무</b></h4>
 
         <div class="work-area">
 
             <div class="workSelect">
                 기간조회&nbsp;&nbsp;&nbsp;
-                <input type="date" name="stDate" value="">
+                <input type="text" name="stDate" value="" id="datepicker1">
                 <span style="font-size: 20px; color:rgb(170, 170, 170)">~</span>
-                <input type="date" name="edDate">
+                <input type="text" name="edDate" id="datepicker2">
                 <button class="btn btn-success">검색</button>
                 <br><br>
                 근무상태&nbsp;&nbsp;&nbsp;
@@ -174,6 +143,79 @@
                 
             </div>
 
+            <!-- datepicker -->
+            <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+            <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+            <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
+            <script>	
+                        
+            $(function(){
+                
+                
+                $("#datepicker1").datepicker({
+                    changeMonth: true, 
+                    changeYear: true,
+                    nextText: '다음 달',
+                    prevText: '이전 달',
+                    yearRange: 'c-50:c+20',
+                    showButtonPanel: true, 
+                    currentText: '오늘 날짜',
+                    closeText: '닫기',
+                    dateFormat: "yy-mm-dd",
+                    showAnim: "slide",
+                    showMonthAfterYear: true, 
+                    dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+                });	
+                
+                $("#datepicker2").datepicker({
+                    changeMonth: true, 
+                    changeYear: true,
+                    nextText: '다음 달',
+                    prevText: '이전 달',
+                    yearRange: 'c-50:c+20',
+                    showButtonPanel: true, 
+                    currentText: '오늘 날짜',
+                    closeText: '닫기',
+                    dateFormat: "yy-mm-dd",
+                    showAnim: "slide",
+                    showMonthAfterYear: true, 
+                    dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+                });	
+                
+                
+                
+            });
+            
+            </script> 
+
+            <!-- 에러 해결 시작 - 홈짱 -->
+
+            <script>
+
+                jQuery.browser = {};
+                
+                (function () {
+                
+                    jQuery.browser.msie = false;
+                
+                    jQuery.browser.version = 0;
+                
+                    if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+                
+                        jQuery.browser.msie = true;
+                
+                        jQuery.browser.version = RegExp.$1;
+                
+                    }
+                
+                })();
+                
+                </script>
+                
+                <!-- 에러 해결 종료 - 홈짱 -->
+
             <div>
                 <table class="workTable">
                     <thead>
@@ -186,81 +228,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>0223.02.20</td>
-                            <td>정상</td>
-                            <td>08:55:03</td>
-                            <td>18:03:55</td>
-                            <td>08:09:00</td>
-                        </tr>
-                        <tr>
-                            <td>0223.02.20</td>
-                            <td>정상</td>
-                            <td>08:55:03</td>
-                            <td>18:03:55</td>
-                            <td>08:09:00</td>
-                        </tr>
-                        <tr>
-                            <td>0223.02.20</td>
-                            <td>정상</td>
-                            <td>08:55:03</td>
-                            <td>18:03:55</td>
-                            <td>08:09:00</td>
-                        </tr>
-                        <tr>
-                            <td>0223.02.20</td>
-                            <td>정상</td>
-                            <td>08:55:03</td>
-                            <td>18:03:55</td>
-                            <td>08:09:00</td>
-                        </tr>
-                        <tr>
-                            <td>0223.02.20</td>
-                            <td>정상</td>
-                            <td>08:55:03</td>
-                            <td>18:03:55</td>
-                            <td>08:09:00</td>
-                        </tr>
-                        <tr>
-                            <td>0223.02.20</td>
-                            <td>정상</td>
-                            <td>08:55:03</td>
-                            <td>18:03:55</td>
-                            <td>08:09:00</td>
-                        </tr>
-                        <tr>
-                            <td>0223.02.20</td>
-                            <td>정상</td>
-                            <td>08:55:03</td>
-                            <td>18:03:55</td>
-                            <td>08:09:00</td>
-                        </tr>
-                        <tr>
-                            <td>0223.02.20</td>
-                            <td>정상</td>
-                            <td>08:55:03</td>
-                            <td>18:03:55</td>
-                            <td>08:09:00</td>
-                        </tr>
-                        <tr>
-                            <td>0223.02.20</td>
-                            <td>정상</td>
-                            <td>08:55:03</td>
-                            <td>18:03:55</td>
-                            <td>08:09:00</td>
-                        </tr>
-                        <tr>
-                            <td>0223.02.20</td>
-                            <td>정상</td>
-                            <td>08:55:03</td>
-                            <td>18:03:55</td>
-                            <td>08:09:00</td>
-                        </tr>
+                        <c:forEach var="a" items="${list}">
+                            <tr onclick="workDetailFunction(${a.attNo});">
+                                <td>${a.attDate}</td>
+                                <td>${a.attStatus}</td>
+                                <td>${a.startTime}</td>
+                                <td>${a.endTime}</td>
+                                <td>${a.attTime}</td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
 
             <script>
+                function workDetailFunction(no){
+
+                }
                 $(function(){
                     $(".workTable>tbody>tr").click(function(){
                         $("#workModal").modal('show');
@@ -270,14 +254,35 @@
 
             <br><br>
 
-            <div class="paging-area" style="text-align:center;">
-                <button><</button>
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
-                <button>></button>
+            <div id="pagingArea">
+                <ul class="pagination">
+    
+                    <c:choose>
+                        <c:when test="${ pi.currentPage eq 1 }">
+                            <li class="page-item" disabled><a class="page-link" href="#"><</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link"
+                                href="admin.ot?cpage=${ pi.currentPage-1 }"><</a></li>
+                        </c:otherwise>
+                    </c:choose>
+    
+                    <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+                        <li class="page-item"><a class="page-link"
+                            href="admin.ot?cpage=${ p }">${ p }</a></li>
+                    </c:forEach>
+    
+    
+                    <c:choose>
+                        <c:when test="${ pi.currentPage eq pi.maxPage }">
+                            <li class="page-item" disabled><a class="page-link" href="#">></a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link"
+                                href="admin.ot?cpage=${ pi.currentPage+1 }">></a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
             </div>
 
         </div>

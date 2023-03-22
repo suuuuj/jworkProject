@@ -901,11 +901,35 @@ public class EssController {
 	@ResponseBody
 	@RequestMapping(value="insertEnd.at", produces="application/json; charset=UTF-8")
 	public String insertEndAttendence(Attendence a, HttpSession session) {
+		
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		a.setEmpNo(empNo);
 		int result = eService.insertEndAttendence(a);
+		int retsult = eService.insertAllAttendenceTime(a);
 		Attendence at = eService.selectAttendence(a);
 		return new Gson().toJson(at);
+	}
+	
+	/**
+	 * 근태전체조회
+	 * @param currentPage
+	 * @param session
+	 * @param mv
+	 * @return
+	 */
+	@RequestMapping("list.at")
+	public ModelAndView selectAttendenceListCount(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session, ModelAndView mv) {
+		
+		int listCount = eService.selectAttendenceListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		ArrayList<Attendence> list = eService.selectAttendenceList(pi, empNo);
+		mv.addObject("list",list);
+		mv.addObject("pi", pi);
+		mv.setViewName("ess/workingTimeList");
+		
+		return mv;
 	}
 	
 	

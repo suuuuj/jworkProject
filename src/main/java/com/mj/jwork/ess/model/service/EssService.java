@@ -111,6 +111,11 @@ public interface EssService {
 	// 출퇴근시간 insert
 	int insertStartAttendence(Attendence a);
 	int insertEndAttendence(Attendence a);
+	int insertAllAttendenceTime(Attendence a);
+	
+	// 출퇴근 전체조회
+	int selectAttendenceListCount();
+	ArrayList<Attendence> selectAttendenceList(PageInfo pi, int empNo);
 	
 	// 출퇴근 상세조회
 	Attendence selectAttendence(Attendence a);

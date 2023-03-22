@@ -66,8 +66,8 @@
             <button id="essEnd">퇴근</button>
         </dir>
         <div class="btnPut">
-            <span id="startResult" style="margin-left:47px;"></span>
-            <span id="endResult" style="margin-left:13px;"></span>
+            <span id="startResult" style="margin-left:47px;">${at.startTime}</span>
+            <span id="endResult" style="margin-left:13px;">${at.endTime}</span>
         </div>
     </div>
 
