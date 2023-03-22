@@ -14,7 +14,6 @@
 <!-- 조직도 트리 -->
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <link rel="stylesheet" type="text/css" href="resources/css/treeview/jquery.treeview.css"/>
-<link rel="stylesheet" type="text/css" href="resources/css/treeview/screen.css"/>
 <style>
     .mailOuter{
         padding-left: 30px;
@@ -134,6 +133,7 @@
             cursor: pointer;
         }
         .employeeChart{
+            padding-left: 10px;
             height: 300px;
             width: 200px;
             overflow: auto;
