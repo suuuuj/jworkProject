@@ -133,6 +133,8 @@ public interface EmployeeService {
 
 	
 
+	// 조직도 조회
+	ArrayList<Department> selectEmployeeChart();
 
 
 	

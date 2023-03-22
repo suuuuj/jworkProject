@@ -293,6 +293,10 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return eDao.ajaxDeleteJob(sqlSession, jobCode);
 	}
 	
+	@Override
+	public ArrayList<Department> selectEmployeeChart() {
+		return eDao.selectEmployeeChart(sqlSession);
+	}
 	
 
 }

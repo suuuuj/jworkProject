@@ -223,7 +223,7 @@
                     <td colspan="3" style="text-align: left;">
                     <c:choose>
                     	<c:when test="${ not empty a.docOriginName }">	
-                    		<a href="${ b.docChangeName }" download="${a.docOriginName}">${a.docOriginName}"</a>
+                    		<a href="${ a.docChangeName }" download="${a.docOriginName}">${a.docOriginName}"</a>
                    		</c:when>
                    		<c:otherwise>
                    			첨부파일이 없습니다.
@@ -234,12 +234,16 @@
 
             </table> 
             <br>
-        
-            <div id="buttonarea" align="left">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal1">승인</button>
-                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#myModal2">반려</button>
-                
-            </div>
+            
+            <c:forEach var="al" items="${ al }">
+            	<c:if test="${loginUser.empNo eq al.empNo and a.appTurn eq al.appLevel }">
+		            <div id="buttonarea" align="left">
+		                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal1">승인</button>
+		                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#myModal2">반려</button>
+		            </div>
+            	</c:if>
+            </c:forEach>
+           
             <br>
             <br>
 

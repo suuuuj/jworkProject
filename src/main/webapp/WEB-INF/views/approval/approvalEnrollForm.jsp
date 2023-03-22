@@ -117,13 +117,23 @@
         <h4><b>결재 문서 작성</b></h4>
     
         <br>
+        
+         <script>
+         	//임시저장 
+         	function saveBtn(){
+         		$("#approvalForm").attr("action","saveApp.app").submit();
+         	}
+         
+         </script>
 
-        <form action="insert.app" method="post" align="center" enctype="multipart/form-data">
+        <form action="" method="post" align="center" enctype="multipart/form-data" id="approvalForm">
+        	<input type="hidden" name="empNo" value="${ loginUser.empNo }">
+        	
             <table id="selectApproval" border="1">
                 <tr>
                     <th width="140px">문서종류</th>
                     <td width="180px">
-                        <select name="appForm" id="appForm">
+                        <select name="docType" id="appForm">
                             <option value="0">기안서</option>
                             <option value="1">품의서</option>
                             <option value="2">사직서</option>
@@ -200,12 +210,13 @@
             <div class="approvalContent quit" align="center">
                 <br>
                 <h3><b>사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;직&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
+                <br>
                 <table border="1" id="resignationAddForm">
                     <tr>
                         <th id="appThead">입사년도</th>
                         <td id="indate">${ loginUser.enrollDate }</td>
                         <th id="appThead">퇴사 예정일</th>
-                        <td id="indate"><input type="date" name="" id=""></td>
+                        <td id="indate"><input type="date" name="resignDate" id=""></td>
                     </tr>
                 </table>
                 <br>
@@ -229,79 +240,78 @@
                 <table border="1" width="759px">
                     <tr>
                         <th id="appThead" >제목</th>
-                        <td ><input type="text" style="width:624px"></td>
+                        <td ><input type="text" style="width:624px" name="docTitle" id="docTitle"></td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <textarea id="summernote" name="editordata"></textarea>
-                            <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-                            <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
-                            <script>
-                            	$(document).ready(function() {
-                          	  		$('#summernote').summernote({
-	                           	    	placeholder: '내용을 입력하세요.',
-	                          	        minHeight: 300,
-	                          	        maxHeight: null,
-	                          	        lang : 'ko-KR',
-	                          	        toolbar: [
-												// 글꼴 설정
-												[ 'fontname', [ 'fontname' ] ],
-												// 글자 크기 설정
-												[ 'fontsize', [ 'fontsize' ] ],
-												// 굵기, 기울임꼴, 밑줄,취소 선, 서식지우기
-												[
-														'style',
-														[ 'bold', 'italic',
-																'underline',
-																'strikethrough',
-																'clear' ] ],
-												// 글자색
-												[ 'color', [ 'forecolor', 'color' ] ],
-												// 표만들기
-												[ 'table', [ 'table' ] ],
-												// 글머리 기호, 번호매기기, 문단정렬
-												[ 'para',
-														[ 'ul', 'ol', 'paragraph' ] ],
-												// 줄간격
-												[ 'height', [ 'height' ] ],
-												// 그림첨부, 링크만들기, 동영상첨부
-												// ['insert',['picture','link','video']],
-												// 코드보기, 확대해서보기, 도움말
-												[
-														'view',
-														[ 'codeview', 'fullscreen',
-																'help' ] ] ],
-												// 추가한 글꼴
-												fontNames : [ 'Arial', 'Arial Black',
-														'Comic Sans MS', 'Courier New',
-														'맑은 고딕', '궁서', '굴림체', '굴림', '돋음체',
-														'바탕체' ],
-												// 추가한 폰트사이즈
-												fontSizes : [ '8', '9', '10', '11', '12',
-														'14', '16', '18', '20', '22', '24',
-														'28', '30', '36', '50', '72' ]
-                          	  			})
-                          		});
-                        </script>
+                            <textarea id="summernote" name="docContent"></textarea>
+                            
                         </td>
                     </tr>
                     <tr>
                         <th id="appThead">첨부파일</th>
-                        <td ><input type="file" style="width:624px"></td>
+                        <td ><input type="file" id="upfile" name="upfile" style="width:624px"></td>
                     </tr>
                     
                 </table>
+                
+                
+               <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+               <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+               <script>
+              		$(document).ready(function() {
+                         $('#summernote').summernote({
+	                          placeholder: '내용을 입력하세요.',
+	                          minHeight: 300,
+	                          maxHeight: null,
+	                          lang : 'ko-KR',
+	                          toolbar: [
+									// 글꼴 설정
+									[ 'fontname', [ 'fontname' ] ],
+									// 글자 크기 설정
+									[ 'fontsize', [ 'fontsize' ] ],
+									// 굵기, 기울임꼴, 밑줄,취소 선, 서식지우기
+									['style',[ 'bold', 'italic',
+											   'underline',
+											   'strikethrough',
+											   'clear' ] ],
+									// 글자색
+									[ 'color', [ 'forecolor', 'color' ] ],
+									// 표만들기
+									[ 'table', [ 'table' ] ],
+									// 글머리 기호, 번호매기기, 문단정렬
+									[ 'para',
+											[ 'ul', 'ol', 'paragraph' ] ],
+									// 줄간격
+									[ 'height', [ 'height' ] ],
+									// 그림첨부, 링크만들기, 동영상첨부
+									// ['insert',['picture','link','video']],
+									// 코드보기, 확대해서보기, 도움말
+									['view',[ 'codeview', 'fullscreen','help' ] ] ],
+									// 추가한 글꼴
+									fontNames : ['Arial', 'Arial Black',
+												 'Comic Sans MS', 'Courier New',
+												 '맑은 고딕', '궁서', '굴림체', '굴림', '돋음체','바탕체' ],
+									// 추가한 폰트사이즈
+									fontSizes : [ '8', '9', '10', '11', '12','14', '16', '18', 
+									              '20', '22', '24','28', '30', '36', '50', '72' ]
+                          	  	})
+                          });
+                </script>
+                
                 <br>
             </div> <!--end of approvalContent -->
 
             <div id="buttonarea"  align="left">
-                <button type="submit" class="btn btn-success" >결재</button>
+                <button type="submit" class="btn btn-success" onclick="insertBtn();">결재</button>
             </div>
 
             <div id="buttonarea"  align="right">
-                <button type="button" class="btn btn-light">임시저장</button>
+                <button type="button" class="btn btn-light" onclick="saveBtn();">임시저장</button>
             </div>
-
+            
+           
+            
               <!-- The Modal -->
             <div class="modal fade" id="myModal">
                 <div class="modal-dialog modal-lg">
@@ -317,76 +327,14 @@
                     <div class="modal-body">
                         <div class="approvalLine-area"  id="selectEmpLine">
                             
-                            <!-- <ul class="deptName">
-                                <li>인사팀</li>
-                                <ul class="empName" style="display:none" style="overflow: auto">
-                                    <li>유상무 상무</li>
-                                    <li>김지연 차장</li>
-                                    <li>박춘식 부장</li>
-                                </ul> 
-                            </ul>-->
-                        </div>
-                        <script>
-                            $(function(){
-
-                            	$.ajax({
-                            		url:"empList.app",
-                                    async: false,
-                            		success:function(data){
-                            			//console.log(data.deptList[1].deptName);
-                            			//console.log(data.deptList);
-                            			
-                            			var dept = data.deptList;
-                            			var team = data.teamList;
-                            			var emp = data.empList;
+                            <ul class="deptName" style="overflow: auto">
+                                
+                                	<ul class="teamName" style="display:none" >
                                     
-                            			for(let i=0; i<dept.length; i++){
-                            				console.log(dept[i].deptName);
-                            				
-                            				let value = "<ul class='deptName'>"
-                                                       +"<li>"+ dept[i].deptName +"</li>"
-                                                       +"</ul>";
-                                            
-                                            $("#selectEmpLine").html(value);
-                            						
-                            			
-                            			}
-                            			
-                            		
-                            			
-                            			
-                            		},error:function(){
-                						console.log("결재선 조직도 조회 ajax 통신 실패");
-                					}
-                            		
-                            		
-                            		
-                            	})
-                            	
-                            })
-
-
-			
-
-
-                            $(document).ready(function(){
-   
-                                 //메뉴 슬라이드
-                                 $('.deptName > li').click(function(){
-                                     $(this).next($('.empName')).slideToggle();
-                                 })
-                                 $(".empName li").click(function(){
-                                	console.log($(this).text());
-                                });
-
-                            })
-                            
-                            
-
-                        </script>
-                        
-
-                       
+                                	</ul> 
+                            </ul>
+                        </div>
+                      
 
                         <div class="approvalLine-button">
                             <br>

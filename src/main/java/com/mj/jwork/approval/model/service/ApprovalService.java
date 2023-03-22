@@ -40,6 +40,9 @@ public interface ApprovalService{
 	int returnBtn(AppLine al);
 	int returnStatus(int appNo);
 	
+	//문서 insert 임시저장
+	int saveApproval(Approval a);
+	
 	
 	
 	
@@ -49,8 +52,6 @@ public interface ApprovalService{
 	//상신취소 서비스 (수정 후 재 결재)
 	//int updateApproval(Approval a);
 	
-	//상신취소 서비스 (삭제)
-	//int deleteApproval(int appNo);
 	
 	
 	

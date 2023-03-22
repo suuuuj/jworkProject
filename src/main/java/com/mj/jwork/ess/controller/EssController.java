@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -21,6 +20,7 @@ import com.mj.jwork.common.template.Pagination;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.ess.model.service.EssServiceImpl;
 import com.mj.jwork.ess.model.vo.Annual;
+import com.mj.jwork.ess.model.vo.Attendence;
 import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
 import com.mj.jwork.ess.model.vo.LeaveCategory;
@@ -32,11 +32,22 @@ public class EssController {
 	@Autowired
 	private EssServiceImpl eService;
 	
+	/**
+	 * 메인페이지
+	 * @param mv
+	 * @return
+	 */
 	@RequestMapping("mainPage.ess")
-	public ModelAndView mainPage(ModelAndView mv) {
+	public ModelAndView mainPage(HttpSession session, ModelAndView mv) {
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		Attendence at = eService.selectAttendenceNo(empNo);
+		
+		mv.addObject("at", at);
 		mv.setViewName("common/mainPage");
 		return mv;
 	}
+	
+	// --------------------- 휴가, 출장, 시간외근무 ------------------------------
 
 	/**
 	 * 휴가메뉴창 띄우기
@@ -47,7 +58,6 @@ public class EssController {
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		Annual a = eService.selectAnnualCount(empNo);
 		session.setAttribute("a", a);
-		System.out.println(a);
 		return "ess/leaveMenu";
 	}
 
@@ -855,8 +865,49 @@ public class EssController {
 		return mv;
 	}
 	
+	// -------------------- 근태 -------------------------------------
+	
 	// 근래스케줄링
-	// @Scheduled(cron="0 0 02 * * ?") // 아무요일,매월,매일 12:00:00
+	// @Scheduled(cron="0 0 02 * * *") // 아무요일,매월,매일 02:00:00
+	@Scheduled(cron="0 0 02 * * *")
+	public void attendenceSubmit() {
+		int result = eService.adminInsertAttendence();
+		
+		System.out.println("근태 상태변경 완료");
+	}
+	
+	/**
+	 * ajax 출근버튼 입력
+	 * @param a
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="insertStart.at", produces="application/json; charset=UTF-8")
+	public String insertStartAttendence(Attendence a, HttpSession session) {
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		a.setEmpNo(empNo);
+		int result = eService.insertStartAttendence(a);
+		Attendence at = eService.selectAttendence(a);
+		return new Gson().toJson(at);
+	}
+	
+	/**
+	 * ajax 퇴근버튼 입력
+	 * @param a
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="insertEnd.at", produces="application/json; charset=UTF-8")
+	public String insertEndAttendence(Attendence a, HttpSession session) {
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		a.setEmpNo(empNo);
+		int result = eService.insertEndAttendence(a);
+		Attendence at = eService.selectAttendence(a);
+		return new Gson().toJson(at);
+	}
+	
 	
 	
 	

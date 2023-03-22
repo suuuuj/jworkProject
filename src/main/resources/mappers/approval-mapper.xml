@@ -101,6 +101,7 @@
 	   select
 			  line_no
 			, al.app_no
+			, al.emp_no
 			, emp_name
 			, job_name
 			, app_level
@@ -264,6 +265,32 @@
 		   set app_status = 3
   		 where app_no=#{appNo}
     </update> 
+    
+    <!-- 결재 insert - 임시저장  -->
+    <insert id="saveApproval">
+    	 insert 
+	       into approval
+			  (
+				 APP_NO
+			   , EMP_NO
+			   , DOC_TYPE
+			   , DOC_TITLE
+			   , DOC_CONTENT
+			   , APP_STATUS
+			   , DOC_STATUS
+			   )
+		  values
+			   (
+				 SEQ_APNO.nextval
+				, #{empNo}
+				, #{docType}
+				, #{docTitle}
+				, #{docContent}
+				, 4
+				, 'D'
+			)
+    
+    </insert>
 	
 
 </mapper>

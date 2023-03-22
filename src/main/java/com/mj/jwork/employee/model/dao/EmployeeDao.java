@@ -261,6 +261,12 @@ public class EmployeeDao {
 	}
 	
 	
+	// 조직도
+	public ArrayList<Department> selectEmployeeChart(SqlSessionTemplate sqlSession){
+		
+		return (ArrayList)sqlSession.selectList("employeeMapper.selectEmployeeChart");
+		
+	}
 
 	
 

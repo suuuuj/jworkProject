@@ -714,5 +714,101 @@
 		 where ot_no = #{otNo}
 	</update>
 	
+	<!-- 관리자 : 메인페이지 근태버튼 -->
+	<select id="selectAttendenceNo" resultMap="attendenceResult">
+		select 
+		       att_no
+		  from attendence
+		 where emp_no = #{empNo}
+		   and att_date = to_char(sysdate, 'yy/mm/dd')
+	</select>
+	
+	<!-- 관리자 : 새벽2시근태입력  -->
+	<insert id="adminInsertAttendence">
+		insert 
+		  into attendence(att_no, emp_no, att_status, att_date)
+		select seq_attno.nextval, emp_no, 3, sysdate
+		  from employee
+	</insert>
+	
+	<!-- 출근버튼 입력 -->
+	<update id="insertStartAttendence">
+		<![CDATA[
+		update attendence
+		   set start_time = to_char(sysdate, 'HH24:MI:SS') 
+		     , att_status = case when to_char(sysdate, 'HH24:MI:SS')  <= '09:10:00' then 0
+		                         when to_char(sysdate, 'HH24:MI:SS')  > '09:10:00' then 1
+		                  end
+		 where att_no = #{attNo} 
+		]]>
+	</update>
+	
+	<!-- 퇴근버튼 입력 -->
+	<update id="insertEndAttendence">
+		<![CDATA[
+		update attendence
+		   set end_time = to_char(sysdate, 'HH24:MI:SS') 
+		     , att_status = case when start_time <= '09:10:00' and to_char(sysdate, 'HH24:MI:SS')  < '18:00:00' then 2
+		     				     when start_time <= '09:10:00' and to_char(sysdate, 'HH24:MI:SS')  > '18:00:00' then 0
+		                         when start_time > '09:10:00' and to_char(sysdate, 'HH24:MI:SS')  < '18:00:00' then 2
+		                         when start_time > '09:10:00' and to_char(sysdate, 'HH24:MI:SS')  > '18:00:00' then 1
+		                  end  
+		 where att_no = #{attNo} 
+		]]>
+	</update>
+	
+	<!-- 출퇴근전체조회 페이징 -->
+	<select id="selectAttendenceListCount" resultType="_int">
+		select
+		       count(*)
+		  from attendence
+	</select>
+	
+	<!-- 출퇴근 전체조회 -->
+	<select id="selectAttendenceList" resultMap="attendenceResult">
+		select 
+		       att_no
+		     , emp_no
+		     , start_time
+		     , end_time
+		     , att_time
+		     , decode(att_status,0,'정상',1,'지각',2,'조퇴',3,'결근',4,'휴가',5,'출장') as "att_status"
+		     , to_char(att_date, 'yyyy.mm.dd') as "att_date"
+		     , after_time
+		  from attendence 
+		 where emp_no = #{empNo}
+		 order
+		    by att_no desc
+	</select>
+	
+	<!-- 출퇴근 전체근무시간조회 -->
+	<select id="selectAttendenceAllTime" resultMap="attendenceResult">
+		select
+		       floor((to_date(end_time, 'HH24:MI:SS') - to_date(start_time, 'HH24:MI:SS'))*24) 
+               || '시간' 
+               || round(mod((to_date(end_time, 'HH24:MI:SS') - to_date(start_time, 'HH24:MI:SS'))*24,1)*60) 
+               || '분' 
+               || trunc(round(mod((to_date(end_time, 'HH24:MI:SS') - to_date(start_time, 'HH24:MI:SS'))*24*60,1)*60)) 
+               || '초' as "att_time"
+		  from attendence
+		 where emp_no = #{empNo}
+	</select>
+	
+	<!-- 출퇴근상세조회 -->
+	<select id="selectAttendence" resultMap="attendenceResult">
+		select
+		       att_no
+		     , emp_no
+		     , start_time
+		     , end_time
+		     , att_time
+		     , att_status
+		     , att_date
+		     , after_time
+		  from attendence
+		 where att_no = #{attNo}
+	</select>
+	
+	
 
 </mapper>

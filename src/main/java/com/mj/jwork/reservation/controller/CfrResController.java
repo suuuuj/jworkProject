@@ -92,7 +92,7 @@ public class CfrResController {
 	public ModelAndView getCalendarList(ModelAndView mv, HttpServletRequest request) {
 		ArrayList<CfrReservation>list = cRService.selectResList();
 		
-		mv.addObject(list)
+		mv.addObject("list",list)
 		.setViewName("reservation/managerCfrStatus");
 		return mv;
 	}
@@ -107,7 +107,7 @@ public class CfrResController {
 		return new Gson().toJson(list);
 		
 		}
-	
+	/*
 	//회의실 예약 내역 조회
 	@ResponseBody
 	@RequestMapping(value="call.events",produces="application/json; charset=utf-8")
@@ -117,7 +117,18 @@ public class CfrResController {
 		return new Gson().toJson(list);
 		
 	}
+	*/
 	
+	//회의실 예약 내역 조회
+	
+	/*
+	 * @RequestMapping("call.events") public String selectResList(Model m) {
+	 * ArrayList<CfrReservation>list = cRService.selectResList();
+	 * m.addAttribute("list",list); return "reservation/managerCfrStatus";
+	 * 
+	 * }
+	 */
+	 
 	//회의실 예약 취소
 	@ResponseBody
 	@RequestMapping(value="delete.cfrRes",produces="application/json; charset=utf-8")
@@ -126,6 +137,20 @@ public class CfrResController {
 		int result= cRService.deleteCfrRes(resNo);
 		return new Gson().toJson(result);
 		
+	}
+	
+	@RequestMapping("update.cfrRes")
+	public String updateCfrRes(CfrReservation c,HttpSession session,Model model) {
+		int result= cRService.updateCfrRes(c);
+		
+		if(result>0) {
+			session.setAttribute("alertMsg", "회의실 예약 일정 변경 성공");
+			return "redirect: list.cfrMe";
+			
+		}else {
+			model.addAttribute("errorMsg", "회의실 예약 일정 변경 실패");
+			return "common/errorPage";
+		}
 	}
 	
 	

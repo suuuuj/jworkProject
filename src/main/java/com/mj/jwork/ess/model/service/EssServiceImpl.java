@@ -10,6 +10,7 @@ import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.ess.model.dao.EssDao;
 import com.mj.jwork.ess.model.vo.Annual;
+import com.mj.jwork.ess.model.vo.Attendence;
 import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
 import com.mj.jwork.ess.model.vo.LeaveCategory;
@@ -23,7 +24,14 @@ public class EssServiceImpl implements EssService {
 	
 	@Autowired
 	SqlSessionTemplate sqlSession;
+	
+	// -------------------- 메안패아자 -------------------
+	@Override
+	public Attendence selectAttendenceNo(int empNo) {
+		return eDao.selectAttendenceNo(sqlSession, empNo);
+	}
 
+	// ------------- 휴가, 출장, 시간외근무 ---------------------
 	@Override
 	public Annual selectAnnualCount(int empNo) {
 		return eDao.selectAnnualCount(sqlSession, empNo);
@@ -238,6 +246,29 @@ public class EssServiceImpl implements EssService {
 	public int adminReturnOvertime(int otNo) {
 		return eDao.adminReturnOvertime(sqlSession, otNo);
 	}
+	
+	// ---------------- 근태 ---------------------------
+
+	@Override
+	public int adminInsertAttendence() {
+		return eDao.adminInsertAttendence(sqlSession);
+	}
+
+	@Override
+	public int insertStartAttendence(Attendence a) {
+		return eDao.insertStartAttendence(sqlSession, a);
+	}
+	
+	@Override
+	public int insertEndAttendence(Attendence a) {
+		return eDao.insertEndAttendence(sqlSession, a);
+	}
+
+	@Override
+	public Attendence selectAttendence(Attendence a) {
+		return eDao.selectAttendence(sqlSession, a);
+	}
+
 
 	
 

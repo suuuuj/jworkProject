@@ -19,10 +19,10 @@
         line-height: 30px;
 	}
 	
-	.fc-toolbar-chunk div,.fc-toolbar-chunk button{
+	/* .fc-toolbar-chunk div,.fc-toolbar-chunk button{
 	disply:inline-block !important;
 	 width: 960px!important;
-	}
+	} */
 	
 	
 </style>
@@ -133,6 +133,7 @@
 	        		
         	})
         	
+        	
         	function deleteCfrRes(resNo){
         		if(confirm('정말 예약을 취소하시겠습니까?'))   
     			{
@@ -173,6 +174,8 @@
 						
         	    		
         	    		$("input[name=resNo]").val(c.resNo);
+        	    		$("#startTime").val(c.startTime).prop("selected", true);
+        	    		$("#endTime").val(c.endTime).prop("selected", true);
         				$("#cfrName").val(c.cfrName).prop("selected", true);
         				$("input[name=capacity]").val(c.capacity);
         				$("input[name=cfTitle]").val(c.cfTitle);
@@ -222,7 +225,33 @@
                         </tr>
                         <tr>
                             <th>시간</th>
-                            <td><input type="text" name="startTime"  class="timepicker"  required>-<input type="text" class="timepicker" name="endTime" required></td>
+                            <td>  <select name="startTime" id="startTime">
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00</option>
+                            </select>
+                            -
+                            <select name="endTime" id="endTime">
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00</option>
+                            </select></td>
                         </tr>
                         <tr>
                             <th>인원</th>
@@ -246,7 +275,7 @@
 	  </div>
 	</div>
 	<script>
-	$(function() {
+	/* $(function() {
 	    $(".timepicker").timepicker({
 	        timeFormat: 'h:mm p',
 	        interval: 60,
@@ -258,7 +287,7 @@
 	        dropdown: true,
 	        scrollbar: true        
 	    });
-	});
+	}); */
 	</script> 
 </body>
 </html>

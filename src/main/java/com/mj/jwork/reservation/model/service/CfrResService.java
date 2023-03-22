@@ -26,4 +26,7 @@ public interface CfrResService {
 	
 	//예약 취소 
 	int deleteCfrRes(int resNo);
+	
+	//일정변경
+	int updateCfrRes(CfrReservation c);
 }

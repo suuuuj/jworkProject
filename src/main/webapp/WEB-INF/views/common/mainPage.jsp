@@ -29,7 +29,7 @@
     font-weight: 600;
 }
 .btnWrap{
-    margin-top:30px;
+    margin-top:40px;
     text-align: center;
 }
 #essStart, #essEnd{
@@ -37,10 +37,20 @@
     height:30px;
     border-radius: 5px;
     border:none;
+    font-weight: 500;
+    font-size: 15px;
+}
+#essStart:hover, #essEnd:hover{
+    background-color: rgb(0,172,0);
+    color:white;
 }
 .btnPut{
     margin-top: 10px;
-    text-align: center;
+}
+#startResult, #endResult{
+    width:100px;
+    height:30px;
+    color:rgb(150, 147, 147)
 }
 </style>
 </head>
@@ -56,8 +66,8 @@
             <button id="essEnd">퇴근</button>
         </dir>
         <div class="btnPut">
-            <span id="btnStart" style="padding-right:15px;">08:10:53</span>
-            <span id="btnEnd">20:19:53</span>
+            <span id="startResult" style="margin-left:47px;"></span>
+            <span id="endResult" style="margin-left:13px;"></span>
         </div>
     </div>
 
@@ -74,6 +84,7 @@
 
             var dateString = year + '년 ' + month  + '월 ' + day + '일' + '(' + week[today.getDay()] + ')';
             $("#essDate").text(dateString);
+
         })
     </script>
     <script>
@@ -96,5 +107,46 @@
             setInterval(setClock,1000); //1초마다 setClock 함수 실행
         }
     </script>
+    <script>
+        $(function(){
+            $("#essStart").click(function(){
+                $.ajax({
+                    url:"insertStart.at",
+                    data:{
+                        attNo:${at.attNo}
+                    },
+                    success:function(ast){
+                        //console.log(ast);
+                        var startTime = ast.startTime;
+
+                        $("#startResult").text(ast.startTime);
+                    },
+                    error:function(){
+                        console.log("출근버튼 ajax통신 실패");
+                    }
+
+                })
+            });
+        
+
+            $("#essEnd").click(function(){
+                $.ajax({
+                    url:"insertEnd.at",
+                    data:{
+                        attNo:${at.attNo}
+                    },
+                    success:function(adt){
+                        //console.log(adt);
+                        $("#endResult").text(adt.endTime);
+                    },
+                    error:function(){
+                        console.log("퇴근버튼 ajax통신 실패");
+                    }
+
+                })
+            });
+        })
+    </script>
+
 </body>
 </html>

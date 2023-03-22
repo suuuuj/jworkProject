@@ -231,10 +231,11 @@
 
             </table>
             <br>
-        
+        	<c:if test="${ a.appStatus eq '결재대기' or a.appStatus eq '진행중'}">
             <div id="buttonarea" align="right">
                 <button type="button" class="btn btn-light" onclick="cancleFormSubmit();">상신취소</button>
             </div>
+            </c:if>
             <br>
             <br>
             <form action="" method="post" id="cancleForm">

@@ -623,5 +623,16 @@ public class EmployeeController {
 	}
 	
 	
+	// 조직도
+	@ResponseBody
+	@RequestMapping(value="employeeChart.emp", produces="application/json; charset=UTF-8")
+	public String ajaxEmployeeChart() {
+		
+		ArrayList<Department> deptList = eService.selectEmployeeChart();
+		
+		return new Gson().toJson(deptList);
+		
+	}
+
 	
 }
