@@ -15,6 +15,7 @@ import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
 import com.mj.jwork.ess.model.vo.LeaveCategory;
 import com.mj.jwork.ess.model.vo.Overtime;
+import com.mj.jwork.ess.model.vo.Worktime;
 
 @Repository
 public class EssDao {
@@ -258,6 +259,30 @@ public class EssDao {
 	
 	public int insertAllAttendenceTime(SqlSession sqlSession, Attendence a) {
 		return sqlSession.update("essMapper.insertAllAttendenceTime", a);
+	}
+	
+	public int insertModifyStartTime(SqlSession sqlSession, Worktime w) {
+		return sqlSession.insert("essMapper.insertModifyStartTime", w);
+	}
+	
+	public int insertModifyEndTime(SqlSession sqlSession, Worktime w) {
+		return sqlSession.insert("essMapper.insertModifyEndTime", w);
+	}
+	
+	public int updateStartTime(SqlSession sqlSession, Worktime w) {
+		return sqlSession.update("essMapper.updateStartTime", w);
+	}
+	
+	public int updateEndTime(SqlSession sqlSession, Worktime w) {
+		return sqlSession.update("essMapper.updateEndTime", w);
+	}
+	
+	public int insertModigfyWorktime(SqlSession sqlSession, Worktime w) {
+		return sqlSession.insert("essMapper.insertModigfyWorktime", w);
+	}
+	
+	public int updateWorktime(SqlSession sqlSession, Worktime w) {
+		return sqlSession.update("essMapper.updateWorktime", w);
 	}
 	
 	

@@ -801,4 +801,19 @@
 		 order by d.dept_code nulls first, t.team_code nulls first, j.job_code	
 	</select>
 	
+	<!-- 결재자 추가 -->
+	<select id="addSigner" resultMap="employeeResult">
+		select
+	           emp_no
+	         , emp_name
+	         , dept_name
+	         , job_name
+          from employee e
+          join department d on (e.dept_code = d.dept_code)
+	      join job j on (e.job_code = j.job_code)
+	     where emp_no = #{empNo}
+	</select>
+		
+
+	
 </mapper>
