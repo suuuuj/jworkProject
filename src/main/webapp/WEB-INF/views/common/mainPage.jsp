@@ -71,6 +71,10 @@
         </div>
     </div>
 
+        <div class="well">
+            <input type="text" id="msg" value="1212" class="form-control">
+            <button id="btnSend" class="btn btn-primary">Send Message</button>
+        </div>
 
     </div>
 
@@ -146,7 +150,9 @@
                 }
             })
         }
-    </script>
 
+        
+    </script>
+  
 </body>
 </html>

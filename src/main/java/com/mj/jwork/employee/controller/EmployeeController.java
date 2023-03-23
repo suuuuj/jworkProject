@@ -46,7 +46,7 @@ public class EmployeeController {
 			return "common/errorPage";
 		}else {
 			session.setAttribute("loginUser", loginUser);
-			return "common/menubar";
+			return "common/mainPage";
 		}
 	}
 	
@@ -632,6 +632,12 @@ public class EmployeeController {
 		
 		return new Gson().toJson(deptList);
 		
+	}
+	
+	// 홈 아이콘 클릭시
+	@RequestMapping("home.jwork")
+	public String fowardingHome() {
+		return "common/mainPage";
 	}
 
 	
