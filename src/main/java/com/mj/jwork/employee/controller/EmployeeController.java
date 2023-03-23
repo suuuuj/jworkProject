@@ -2,6 +2,7 @@ package com.mj.jwork.employee.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import com.mj.jwork.employee.model.service.EmployeeService;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.employee.model.vo.Job;
+import com.mj.jwork.employee.model.vo.Schedule;
 import com.mj.jwork.employee.model.vo.Team;
 
 @Controller
@@ -46,7 +48,7 @@ public class EmployeeController {
 			return "common/errorPage";
 		}else {
 			session.setAttribute("loginUser", loginUser);
-			return "common/menubar";
+			return "common/mainPage";
 		}
 	}
 	
@@ -290,16 +292,16 @@ public class EmployeeController {
 	}
 	
 	// 개인 주소록 즐겨찾기(ajax)
-		@ResponseBody
-		@RequestMapping("insertAddressOutFav.emp")
-		public String ajaxInsertAddressOutFav(Employee e, HttpSession session, Model model) {
-			
-			int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
-			e.setLoginNo(loginNo);
-			
-			int result = eService.ajaxInsertAddressOutFav(e);
-			return result > 0 ? "success" : "fail";
-		}
+	@ResponseBody
+	@RequestMapping("insertAddressOutFav.emp")
+	public String ajaxInsertAddressOutFav(Employee e, HttpSession session, Model model) {
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		e.setLoginNo(loginNo);
+		
+		int result = eService.ajaxInsertAddressOutFav(e);
+		return result > 0 ? "success" : "fail";
+	}
 		
 	// 개인 주소록 즐겨찾기 해제(ajax)
 	@ResponseBody
@@ -400,21 +402,21 @@ public class EmployeeController {
 		
 		if(e.getCheckStar() == 1) {
 			int result1 = eService.insertAddressOut(e);
-			int result2 = eService.insertAddressOutFav(e);		
+			int result2 = eService.insertAddressOutFav(e);
 
-			if(result1 > 0 && result2 >0) {
+			if (result1 > 0 && result2 > 0) {
 				session.setAttribute("alertMsg", "추가완");
 				return "redirect:addressOut.emp";
-			}else {
+			} else {
 				model.addAttribute("errorMsg", "추가실패");
 				return "common/errorPage";
 			}
-		}else {
+		} else {
 			int result = eService.insertAddressOut(e);
-			if(result > 0) {
+			if (result > 0) {
 				session.setAttribute("alertMsg", "추가완");
 				return "redirect:addressOut.emp";
-			}else {
+			} else {
 				model.addAttribute("errorMsg", "추가실패");
 				return "common/errorPage";
 			}
@@ -621,19 +623,74 @@ public class EmployeeController {
 		int result = eService.ajaxDeleteJob(jobCode);	
 		return result > 0 ? "success" : "fail";				
 	}
-	
-	
-	// 조직도
+		
+	// 조직도 조회
 	@ResponseBody
 	@RequestMapping(value="employeeChart.emp", produces="application/json; charset=UTF-8")
-	public String ajaxEmployeeChart() {
-		
+	public String ajaxEmployeeChart() {	
 		ArrayList<Department> deptList = eService.selectEmployeeChart();
-		
-		return new Gson().toJson(deptList);
-		
+		return new Gson().toJson(deptList);	
 	}
 	
+	// 일정 등록
+	@RequestMapping("insertSchedule.emp")
+	public String insertSchedule(Schedule s, String attendeeNo, HttpSession session, Model model) {
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		s.setLoginNo(loginNo);
+		
+		String[] attendeeNoArr = attendeeNo.split(",");
+		
+		if(attendeeNoArr.length != 0) {
+			int result1 = eService.insertSchedule(s);
+			int result2 = eService.insertAttendee(attendeeNoArr);
+			
+			if(result1>0 && result2>0) {
+				session.setAttribute("alertMsg", "일정 등록 완료");
+				return "redirect:schedule.emp";
+			}else {
+				model.addAttribute("errorMsg", "일정 등록 실패");
+				return "common/errorPage";
+			}
+		}else {
+			int result = eService.insertSchedule(s);
+			if(result>0) {
+				session.setAttribute("alertMsg", "일정 등록 완료");
+				return "redirect:schedule.emp";
+			}else {
+				model.addAttribute("errorMsg", "일정 등록 실패");
+				return "common/errorPage";
+			}
+		}
+	}
+	
+	// 일정 참석자 사원번호 입력시 사원조회 서비스 (ajax)
+	@ResponseBody
+	@RequestMapping(value="selectAttendee.emp", produces="application/json; charset=utf-8")
+	public String ajaxSelectAttendee(int empNo) {
+		Employee e = eService.selectEmployee(empNo);
+		return new Gson().toJson(e);
+	}
+	
+	// 주소록 - 조직도 조회
+	@ResponseBody
+	@RequestMapping(value="addressInChart.emp", produces="application/json; charset=UTF-8")
+	public String ajaxAddressInChart(HttpSession session) {		
+		ArrayList<Employee> clist = eService.ajaxAddressInChart();	
+		//System.out.println(clist);
+		return new Gson().toJson(clist);
+	}
+	
+	
+	
+	
+
+	// 홈 아이콘 클릭시
+	@RequestMapping("home.jwork")
+	public String fowardingHome() {
+		return "common/mainPage";
+	}
+
 	//결재자 추가
 	@ResponseBody
 	@RequestMapping(value="addSigner.app", produces="application/json; charset=utf-8")
@@ -643,6 +700,7 @@ public class EmployeeController {
 		return new Gson().toJson(list);
 	}
 	
+
 
 	
 }

@@ -7,6 +7,7 @@ import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.employee.model.vo.Job;
+import com.mj.jwork.employee.model.vo.Schedule;
 import com.mj.jwork.employee.model.vo.Team;
 
 public interface EmployeeService {
@@ -131,11 +132,17 @@ public interface EmployeeService {
 	// 부서 관리 - 직급 삭제
 	int ajaxDeleteJob(int jobCode);
 
-	
-
 	// 조직도 조회
 	ArrayList<Department> selectEmployeeChart();
 	
+	// 일정 등록
+	int insertSchedule(Schedule s);
+	// 일정 등록 - 참석자 추가
+	int insertAttendee(String[] attendeeNo);
+	
+	// 주소록 - 조직도 조회
+	ArrayList<Employee> ajaxAddressInChart();
+
 	//결재자 추가
 	Employee addSigner(int empNo);
 

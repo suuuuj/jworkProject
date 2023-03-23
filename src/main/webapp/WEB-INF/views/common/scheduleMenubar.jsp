@@ -20,6 +20,9 @@
 	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <!-- sweetalert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- 조직도 트리 -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script> 
+    <link rel="stylesheet" type="text/css" href="resources/css/treeview/jquery.treeview.css"/>
 
     <style>
         /*sweetalert css*/
@@ -147,8 +150,7 @@
             margin: 30px;
         }
         .modalTitle {
-            text-align: center;
-            margin-bottom: 15px;
+            text-align: center; margin-bottom: 15px;
             font-size: 18px; font-weight: 600;
         }
         #modifyModal input[type="text"], #addModal input[type="text"] {
@@ -215,7 +217,7 @@
             height: 40px; width: 550px;
             padding-bottom: 8px; padding-top: 8px;
         }
-        #group, #attendee, #place {
+        #group, #attendeeInput, #place {
             width: 200px; height: 35px;
             border-radius: 5px; border: 1px solid gainsboro;
             padding: 10px;
@@ -229,6 +231,52 @@
         textarea {
             width: 545px; padding: 10px;
             border: 1px solid gainsboro; border-radius: 5px;
+        }
+
+        /*조직도*/
+        #tree{
+            font-size: 12px;
+        }
+        .emp:hover{
+            cursor: pointer;
+        }
+        .employeeChart{
+            padding-left: 10px;
+            height: 300px; width: 200px;
+            overflow: auto;
+        }
+
+        /*참석자*/
+        #attendee{
+            border:0; 
+            width: 60px; height: 32px; margin-left: -6px;
+        }
+        #attendee:focus {
+            outline: none; /* outline 테두리 없애기 */
+        }
+        #attendee-list{
+            margin-top: 0px; margin-bottom: 0px; padding: 0px;
+            list-style-type : none;
+            line-height: 30px; display:inline-block;
+        }
+        .attendee-li{
+            display: inline-block;
+            background-color: rgb(235, 229, 242); border-radius: 1em;
+            color: black; font-size: 13px;
+            line-height: 25px; padding-left: 7px; padding-right: 7px;     
+        }
+        .attendee-delete{
+            display: inline-block; box-sizing: border-box; 
+            margin-right: 10px; line-height: 30px;
+            font-size: 18px; background-color: none;  
+        }
+        .attendee-delete:hover{cursor: pointer;}
+        #attendeeInput {display: inline-block; position: relative;}
+        #chartInput {
+            float: right; position: relative; right: 6px;
+        }
+        #attendeeInput2{
+            margin-top: -10px;
         }
 
     </style>
@@ -357,19 +405,18 @@
                     <div class="modal-dialog modal-lg">
                       <div class="modal-content">   
                         <div class="modal-body">  
-                            <form id="enroll-area">
+                            <form id="enroll-area" action="insertSchedule.emp">
                                 <div class="schDetail">
                                     <div style="text-align: center; font-size: 18px;">일정 등록</div><br>
                                     <div id="schTitle">
-                                        <input type="text" id="schTitle" class="form-control" name="noticeTitle" placeholder="제목" required>
+                                        <input type="text" id="schTitle" class="form-control" name="schTitle" placeholder="제목" required>
                                     </div>
                                     <div>
-                                        <!--플랫피커-->
                                         <div>
-                                            <input class="" id="startDate" type="text" placeholder="연도-월-일" value="" required>           
+                                            <input class="" id="startDate" type="text" placeholder="연도-월-일" name="schBegin" value="" required>           
                                         </div>
                                         <div class="form-group">
-                                            <select class="form-control" id="startTime" name="startTime" onchange="startTimeChange()">
+                                            <select class="form-control" id="startTime" name="timeBegin" onchange="startTimeChange()">
                                                 <option value="09:00">오전 09:00</option>
                                                 <option value="09:30">오전 09:30</option>
                                                 <option value="10:00">오전 10:00</option>
@@ -395,14 +442,12 @@
                                         </div>
                                               
                                         <div style="width:30px; float: left; text-align: center; line-height: 35px;">~</div>
-                
-                                        <!--플랫피커-->      
+                     
                                         <div>
-                                            <input class="" id="endDate" name="endDate" type="text" placeholder="연도-월-일" value="">
+                                            <input class="" id="endDate" type="text" placeholder="연도-월-일" name="schEnd" value="">
                                         </div>
                                         <div class="form-group">
-                                            <select class="form-control" id="endTime" name="endTime">
-                                                
+                                            <select class="form-control" id="endTime" name="timeEnd"> 
                                                 <option value="10:00">오전 10:00</option>
                                                 <option value="10:30">오전 10:30</option>
                                                 <option value="11:00">오전 11:00</option>
@@ -437,22 +482,36 @@
                                         <tr>
                                             <th>내 캘린더</th>
                                             <td>
-                                                <select name="" id="group">
-                                                    <option value="">(기본) 내 일정</option>
+                                                <select name="groupNo" id="group">
+                                                    <option value="0">(기본) 내 일정</option>
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>참석자 추가</th>
                                             <td>
-                                                <input type="text" id="attendee" style="width: 500px;">
-                                                <button class="plus">+</button>
+                                                <div id="attendeeInput" style="width: 500px;">
+                                                    <div id="attendeeInput2">
+                                                        <ul id="attendee-list"></ul>
+                                                        <input type="text" id="attendee" name="attendeeNo">
+                                                    </div>
+                                                </div>
+                                                <div id="chartInput">
+                                                    <button type="button" id="chart" class="btn btn-sm dropdown-toggle plus" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">+</button>
+                                                    <li class="dropdown-menu">
+                                                        <div class="employeeChart">
+                                                            <ul id="tree" class="filetree treeview-famfamfam">
+                            
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>장소</th>
                                             <td>
-                                                <input type="text" id="place" style="width: 500px;">
+                                                <input type="text" id="place" name="schPlace" style="width: 500px;">
                                                 <button class="plus">+</button>
                                             </td>
                                         </tr>
@@ -460,7 +519,7 @@
                                         <tr>
                                             <th style="vertical-align: top;">내용</th>
                                             <td>
-                                                <textarea name="" id="" rows="10" style="resize:none"></textarea>
+                                                <textarea name="schContent" id="" rows="10" style="resize:none" required></textarea>
                                             </td>
                                         </tr>
                                     </table>
@@ -478,7 +537,7 @@
                   </div>
 
             </div>
-
+            
             <script>
                 $(function(){
                     groupList();
@@ -491,22 +550,30 @@
                         success:function(slist){
                             let value = "";
                             for(let i=0; i<slist.length; i++){
-                                value += '<div style="margin-bottom:10px;">'
-                                       + '<input type="checkbox" class="checkSchGroup" id="'+ slist[i].groupColor +'" value="'+ slist[i].groupColor +'" checked>'
-                                       + '<span class="scheduleBoxName schGroupName">' + slist[i].groupName + '</span>'
-                                       + '<span class="editScheduleBox dropdown dropend">'
-                                            + '<button class="" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">'
-                                                + '<img src="resources/images/mail/edit.png" width="20px">'
-                                            + '</button>'
-                                            + '<ul class="dropdown-menu" aria-labelledby="dropdownMenu">'
-                                                + '<li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modifyGroup" style="font-size:14px" onclick="updateGroup(' + slist[i].groupNo + ')">그룹 수정</a></li>'
-                                                + '<li><a class="dropdown-item" href="" style="font-size:14px" onclick="deleteGroup(' + slist[i].groupNo + ')">그룹 삭제</a></li>'
-                                            + '</ul>'
-                                       + '</span>'
+                                value += '<div class="hover" style="margin-bottom:10px;">'
+                                            + '<input type="checkbox" class="checkSchGroup" id="'+ slist[i].groupColor +'" value="'+ slist[i].groupColor +'" checked>'
+                                            + '<span class="scheduleBoxName schGroupName">' + slist[i].groupName + '</span>'
+                                            + '<span class="editScheduleBox dropdown dropend" >'
+                                                    + '<button class="" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false" style="display:none">'
+                                                        + '<img src="resources/images/mail/edit.png" width="20px">'
+                                                    + '</button>'
+                                                    + '<ul class="dropdown-menu" aria-labelledby="dropdownMenu">'
+                                                        + '<li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modifyGroup" style="font-size:14px" onclick="updateGroup(' + slist[i].groupNo + ')">그룹 수정</a></li>'
+                                                        + '<li><a class="dropdown-item" href="" style="font-size:14px" onclick="deleteGroup(' + slist[i].groupNo + ')">그룹 삭제</a></li>'
+                                                    + '</ul>'
+                                            + '</span>'
                                        + '</div>';
-                                console.log(slist[i].groupColor);
+                                $("#group").append(
+                                    '<option id="' + slist[i].groupNo + '1' +'" value="'+ slist[i].groupNo +'">'+ slist[i].groupName +'</option>'
+                                )
                             }
                             $(".oneScheduleBox").append(value);
+                            $('.hover').mouseover(function(){
+                                $(this).children().next().next().children("button").show();
+                            });
+                            $('.hover').mouseout(function(){
+                                $(this).children().next().next().children("button").hide();
+                            });
                             
                             for(let i=0; i<slist.length; i++){
                                 let chk = $("input:checkbox[id='" + slist[i].groupColor +"']");
@@ -535,25 +602,7 @@
                         success:function(g){
                             $("input[name=groupNo]").val(groupNo);
                             $('#groupName').val(g.groupName);
-                            if(g.groupColor == "#FF5B5B"){
-                                $("input:radio[name='groupColor']:radio[value='#FF5B5B']").attr("checked", true);
-                            }else if(g.groupColor =="#f7C38C"){
-                                $("input:radio[name='groupColor']:radio[value='#f7C38C']").attr("checked", true);
-                            }else if(g.groupColor =="#FFFF7D"){
-                                $("input:radio[name='groupColor']:radio[value='#FFFF7D']").attr("checked", true);
-                            }else if(g.groupColor =="#61Cf8F"){
-                                $("input:radio[name='groupColor']:radio[value='#61Cf8F']").attr("checked", true);
-                            }else if(g.groupColor =="#8DD7EE"){
-                                $("input:radio[name='groupColor']:radio[value='#8DD7EE']").attr("checked", true);
-                            }else if(g.groupColor =="#54A1DC"){
-                                $("input:radio[name='groupColor']:radio[value='#54A1DC']").attr("checked", true);
-                            }else if(g.groupColor =="#F0B6D8"){
-                                $("input:radio[name='groupColor']:radio[value='#F0B6D8']").attr("checked", true);
-                            }else if(g.groupColor =="#B485E9"){
-                                $("input:radio[name='groupColor']:radio[value='#B485E9']").attr("checked", true);
-                            }else if(g.groupColor =="#CECECE"){
-                                $("input:radio[name='groupColor']:radio[value='#CECECE']").attr("checked", true);
-                            }
+                            $(":radio[name='groupColor'][value='"+ g.groupColor+"']").attr("checked", true);
                         }, error: function(){
                             console.log("그룹수정 ajax 통신실패")
                         }
@@ -568,7 +617,8 @@
                         success:function(result){           
                             if(result == "success"){
                                 //swal('삭제완', '', 'success');
-                                alert("삭제완");    
+                                alert("삭제완"); 
+                                document.location.href = document.location.href;  
                             }
                         }, error: function(){
                             console.log("그룹삭제 ajax 통신실패")
@@ -577,7 +627,6 @@
 
                 }
 
-                
 
             </script>
 
@@ -600,13 +649,7 @@
                         onClose:function(selectedDate){
                             $('#endDate').datepicker("option", "minDate", selectedDate);
                             var startDate = $.datepicker.formatDate("yy-mm-dd", $("#startDate").datepicker("getDate"));    
-                            var endDate = $.datepicker.formatDate("yy-mm-dd", $("#endDate").datepicker("getDate"));
-                            // 종료일 입력안하면 시작일이 종료일...
-                            // if(startDate>endDate){
-                            //     endDate = startDate;
-                            //     // $('input[name=endDate]').attr('value', endDate);
-                            //     $('#endDate').val = endDate;
-                            // }              
+                            var endDate = $.datepicker.formatDate("yy-mm-dd", $("#endDate").datepicker("getDate"));           
                         },
                         // 시작일 선택 시 종료일 같은 값 자동으로 넘기기
                         onSelect:function(selected, evnt){
@@ -615,6 +658,7 @@
                     });
                     function fnChangeEnd(value) {
                         $("#endDate").val(value);
+                        console.log('종료일 값' + $("#endDate").val())
                     }
                         
                 })    
@@ -634,11 +678,132 @@
 
             </script>
 
+            <script src="resources/js/treeview/jquery.cookie.js" type="text/javascript"></script>
+            <script src="resources/js/treeview/jquery.treeview.js" type="text/javascript"></script>
+            <!-- 주소록 불러오기 -->
+            <script>
+                $(document).ready(function(){    
+                    $(document).on("click", "#chart", function(){
+                        $.ajax({
+                            url: "employeeChart.emp",
+                            success: function(deptList){
+                                //console.log(deptList);
+                                let chart = "";
+                                for(let i=0; i<deptList.length; i++){
+                                    //console.log(deptList[i]);
+                                    if(deptList[i].deptName == "사장"){
+                                        chart += "<li><span class='emp' empNo='" + deptList[i].teamList[0].empList[0].empNo + "' empName='" + deptList[i].teamList[0].empList[0].empName + "'>" 
+                                                                            + deptList[i].teamList[0].empList[0].jobName + '&nbsp;' + deptList[i].teamList[0].empList[0].empName + "</span></li>";
+                                    } else{
+                                        chart += '<li class="closed"><span class="folder">' + deptList[i].deptName + '</span>';
+                                        for(let j=0; j<deptList[i].teamList.length; j++){
+                                            if(deptList[i].teamList[j].teamName == "임원"){
+                                                for (let k=0; k<deptList[i].teamList[j].empList.length; k++){
+                                                    chart += '<ul><li><span class="emp" empNo="' + deptList[i].teamList[j].empList[k].empNo + '" empName="' + deptList[i].teamList[j].empList[k].empName + '">'
+                                                            + deptList[i].teamList[j].empList[k].jobName + '&nbsp;' + deptList[i].teamList[j].empList[k].empName + '</span></li></ul>';
+                                                }
+                                            } else{
+                                                chart += '<ul><li class="closed"><span class="folder">' + deptList[i].teamList[j].teamName + '</span>';
+                                                for(let k=0; k<deptList[i].teamList[j].empList.length; k++){
+                                                    chart += '<ul><li><span class="emp" empNo="' + deptList[i].teamList[j].empList[k].empNo + '" empName="' + deptList[i].teamList[j].empList[k].empName + '">'
+                                                        + deptList[i].teamList[j].empList[k].jobName + '&nbsp;' + deptList[i].teamList[j].empList[k].empName + '</span></li></ul>';
+                                                }
+                                                chart+= '</li></ul>';
+                                            }     
+                                        }
+                                        chart += "</li>";
+                                    } 
+                                }
+                                $("#tree").html(chart);
+                                $("#tree").treeview({});
+                            }, error: function(){
+                                console.log("조직도 조회용 ajax 통신 실패");
+                            }
+                        })
+                    })
+
+                    // 주소록에서 사원 클릭할 때
+                    $(document).on("click", ".emp", function(){
+
+                        const empNo = $(this).attr("empNo");
+                        const empName = $(this).attr("empName");
+
+                        if($("#attendee-list").children().length == 0){ 
+                        // li 요소가 없을 때
+                            $("#attendee-list").append($("<input type='hidden' name='attendeeNo' value='" + empNo + "'><input type='hidden' name='attendee' value='" + empName + "'><li class='attendee-li'>" + empName + "</li><div class='attendee-delete'>&times;</div>"));
+                            $("#attendee-list").css("width", "$('#attendee-list').children().eq(0).val().length + 30");
+                        } else { 
+                        // li 요소가 있을 때
+                            for(let i=0; i<$("#attendee-list").children().length; i++){
+                                if($("#attendee-list").children().eq(i).val() == empNo){
+                                    alert("중복된 사람입니다.");
+                                    return;
+                                }
+                            }
+                            $("#attendee-list").append($("<input type='hidden' name='attendeeNo' value='" + empNo + "'><input type='hidden' name='attendee' value='" + empName + "'><li class='attendee-li'>" + empName + "</li><div class='attendee-delete'>&times;</div>"));   
+                        }
+                    })
+                });
+
+
+                // 사번으로 참석자 조회
+                $("#attendee").keydown(function(){
+                    if(event.keyCode == 13 || event.keyCode == 32){ // 13 enter, 32 space
+                        event.preventDefault(); // 기본동작 방지(안쓰면 엔터했을 때 폼의 다른 영역에 영향을 줄 수 있음)
+                        let attendee = $(this).val();
+
+                        $.ajax({
+                            url: "selectAttendee.emp",
+                            data:{empNo:attendee},
+                            success: function(e){
+                                console.log(e);
+                                if(e == null){
+                                    alert("일치하는 사원이 없습니다.");
+                                    $("#attendee").val("");
+                                    $("#attendee").focus();
+                                } else{
+                                    if($("#attendee-list").children().length == 0){ // li 요소 있을 때
+                                        $("#attendee-list").append($("<input type='hidden' name='attendeeNo' value='" + e.empNo + "'><input type='hidden' name='attendeeName' value='" + e.empName + "'><li class='attendee-li'>" + e.empName + "</li><div class='attendee-delete'>&times;</div>")); //&times; x 기호
+                                        $("#attendee-list").css("width", "$('#attendee-list').children().eq(0).val().length + 30");
+                                        $("#attendee").val("");
+                                        $("#attendee").focus();
+                                    } else{ // li 요소 없을 때
+                                        for(let i=0; i<$("#attendee-list").children().length; i++){
+                                            if($("#attendee-list").children().eq(i).val() == e.empNo){
+                                                alert("중복된 사원입니다.");
+                                                $("#attendee").val("");
+                                                $("#attendee").focus();
+                                                return;
+                                            }
+                                        }
+                                        $("#attendee-list").append($("<input type='hidden' name='attendeeNo' value='" + e.empNo + "'><input type='hidden' name='attendeeName' value='" + e.empName + "'><li class='attendee-li'>" + e.empName + "</li><div class='attendee-delete'>&times;</div>"));
+                                        $("#attendee").val("");
+                                        $("#attendee").focus();
+                                    }
+                                }  
+                            }, error:function(){
+                                console.log("사원 조회용 ajax 통신 실패");
+                            }
+                        })
+
+                    }
+                });
+
+                // x 버튼 눌러서 참석자 목록에서 제거
+                $(document).on("click", ".attendee-delete", function(){
+                    $(this).prev().prev().prev().remove();
+                    $(this).prev().prev().remove();
+                    $(this).prev().remove();
+                    $(this).remove();
+                })
+
+            </script>
+
+
+
             <div id="line"></div>
             <div class="content">
             
-            
 
-    
 </body>
 </html>

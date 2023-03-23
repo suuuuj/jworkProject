@@ -12,6 +12,7 @@ import com.mj.jwork.employee.model.dao.EmployeeDao;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.employee.model.vo.Job;
+import com.mj.jwork.employee.model.vo.Schedule;
 import com.mj.jwork.employee.model.vo.Team;
 
 @Service
@@ -293,10 +294,29 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return eDao.ajaxDeleteJob(sqlSession, jobCode);
 	}
 	
+	// 조직도 조회
 	@Override
 	public ArrayList<Department> selectEmployeeChart() {
 		return eDao.selectEmployeeChart(sqlSession);
 	}
+	
+	// 일정 등록
+	@Override
+	public int insertSchedule(Schedule s) {
+		return eDao.insertSchedule(sqlSession, s);
+	}
+	// 일정 등록 - 참석자 추가
+	@Override
+	public int insertAttendee(String[] attendeeNo) {
+		return eDao.insertAttendee(sqlSession, attendeeNo);
+	}
+	
+	// 주소록 - 조직도 조회
+	@Override
+	public ArrayList<Employee> ajaxAddressInChart() {
+		return eDao.ajaxAddressInChart(sqlSession);
+	}
+
 	
 	//결재자 추가
 	@Override

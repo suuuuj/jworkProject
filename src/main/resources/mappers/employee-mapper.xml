@@ -75,6 +75,8 @@
 		</collection>
 	</resultMap>
 	
+	<!-- 일정 -->
+	
 	
 	
 	<!-- 로그인 -->
@@ -787,6 +789,7 @@
          where job_code = #{jobCode} 
 	</update>
 	
+	<!-- 조직도 조회 -->
 	<select id="selectEmployeeChart" resultMap="chartResult">
 		select
 		       nvl2(dept_name, dept_name, '사장') "dept_name"
@@ -801,6 +804,66 @@
 		 order by d.dept_code nulls first, t.team_code nulls first, j.job_code	
 	</select>
 	
+	<!-- 일정 등록 -->
+	<insert id="insertSchedule">
+		insert
+		  into schedule
+		     (
+		       sch_no
+             , emp_no
+		     , sch_title
+		     , sch_content
+		     , sch_begin
+             , sch_end
+             , time_begin
+             , time_end
+             , group_no
+             , sch_place
+             , create_date
+		     )
+		values 
+		     (
+		       SEQ_SCHNO.nextval	<!-- 일정번호 -->
+		     , #{loginNo}			<!-- 로그인한 사원번호 -->
+		     , #{schTitle}
+		     , #{schContent}
+             , #{schBegin}
+		     , #{schEnd}
+             , #{timeBegin}
+             , #{timeEnd}
+		     , #{groupNo}
+		     , #{schPlace}
+		     , sysdate
+		     )
+	</insert>
+	<!-- 일정 등록 - 참석자 추가 -->
+	<insert id="insertAttendee">
+		insert
+		  into sch_attendee
+		     (
+		       sch_no
+             , emp_no
+		     )
+		values 
+		     (
+		       SEQ_SCHNO.CURRVAL	<!-- 일정번호 -->
+             , #{empNo}		<!-- 참석자 사원번호 -->
+		     )
+	</insert>
+	
+	<!-- 주소록 - 조직도 조회 -->
+	<select id="ajaxAddressInChart" resultMap="chartResult">
+		select 
+		       dept_name
+		     , team_name
+		  from employee e
+		  left join department d on (d.dept_code = e.dept_code)
+		  left join team t on (t.team_code = e.team_code)
+         where d.status = 'Y'
+           and t.status = 'Y'
+         group by dept_name, team_name
+         order by dept_name
+	</select>
 	<!-- 결재자 추가 -->
 	<select id="addSigner" resultMap="employeeResult">
 		select
