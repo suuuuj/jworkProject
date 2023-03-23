@@ -1,4 +1,4 @@
-package com.mj.jwork.common.socket.model;
+package com.mj.jwork.alarm.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -249,7 +249,7 @@
 		    	and emp_no = #{empNo}
 		    </if>
 		    <if test='mailCategory == "임시보관함"'>
-		    	and send = 'N' 
+		    	and send = 'N'
 		    	and emp_no = #{empNo}
 		    </if>
 		    <if test='mailCategory == "사용자메일함"'>
@@ -433,6 +433,12 @@
 		   	 , #{type}
 		     )
 	</insert>
+	
+	<select id="selectThisMailNo" resultType="_int">
+		select 
+		       seq_mno.currval 
+		  from dual
+	</select>
 	
 	<insert id='insertMailAt'>
 		insert
