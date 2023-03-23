@@ -143,6 +143,8 @@ public interface EmployeeService {
 	// 주소록 - 조직도 조회
 	ArrayList<Employee> ajaxAddressInChart();
 
+	//결재자 추가
+	Employee addSigner(int empNo);
 
 
 	

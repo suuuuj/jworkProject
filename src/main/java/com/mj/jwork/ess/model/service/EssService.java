@@ -10,6 +10,7 @@ import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
 import com.mj.jwork.ess.model.vo.LeaveCategory;
 import com.mj.jwork.ess.model.vo.Overtime;
+import com.mj.jwork.ess.model.vo.Worktime;
 
 public interface EssService {
 	
@@ -119,4 +120,24 @@ public interface EssService {
 	
 	// 출퇴근 상세조회
 	Attendence selectAttendence(Attendence a);
+	
+	// 출퇴근시간수정
+	int insertModifyStartTime(Worktime w);
+	int insertModifyEndTime(Worktime w);
+	int updateStartTime(Worktime w);
+	int updateEndTime(Worktime w);
+	int insertModifyWorktime(Worktime w);
+	int updateWorktime(Worktime w);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

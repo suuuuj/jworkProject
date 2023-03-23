@@ -265,6 +265,11 @@ public class EmployeeDao {
 	public ArrayList<Department> selectEmployeeChart(SqlSessionTemplate sqlSession){	
 		return (ArrayList)sqlSession.selectList("employeeMapper.selectEmployeeChart");
 	}
+	
+	//결재자 추가
+	public Employee addSigner(SqlSessionTemplate sqlSession, int empNo) {
+		return sqlSession.selectOne("employeeMapper.addSigner", empNo);
+	}
 
 	// 일정 등록
 	public int insertSchedule(SqlSessionTemplate sqlSession, Schedule s) {

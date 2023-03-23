@@ -318,5 +318,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	
+	//결재자 추가
+	@Override
+	public Employee addSigner(int empNo) {
+		return eDao.addSigner(sqlSession, empNo);
+	}
+	
 
 }

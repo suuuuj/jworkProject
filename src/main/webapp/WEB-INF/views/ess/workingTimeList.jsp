@@ -243,6 +243,22 @@
 
             <script>
                 function workDetailFunction(no){
+                    $.ajax({
+                        url:"detail.at",
+                        data:{
+                            attNo:no
+                        },
+                        success:function(a){
+                            //console.log(result);
+                            $("#workModal input[name=workDate]").val(a.attDate);
+                            $("#workModal input[name=workStart]").val(a.startTime);
+                            $("#workModal input[name=workEnd]").val(a.endTime);
+                            $("#workModal input[name=attNo]").val(a.attNo);
+                        },
+                        error:function(){
+                            console.log("근태상세 ajax 통신실패");
+                        }
+                    })
 
                 }
                 $(function(){
@@ -263,13 +279,13 @@
                         </c:when>
                         <c:otherwise>
                             <li class="page-item"><a class="page-link"
-                                href="admin.ot?cpage=${ pi.currentPage-1 }"><</a></li>
+                                href="list.at?cpage=${ pi.currentPage-1 }"><</a></li>
                         </c:otherwise>
                     </c:choose>
     
                     <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
                         <li class="page-item"><a class="page-link"
-                            href="admin.ot?cpage=${ p }">${ p }</a></li>
+                            href="list.at?cpage=${ p }">${ p }</a></li>
                     </c:forEach>
     
     
@@ -279,7 +295,7 @@
                         </c:when>
                         <c:otherwise>
                             <li class="page-item"><a class="page-link"
-                                href="admin.ot?cpage=${ pi.currentPage+1 }">></a></li>
+                                href="list.at?cpage=${ pi.currentPage+1 }">></a></li>
                         </c:otherwise>
                     </c:choose>
                 </ul>
@@ -297,40 +313,114 @@
                 <!-- Modal Header -->
                 <div class="modal-header">
                 <h4 class="modal-title" style="color:rgb(0,172,0)">출퇴근 시간변경</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button><br>
+                <button type="button" class="close" data-dismiss="modal" onclick="workClose();">&times;</button><br>
                 </div>
-                
+
+                <form action="modify.at" method="post">
                 <!-- Modal body -->
                     <div class="modal-body" style="width:360px; margin:auto;">
+                        <input type="hidden" name="attNo" value="${at.attNo}">
                         <span class="modalS">수정할 날짜</span> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;2023.03.20" style="float:right;" readonly><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workDate" value="" style="float:right;" readonly><br>
                         <span class="modalS">지정 출근시간</span> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;09:20:53" readonly><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workStart" value="" readonly><br>
                         <span class="modalS">지정 퇴근시간</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;19:20:53" readonly><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workEnd" value="" readonly><br>
                         <hr>
                         <span class="modalS">수정할 출근시간</span> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="time" name="" value="&nbsp;&nbsp;09:20:53"><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="time" name="reStartTime" value=""><br>
                         <span class="modalS">수정할 퇴근시간</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="time" name="" value="&nbsp;&nbsp;19:20:53"><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="time" name="reEndTime" value=""><br>
                         <hr>
                         <span>신청사유</span>
                         <br>
                         <div class="textWrap">
                             <div class="textCount">&nbsp;&nbsp;0자</div><div class="textTotal">/100자</div>
                         </div>
-                        <textarea name="" id="textBox" maxlength="99" placeholder="신청사유를 입력하시오."></textarea>
+                        <textarea name="reContent" id="textBox" maxlength="99" placeholder="신청사유를 입력하시오."></textarea>
                         
                     </div>
                     
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">수정</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="workClose();">Close</button>
                     </div>
+                </form>
+
+                <script>
+                    $(function(){
+
+                        String.prototype.toHHMMSS = function () {
+                        var myNum = parseInt(this, 10);
+                        var hours   = Math.floor(myNum / 3600);
+                        var minutes = Math.floor((myNum - (hours * 3600)) / 60);
+                        var seconds = myNum - (hours * 3600) - (minutes * 60);
+
+                        if (hours   < 10) {hours   = "0"+hours;}
+                        if (minutes < 10) {minutes = "0"+minutes;}
+                        if (seconds < 10) {seconds = "0"+seconds;}
+                        return hours+':'+minutes+':'+seconds;
+}
+
+                        var result = $("#workModal input[name=reStartTime]:selected").toHHMMSS();
+                        $("#workModal input[name=reStart]").val(result);
+                    })
+                </script>
             
             </div>
+
         </div>
     </div>
+
+    <link rel="stylesheet" href="/resources/css/jquery-ui-timepicker-addon.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="/resources/js/jquery-ui-timepicker-addon.js"></script>
+    <script>
+        $(function(){
+            $("#test1").datetimepicker({
+                changeMonth: true, 
+                changeYear: true,
+                nextText: '다음 달',
+                prevText: '이전 달',
+                yearRange: 'c-50:c+20',
+                showButtonPanel: true, 
+                currentText: '오늘 날짜',
+                closeText: '닫기',
+                dateFormat: "hh:mm:ss",
+                showAnim: "slide",
+                showMonthAfterYear: true
+
+            });	
+        })
+    </script>
+
+    <!-- 에러 해결 시작 - 홈짱 -->
+
+    <script>
+
+        jQuery.browser = {};
+        
+        (function () {
+        
+            jQuery.browser.msie = false;
+        
+            jQuery.browser.version = 0;
+        
+            if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+        
+                jQuery.browser.msie = true;
+        
+                jQuery.browser.version = RegExp.$1;
+        
+            }
+        
+        })();
+        
+        </script>
+        
+        <!-- 에러 해결 종료 - 홈짱 -->
 
     <script>
         $(function(){
@@ -350,6 +440,15 @@
                 };
             });
         })
+    </script>
+
+    <script>
+        function workClose(){
+            $('#workModal').modal('hide'); 
+            $('#workModal').hide();
+            $('.jquery-modal').click();
+    }
+
     </script>
 
 

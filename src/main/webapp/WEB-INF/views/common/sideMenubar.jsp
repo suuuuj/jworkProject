@@ -218,7 +218,26 @@
         background-color: rgb(130, 180, 130);
         cursor:pointer;
     }
-    
+    #alarmBtn{
+        border:none;
+        background-color: white;
+    }
+    .alarm-area{
+        width: 300px;
+    }
+    .alarms{
+        height: 50px;
+    }
+    .new{
+        background-color: rgb(242, 232, 189);
+    }
+    .alarm-delete{
+        text-align: right;
+        font-size: 12px;
+    }
+    .alarm-delete:hover{
+        cursor: pointer;
+    }
 
     
 </style>
@@ -239,13 +258,29 @@
             <div class="header">
                 <div class="logo-box">
                     
-                    <a href="#"><img class="logo" src="resources/images/common/jworkLogo.png" alt="" style="width: 230px;"/></a>
+                    <a href="home.jwork"><img class="logo" src="resources/images/common/jworkLogo.png" alt="" style="width: 230px;"/></a>
                     
                 </div>
 
             </div>
 			<div class="header-right">
-                	<a href="#"><img class="headerIcon" src="resources/images/common/email1.png" alt=""></a>&nbsp;&nbsp;
+                	<button id="alarmBtn"  data-bs-toggle="dropdown" data-bs-auto-close="outside"><img class="headerIcon " src="resources/images/common/alarm.png" ></button>
+                    <ul class="dropdown-menu">
+                        <div class="alarm-area">
+                            <li><span class="dropdown-item-text alarm-delete">모두 삭제</span></li>
+                            <li class="alarm">
+                                <a class="dropdown-item " href="#"><div class="alarms">XXX님으로부터 메일이 도착했습니다.</div></a>
+                            </li>
+                            <li class="alarm new">
+                                <a class="dropdown-item " href="#"><div class="alarms">새 결재가 도착했습니다.</div></a>
+                            </li>
+                            <li class="alarm">
+                                <a class="dropdown-item " href="#"><div class="alarms">XXX사원의 휴가 승인 요청이 들어왔습니다.</div></a>
+                            </li>
+                            
+                        </div>
+                    </ul>
+                    &nbsp;&nbsp;
                 	<a href="#"><img class="headerIcon" src="resources/images/common/profileDefault3.png" alt=""></a>
             </div>
             
@@ -269,7 +304,7 @@
 
                 <div class="menubarArea">
                     <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/homepage.png" alt="" />홈피드</div>
+                        <div class="mainMenu" onclick="location.href='home.jwork'"><img class="menuIcon" src="resources/images/common/homepage.png" alt="" />홈피드</div>
                         <div class="menu-wrap">
 
                         </div>
@@ -380,8 +415,10 @@
                         })
             
                     })
+                    
+                    
                 </script>
-
+                
 
             </div>
             <div class="content">

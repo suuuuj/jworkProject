@@ -48,7 +48,7 @@ public class EmployeeController {
 			return "common/errorPage";
 		}else {
 			session.setAttribute("loginUser", loginUser);
-			return "common/menubar";
+			return "common/mainPage";
 		}
 	}
 	
@@ -684,5 +684,23 @@ public class EmployeeController {
 	
 	
 	
+
+	// 홈 아이콘 클릭시
+	@RequestMapping("home.jwork")
+	public String fowardingHome() {
+		return "common/mainPage";
+	}
+
+	//결재자 추가
+	@ResponseBody
+	@RequestMapping(value="addSigner.app", produces="application/json; charset=utf-8")
+	public String ajaxAddSigner(int empNo) {
+		Employee list = eService.addSigner(empNo);
+		
+		return new Gson().toJson(list);
+	}
+	
+
+
 	
 }
