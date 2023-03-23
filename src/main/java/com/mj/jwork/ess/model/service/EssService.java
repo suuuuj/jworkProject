@@ -105,8 +105,8 @@ public interface EssService {
 	// 근태 스케줄링
 	int adminInsertAttendence();
 	
-	// 메인페이지 : 근태시퀀스
-	Attendence selectAttendenceNo(int empNo);
+	// 메인페이지 근태버튼
+	Attendence selectAttendenceMain(int empNo);
 	
 	// 출퇴근시간 insert
 	int insertStartAttendence(Attendence a);

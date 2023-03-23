@@ -27,8 +27,8 @@ public class EssServiceImpl implements EssService {
 	
 	// -------------------- 메안패아자 -------------------
 	@Override
-	public Attendence selectAttendenceNo(int empNo) {
-		return eDao.selectAttendenceNo(sqlSession, empNo);
+	public Attendence selectAttendenceMain(int empNo) {
+		return eDao.selectAttendenceMain(sqlSession, empNo);
 	}
 
 	// ------------- 휴가, 출장, 시간외근무 ---------------------

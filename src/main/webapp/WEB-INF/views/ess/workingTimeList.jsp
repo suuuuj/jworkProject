@@ -301,32 +301,32 @@
                 </div>
                 
                 <!-- Modal body -->
-                <div class="modal-body" style="width:360px; margin:auto;">
-                    <span class="modalS">수정할 날짜</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;2023.03.20" style="float:right;" readonly><br>
-                    <span class="modalS">지정 출근시간</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;09:20:53" readonly><br>
-                    <span class="modalS">지정 퇴근시간</span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;19:20:53" readonly><br>
-                    <hr>
-                    <span class="modalS">수정할 출근시간</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="time" name="" value="&nbsp;&nbsp;09:20:53"><br>
-                    <span class="modalS">수정할 퇴근시간</span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="time" name="" value="&nbsp;&nbsp;19:20:53"><br>
-                    <hr>
-                    <span>신청사유</span>
-                    <br>
-                    <div class="textWrap">
-                        <div class="textCount">&nbsp;&nbsp;0자</div><div class="textTotal">/100자</div>
+                    <div class="modal-body" style="width:360px; margin:auto;">
+                        <span class="modalS">수정할 날짜</span> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;2023.03.20" style="float:right;" readonly><br>
+                        <span class="modalS">지정 출근시간</span> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;09:20:53" readonly><br>
+                        <span class="modalS">지정 퇴근시간</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;19:20:53" readonly><br>
+                        <hr>
+                        <span class="modalS">수정할 출근시간</span> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="time" name="" value="&nbsp;&nbsp;09:20:53"><br>
+                        <span class="modalS">수정할 퇴근시간</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="time" name="" value="&nbsp;&nbsp;19:20:53"><br>
+                        <hr>
+                        <span>신청사유</span>
+                        <br>
+                        <div class="textWrap">
+                            <div class="textCount">&nbsp;&nbsp;0자</div><div class="textTotal">/100자</div>
+                        </div>
+                        <textarea name="" id="textBox" maxlength="99" placeholder="신청사유를 입력하시오."></textarea>
+                        
                     </div>
-                    <textarea name="" id="textBox" maxlength="99" placeholder="신청사유를 입력하시오."></textarea>
                     
-                </div>
-                
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
             
             </div>
         </div>

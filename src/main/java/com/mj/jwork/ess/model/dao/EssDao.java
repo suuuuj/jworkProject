@@ -228,8 +228,8 @@ public class EssDao {
 		return sqlSession.insert("essMapper.adminInsertAttendence");
 	}
 	
-	public Attendence selectAttendenceNo(SqlSession sqlSession, int empNo) {
-		return sqlSession.selectOne("essMapper.selectAttendenceNo", empNo);
+	public Attendence selectAttendenceMain(SqlSession sqlSession, int empNo) {
+		return sqlSession.selectOne("essMapper.selectAttendenceMain", empNo);
 	}
 	
 	public int insertStartAttendence(SqlSession sqlSession, Attendence a) {
