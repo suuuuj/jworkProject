@@ -440,13 +440,13 @@
                                     //console.log(empNo);
                                     
                                     $("#appEmpNo").val(empNo);
-
-                                    // 현재 클릭된 엘리먼트의 색상을 변경하고, #appEmpNo 엘리먼트의 값을 설정합니다.
-                                    $(this).css("color", "green").css("font-weight", "bolder");
                                    
                                     // 이전에 클릭된 엘리먼트의 색상을 원래대로 되돌립니다.
                                     $(".emp").css("color", "").css("font-weight", "normal");
   
+                                    // 현재 클릭된 엘리먼트의 색상을 변경하고, #appEmpNo 엘리먼트의 값을 설정합니다.
+                                    $(this).css("color", "green").css("font-weight", "bolder");
+
                                 })
 
 			                });
