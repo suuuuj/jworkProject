@@ -135,6 +135,9 @@ public interface EmployeeService {
 
 	// 조직도 조회
 	ArrayList<Department> selectEmployeeChart();
+	
+	//결재자 추가
+	Employee addSigner(int empNo);
 
 
 	

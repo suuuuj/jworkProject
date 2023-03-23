@@ -633,6 +633,16 @@ public class EmployeeController {
 		return new Gson().toJson(deptList);
 		
 	}
+	
+	//결재자 추가
+	@ResponseBody
+	@RequestMapping(value="addSigner.app", produces="application/json; charset=utf-8")
+	public String ajaxAddSigner(int empNo) {
+		Employee list = eService.addSigner(empNo);
+		
+		return new Gson().toJson(list);
+	}
+	
 
 	
 }

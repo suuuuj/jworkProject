@@ -267,6 +267,11 @@ public class EmployeeDao {
 		return (ArrayList)sqlSession.selectList("employeeMapper.selectEmployeeChart");
 		
 	}
+	
+	//결재자 추가
+	public Employee addSigner(SqlSessionTemplate sqlSession, int empNo) {
+		return sqlSession.selectOne("employeeMapper.addSigner", empNo);
+	}
 
 	
 
