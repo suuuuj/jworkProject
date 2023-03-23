@@ -1,5 +1,7 @@
 package com.mj.jwork.approval.model.vo;
 
+import java.util.ArrayList;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,5 +34,8 @@ public class Approval {
 	 private String docName;
 	 private String jobName;
 	 private String reReason;
+	 
+	 ArrayList<AppLine> alist;
+	 ArrayList<Reference> rlist;
 
 }

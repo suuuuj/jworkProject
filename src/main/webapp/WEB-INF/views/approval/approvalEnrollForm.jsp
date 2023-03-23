@@ -127,8 +127,6 @@
         color: green;
     }
    
-   
-  
    .employeeChart{
   	   border: 1px solid black;
        border-radius: 5%;
@@ -185,7 +183,7 @@
          
          </script>
 
-        <form action="" method="post" align="center" enctype="multipart/form-data" id="approvalForm">
+        <form action="insertNewApp.app" method="post" align="center" enctype="multipart/form-data" id="approvalForm">
         	<input type="hidden" name="empNo" value="${ loginUser.empNo }">
         	
             <table id="selectApproval" border="1">
@@ -221,9 +219,9 @@
                         </button>
                     </th>
                     <td height="25px" width="90px">${ loginUser.jobName }</td>
-                    <td width="90px"></td>
-                    <td width="90px"></td>
-                    <td width="90px"></td>
+                    <td width="90px" id="job1"></td>
+                    <td width="90px" id="job2"></td>
+                    <td width="90px" id="job3"></td>
                 </tr>
                 <tr>
                     <td height="70px"><img class="signLogo" src="resources/images/common/check.png"/></td>
@@ -233,9 +231,9 @@
                 </tr>
                 <tr>
                     <td height="25px">${ loginUser.empName }</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td id="name1"></td>
+                    <td id="name2"></td>
+                    <td id="name3"></td>
                 </tr>
             </table>
             <p id="appMsg">* 순서대로 결재가 진행됩니다.</p>
@@ -362,7 +360,7 @@
             </div> <!--end of approvalContent -->
 
             <div id="buttonarea"  align="left">
-                <button type="submit" class="btn btn-success" onclick="insertBtn();">결재</button>
+                <button type="submit" class="btn btn-success">결재</button>
             </div>
 
             <div id="buttonarea"  align="right">
@@ -485,10 +483,11 @@
                                     	
                                     	let value=""
                                     	value += "<tr class='signEmp'>"
-                                                 + "<th style='color:red' class='removeEmp'><b>X</b></th>"
-	                							 + "<th>" + list.deptName + "</th>"
-	                						 	 + "<th>" + list.empName + "</th>"
-	                							 + "<th>" + list.jobName + "</th>"
+                                                 + "<td style='color:red' class='removeEmp'><b>X</b></td>"
+                                                 + "<td style='display:none'>"+list.empNo+"</td>"
+	                							 + "<td>" + list.deptName + "</td>"
+	                						 	 + "<td>" + list.empName + "</td>"
+	                							 + "<td>" + list.jobName + "</td>"
                 						     + "</tr>";
                 						     
                                     	$("#selectAppLineTB tbody").append(value);
@@ -518,10 +517,11 @@
                                     let value=""
                                     
                                     value += "<tr class='refEmp'>"
-                                                + "<th style='color:red' class='removeRef'><b>X</b></th>"
-                                                + "<th>" + list.deptName + "</th>"
-                                                + "<th>" + list.empName + "</th>"
-                                                + "<th>" + list.jobName + "</th>"
+                                                + "<td style='color:red' class='removeRef'><b>X</b></td>"
+                                                + "<td style='display:none'>"+list.empNo+"</td>"
+                                                + "<td>" + list.deptName + "</td>"
+                                                + "<td>" + list.empName + "</td>"
+                                                + "<td>" + list.jobName + "</td>"
                                             + "</tr>";
                                             
                                     $("#selectRefLineTB tbody").append(value);
@@ -538,11 +538,7 @@
                                 
                                 })
                             })
-                            
-                            
-
-
-                            
+                           
 			            </script>
                        
                       
@@ -567,6 +563,7 @@
                                     <thead >
                                         <tr>
                                             <th width="15px"></th>
+                                            <th style="display: none;"></th>
                                             <th>부서</th>
                                             <th>이름</th>
                                             <th>직급</th>
@@ -582,6 +579,7 @@
                                     <thead>
                                         <tr>
                                             <th width="15px"></th>
+                                            <th style="display: none;"></th>
                                             <th>부서</th>
                                             <th>이름</th>
                                             <th>직급</th>
@@ -599,14 +597,73 @@
                     
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary">적용</button>
+                    <button type="button" class="btn btn-secondary" id="selectApp" data-dismiss="modal">적용</button>
                     </div>
                     
                 </div>
                 </div>
             </div>
-
+			<div id="app-list"></div>
         </form>
+        <script>
+			
+            $(document).on("click", "#selectApp", function(){
+            	
+                var count = 0;
+
+                $("#selectAppLineTB tbody tr").each(function(){
+                   
+                   let no = $(this).children().eq(1).text();
+                   let name = $(this).children().eq(3).text();
+                   let job = $(this).children().eq(4).text();
+                   console.log(count);
+                   console.log(name);
+
+                  
+                   
+                    if(count == 0){
+                        $("#job1").text(job);
+                        $("#name1").text(name);
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
+                    }else if(count == 1){
+                        $("#job2").text(job);
+                        $("#name2").text(name);
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
+                    }else if(count == 2){
+                        $("#job3").text(job);
+                        $("#name3").text(name);
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
+                    }
+                    
+                   count++;
+
+                })
+
+                $(document).on("click", "#chart", function() {
+                    count = 0;
+                    $('#job1').text('');
+                    $('#job2').text('');
+                    $('#job3').text('');
+                    $('#name1').text('');
+                    $('#name2').text('');
+                    $('#name3').text('');
+
+                })
+
+                
+                var num = 0;
+                $("#selectRefLineTB tbody tr").each(function(){
+                	let no = $(this).children().eq(1).text();
+                    
+                	$("#app-list").append("<input type='hidden' name='rlist[" +num + "].empNo' value='" + no + "'>");
+                	++num;
+                })
+                
+                
+					
+            })
+
+        </script>
 
     </div> <!-- end of content-->
     </div>

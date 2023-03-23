@@ -43,6 +43,9 @@ public interface ApprovalService{
 	//문서 insert 임시저장
 	int saveApproval(Approval a);
 	
+	//새문서 insert
+	int insertNewApp(Approval a);
+	
 	
 	
 	
