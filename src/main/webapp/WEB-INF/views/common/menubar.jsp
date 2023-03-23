@@ -218,13 +218,13 @@
             <div class="header">
                 <div class="logo-box">
                     
-                    <a href="#"><img class="logo" src="resources/images/common/jworkLogo.png" alt="" style="width: 230px;" /></a>
+                    <a href="home.jwork"><img class="logo" src="resources/images/common/jworkLogo.png" alt="" style="width: 230px;" /></a>
                     
                 </div>
 
             </div>
 			<div class="header-right">
-                	<a href="#"><img class="headerIcon" src="resources/images/common/email1.png" alt=""></a>&nbsp;&nbsp;
+                	<a href="#"><img class="headerIcon" src="resources/images/common/alarm.png" alt=""></a>&nbsp;&nbsp;
                 	<a href="#"><img class="headerIcon" src="resources/images/common/profileDefault3.png" alt=""></a>
             </div>
             

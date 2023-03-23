@@ -10,6 +10,11 @@
 <!-- include summernote css/js-->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
+<!-- 조직도 트리 -->
+<script src="http://code.jquery.com/jquery-latest.js"></script> 
+<link rel="stylesheet" type="text/css" href="resources/css/treeview/jquery.treeview.css"/>
+
+
 <style>
 	 .content{
         margin: auto; 
@@ -75,7 +80,8 @@
         border-radius: 5%;
         width: 300px;
         padding:15px;
-        text-align: left;
+        margin: auto;
+        overflow: auto;     
              
     }
     .approvalLine-button{
@@ -108,7 +114,60 @@
         list-style: none;
         font-size: small;
     }
+    #tree{
+            font-size: 14px;
+        }
+    
+   .emp:hover{
+       cursor: pointer;
+   }
+
+   .click {
+        font-weight:bolder;
+        color: green;
+    }
    
+   
+  
+   .employeeChart{
+  	   border: 1px solid black;
+       border-radius: 5%;
+       width: 300px;
+       padding:5px;
+       text-align: left;
+       height: 300px;
+       width: 300px;
+       overflow: auto;
+   }
+   .selectAppLine{
+      overflow: auto;
+      height: 265px;
+   }
+   .employeeChart::-webkit-scrollbar{
+        width: 5px; /*스크롤바의 너비*/
+    }
+
+    .approvalLine-area::-webkit-scrollbar{
+        width: 2px; /*스크롤바의 너비*/
+    }
+    .selectAppLine::-webkit-scrollbar{
+        width: 2px; /*스크롤바의 너비*/
+    }
+    
+  #selectAppLineTB tbody, #selectRefLineTB tbody{
+  	font-size: small;
+  }
+
+  .removeBtn{
+    display: flex;
+    align-items:center; 
+    justify-content: center;
+    height: 6px;
+    width: 4px;
+    font-size: 2px;
+  }
+
+ 
 </style>
 </head>
 <body>
@@ -157,7 +216,7 @@
             <table  id="selectApprovalLine" border="1">
                 <tr >
                     <th width="90px" rowspan="3"style="text-align:center; background:rgb(237, 237, 237);">
-                        <button type="button" class="btn" data-toggle="modal" data-target="#myModal">
+                        <button type="button" class="btn" data-toggle="modal" data-target="#myModal" id="chart">
                             결재
                         </button>
                     </th>
@@ -316,7 +375,7 @@
             <div class="modal fade" id="myModal">
                 <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                
+               
                     <!-- Modal Header -->
                     <div class="modal-header">
                     <h5 class="modal-title"><b>결재선</b></h5>
@@ -325,49 +384,196 @@
                     
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <div class="approvalLine-area"  id="selectEmpLine">
                             
-                            <ul class="deptName" style="overflow: auto">
+                            <div class="employeeChart">
+                                 <ul id="tree" class="filetree treeview-famfamfam ">
+            
+                        
+                                                
+                                          
+                                  </ul>
+                                  <input type="hidden" id="appEmpNo" value="">
+                                            
+                           </div>
+
+                       
+                       <!-- ajax로 트리 불러오기 --> 
+                        <script src="resources/js/treeview/jquery.cookie.js" type="text/javascript"></script>
+           				<script src="resources/js/treeview/jquery.treeview.js" type="text/javascript"></script>
+					   <script>
+			                $(document).ready(function(){
+			                    
+			                    
+			                    $(document).on("click", "#chart", function(){
+			
+			                        $.ajax({
+			                            url: "employeeChart.emp",
+			                            success: function(deptList){
+			                                //console.log(deptList);
+			                                let chart = "";
+			                                for(let i=0; i<deptList.length; i++){
+			                                    //console.log(deptList[i]);
+			                                    if(deptList[i].deptName == "사장"){
+			                                        chart += "<li><span class='emp' empNo='" + deptList[i].teamList[0].empList[0].empNo  +"' empName='" + deptList[i].teamList[0].empList[0].empName + "'>" 
+			                                                                            + deptList[i].teamList[0].empList[0].jobName + '&nbsp;' + deptList[i].teamList[0].empList[0].empName + "</span></li>";
+			                                    } else{
+			                                        chart += '<li class="closed"><span class="folder">' + deptList[i].deptName + '</span>';
+			                                        for(let j=0; j<deptList[i].teamList.length; j++){
+			                                            if(deptList[i].teamList[j].teamName == "임원"){
+			                                                for (let k=0; k<deptList[i].teamList[j].empList.length; k++){
+			                                                    chart += '<ul><li><span class="emp" empNo="' + deptList[i].teamList[j].empList[k].empNo + '" empName="' + deptList[i].teamList[j].empList[k].empName + '">'
+			                                                            + deptList[i].teamList[j].empList[k].jobName + '&nbsp;' + deptList[i].teamList[j].empList[k].empName + '</span></li></ul>';
+			                                                }
+			                                            } else{
+			                                                chart += '<ul><li class="closed"><span class="folder">' + deptList[i].teamList[j].teamName + '</span>';
+			                                                for(let k=0; k<deptList[i].teamList[j].empList.length; k++){
+			                                                    chart += '<ul><li><span class="emp" empNo="' + deptList[i].teamList[j].empList[k].empNo +  '" empName="' + deptList[i].teamList[j].empList[k].empName + '">'
+			                                                        + deptList[i].teamList[j].empList[k].jobName + '&nbsp;' + deptList[i].teamList[j].empList[k].empName + '</span></li></ul>';
+			                                                }
+			                                                chart+= '</li></ul>';
+			
+			                                            }
+			                                            
+			                                        }
+			                                        chart += "</li>";
+			                                    }
+			                                    
+			                                }
+			                                $("#tree").html(chart);
+			                                $("#tree").treeview({});
+			
+			                            }, error: function(){
+			                                console.log("조직도 조회용 ajax 통신 실패");
+			                            }
+			
+			                        })
+			
+			                    })
+
                                 
-                                	<ul class="teamName" style="display:none" >
+                                //사원 선택시
+                                $(document).on("click",".emp",function(){
+                                   
+                                    const empNo= $(this).attr("empNo");
+                    
+                                    //console.log(empNo);
                                     
-                                	</ul> 
-                            </ul>
-                        </div>
+                                    $("#appEmpNo").val(empNo);
+                                   
+                                    // 이전에 클릭된 엘리먼트의 색상을 원래대로 되돌립니다.
+                                    $(".emp").css("color", "").css("font-weight", "normal");
+  
+                                    // 현재 클릭된 엘리먼트의 색상을 변경하고, #appEmpNo 엘리먼트의 값을 설정합니다.
+                                    $(this).css("color", "green").css("font-weight", "bolder");
+
+                                })
+
+			                });
+						
+			                
+                            $(document).on("click","#addSigner",function(){
+                            	var count = $(".signEmp").length;
+                            	if(count >= 3){
+                            		alert("결재자는 최대 3명까지 지정 가능합니다.");
+                            		return;
+                            	} else{
+                            		$.ajax({
+                                    url:"addSigner.app",
+                                    data:{empNo:$("#appEmpNo").val()},
+                                    success: function(list){
+                                    	//console.log(list)
+                                    	
+                                    	let value=""
+                                    	value += "<tr class='signEmp'>"
+                                                 + "<th style='color:red' class='removeEmp'><b>X</b></th>"
+	                							 + "<th>" + list.deptName + "</th>"
+	                						 	 + "<th>" + list.empName + "</th>"
+	                							 + "<th>" + list.jobName + "</th>"
+                						     + "</tr>";
+                						     
+                                    	$("#selectAppLineTB tbody").append(value);
+                                        console.log(list);
+
+                                        $(".removeEmp").click(function(){
+                                            $(this).parent().remove();
+                                            count--;
+                                        })
+
+                                     
+                                    }, error:function(){
+                        				console.log("결재자 추가 ajax 통신실패");
+                        			}
+                                })
+                             }
+                                
+                            })
+
+                            $(document).on("click","#addRefer",function(){
+                                $.ajax({
+                                url:"addSigner.app",
+                                data:{empNo:$("#appEmpNo").val()},
+                                success: function(list){
+                                  
+                                    
+                                    let value=""
+                                    
+                                    value += "<tr class='refEmp'>"
+                                                + "<th style='color:red' class='removeRef'><b>X</b></th>"
+                                                + "<th>" + list.deptName + "</th>"
+                                                + "<th>" + list.empName + "</th>"
+                                                + "<th>" + list.jobName + "</th>"
+                                            + "</tr>";
+                                            
+                                    $("#selectRefLineTB tbody").append(value);
+                                    console.log(list);
+
+                                    $(".removeRef").click(function(){
+                                        $(this).parent().remove();
+                                    })
+
+                                    
+                                }, error:function(){
+                                    console.log("결재자 추가 ajax 통신실패");
+                                }
+                                
+                                })
+                            })
+                            
+                            
+
+
+                            
+			            </script>
+                       
                       
 
                         <div class="approvalLine-button">
                             <br>
                             <br>
                             <br>
-                            <button type="button" class="btn btn-outline-secondary">결재&gt;</button>
+                            <button type="button" class="btn btn-outline-secondary" id="addSigner">결재&gt;</button>
                             <br><br>
-                            <button type="button" class="btn btn-outline-secondary">&lt;제외</button>
+                            <!--<button type="button" class="btn btn-outline-secondary" id="removeEmp">&lt;제외</button>-->
                             <br><br>
-                            <button type="button" class="btn btn-outline-secondary">참조&gt;</button>
+                            <button type="button" class="btn btn-outline-secondary" id="addRefer">참조&gt;</button>
                         </div>
-                        <div class="approvalLine-area">
+
+                       
+
+                        <div class="approvalLine-area" >
                             <div class="selectAppLine">
                                 <table id="selectAppLineTB" border="1">
                                     <h6 style="text-align: center;"><b>결재자</b></h6>
                                     <thead >
                                         <tr>
+                                            <th width="15px"></th>
                                             <th>부서</th>
                                             <th>이름</th>
                                             <th>직급</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>총무팀</td>
-                                            <td>홍길동</td>
-                                            <td>대리</td>
-                                        </tr>
-                                        <tr>
-                                            <td>총무팀</td>
-                                            <td>김과장</td>
-                                            <td>과장</td>
-                                        </tr>
+                                       
                                     </tbody>
                                 </table>
                                 <br>
@@ -375,22 +581,14 @@
                                     <h6 style="text-align: center;"><b>참조자</b></h6>
                                     <thead>
                                         <tr>
+                                            <th width="15px"></th>
                                             <th>부서</th>
                                             <th>이름</th>
                                             <th>직급</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>총무팀</td>
-                                            <td>홍길동</td>
-                                            <td>대리</td>
-                                        </tr>
-                                        <tr>
-                                            <td>총무팀</td>
-                                            <td>김과장</td>
-                                            <td>과장</td>
-                                        </tr>
+                                        
                                     </tbody>
                                 </table>
 

@@ -11,6 +11,7 @@ import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.employee.model.vo.Job;
+import com.mj.jwork.employee.model.vo.Schedule;
 import com.mj.jwork.employee.model.vo.Team;
 
 @Repository
@@ -260,13 +261,42 @@ public class EmployeeDao {
 		return sqlSession.update("employeeMapper.ajaxDeleteJob", jobCode);
 	}
 	
-	
-	// 조직도
-	public ArrayList<Department> selectEmployeeChart(SqlSessionTemplate sqlSession){
-		
+	// 조직도 조회
+	public ArrayList<Department> selectEmployeeChart(SqlSessionTemplate sqlSession){	
 		return (ArrayList)sqlSession.selectList("employeeMapper.selectEmployeeChart");
-		
 	}
+	
+	//결재자 추가
+	public Employee addSigner(SqlSessionTemplate sqlSession, int empNo) {
+		return sqlSession.selectOne("employeeMapper.addSigner", empNo);
+	}
+
+	// 일정 등록
+	public int insertSchedule(SqlSessionTemplate sqlSession, Schedule s) {
+		return sqlSession.insert("employeeMapper.insertSchedule", s);
+	}
+	// 일정 등록 - 참석자 추가
+	public int insertAttendee(SqlSessionTemplate sqlSession, String[] attendeeNo) { // String[] attendance
+		
+		int count = 0;
+		for(String empNo : attendeeNo) {
+			//System.out.println(empNo);
+			count += sqlSession.insert("employeeMapper.insertAttendee", empNo);
+		}
+		return count;	
+	}
+	
+	// 주소록 - 조직도 조회
+	public ArrayList<Employee> ajaxAddressInChart(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxAddressInChart");
+	}
+	
+	
+
+	
+	
+
+	
 
 	
 
