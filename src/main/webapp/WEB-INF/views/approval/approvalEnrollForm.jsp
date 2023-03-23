@@ -81,7 +81,7 @@
         width: 300px;
         padding:15px;
         margin: auto;
-        
+        overflow: auto;     
              
     }
     .approvalLine-button{
@@ -139,13 +139,32 @@
        width: 300px;
        overflow: auto;
    }
-   
-   .employeeChart::-webkit-scrollbar {
+   .selectAppLine{
+      overflow: auto;
+      height: 265px;
+   }
+   .employeeChart::-webkit-scrollbar{
         width: 5px; /*스크롤바의 너비*/
     }
+
+    .approvalLine-area::-webkit-scrollbar{
+        width: 2px; /*스크롤바의 너비*/
+    }
+    .selectAppLine::-webkit-scrollbar{
+        width: 2px; /*스크롤바의 너비*/
+    }
     
-  #selectAppLineTB tbody{
+  #selectAppLineTB tbody, #selectRefLineTB tbody{
   	font-size: small;
+  }
+
+  .removeBtn{
+    display: flex;
+    align-items:center; 
+    justify-content: center;
+    height: 6px;
+    width: 4px;
+    font-size: 2px;
   }
 
  
@@ -450,30 +469,77 @@
                                 })
 
 			                });
-
+						
+			                
                             $(document).on("click","#addSigner",function(){
-                                $.ajax({
+                            	var count = $(".signEmp").length;
+                            	if(count >= 3){
+                            		alert("결재자는 최대 3명까지 지정 가능합니다.");
+                            		return;
+                            	} else{
+                            		$.ajax({
                                     url:"addSigner.app",
                                     data:{empNo:$("#appEmpNo").val()},
                                     success: function(list){
                                     	//console.log(list)
                                     	
                                     	let value=""
-                                    	
-                                    	value += "<tr>"
+                                    	value += "<tr class='signEmp'>"
+                                                 + "<th style='color:red' class='removeEmp'><b>X</b></th>"
 	                							 + "<th>" + list.deptName + "</th>"
 	                						 	 + "<th>" + list.empName + "</th>"
 	                							 + "<th>" + list.jobName + "</th>"
                 						     + "</tr>";
                 						     
                                     	$("#selectAppLineTB tbody").append(value);
-                                    	
-                                    	
+                                        console.log(list);
+
+                                        $(".removeEmp").click(function(){
+                                            $(this).parent().remove();
+                                            count--;
+                                        })
+
+                                     
                                     }, error:function(){
                         				console.log("결재자 추가 ajax 통신실패");
                         			}
                                 })
+                             }
+                                
                             })
+
+                            $(document).on("click","#addRefer",function(){
+                                $.ajax({
+                                url:"addSigner.app",
+                                data:{empNo:$("#appEmpNo").val()},
+                                success: function(list){
+                                  
+                                    
+                                    let value=""
+                                    
+                                    value += "<tr class='refEmp'>"
+                                                + "<th style='color:red' class='removeRef'><b>X</b></th>"
+                                                + "<th>" + list.deptName + "</th>"
+                                                + "<th>" + list.empName + "</th>"
+                                                + "<th>" + list.jobName + "</th>"
+                                            + "</tr>";
+                                            
+                                    $("#selectRefLineTB tbody").append(value);
+                                    console.log(list);
+
+                                    $(".removeRef").click(function(){
+                                        $(this).parent().remove();
+                                    })
+
+                                    
+                                }, error:function(){
+                                    console.log("결재자 추가 ajax 통신실패");
+                                }
+                                
+                                })
+                            })
+                            
+                            
 
 
                             
@@ -487,9 +553,9 @@
                             <br>
                             <button type="button" class="btn btn-outline-secondary" id="addSigner">결재&gt;</button>
                             <br><br>
-                            <button type="button" class="btn btn-outline-secondary">&lt;제외</button>
+                            <!--<button type="button" class="btn btn-outline-secondary" id="removeEmp">&lt;제외</button>-->
                             <br><br>
-                            <button type="button" class="btn btn-outline-secondary">참조&gt;</button>
+                            <button type="button" class="btn btn-outline-secondary" id="addRefer">참조&gt;</button>
                         </div>
 
                        
@@ -500,6 +566,7 @@
                                     <h6 style="text-align: center;"><b>결재자</b></h6>
                                     <thead >
                                         <tr>
+                                            <th width="15px"></th>
                                             <th>부서</th>
                                             <th>이름</th>
                                             <th>직급</th>
@@ -514,6 +581,7 @@
                                     <h6 style="text-align: center;"><b>참조자</b></h6>
                                     <thead>
                                         <tr>
+                                            <th width="15px"></th>
                                             <th>부서</th>
                                             <th>이름</th>
                                             <th>직급</th>
