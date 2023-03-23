@@ -40,7 +40,8 @@ public class EssController {
 	@RequestMapping("mainPage.ess")
 	public ModelAndView mainPage(HttpSession session, ModelAndView mv) {
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
-		Attendence at = eService.selectAttendenceNo(empNo);
+		Attendence at = eService.selectAttendenceMain(empNo);
+		System.out.println(empNo);
 		
 		mv.addObject("at", at);
 		mv.setViewName("common/mainPage");
@@ -889,6 +890,7 @@ public class EssController {
 		a.setEmpNo(empNo);
 		int result = eService.insertStartAttendence(a);
 		Attendence at = eService.selectAttendence(a);
+		session.setAttribute("at", at);
 		return new Gson().toJson(at);
 	}
 	

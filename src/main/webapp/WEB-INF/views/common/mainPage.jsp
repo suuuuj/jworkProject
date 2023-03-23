@@ -62,8 +62,8 @@
         <div id="essDate"></div>
         <div id="essClock"></div>
         <dir class="btnWrap">
-            <button id="essStart">출근</button>
-            <button id="essEnd">퇴근</button>
+            <button type="button" id="essStart" onclick="startResult(${at.attNo});">출근</button>
+            <button type="button" id="essEnd" onclick="endResult(${at.attNo});">퇴근</button>
         </dir>
         <div class="btnPut">
             <span id="startResult" style="margin-left:47px;">${at.startTime}</span>
@@ -109,43 +109,43 @@
     </script>
     <script>
         $(function(){
-            $("#essStart").click(function(){
-                $.ajax({
-                    url:"insertStart.at",
-                    data:{
-                        attNo:${at.attNo}
-                    },
-                    success:function(ast){
-                        //console.log(ast);
-                        var startTime = ast.startTime;
+            if(${not empty at.startTime}){
+                $("#essStart").attr("disabled", true);
+            }
 
-                        $("#startResult").text(ast.startTime);
-                    },
-                    error:function(){
-                        console.log("출근버튼 ajax통신 실패");
-                    }
-
-                })
-            });
-        
-
-            $("#essEnd").click(function(){
-                $.ajax({
-                    url:"insertEnd.at",
-                    data:{
-                        attNo:${at.attNo}
-                    },
-                    success:function(adt){
-                        //console.log(adt);
-                        $("#endResult").text(adt.endTime);
-                    },
-                    error:function(){
-                        console.log("퇴근버튼 ajax통신 실패");
-                    }
-
-                })
-            });
+            if(${not empty at.endTime}){
+                $("#essEnd").attr("disabled", true);
+            }
+            
         })
+
+        function startResult(no){
+            $.ajax({
+                url:"insertStart.at",
+                data:{attNo:no},
+                success:function(start){
+                    //console.log(result);
+                    location.replace("mainPage.ess");
+                },
+                error:function(){
+                    console.log("출근시간입력 ajax통신실패");
+                }
+            })
+        }
+
+        function endResult(no){
+            $.ajax({
+                url:"insertEnd.at",
+                data:{attNo:no},
+                success:function(end){
+                    //console.log(end);
+                    location.replace("mainPage.ess");
+                },
+                error:function(){
+                    console.log("출근시간입력 ajax통신실패");
+                }
+            })
+        }
     </script>
 
 </body>

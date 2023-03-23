@@ -48,10 +48,15 @@ public class CfrResDao {
 	
 	public int deleteCfrRes(SqlSessionTemplate sqlSession,int resNo) {
 		
-		return sqlSession.delete("cfrMapper.deleteCfrRes",resNo);
+		return sqlSession.update("cfrMapper.deleteCfrRes",resNo);
 	}
 	
 	public int updateCfrRes(SqlSessionTemplate sqlSession, CfrReservation c) {
 		return sqlSession.update("cfrMapper.updateCfrRes",c);
+	}
+	
+	public int updateStatus(SqlSessionTemplate sqlSession,String resNoArr) {
+		
+		return sqlSession.update("cfrMapper.updateStatus",resNoArr);
 	}
 }

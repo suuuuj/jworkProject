@@ -8,13 +8,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.mj.jwork.common.model.vo.PageInfo;
@@ -231,7 +232,7 @@ public class MailController {
 	}
 	
 	@RequestMapping("detail.ma")
-	public ModelAndView selectMail(Mail m, HttpSession session, ModelAndView mv) {
+	public ModelAndView selectMail(Mail m, String mailCategory, HttpSession session, ModelAndView mv) {
 		
 		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
 		int result = 1;
@@ -243,7 +244,7 @@ public class MailController {
 		if(result > 0) {
 			Mail mi = mService.selectMail(m);
 			//System.out.println(mi);
-			mv.addObject("mi", mi).setViewName("mail/mailDetailView");
+			mv.addObject("mi", mi).addObject("mailCategory", mailCategory).setViewName("mail/mailDetailView");
 			
 		} else {
 			mv.setViewName("common/errorPage");
@@ -394,10 +395,14 @@ public class MailController {
 		
 	}
 		
-	// 트리 포워딩
-	@RequestMapping("tree.ma")
-	public String tree() {
-		return "mail/tree";
+	// 메일 답장
+	@RequestMapping("reply.ma")
+	public String replyMail(Mail m, Model model) {
+		System.out.println();
+		model.addAttribute("reply", m);
+		
+		return "mail/mailEnrollForm";
+		
 	}
 	
 	

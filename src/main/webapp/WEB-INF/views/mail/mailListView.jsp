@@ -38,7 +38,6 @@
         input[type=radio]{
             display:none; margin: 10px;
         }
-        #addMoveMailBoxInput{width: 150px; height: 30px;}
         
         #search-area{
             width: 370px;
@@ -62,6 +61,7 @@
         	border: 1px solid green;
         	border-radius: 5px;
         	padding-left: 5px;
+            width: 150px; height: 30px;
         }
         #addMoveMailBoxInput:focus{
         	outline: 1px solid green;
@@ -328,32 +328,33 @@
 
                         // 영구 삭제 버튼 클릭시
                         $("#deleteEverBtn").click(function(){
+                            if(confirm("휴지통의 메일을 지우면 지워진 메일들은 복구할 수 없습니다.\n메일을 삭제하시겠습니까?")){
+                                var checkedMailList = [];
+                                $("input[name=mailNo]:checked").each(function(){
+                                    checkedMailList.push($(this).val());
+                                })
+                                //const $checkedMails = $("input:checkbox[name=mailNo]:checked").val();
+                                console.log(checkedMailList);
 
-                            var checkedMailList = [];
-                            $("input[name=mailNo]:checked").each(function(){
-                                checkedMailList.push($(this).val());
-                            })
-                            //const $checkedMails = $("input:checkbox[name=mailNo]:checked").val();
-                            console.log(checkedMailList);
+                                $.ajax({
+                                    url:"deleteMail.ma",
+                                    data:{
+                                        empNo: ${ loginUser.empNo },
+                                        mailNoList: checkedMailList
+                                    },
+                                    success: function(result){
 
-                            $.ajax({
-                                url:"deleteMail.ma",
-                                data:{
-                                    empNo: ${ loginUser.empNo },
-                                    mailNoList: checkedMailList
-                                },
-                                success: function(result){
+                                        if(result == "success"){
+                                            location.replace("list.ma?mailCategory=${mailCategory}");
+                                        } else{
+                                            alert("알 수 없는 오류로 실패했습니다. 다시 시도해주세요.");
+                                        }
 
-                                    if(result == "success"){
-                                        location.replace("list.ma?mailCategory=${mailCategory}");
-                                    } else{
-                                        alert("알 수 없는 오류로 실패했습니다. 다시 시도해주세요.");
+                                    }, error: function(){
+                                        console.log("메일 삭제 서비스용 ajax 통신 실패");
                                     }
-
-                                }, error: function(){
-                                    console.log("메일 삭제 서비스용 ajax 통신 실패");
-                                }
-                            })
+                                })
+                            }
 
                         })
 
@@ -676,6 +677,12 @@
                 </table>
             </div>
             
+            <!-- post 방식으로 데이터 전송하기 위한 임의의 폼 -->
+            <form action="" mothod="post" id="postForm">
+				<input type="hidden" id="formMailNo" name="mailNo" value="">
+				<input type="hidden" id="formReadDate" name="readDate" value="Y">
+                <input type="hidden" id="formMailCategory" name="mailCategory" value="${mailCategory}">
+			</form>
             
             <!-- 페이징바 -->
             <div id="pagingArea">
@@ -798,19 +805,24 @@
 
                     $(document).on("click", ".mailContents .mt", function(){
 
-                        location.href='detail.ma?mailNo=' + $(this).attr("mail-no") + '&readDate=' + $(this).attr("readDate");
+                        $("#formMailNo").val($(this).attr("mail-no"));
+                        $("#formReadDate").val($(this).attr("readDate"));
+                        $("#postForm").attr("action", "detail.ma").submit();
 
                     })
 
                     $(document).on("click", ".mailContents .sendMailDetail", function(){
 
-                        location.href='detail.ma?mailNo=' + $(this).attr("mail-no") + '&readDate=Y';
+                        $("#formMailNo").val($(this).attr("mail-no"));
+                        $("#formReadDate").val("notNull");
+                        $("#postForm").attr("action", "detail.ma").submit();
 
                     })
 
                     $(document).on("click", ".mailContents .writeMail", function(){
 
-                        location.href='updateForm.ma?mailNo=' + $(this).attr("mail-no");
+                        $("#formMailNo").val($(this).attr("mail-no"));
+                        $("#postForm").attr("action", "updateForm.ma").submit();
 
                     })
                     
@@ -827,12 +839,10 @@
                             //console.log(newHtml);
                             $(this).html(newHtml);
                         })
-
                     }
                     
-                    
-
                 })
+
 
             </script>
         </div>

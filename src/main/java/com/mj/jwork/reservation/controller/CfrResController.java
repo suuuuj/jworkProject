@@ -1,5 +1,6 @@
 package com.mj.jwork.reservation.controller;
 
+import java.io.Console;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,6 +79,19 @@ public class CfrResController {
 		return mv;
 	}
 	
+	//ajax용 회의실예약목록 조회
+	@ResponseBody
+	@RequestMapping(value="list.aCfrMe",produces="application/json; charset=utf-8")
+	public String selectMyCfrList(@RequestParam(value="cpage",defaultValue="1")int currentPage,HttpSession session) {
+		int reservation=((Employee)session.getAttribute("loginUser")).getEmpNo();
+		int listCount = cRService.selectMyCfrListCount(reservation);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		ArrayList<CfrReservation>list = cRService.selectMyCfrList(pi,reservation);
+		
+		return new Gson().toJson(list);
+	}
+	
+	
 	//예약 개별 내역 조회
 	@ResponseBody
 	@RequestMapping(value="detail.cfrRes",produces="application/json; charset=utf-8")
@@ -151,6 +165,14 @@ public class CfrResController {
 			model.addAttribute("errorMsg", "회의실 예약 일정 변경 실패");
 			return "common/errorPage";
 		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="update.status",produces="application/json; charset=utf-8")
+	public String updateStatus(String resNoArr) {
+
+		int result=cRService.updateStatus(resNoArr);
+		return new Gson().toJson(result);
 	}
 	
 	

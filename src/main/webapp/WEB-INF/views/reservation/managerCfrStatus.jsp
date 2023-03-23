@@ -13,12 +13,6 @@
 	display:none;
 	}
 	
-/* 	tr:has td[data-time='01:00:00'],tr:has td[data-time='02:00:00'],tr:has td[data-time='03:00:00'],
-	tr:has td[data-time='04:00:00'],tr:has td[data-time='05:00:00'],tr:has td[data-time='06:00:00'],tr:has td[data-time='07:00:00']
-	,tr:has td[data-time='08:00:00'],tr:has td[data-time='20:00:00'],tr:has td[data-time='21:00:00'],tr:has td[data-time='22:00:00'],
-	tr:has td[data-time='23:00:00'],tr:has td[data-time='00:00:00']{
-	display:none;
-	} */
 </style>
     <meta charset='utf-8' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.js'></script>
@@ -34,10 +28,11 @@
              slotMaxTime: "20:00:00", // 최대시간 (23시까지만 화면에 보여짐)
     	    initialView: 'resourceTimeGridDay',
     	    dateClick: function(info) {
-               // alert('Clicked on: ' + info.dateStr); // 날짜 띄우는 것까지 성공 ㅅㅂ
+                //alert('Clicked on: ' + info.dateStr); // 날짜 띄우는 것까지 성공 ㅅㅂ
                 // change the day's background color just for fun
               /*   info.dayEl.style.backgroundColor = '#d6dfcc'; */
-                $("#reservationForm").modal("show");
+               // $("#reservationForm").modal("show");
+              
             },
     	    customButtons:{
     	    	info:{
@@ -92,21 +87,7 @@
     	    		
     	    	})
     	    ],
-    	    /* select:function(arg) {
-                var title = prompt('Event Title:');
-                if(title) {
-                      calendar.addEvent({
-                          title: title,
-                          start: arg.start,
-                          end: arg.end,
-                          allDay: arg.allDay
-                         })
-
-                     }
-
-                    calendar.unselect()
-
-                 }, */
+    	 
                  events: [
                  	<c:forEach var="c" items="${list}">
                  		<c:if test="${c.cfrName eq '1회의실'}">
@@ -133,6 +114,7 @@
                      	
                     </c:forEach>
                  ]
+                 
     	  })
 
     	  calendar.render();
@@ -191,22 +173,11 @@
 	            </div>
 	        </div>
 	    </div> -->
-	    <script>
-	    /*  	function getEvent(){
-	    		var events;
-	    		 $.ajax({
-	       	    		url:"call.events",
-	       	    		success:function(list){
-	       	    			
-	       	    			events=list;
-	       	    			
-	       	    		}
-	       	    		
-	       	    	})
-	    		return events;
-	    	}  */
-	    	
-	    </script>
+	   	<script>
+	   	  $(function(){
+	   	 	   $('.datepicker').datepicker();
+	   		  })
+   		 </script>
 	       <!--회의실 예약 모달 -->
     <div class="modal" id="reservationForm">
         <div class="modal-dialog">
@@ -237,12 +208,13 @@
                         </tr>
                         <tr>
                             <th>날짜</th>
-                            <td><input type="date" name="useDate" id="useDate" required></td>
+                            <td><input class="datepicker" name="useDate" id="datepicker"required></td>
                         </tr>
                         <tr>
                             <th>시간</th>
                           	<td>
-                            <select name="startTime">
+                            <select name="startTime" onchange="endTimeShow();" required>
+                          	    <option>- 시작시간 -</option>
                                 <option value="09:00">09:00</option>
                                 <option value="10:00">10:00</option>
                                 <option value="11:00">11:00</option>
@@ -256,7 +228,8 @@
                                 <option value="19:00">19:00</option>
                             </select>
                             -
-                            <select name="endTime">
+                            <select name="endTime" required>
+                                <option class=".ti0">- 종료시간 -</option>
                                 <option value="09:00">09:00</option>
                                 <option value="10:00">10:00</option>
                                 <option value="11:00">11:00</option>
@@ -281,7 +254,7 @@
                             <td><input type="text" name="cfTitle"required></td>
                         </tr>
                     </table>
-                    <button type="submit" class="btn btn-primary btn-sm">예약하기</button>
+                    <button type="submit" onclick="return timeNeed();" class="btn btn-primary btn-sm">예약하기</button>
                </form>
 	      </div>
     
@@ -389,6 +362,26 @@
         }
          
      </script>
-  
+	    <script>
+	   		 function timeNeed(){
+				if($("select[name=statTime]").val() == "- 시작시간 -" || $("select[name=endTime]").val() == "- 종료시간 -"){
+					alert("시작/종료시간을 입력하세요.");
+					return false;
+			}
+	   		 }
+	    	function endTimeShow(){
+	    		
+	    		$(".ti0").prop("selected", true);
+	    		if($("select[name=statTime] option:selected").val() == $("select[name=endTime] option:selected").val()){
+	    		console.log("안대");
+	    			
+	    		
+	    		}	    		
+	    	}
+	    		
+	  
+	    
+	    </script>
+  	<input class="datepicker" type="text" name="useDate" id="datepicker"required>
   </body>
 </html>

@@ -68,6 +68,12 @@ public class CfrResServiceImpl implements CfrResService{
 	public int updateCfrRes(CfrReservation c) {
 		return cRDao.updateCfrRes(sqlSession, c);
 	}
+
+
+	@Override
+	public int updateStatus(String resNoArr) {
+		return cRDao.updateStatus(sqlSession, resNoArr);
+	}
 	
 	
 

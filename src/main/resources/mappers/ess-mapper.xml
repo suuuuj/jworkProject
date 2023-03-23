@@ -715,14 +715,14 @@
 	</update>
 	
 	<!-- 관리자 : 메인페이지 근태버튼 -->
-	<select id="selectAttendenceNo" resultMap="attendenceResult">
+	<select id="selectAttendenceMain" resultMap="attendenceResult">
 		select 
 		       att_no
 		     , NVL(start_time,'') as "start_time"
 		     , NVL(end_time, '') as "end_time"
 		  from attendence
 		 where emp_no = #{empNo}
-		   and att_date = to_char(sysdate, 'yy/mm/dd')
+		   and att_date = to_char(sysdate-1, 'yy/mm/dd')
 	</select>
 	
 	<!-- 관리자 : 새벽2시근태입력  -->
