@@ -244,49 +244,7 @@
 <title>menubar</title>
 </head>
 <body>
-	<c:if test="${not empty alertMsg }">
-		<script>
-			//alertify.alert('${alertMsg}');
-            swal('${alertMsg}', '', 'success');
-		</script>
-		<c:remove var="alertMsg" scope="session"/>	
-	</c:if>
-	    
-    <div class="totalOuter">
-
-        <div class="home">
-            <div class="header">
-                <div class="logo-box">
-                    
-                    <a href="home.jwork"><img class="logo" src="resources/images/common/jworkLogo.png" alt="" style="width: 230px;"/></a>
-                    
-                </div>
-
-            </div>
-			<div class="header-right">
-                	<button id="alarmBtn"  data-bs-toggle="dropdown" data-bs-auto-close="outside"><img class="headerIcon " src="resources/images/common/alarm.png" ></button>
-                    <ul class="dropdown-menu">
-                        <div class="alarm-area">
-                            <li><span class="dropdown-item-text alarm-delete">모두 삭제</span></li>
-                            <li class="alarm">
-                                <a class="dropdown-item " href="#"><div class="alarms">XXX님으로부터 메일이 도착했습니다.</div></a>
-                            </li>
-                            <li class="alarm new">
-                                <a class="dropdown-item " href="#"><div class="alarms">새 결재가 도착했습니다.</div></a>
-                            </li>
-                            <li class="alarm">
-                                <a class="dropdown-item " href="#"><div class="alarms">XXX사원의 휴가 승인 요청이 들어왔습니다.</div></a>
-                            </li>
-                            
-                        </div>
-                    </ul>
-                    &nbsp;&nbsp;
-                	<a href="#"><img class="headerIcon" src="resources/images/common/profileDefault3.png" alt=""></a>
-            </div>
-            
-        </div>
-        <div class="gradation"></div>
-        <div class="outer">
+	<jsp:include page="../common/header.jsp"/>
             <input type="checkbox" id="menuicon">
             <label for="menuicon">
                 <span></span>
