@@ -15,6 +15,7 @@ import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
 import com.mj.jwork.ess.model.vo.LeaveCategory;
 import com.mj.jwork.ess.model.vo.Overtime;
+import com.mj.jwork.ess.model.vo.Worktime;
 
 @Service
 public class EssServiceImpl implements EssService {
@@ -282,6 +283,36 @@ public class EssServiceImpl implements EssService {
 	@Override
 	public int insertAllAttendenceTime(Attendence a) {
 		return eDao.insertAllAttendenceTime(sqlSession, a);
+	}
+
+	@Override
+	public int insertModifyStartTime(Worktime w) {
+		return eDao.insertModifyStartTime(sqlSession, w);
+	}
+
+	@Override
+	public int insertModifyEndTime(Worktime w) {
+		return eDao.insertModifyEndTime(sqlSession, w);
+	}
+
+	@Override
+	public int updateStartTime(Worktime w) {
+		return eDao.updateStartTime(sqlSession, w);
+	}
+
+	@Override
+	public int updateEndTime(Worktime w) {
+		return eDao.updateEndTime(sqlSession, w);
+	}
+
+	@Override
+	public int insertModifyWorktime(Worktime w) {
+		return eDao.insertModigfyWorktime(sqlSession, w);
+	}
+
+	@Override
+	public int updateWorktime(Worktime w) {
+		return eDao.updateWorktime(sqlSession, w);
 	}
 
 

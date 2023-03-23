@@ -18,10 +18,5 @@ public class Worktime {
 	private String reStartTime;
 	private String reEndTime;
 	private String reContent;
-	
-	// ATTEMDENCE 테이블이랑 JOIN할 애들
-	private String startTime;
-	private String endTime;
-	private String attDate;
 
 }

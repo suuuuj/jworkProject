@@ -25,6 +25,7 @@ import com.mj.jwork.ess.model.vo.Businesstrip;
 import com.mj.jwork.ess.model.vo.Leave;
 import com.mj.jwork.ess.model.vo.LeaveCategory;
 import com.mj.jwork.ess.model.vo.Overtime;
+import com.mj.jwork.ess.model.vo.Worktime;
 
 @Controller
 public class EssController {
@@ -41,7 +42,6 @@ public class EssController {
 	public ModelAndView mainPage(HttpSession session, ModelAndView mv) {
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		Attendence at = eService.selectAttendenceMain(empNo);
-		System.out.println(empNo);
 		
 		mv.addObject("at", at);
 		mv.setViewName("common/mainPage");
@@ -934,6 +934,63 @@ public class EssController {
 		return mv;
 	}
 	
+	/**
+	 * ajax 근태 상세조회
+	 * @param a
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="detail.at", produces="application/json; charset=UTF-8")
+	public String selectAttendence(Attendence a, HttpSession session) {
+		
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		a.setEmpNo(empNo);
+		Attendence at = eService.selectAttendence(a);
+		return new Gson().toJson(at);
+		
+		
+	}
+	
+	@RequestMapping("modify.at")
+	public ModelAndView modifyWorktime(Worktime w, HttpSession session, ModelAndView mv) {
+		
+				// 출근시간변경
+				if(!w.getReStartTime().equals("") && w.getReEndTime().equals("")) {
+					int resultS = eService.insertModifyStartTime(w);
+					int resultSS = eService.updateStartTime(w);
+					
+					if(resultS > 0 && resultSS > 0) {
+						session.setAttribute("alertMsg", "출근시간변경에 성공하였습니다.");
+						mv.setViewName("redirect:/list.at");
+					}
+				}
+				
+				// 퇴근시간변경
+				if(w.getReStartTime().equals("") && !w.getReEndTime().equals("")) {
+					int resultE = eService.insertModifyEndTime(w);
+					int resultEE = eService.updateEndTime(w);
+					
+					if(resultE > 0 && resultEE > 0) {
+						session.setAttribute("alertMsg", "퇴근시간변경에 성공하였습니다.");
+						mv.setViewName("redirect:/list.at");
+					}
+				}
+				
+				// 근태시간변경
+				if(!w.getReStartTime().equals("") && !w.getReEndTime().equals("")) {
+					int resultSE = eService.insertModifyWorktime(w);
+					int resultSSEE = eService.updateWorktime(w);
+					
+					if(resultSE > 0 && resultSSEE > 0) {
+						session.setAttribute("alertMsg", "근태시간변경에 성공하였습니다.");
+						mv.setViewName("redirect:/list.at");
+					}
+				}
+				
+				return mv;
+				
+	}
 	
 	
 	
