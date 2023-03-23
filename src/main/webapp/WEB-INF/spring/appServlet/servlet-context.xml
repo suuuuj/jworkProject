@@ -4,7 +4,9 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
@@ -33,6 +35,17 @@
 	
 	
 	<context:component-scan base-package="com.mj.jwork" />
+	
+	<!-- websocket 관련 구문 추가 -->
+	<beans:bean id="EchoHandler" class="com.mj.jwork.common.socket.EchoHandler" />
+	<websocket:handlers> <!-- 스키마 등록해야 빨간줄 사라짐 -->
+		<websocket:mapping handler="EchoHandler" path="/alarm"/>	<!-- /jwork/alarm url 요청시 -->
+		<!-- HttpSession 데이터를 사용할 수 있도록 설정 : Source 탭 말고 Namespaces 탭 가서 웹소켓 체크해주면 됨 --> 
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+		</websocket:handshake-interceptors>
+		<websocket:sockjs />
+	</websocket:handlers>
 	
 	<!-- 스케줄링 관련 구문 추가 -->
 	<task:scheduler id="myScheduler" pool-size="10" /> 
