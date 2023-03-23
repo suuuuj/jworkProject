@@ -142,6 +142,11 @@ public class EssServiceImpl implements EssService {
 	public int insertOvertime(Overtime o) {
 		return eDao.insertOvertime(sqlSession, o);
 	}
+	
+	@Override
+	public int insertOvertimeAll(Overtime o) {
+		return eDao.insertOvertimeAll(sqlSession, o);
+	}
 
 	@Override
 	public int insertBusinesstrip(Businesstrip b) {
@@ -313,6 +318,31 @@ public class EssServiceImpl implements EssService {
 	@Override
 	public int updateWorktime(Worktime w) {
 		return eDao.updateWorktime(sqlSession, w);
+	}
+
+	@Override
+	public ArrayList<Attendence> workCalendarAttendence(int empNo) {
+		return eDao.workCalendarAttendence(sqlSession, empNo);
+	}
+
+	@Override
+	public ArrayList<Businesstrip> workCalendarBusinesstrip(int empNo) {
+		return eDao.workCalendarBusinesstrip(sqlSession, empNo);
+	}
+
+	@Override
+	public ArrayList<Overtime> workCalendarOvertime(int empNo) {
+		return eDao.workCalendarOvertime(sqlSession, empNo);
+	}
+
+	@Override
+	public Attendence selectWeekWorktime(int empNo) {
+		return eDao.selectWeekWorktime(sqlSession, empNo);
+	}
+
+	@Override
+	public Attendence selectMonthWorktime(int empNo) {
+		return eDao.selectMonthWorktime(sqlSession, empNo);
 	}
 
 
