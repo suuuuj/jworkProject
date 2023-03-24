@@ -273,7 +273,7 @@
                         <th id="appThead">입사년도</th>
                         <td id="indate">${ loginUser.enrollDate }</td>
                         <th id="appThead">퇴사 예정일</th>
-                        <td id="indate"><input type="date" name="resignDate" id=""></td>
+                        <td id="indate"><input type="date" name="quitDate" ></td>
                     </tr>
                 </table>
                 <br>

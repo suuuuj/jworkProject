@@ -204,7 +204,7 @@
 	                    <th id="appThead">입사년도</th>
 	                    <td id="indate">${loginUser.enrollDate}</td>
 	                    <th id="appThead">퇴사 예정일</th>
-	                    <td id="indate">2023.03.27</td>
+	                    <td id="indate">${ a.quitDate }</td>
 	                </tr>
                 </c:if>
                 <tr>
@@ -220,7 +220,7 @@
                     <td colspan="3" style="text-align: left;">
                     <c:choose>
                     	<c:when test="${ not empty a.docOriginName }">	
-                    		<a href="${ a.docFilePath }" download="${a.docOriginName}">${a.docOriginName}"</a>
+                    		<a href="${ a.docFilePath }" download="${a.docOriginName}">${a.docOriginName}</a>
                    		</c:when>
                    		<c:otherwise>
                    			첨부파일이 없습니다.

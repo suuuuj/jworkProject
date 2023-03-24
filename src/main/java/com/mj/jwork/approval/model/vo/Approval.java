@@ -28,12 +28,15 @@ public class Approval {
 	 private String docStatus;
 	 private int appCount;
 	 private int appTurn;
+	 private String quitDate;
 	 
 	 
 	 private String empName;
 	 private String docName;
 	 private String jobName;
 	 private String reReason;
+	 
+	 
 	 
 	 ArrayList<AppLine> alist;
 	 ArrayList<Reference> rlist;
