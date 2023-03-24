@@ -323,7 +323,7 @@
                             let msg = "";
 
                             if(list.length == 0){
-                                msg += '<li class="alarm"><a class="dropdown-item-text" href="#"><div class="alarms">알림이 없습니다.</div></a></li>'
+                                msg += '<li class="alarm"><span class="dropdown-item-text" href="#"><div class="alarms">알림이 없습니다.</div></span></li>'
                             } else{
                                 for(let i=0; i<list.length; i++){
                                     msg += '<li class="alarm read' + list[i].read + '"><a class="dropdown-item " alarmNo=' + list[i].alarmNo + ' href="#" url=' + list[i].url + '><div class="alarms">';
@@ -355,6 +355,7 @@
                     if($("#newIcon").css("display") == "block"){
                         $("#newIcon").css("display", "none");
                     }
+                    loadAlarm();
                 })
 
                 $(document).on("click", ".alarmsDiv .dropdown-item", function(){
@@ -362,6 +363,7 @@
                     const $url = $(this).attr("url");
                     console.log($alarmNo);
                     console.log($url);
+                    
                 })
 
 
