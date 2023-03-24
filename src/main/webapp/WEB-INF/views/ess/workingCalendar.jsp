@@ -173,7 +173,7 @@
                     <tbody>
                         <tr>
                             <td>${week.weekTime}</td>
-                            <td>3시간 23분</td>
+                            <td>3${oweek.weekTime}</td>
                             <td>20시간 00분</td>
                             <td>${month.monthTime}</td>
                         </tr>

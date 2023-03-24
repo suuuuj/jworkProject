@@ -129,7 +129,7 @@
                     </thead>
                     <tbody>
                         <c:forEach var="l" items="${list}">
-                            <tr>
+                            <tr onclick="detailFunction(${l.leaveNo});">
                                 <td>${ l.leaveNo }</td>
                                 <td>${ l.empNo }</td>
                                 <td>${ l.deptName }</td>
@@ -146,11 +146,9 @@
             </div>
 
             <script>
-                $(function(){
-                    $(".leaveTable>tbody tr").click(function(){
-                        location.href = 'adminDetail.le?leaveNo=' + $(this).children().eq(0).text();
-                    })
-                })
+                function detailFunction(no){
+                    location.href = 'adminDetail.le?leaveNo=' + no;
+                }
             </script>
             
             <br><br>
