@@ -107,6 +107,7 @@
                         <input type="hidden" name="empNo" value="${ e.empNo }">
                         <input type="hidden" name="deptCode" value="${ e.deptCode }">
                         <input type="hidden" name="teamCode" value="${ e.teamCode }">
+                        <input type="hidden" name="jobCode" value="${ e.jobCode }">
                     </div>
                     <div style="background:rgb(234, 234, 234); width:500px; height:1px; margin-top:13px; margin-left: 20px;">&nbsp;</div>
                 </div>
