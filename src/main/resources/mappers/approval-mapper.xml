@@ -338,19 +338,47 @@
 			  , #{docFilePath}
 			  , 0
 			  , 'Y'
-			  , #{alist.size()}
+			  , #{appCount}
 			  , 1
 			    )
     </insert>
     
     <!-- 결재선 insert -->
     <insert id="insertNewAppLine">
-    
+	    insert 
+	      into app_line
+			 (
+			   LINE_NO
+			 , APP_NO
+			 , EMP_NO
+			 , APP_LEVEL
+			 , CONFIRM_STATUS
+			 )
+	    values
+			 (
+			   SEQ_ALNO.nextval
+			 , SEQ_APNO.currval
+			 , #{empNo}
+			 , #{appLevel}
+			 , 0
+			 )
     </insert>
     
     <!-- 참조인 insert -->
     <insert id="insertNewRefLine">
-    
+    	insert 
+	      into reference
+			 (
+			   REF_NO
+			 , APP_NO
+			 , EMP_NO
+			 )
+	    values
+			 (
+			   SEQ_ARNO.nextval
+			 , SEQ_APNO.currval
+			 , #{empNo}
+			 )
     </insert>	
 
 </mapper>

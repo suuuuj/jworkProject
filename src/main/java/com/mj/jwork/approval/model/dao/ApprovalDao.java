@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mj.jwork.approval.model.vo.AppLine;
 import com.mj.jwork.approval.model.vo.Approval;
+import com.mj.jwork.approval.model.vo.Reference;
 import com.mj.jwork.common.model.vo.PageInfo;
 
 @Repository
@@ -122,12 +123,36 @@ public class ApprovalDao {
 		return sqlSession.insert("approvalMapper.insertNewApp",a);
 	}
 	//결재선
-	public int insertNewAppLine(SqlSessionTemplate sqlSession,Approval a) {
-		return sqlSession.insert("approvalMapper.insertNewAppLine",a);
+	public int insertNewAppLine(SqlSessionTemplate sqlSession, Approval a) {
+		
+		int count = 0;
+		
+		ArrayList<AppLine> alist = new ArrayList<>();
+		alist = a.getAlist();
+		//System.out.println("alist: " + alist);
+		
+		for(AppLine al : alist) {
+			
+			count += sqlSession.insert("approvalMapper.insertNewAppLine",al);
+		}
+		
+		return count;
 	}
 	//참조인
 	public int insertNewRefLine(SqlSessionTemplate sqlSession,Approval a) {
-		return sqlSession.insert("approvalMapper.insertNewRefLine",a);
+		int count = 0;
+		
+		ArrayList<Reference> rlist = new ArrayList<>();
+		rlist = a.getRlist();
+		//System.out.println("rlist: " + rlist);
+		
+		for(Reference rl : rlist) {
+			
+			count += sqlSession.insert("approvalMapper.insertNewRefLine",rl);
+			
+		}
+		
+		return count;
 	}
 
 	

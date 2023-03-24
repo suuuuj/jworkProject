@@ -49,8 +49,7 @@ public interface ApprovalService{
 	
 	
 	
-	//결재 문서 작성 서비스
-	//int insertApproval(Approval a);
+	
 	
 	//상신취소 서비스 (수정 후 재 결재)
 	//int updateApproval(Approval a);
