@@ -634,16 +634,17 @@ public class EmployeeController {
 	
 	// 일정 등록
 	@RequestMapping("insertSchedule.emp")
-	public String insertSchedule(Schedule s, String attendeeNo, HttpSession session, Model model) {
+	public String insertSchedule(Schedule s, String attendance, HttpSession session, Model model) {
 		
 		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		s.setLoginNo(loginNo);
 		
-		String[] attendeeNoArr = attendeeNo.split(",");
-		
-		if(attendeeNoArr.length != 0) {
-			int result1 = eService.insertSchedule(s);
-			int result2 = eService.insertAttendee(attendeeNoArr);
+		String[] attendanceArr = attendance.split(",");
+		System.out.println(attendanceArr);
+		System.out.println(Arrays.toString(attendanceArr));
+		if(!Arrays.toString(attendanceArr).equals("[]")) {	// 참석자가 있는 경우
+			int result1 = eService.insertSchedule(s);				// 일정 등록
+			int result2 = eService.insertAttendee(attendanceArr);	// 참석자 추가
 			
 			if(result1>0 && result2>0) {
 				session.setAttribute("alertMsg", "일정 등록 완료");
@@ -652,7 +653,7 @@ public class EmployeeController {
 				model.addAttribute("errorMsg", "일정 등록 실패");
 				return "common/errorPage";
 			}
-		}else {
+		}else {	// 참석자가 없는 경우
 			int result = eService.insertSchedule(s);
 			if(result>0) {
 				session.setAttribute("alertMsg", "일정 등록 완료");
@@ -681,17 +682,13 @@ public class EmployeeController {
 		return new Gson().toJson(clist);
 	}
 	
-	
-	
-	
-
 	// 홈 아이콘 클릭시
 	@RequestMapping("home.jwork")
 	public String fowardingHome() {
 		return "common/mainPage";
 	}
 
-	//결재자 추가
+	// 결재자 추가
 	@ResponseBody
 	@RequestMapping(value="addSigner.app", produces="application/json; charset=utf-8")
 	public String ajaxAddSigner(int empNo) {
@@ -700,7 +697,108 @@ public class EmployeeController {
 		return new Gson().toJson(list);
 	}
 	
+	// 일정 조회
+	@ResponseBody
+	@RequestMapping(value="selectSchedule.emp", produces="application/json; charset=utf-8")
+	public String ajaxSelectSchedule(Employee e, HttpSession session) {
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		e.setLoginNo(loginNo);
+		
+		ArrayList<Schedule> mySchList = eService.ajaxSelectMySchedule(loginNo);
+		ArrayList<Schedule> attSchList = eService.ajaxSelectAttSchedule(loginNo); // 다른 사람이 나를 참석자로 등록
+		
+		Map<String, ArrayList> data = new HashMap<>();
+		data.put("mySchList", mySchList);
+		data.put("attSchList", attSchList);
+		
+		return new Gson().toJson(data);
+	}
+	
+	// 일정 상세 조회
+	@ResponseBody
+	@RequestMapping(value="selectScheduleDetail.emp", produces="application/json; charset=utf-8")
+	public String ajaxSelectSchDetail(Employee e, int schNo, HttpSession session) {
+		
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		e.setLoginNo(loginNo);	
+		
+		Schedule s = eService.ajaxSelectSchDetail(schNo);	// 일정 상세 조회
+		ArrayList<Schedule> alist = eService.ajaxSelectAttDetail(schNo);	// 참석자 여부
+		ArrayList<Employee> slist = eService.ajaxSelectSchGroup(loginNo);	// 로그인한 사원의 캘린더 그룹 조회
+		//System.out.println(alist);
+		
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("s", s);
+		data.put("alist", alist);
+		data.put("slist", slist);
+		return new Gson().toJson(data);
+	}
+	
+	// 일정 수정
+	@RequestMapping("updateSchedule.emp")
+	public String updateSchedule(Schedule s, String attendance, int schNo, int attendanceOld, HttpSession session, Model model) {
+		
+		
+		
+		String[] attendanceArr = attendance.split(",");
+		//System.out.println(attendanceArr);
+		//System.out.println(Arrays.toString(attendanceArr));
+		
+		//int result1 = eService.deleteAttendee(schNo);			// 먼저 참석자 모두 delete
+		//int result2 = eService.updateAttendee(attendanceArr);	// 참석자 insert
+		//int result3 = eService.updateSchedule(s);				// 일정 수정 update
+		int result1 = 0;
+		int result2 = 0;
+		int result3 = 0;
+		if(!Arrays.toString(attendanceArr).equals("[]")) {	// 새로운 참석자가 들어있었을 경우
+			
+			if(attendanceOld > 0) { // 그 전 참석자가 있을 경우
+				result1 = eService.deleteAttendee(schNo);	// 그 전 참석자를 지우고
+				result2 = eService.updateAttendee(attendanceArr, schNo);	// 새로운 참석자를 넣고
+				result3 = eService.updateSchedule(s);	// 일정도 수정
+				if(result1 * result2 * result3 > 0) {
+					session.setAttribute("alertMsg", "일정 수정 완료");
+					return "redirect:schedule.emp"; 
+				}else {
+					model.addAttribute("errorMsg", "일정 수정 실패");
+					return "common/errorPage";
+				}
+			}else {
+				result2 = eService.updateAttendee(attendanceArr, schNo);	// 새로운 참석자를 넣고
+				result3 = eService.updateSchedule(s);	// 일정도 수정
+				if(result2 * result3 > 0) {
+					session.setAttribute("alertMsg", "일정 수정 완료");
+					return "redirect:schedule.emp"; 
+				}else {
+					model.addAttribute("errorMsg", "일정 수정 실패");
+					return "common/errorPage";
+				}
+			}
+		}else {	// 새로운 참석자가 들어있지 않을 경우
+			if(attendanceOld > 0) {	// 그 전 참석자가 있을 경우
+				result1 = eService.deleteAttendee(schNo);	// 그 전 참석자를 지우고	
+				result3 = eService.updateSchedule(s);	// 일정을 수정
+				if(result1 * result3 > 0) {
+					session.setAttribute("alertMsg", "일정 수정 완료");
+					return "redirect:schedule.emp"; 
+				}else {
+					model.addAttribute("errorMsg", "일정 수정 실패");
+					return "common/errorPage";
+				}
+			}else {
+				result3 = eService.updateSchedule(s);	// 일정을 수정
+				if(result3 > 0) {
+					session.setAttribute("alertMsg", "일정 수정 완료");
+					return "redirect:schedule.emp"; 
+				}else {
+					model.addAttribute("errorMsg", "일정 수정 실패");
+					return "common/errorPage";
+				}
+			}
+		}
 
-
+			
+	}
 	
 }

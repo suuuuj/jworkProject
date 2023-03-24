@@ -276,10 +276,10 @@ public class EmployeeDao {
 		return sqlSession.insert("employeeMapper.insertSchedule", s);
 	}
 	// 일정 등록 - 참석자 추가
-	public int insertAttendee(SqlSessionTemplate sqlSession, String[] attendeeNo) { // String[] attendance
+	public int insertAttendee(SqlSessionTemplate sqlSession, String[] attendance) { // String[] attendance
 		
 		int count = 0;
-		for(String empNo : attendeeNo) {
+		for(String empNo : attendance) {
 			//System.out.println(empNo);
 			count += sqlSession.insert("employeeMapper.insertAttendee", empNo);
 		}
@@ -289,6 +289,40 @@ public class EmployeeDao {
 	// 주소록 - 조직도 조회
 	public ArrayList<Employee> ajaxAddressInChart(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxAddressInChart");
+	}
+	
+	// 일정 조회
+	public ArrayList<Schedule> ajaxSelectMySchedule(SqlSessionTemplate sqlSession, int loginNo) {
+		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxSelectMySchedule", loginNo);
+	}
+	public ArrayList<Schedule> ajaxSelectAttSchedule(SqlSessionTemplate sqlSession, int loginNo) {
+		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxSelectAttSchedule", loginNo);
+	}
+	
+	// 일정 상세 조회
+	public Schedule ajaxSelectSchDetail(SqlSessionTemplate sqlSession, int schNo) {
+		return sqlSession.selectOne("employeeMapper.ajaxSelectSchDetail", schNo);
+	}
+	public ArrayList<Schedule> ajaxSelectAttDetail(SqlSessionTemplate sqlSession, int schNo) {
+		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxSelectAttDetail", schNo);
+	}
+	
+	// 일정 수정
+	public int deleteAttendee(SqlSessionTemplate sqlSession, int schNo) {
+		return sqlSession.delete("employeeMapper.deleteAttendee", schNo);
+	}
+	public int updateAttendee(SqlSessionTemplate sqlSession, String[] attendance, int schNo) {
+		int count = 0;
+		for(String empNo : attendance) {
+			Schedule s = new Schedule();
+			s.setSchNo(schNo);
+			s.setEmpNo(Integer.parseInt(empNo));
+			count += sqlSession.insert("employeeMapper.updateAttendee", s);
+		}
+		return count;
+	}
+	public int updateSchedule(SqlSessionTemplate sqlSession, Schedule s) {
+		return sqlSession.update("employeeMapper.updateSchedule", s);
 	}
 	
 	

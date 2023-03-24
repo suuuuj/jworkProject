@@ -307,8 +307,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 	// 일정 등록 - 참석자 추가
 	@Override
-	public int insertAttendee(String[] attendeeNo) {
-		return eDao.insertAttendee(sqlSession, attendeeNo);
+	public int insertAttendee(String[] attendance) {
+		return eDao.insertAttendee(sqlSession, attendance);
 	}
 	
 	// 주소록 - 조직도 조회
@@ -317,11 +317,44 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return eDao.ajaxAddressInChart(sqlSession);
 	}
 
-	
 	//결재자 추가
 	@Override
 	public Employee addSigner(int empNo) {
 		return eDao.addSigner(sqlSession, empNo);
+	}
+	
+	// 일정 조회
+	@Override
+	public ArrayList<Schedule> ajaxSelectMySchedule(int loginNo) {
+		return eDao.ajaxSelectMySchedule(sqlSession, loginNo);
+	}
+	@Override
+	public ArrayList<Schedule> ajaxSelectAttSchedule(int loginNo) {
+		return eDao.ajaxSelectAttSchedule(sqlSession, loginNo);
+	}
+	
+	// 일정 상세 조회
+	@Override
+	public Schedule ajaxSelectSchDetail(int schNo) {
+		return eDao.ajaxSelectSchDetail(sqlSession, schNo);
+	}
+	@Override
+	public ArrayList<Schedule> ajaxSelectAttDetail(int schNo) {
+		return eDao.ajaxSelectAttDetail(sqlSession, schNo);
+	}
+
+	// 일정 수정
+	@Override
+	public int deleteAttendee(int schNo) {
+		return eDao.deleteAttendee(sqlSession, schNo);
+	}
+	@Override
+	public int updateAttendee(String[] attendance, int schNo) {
+		return eDao.updateAttendee(sqlSession, attendance, schNo);
+	}
+	@Override
+	public int updateSchedule(Schedule s) {
+		return eDao.updateSchedule(sqlSession, s);
 	}
 	
 

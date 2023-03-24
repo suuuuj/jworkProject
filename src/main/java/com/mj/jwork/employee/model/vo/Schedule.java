@@ -15,6 +15,7 @@ public class Schedule {
 
 	private int schNo;
 	private int empNo;
+	private String empName;
 	private String schTitle;
 	private String schContent;
 	private String schBegin;
@@ -33,9 +34,6 @@ public class Schedule {
 	private int loginNo;	
 	private int attendeeNo;
 	
-	private String[] attendance;
-
-	
-	
+	private String attendance;
 	
 }
