@@ -326,7 +326,7 @@
                                 msg += '<li class="alarm"><span class="dropdown-item-text" href="#"><div class="alarms">알림이 없습니다.</div></span></li>'
                             } else{
                                 for(let i=0; i<list.length; i++){
-                                    msg += '<li class="alarm read' + list[i].read + '"><a class="dropdown-item " alarmNo=' + list[i].alarmNo + ' href="#" url=' + list[i].url + '><div class="alarms">';
+                                    msg += '<li class="alarm read' + list[i].read + '"><a class="dropdown-item " alarmNo=' + list[i].alarmNo + ' href="#" url=' + list[i].url + ' read=' + list[i].read + '><div class="alarms">';
                                     if(list[i].refType == 'mail'){
                                         msg += '<img class="alarm-logo" src="resources/images/common/email1.png" alt="">';
                                     } else{
@@ -360,9 +360,29 @@
 
                 $(document).on("click", ".alarmsDiv .dropdown-item", function(){
                     const $alarmNo = $(this).attr("alarmNo");
+                    const $read = $(this).attr("read");
                     const $url = $(this).attr("url");
                     console.log($alarmNo);
                     console.log($url);
+                    if($read == 'N'){
+                        $.ajax({
+                            url: "readAlarm.al",
+                            data: {alarmNo: $alarmNo},
+                            success: function(result){
+                                if(result == "success"){
+                                    location.href = $url;
+                                } else{
+                                    alert("알 수 없는 오류로 읽어올 수 없습니다. 다시 시도해주세요");
+                                }
+                            }, error: function(){
+                                console.log("알림 읽기 및 이동용 ajax 통신 실패");
+                            }
+                        })
+
+                    } else{
+                        location.href = $url;
+                    }
+                    
                     
                 })
 
