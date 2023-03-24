@@ -168,7 +168,10 @@ public class MailController {
 	@RequestMapping(value="sendMail.ma")
 	public ModelAndView sendMail(Mail m, @RequestPart(value="upfile") List<MultipartFile> upfile, HttpSession session, ModelAndView mv) {
 		
-		//System.out.println(m);
+		// 에디터에서 빈 값을 넘기는 경우 공백으로만 두줄 넘어가는 것에 대한 오류를 막기 위한 구문
+		if(m.getMailContent().trim().length() == 0) {
+			m.setMailContent(m.getMailContent().trim());
+		}
 		//System.out.println(upfile);
 		
 		int mailResult = mService.sendMail(m);
