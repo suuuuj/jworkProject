@@ -15,4 +15,7 @@ public interface AlarmService {
 	// 안읽은 알람 갯수
 	int selectUnReadCount(int targetNo);
 	
+	// 안읽은 메일 읽음 업데이트
+	int updateRead(int alarmNo);
+	
 }

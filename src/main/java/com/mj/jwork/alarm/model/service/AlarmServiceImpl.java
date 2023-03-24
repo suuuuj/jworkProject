@@ -33,4 +33,9 @@ public class AlarmServiceImpl implements AlarmService{
 		return aDao.selectUnReadCount(sqlSession, targetNo);
 	}
 
+	@Override
+	public int updateRead(int alarmNo) {
+		return aDao.updateRead(sqlSession, alarmNo);
+	}
+
 }

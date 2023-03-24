@@ -34,4 +34,14 @@ public class AlarmController {
 		
 	}
 	
+	@ResponseBody
+	@RequestMapping("readAlarm.al")
+	public String ajaxReadAlarm(int alarmNo) {
+		
+		int result = aService.updateRead(alarmNo);
+		
+		return result > 0 ? "success" : "fail";
+		
+	}
+	
 }

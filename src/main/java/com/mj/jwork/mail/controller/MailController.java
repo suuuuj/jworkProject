@@ -264,7 +264,7 @@ public class MailController {
 		
 		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
 		int result = 1;
-		if(m.getReadDate().equals("")) {
+		if(m.getReadDate() == null || m.getReadDate().equals("")) {
 			m.setRead("Y");
 			result = mService.updateMailRead(m);
 		}

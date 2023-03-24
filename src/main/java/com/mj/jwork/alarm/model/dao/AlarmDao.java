@@ -28,4 +28,10 @@ public class AlarmDao {
 		
 	}
 	
+	public int updateRead(SqlSessionTemplate sqlSession, int alarmNo) {
+		
+		return sqlSession.update("alarmMapper.updateRead", alarmNo);
+		
+	}
+	
 }

@@ -48,6 +48,8 @@
   		     , url
   		  from alarm
   		 where target_no = #{targetNo}
+  		 order
+  		    by register_date desc
   	</select>
   	
   	<select id="selectUnReadCount" resultType="_int">
@@ -57,5 +59,12 @@
   		 where target_no = #{targetNo}
   		   and read = 'N'
   	</select>
+  	
+  	<update id="updateRead">
+  		update
+  		       alarm
+  		   set read = 'Y'
+  		 where alarm_no = #{alarmNo}
+  	</update>
   	
 </mapper>
