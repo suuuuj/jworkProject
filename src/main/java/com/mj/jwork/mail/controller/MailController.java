@@ -246,6 +246,12 @@ public class MailController {
 					  .addObject("subMessage", "임시저장 메일은 임시저장함에서 확인 가능합니다.");
 				}
 				
+				md.setEmpNo(m.getSenderNo());
+				md.setEmpName(m.getSender());
+				md.setType("S");
+				
+				detailResult = detailResult * mService.insertMailDetail(md);
+				
 				mv.setViewName("mail/mailSuccess");
 				
 			} else {

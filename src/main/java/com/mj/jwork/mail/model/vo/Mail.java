@@ -34,6 +34,7 @@ public class Mail {
 	private String important;
 	private String type;
 	private String status;
+	private String cancel;
 	
 	// 메일함 정보 테이블
 	private String mailBoxName;

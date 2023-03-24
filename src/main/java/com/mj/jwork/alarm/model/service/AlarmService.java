@@ -18,4 +18,7 @@ public interface AlarmService {
 	// 안읽은 메일 읽음 업데이트
 	int updateRead(int alarmNo);
 	
+	// 알람들 삭제
+	int deleteAlarms(int targetNo);
+	
 }

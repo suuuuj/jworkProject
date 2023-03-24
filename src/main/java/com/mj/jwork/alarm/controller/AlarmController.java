@@ -44,4 +44,15 @@ public class AlarmController {
 		
 	}
 	
+	@ResponseBody
+	@RequestMapping("deleteAlarms.al")
+	public String ajaxDeleteAlarms(int targetNo) {
+		
+		int result = aService.deleteAlarms(targetNo);
+		
+		return result > 0 ? "success" : "fail";
+		
+	}
+	
+	
 }
