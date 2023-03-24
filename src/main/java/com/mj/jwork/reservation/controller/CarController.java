@@ -19,6 +19,7 @@ import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.common.template.Pagination;
 import com.mj.jwork.reservation.model.service.CarService;
 import com.mj.jwork.reservation.model.vo.Car;
+import com.mj.jwork.reservation.model.vo.CfRoom;
 
 @Controller
 public class CarController {
@@ -93,6 +94,23 @@ public class CarController {
 		 return mv;
 	}
 	
+	/*
+	 * @RequestMapping("status.car") public ModelAndView
+	 * catStatus(@RequestParam(value="cpage",defaultValue="1")int
+	 * currentPage,ModelAndView mv) {
+	 * 
+	 * int listCount = cService.selectListCount(); PageInfo pi =
+	 * Pagination.getPageInfo(listCount, currentPage, 5, 2); ArrayList<Car>list =
+	 * cService.selectList(pi);
+	 * 
+	 * mv.addObject("list",list) .addObject("pi",pi)
+	 * .setViewName("reservation/carReservationStatus");
+	 * 
+	 * return mv;
+	 * 
+	 * 
+	 * }
+	 */
 	
 	@RequestMapping("status.car")
 	public ModelAndView catStatus(@RequestParam(value="cpage",defaultValue="1")int currentPage,ModelAndView mv) {
@@ -109,4 +127,13 @@ public class CarController {
 		
 		
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="list.acar",produces="application/json; charset=utf-8")
+	public String ajaxselectCfrNList() {
+		ArrayList<Car>list = cService.selectNList();
+		
+		return new Gson().toJson(list);
+		
+		}
 }

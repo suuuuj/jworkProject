@@ -45,4 +45,9 @@ public class CarServiceImpl implements CarService{
 		return cDao.selectCar(sqlSession,carName);
 	}
 
+	@Override
+	public ArrayList<Car> selectNList() {
+		return cDao.selectNList(sqlSession);
+	}
+
 }

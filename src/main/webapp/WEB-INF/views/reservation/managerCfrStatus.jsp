@@ -25,7 +25,7 @@
     	  var calendar = new FullCalendar.Calendar(calendarEl, {
     		  schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
     		  expandRows: true,
-    		  timeZone: 'UTC',
+    		  timeZone: 'local',
     		 slotMinTime: "09:00:00", // 최소시간
              slotMaxTime: "20:00:00", // 최대시간 (23시까지만 화면에 보여짐)
     	    initialView: 'resourceTimeGridDay',
