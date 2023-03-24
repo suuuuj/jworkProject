@@ -6,41 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<!-- Popper JS -->
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<!-- Latest compiled JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Alertify JavaScript -->
-<!-- <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script> -->
-
-<!-- CSS -->
-<!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/> -->
-<!-- Default theme -->
-<!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/> -->
-<!-- Semantic UI theme -->
-<!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/> -->
-<!-- Bootstrap theme -->
-<!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/> -->
-
-<!-- sweetalert -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
-
-<!-- 구글 글씨체 -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
-
-<!-- Bootstrap 5버전 -->
-<!-- Latest compiled and minified CSS -->
-<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">  -->
-<!-- Latest compiled JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> 
 <style>
     /*sweetalert css*/
     .swal-button{
@@ -244,49 +210,7 @@
 <title>menubar</title>
 </head>
 <body>
-	<c:if test="${not empty alertMsg }">
-		<script>
-			//alertify.alert('${alertMsg}');
-            swal('${alertMsg}', '', 'success');
-		</script>
-		<c:remove var="alertMsg" scope="session"/>	
-	</c:if>
-	    
-    <div class="totalOuter">
-
-        <div class="home">
-            <div class="header">
-                <div class="logo-box">
-                    
-                    <a href="home.jwork"><img class="logo" src="resources/images/common/jworkLogo.png" alt="" style="width: 230px;"/></a>
-                    
-                </div>
-
-            </div>
-			<div class="header-right">
-                	<button id="alarmBtn"  data-bs-toggle="dropdown" data-bs-auto-close="outside"><img class="headerIcon " src="resources/images/common/alarm.png" ></button>
-                    <ul class="dropdown-menu">
-                        <div class="alarm-area">
-                            <li><span class="dropdown-item-text alarm-delete">모두 삭제</span></li>
-                            <li class="alarm">
-                                <a class="dropdown-item " href="#"><div class="alarms">XXX님으로부터 메일이 도착했습니다.</div></a>
-                            </li>
-                            <li class="alarm new">
-                                <a class="dropdown-item " href="#"><div class="alarms">새 결재가 도착했습니다.</div></a>
-                            </li>
-                            <li class="alarm">
-                                <a class="dropdown-item " href="#"><div class="alarms">XXX사원의 휴가 승인 요청이 들어왔습니다.</div></a>
-                            </li>
-                            
-                        </div>
-                    </ul>
-                    &nbsp;&nbsp;
-                	<a href="#"><img class="headerIcon" src="resources/images/common/profileDefault3.png" alt=""></a>
-            </div>
-            
-        </div>
-        <div class="gradation"></div>
-        <div class="outer">
+	<jsp:include page="../common/header.jsp"/>
             <input type="checkbox" id="menuicon">
             <label for="menuicon">
                 <span></span>

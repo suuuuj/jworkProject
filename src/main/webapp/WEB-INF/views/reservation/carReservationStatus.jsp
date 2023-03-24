@@ -21,35 +21,143 @@
     #carDetailView tr td{
     	 height: 30px;
     }
- 
+ .fc-toolbar-chunk *{
+	 float:left!important;
+	 margin-left:14px!important;
+	}
+	.fc-daygrid-day-frame,.fc-timegrid-axis-frame-liquid,.fc-timegrid-axis{
+	display:none;
+	}
 
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-	
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.js'></script>
+   
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    	  var calendarEl = document.getElementById('calendar');
+
+    	  var calendar = new FullCalendar.Calendar(calendarEl, {
+    		  schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+    		  expandRows: true,
+    		  timeZone: 'local',
+    		  selectable: true,
+    		 slotMinTime: "09:00:00", // 최소시간
+             slotMaxTime: "20:00:00", // 최대시간 (23시까지만 화면에 보여짐)
+    	    initialView: 'resourceTimeGridDay',
+    	    nowIndicator: true, 
+    	    dateClick: function(info) {
+              //  alert('Clicked on: ' + info.dateStr);
+                // change the day's background color just for fun
+              /*   info.dayEl.style.backgroundColor = '#d6dfcc'; */
+               // $("#reservationForm").modal("show");
+              
+            },
+    	    headerToolbar: {
+    	    	left:'',
+                center: 'prev,title,next',
+               right:'today,listWeek'/* ,timeGridWeek' */
+            },
+            
+            buttonText: {
+                prev:"<",
+                next:">",
+                today: "오늘",
+                month:"월",
+                week:"주",
+                day:"일",
+                list: "목록",
+            },
+            nowIndicator: true, // 현재 시간 마크
+            navLinks:false, // 달력상의 날짜를 클릭할 수 있는지 여부, 클릭시 일 달력/주 달력으로 넘어감(Boolean, default:false/Demo)
+            locale: 'ko',
+            day:'numeric',
+            navLinks: true,
+           	select:function(info){
+
+        		$.ajax({
+        			url:"detail.car",
+        			data:{carName:info.resource.id},
+        			success:function(c){
+        				$("#carName").text(c.carName);
+        				$("#reserveCarName").attr("value",c.carName);
+        				$("#carImg").attr("src",c.carImg);
+        				$("#carType").text(c.carType);
+        				$("#gearType").text(c.gearType);
+        				$("#color").text(c.color);
+        				$("#maker").text(c.maker);
+        				$("#fuelType").text(c.fuelType);
+        				$("#modelYear").text(c.modelYear);
+        				
+        				if(c.status == 'Y'){
+        					$("#status").text("정상").css("color","blue");
+        				}else{
+        					$("#status").text("고장").css("color","red");
+        					$("#reserveBtn").attr("disabled",true);
+        				}
+        				$("span[id=etc]").text(c.etc);
+
+
+        			},error:function(){
+        				
+        				console.log("ajax통신 실패");
+        			}
+        			
+        		});
+        		
+        		$("#carDetailView").modal("show");
+        		
+           	},
+    	    resources: [
+    	      $.ajax({
+    	    		url:"list.acar",
+    	    		success:function(list){
+    	    			for(let i=0; i<list.length; i++){
+    	    				calendar.addResource({
+    	    				id:list[i].carName,
+    	    				title:list[i].carName,
+    	    				url:list[i].carImg
+    	    				})
+    	    			}
+    	    		}
+    	    		
+    	    	})
+    	    ], 
+    	 
+                 events: [
+                 	
+                 ]
+                 
+    	  })
+
+    	  calendar.render();
+    	});
+		
+    
+ 
+    	
+   
+    </script>
+  	
 </head>
 <body>
    
     <jsp:include page="../common/menubar.jsp"/>
     <div style="width: 940px; margin:20px;">
         <h2>차량 예약 현황</h2>
-        <hr><br>
+        <hr>
+         <div id='calendar' style="margin:20px;">
+          
+           
+            </div>
+        
         <div>
      
-            <div id="day-select" align="center">
-              
-                <h4>
-                     <a href=""><</a>
-                    2022.02.01 
-                    <!-- <img src="resources/images/reservation/calendar.jpeg" width="30px" height="30px" onclick="$('#datepicker').click();"> -->
-                  	<input type="text" id="datepicker" style="display:none;">
-                  	   <a href="">></a>
-          			
-                 </h4>
-         </div> 
-            </div>
+           
+    </div>
           
-			  <script>
+			<!--   <script>
 			   $(function() {
 			       //input을 datepicker로 선언
 			       $("#datepicker").datepicker({
@@ -85,148 +193,14 @@
 				            jQuery.browser.version = RegExp.$1;
 				        }
 				    })();
-				   
-			   });
 			</script>
-            <br><br>
-            <div id="tabe-area">
-                <table class="table table-bordered" id="reservation-table">
-                    <thead>
-                        <tr>
-                            <td></td>
-                              <c:forEach var="c" items="${list}">
-                              	<th>${c.carName }</th>
-                          	  </c:forEach>
-                            <td></td>    
-                        </tr>
-                       
-                           <tr>
-                           	   <td>
-                           	   <ul class="pagination">
-                           	   	<c:choose>
-					              	<c:when test="${pi.currentPage eq  1}">
-					                  	<li class="page-item disabled"><a class="page-link" href="#"><</a></li>
-					                  </c:when>
-					                  <c:otherwise>
-					                   <li class="page-item"><a class="page-link" href="status.car?cpage=${pi.currentPage -1 }"><</a></li>
-					               </c:otherwise>
-				                 </c:choose>
-				                 </ul>
-                           	   </td>
-                           	    <c:forEach var="c" items="${list}">
-	                               <td>
-	                                 <img src="${c.carImg}" width="280px" height="140px"  onclick="detailView('${c.carName}');" data-toggle="modal" data-target="#carDetailView">
-	                               </td>
-	                           	</c:forEach>       
-                              
-                               	<td>
-                               	  	<ul class="pagination">
-                             		  <c:choose>
-				                	<c:when test="${pi.currentPage eq pi.maxPage}">
-				                 		<li class="page-item disabled"><a class="page-link" href="#">></a></li>
-				           	 		</c:when>
-				           	 		<c:otherwise>
-				           	 		  <li class="page-item"><a class="page-link" href="status.car?cpage=${pi.currentPage + 1 }">></a></li>
-				        			</c:otherwise>
-			          			</c:choose>
-			          			</ul>
-          						</td>
-          						
-                            </tr>
-					                     
-                   </thead>
-                   <tbody>
-                       <tr>
-                            <td>오전9시</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                       </tr>
-                       <tr>
-                            <td>오전10시</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>오전11시</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>오후12시</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>오후1시</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>오후2시</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>오후3시</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>오후4시</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>오후5시</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                        <tr>
-                            <td>오후6시</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>오후7시</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>오후8시</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>오후9시</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                       
-
-                   </tbody>
-
-                </table>
-
-            </div>
+				   
+			   }); -->
+      
         </div>
-        <br>
        
 
-    </div>
+
 
     <!-- 상세보기 -->
      <script>
@@ -273,7 +247,7 @@
             <!-- Modal Header -->
             <div class="modal-header">
             <h4 class="modal-title">차량 상세 정보</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <button type="button" class="close" data-dismiss="modal" onclick=" $('#carDetailView').modal('hide');">&times;</button>
             </div>
     
             <!-- Modal body -->
@@ -364,7 +338,7 @@
             		<input type="hidden"  name="carName" id="reserveCarName" >
             		<button type="submit" class="btn btn-sm btn-primary"  type="submit" id="reserveBtn">예약하기</button>
             	</form>
-                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal" onclick=" $('#carDetailView').modal('hide');">닫기</button>
             </div>
     
         </div>

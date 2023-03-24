@@ -37,7 +37,7 @@
 	<context:component-scan base-package="com.mj.jwork" />
 	
 	<!-- websocket 관련 구문 추가 -->
-	<beans:bean id="EchoHandler" class="com.mj.jwork.common.socket.EchoHandler" />
+	<beans:bean id="EchoHandler" class="com.mj.jwork.alarm.controller.EchoHandler" />
 	<websocket:handlers> <!-- 스키마 등록해야 빨간줄 사라짐 -->
 		<websocket:mapping handler="EchoHandler" path="/alarm"/>	<!-- /jwork/alarm url 요청시 -->
 		<!-- HttpSession 데이터를 사용할 수 있도록 설정 : Source 탭 말고 Namespaces 탭 가서 웹소켓 체크해주면 됨 --> 

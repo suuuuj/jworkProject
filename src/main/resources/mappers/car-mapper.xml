@@ -190,4 +190,18 @@
 		,approver=#{approver}
 		where res_no=#{resNo}
 	</update>
+	<select id="selectNList" resultMap="carResult">
+		   select
+		         CAR_NAME
+		        ,CAR_IMG
+		        ,CAR_TYPE
+		        ,GEAR_TYPE
+		        ,CAR_COLOR
+		        ,MAKER
+		        ,FUEL_TYPE
+		        ,MODEL_YEAR
+		        ,ETC
+		        ,STATUS
+		    from car
+	</select>
 </mapper>

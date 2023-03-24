@@ -240,7 +240,7 @@ public class ApprovalController {
 		}
 	}
 	
-	//결재 insert - 임시저장
+	//결재 insert - 임시저장  -> 파일 저장안됨 수정해야햄
 	@RequestMapping("saveApp.app")
 	public String saveApproval(Approval a, MultipartFile upfile, HttpSession session, Model model) {
 		System.out.println(a);
@@ -259,16 +259,40 @@ public class ApprovalController {
 		if(result>0) {
 			session.setAttribute("alertMsg","임시저장 되었습니다.");
 			return "redirect:draftList.app";
-		}else {// 승인 실패
+		}else {// 임시저장 실패
 			model.addAttribute("errorMsg", "임시저장 실패");
 			return "common/errorPage";
 			
 		}
-		
-		
-		
-		
 				
+	}
+	
+	//새문서 insert
+	@RequestMapping("insertNewApp.app")
+	public String insertNewApp(Approval a, MultipartFile upfile, HttpSession session, Model model) {
+		//System.out.println(a);
+		//System.out.println(a.getAlist());
+		//System.out.println(a.getRlist());
+		
+		a.setAppCount(a.getAlist().size());
+		
+		if(!upfile.getOriginalFilename().equals("")) {
+			String saveFilePath = FileUpload.saveFile(upfile,session,"resources/uploadFiles/");
+			a.setDocOriginName(upfile.getOriginalFilename());
+			a.setDocFilePath(saveFilePath);
+		}
+		
+		int result = aService.insertNewApp(a);
+		
+		
+		if(result>0) {
+			session.setAttribute("alertMsg","문서가 등록 되었습니다.");
+			return "redirect:mylist.app";
+		}else {// 문서등록 실패
+			model.addAttribute("errorMsg", "문서등록 실패");
+			return "common/errorPage";
+			
+		}
 	}
 	
 	

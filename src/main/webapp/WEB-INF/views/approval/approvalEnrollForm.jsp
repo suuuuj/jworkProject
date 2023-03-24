@@ -81,7 +81,7 @@
         width: 300px;
         padding:15px;
         margin: auto;
-        
+        overflow: auto;     
              
     }
     .approvalLine-button{
@@ -127,8 +127,6 @@
         color: green;
     }
    
-   
-  
    .employeeChart{
   	   border: 1px solid black;
        border-radius: 5%;
@@ -139,13 +137,32 @@
        width: 300px;
        overflow: auto;
    }
-   
-   .employeeChart::-webkit-scrollbar {
+   .selectAppLine{
+      overflow: auto;
+      height: 265px;
+   }
+   .employeeChart::-webkit-scrollbar{
         width: 5px; /*스크롤바의 너비*/
     }
+
+    .approvalLine-area::-webkit-scrollbar{
+        width: 2px; /*스크롤바의 너비*/
+    }
+    .selectAppLine::-webkit-scrollbar{
+        width: 2px; /*스크롤바의 너비*/
+    }
     
-  #selectAppLineTB tbody{
+  #selectAppLineTB tbody, #selectRefLineTB tbody{
   	font-size: small;
+  }
+
+  .removeBtn{
+    display: flex;
+    align-items:center; 
+    justify-content: center;
+    height: 6px;
+    width: 4px;
+    font-size: 2px;
   }
 
  
@@ -166,7 +183,7 @@
          
          </script>
 
-        <form action="" method="post" align="center" enctype="multipart/form-data" id="approvalForm">
+        <form action="insertNewApp.app" method="post" align="center" enctype="multipart/form-data" id="approvalForm">
         	<input type="hidden" name="empNo" value="${ loginUser.empNo }">
         	
             <table id="selectApproval" border="1">
@@ -202,9 +219,9 @@
                         </button>
                     </th>
                     <td height="25px" width="90px">${ loginUser.jobName }</td>
-                    <td width="90px"></td>
-                    <td width="90px"></td>
-                    <td width="90px"></td>
+                    <td width="90px" id="job1"></td>
+                    <td width="90px" id="job2"></td>
+                    <td width="90px" id="job3"></td>
                 </tr>
                 <tr>
                     <td height="70px"><img class="signLogo" src="resources/images/common/check.png"/></td>
@@ -214,9 +231,9 @@
                 </tr>
                 <tr>
                     <td height="25px">${ loginUser.empName }</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td id="name1"></td>
+                    <td id="name2"></td>
+                    <td id="name3"></td>
                 </tr>
             </table>
             <p id="appMsg">* 순서대로 결재가 진행됩니다.</p>
@@ -343,7 +360,7 @@
             </div> <!--end of approvalContent -->
 
             <div id="buttonarea"  align="left">
-                <button type="submit" class="btn btn-success" onclick="insertBtn();">결재</button>
+                <button type="submit" class="btn btn-success">결재</button>
             </div>
 
             <div id="buttonarea"  align="right">
@@ -450,33 +467,80 @@
                                 })
 
 			                });
-
+						
+			                
                             $(document).on("click","#addSigner",function(){
-                                $.ajax({
+                            	var count = $(".signEmp").length;
+                            	if(count >= 3){
+                            		alert("결재자는 최대 3명까지 지정 가능합니다.");
+                            		return;
+                            	} else{
+                            		$.ajax({
                                     url:"addSigner.app",
                                     data:{empNo:$("#appEmpNo").val()},
                                     success: function(list){
                                     	//console.log(list)
                                     	
                                     	let value=""
-                                    	
-                                    	value += "<tr>"
-	                							 + "<th>" + list.deptName + "</th>"
-	                						 	 + "<th>" + list.empName + "</th>"
-	                							 + "<th>" + list.jobName + "</th>"
+                                    	value += "<tr class='signEmp'>"
+                                                 + "<td style='color:red' class='removeEmp'><b>X</b></td>"
+                                                 + "<td style='display:none'>"+list.empNo+"</td>"
+                                                 + "<td style='display:none'>"+list.appLevel+"</td>"
+	                							 + "<td>" + list.deptName + "</td>"
+	                						 	 + "<td>" + list.empName + "</td>"
+	                							 + "<td>" + list.jobName + "</td>"
                 						     + "</tr>";
                 						     
                                     	$("#selectAppLineTB tbody").append(value);
-                                    	
-                                    	
+                                        console.log(list);
+
+                                        $(".removeEmp").click(function(){
+                                            $(this).parent().remove();
+                                            count--;
+                                        })
+
+                                     
                                     }, error:function(){
                         				console.log("결재자 추가 ajax 통신실패");
                         			}
                                 })
+                             }
+                                
                             })
 
+                            $(document).on("click","#addRefer",function(){
+                                $.ajax({
+                                url:"addSigner.app",
+                                data:{empNo:$("#appEmpNo").val()},
+                                success: function(list){
+                                  
+                                    
+                                    let value=""
+                                    
+                                    value += "<tr class='refEmp'>"
+                                                + "<td style='color:red' class='removeRef'><b>X</b></td>"
+                                                + "<td style='display:none'>"+list.empNo+"</td>"
+                                                + "<td style='display:none'>"+list.appLevel+"</td>"
+                                                + "<td>" + list.deptName + "</td>"
+                                                + "<td>" + list.empName + "</td>"
+                                                + "<td>" + list.jobName + "</td>"
+                                            + "</tr>";
+                                            
+                                    $("#selectRefLineTB tbody").append(value);
+                                    console.log(list);
 
-                            
+                                    $(".removeRef").click(function(){
+                                        $(this).parent().remove();
+                                    })
+
+                                    
+                                }, error:function(){
+                                    console.log("결재자 추가 ajax 통신실패");
+                                }
+                                
+                                })
+                            })
+                           
 			            </script>
                        
                       
@@ -487,9 +551,9 @@
                             <br>
                             <button type="button" class="btn btn-outline-secondary" id="addSigner">결재&gt;</button>
                             <br><br>
-                            <button type="button" class="btn btn-outline-secondary">&lt;제외</button>
+                            <!--<button type="button" class="btn btn-outline-secondary" id="removeEmp">&lt;제외</button>-->
                             <br><br>
-                            <button type="button" class="btn btn-outline-secondary">참조&gt;</button>
+                            <button type="button" class="btn btn-outline-secondary" id="addRefer">참조&gt;</button>
                         </div>
 
                        
@@ -500,6 +564,8 @@
                                     <h6 style="text-align: center;"><b>결재자</b></h6>
                                     <thead >
                                         <tr>
+                                            <th width="15px"></th>
+                                            <th style="display: none;"></th>
                                             <th>부서</th>
                                             <th>이름</th>
                                             <th>직급</th>
@@ -514,6 +580,8 @@
                                     <h6 style="text-align: center;"><b>참조자</b></h6>
                                     <thead>
                                         <tr>
+                                            <th width="15px"></th>
+                                            <th style="display: none;"></th>
                                             <th>부서</th>
                                             <th>이름</th>
                                             <th>직급</th>
@@ -531,14 +599,76 @@
                     
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary">적용</button>
+                    <button type="button" class="btn btn-secondary" id="selectApp" data-dismiss="modal">적용</button>
                     </div>
                     
                 </div>
                 </div>
             </div>
-
+			<div id="app-list"></div>
         </form>
+        <script>
+			
+            $(document).on("click", "#selectApp", function(){
+            	
+                var count = 0;
+
+                $("#selectAppLineTB tbody tr").each(function(){
+                   
+                   let no = $(this).children().eq(1).text();
+                   let name = $(this).children().eq(3).text();
+                   let job = $(this).children().eq(4).text();
+                   console.log(count);
+                   console.log(name);
+
+                  
+                   
+                    if(count == 0){
+                        $("#job1").text(job);
+                        $("#name1").text(name);
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].appLevel' value='1'>");
+                    }else if(count == 1){
+                        $("#job2").text(job);
+                        $("#name2").text(name);
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].appLevel' value='2'>");
+                    }else if(count == 2){
+                        $("#job3").text(job);
+                        $("#name3").text(name);
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].appLevel' value='3'>");
+                    }
+                    
+                   count++;
+
+                })
+
+                $(document).on("click", "#chart", function() {
+                    count = 0;
+                    $('#job1').text('');
+                    $('#job2').text('');
+                    $('#job3').text('');
+                    $('#name1').text('');
+                    $('#name2').text('');
+                    $('#name3').text('');
+
+                })
+
+                
+                var num = 0;
+                $("#selectRefLineTB tbody tr").each(function(){
+                	let no = $(this).children().eq(1).text();
+                    
+                	$("#app-list").append("<input type='hidden' name='rlist[" +num + "].empNo' value='" + no + "'>");
+                	++num;
+                })
+                
+                
+					
+            })
+
+        </script>
 
     </div> <!-- end of content-->
     </div>

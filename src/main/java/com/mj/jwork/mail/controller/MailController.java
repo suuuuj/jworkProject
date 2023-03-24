@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
+import com.mj.jwork.alarm.controller.EchoHandler;
+import com.mj.jwork.alarm.model.service.AlarmServiceImpl;
+import com.mj.jwork.alarm.model.vo.Alarm;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.common.template.Pagination;
+import com.mj.jwork.common.template.SendAlarm;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.mail.model.service.MailServiceImpl;
 import com.mj.jwork.mail.model.vo.Mail;
@@ -31,6 +34,12 @@ public class MailController {
 	
 	@Autowired
 	private MailServiceImpl mService;
+	
+	@Autowired
+	private AlarmServiceImpl aService;
+	
+	@Autowired
+	private EchoHandler ec;
 	
 	// 메일 리스트 조회
 	@RequestMapping(value="list.ma")
@@ -47,7 +56,7 @@ public class MailController {
 		
 		ArrayList<Mail> mList = mService.selectMailList(m, pi);
 		
-		//System.out.println(mList);
+		System.out.println(mList);
 		//System.out.println(mList.get(0).getMailList());
 		
 		mv.addObject("mailCategory", m.getMailCategory())
@@ -159,7 +168,10 @@ public class MailController {
 	@RequestMapping(value="sendMail.ma")
 	public ModelAndView sendMail(Mail m, @RequestPart(value="upfile") List<MultipartFile> upfile, HttpSession session, ModelAndView mv) {
 		
-		//System.out.println(m);
+		// 에디터에서 빈 값을 넘기는 경우 공백으로만 두줄 넘어가는 것에 대한 오류를 막기 위한 구문
+		if(m.getMailContent().trim().length() == 0) {
+			m.setMailContent(m.getMailContent().trim());
+		}
 		//System.out.println(upfile);
 		
 		int mailResult = mService.sendMail(m);
@@ -191,19 +203,41 @@ public class MailController {
 					String[] receiverArr = m.getReceiver().split(",");
 					String[] receiverNoArr = m.getReceiverNo().split(",");
 					
+					int mailNo = 0;
 					for(int i=0; i<receiverArr.length; i++) {
 						
 						md.setEmpNo(Integer.parseInt(receiverNoArr[i]));
 						md.setEmpName(receiverArr[i]);
 						md.setType("R");
 						System.out.println(md);
-						detailResult = detailResult * mService.insertMailDetail(md);
+						mailNo = mService.insertMailDetail(md);
 						
-						mv.addObject("send", "Y")
-						  .addObject("message", "메일 전송 성공!")
-						  .addObject("subMessage", "보낸 메일은 보낸 메일함에서 확인 가능합니다.");
+						if(mailNo > 0) {
+							
+							Alarm a = new Alarm();
+							a.setTargetNo(md.getEmpNo());
+							a.setAlarmMsg(m.getSender() + "님이 메일을 보냈습니다.");
+							a.setRefNo(mailNo);
+							a.setRefType("mail");
+							a.setUrl("detail.ma?mailNo=" + mailNo + "&mailCategory=받은메일함");
+							
+							System.out.println(a);
+							aService.insertAlarm(a);
+							
+							SendAlarm.sendAlarm(a, ec.getSessionList());
+							
+							
+						} else {
+							mv.setViewName("common/errorPage");
+							return mv;
+						}
+						
 						
 					}
+					mv.addObject("send", "Y")
+					  .addObject("mailNo", mailNo)
+					  .addObject("message", "메일 전송 성공!")
+					  .addObject("subMessage", "보낸 메일은 보낸 메일함에서 확인 가능합니다.");
 					
 					
 				} else {
@@ -211,21 +245,24 @@ public class MailController {
 					  .addObject("message", "임시저장 성공!")
 					  .addObject("subMessage", "임시저장 메일은 임시저장함에서 확인 가능합니다.");
 				}
-					
+				
 				md.setEmpNo(m.getSenderNo());
 				md.setEmpName(m.getSender());
 				md.setType("S");
 				
 				detailResult = detailResult * mService.insertMailDetail(md);
+				
+				mv.setViewName("mail/mailSuccess");
+				
+			} else {
+				mv.setViewName("common/errorPage");
 			}
 			
-		}
-		
-		if(mailResult * mailAtResult * detailResult > 0) {
-			mv.setViewName("mail/mailSuccess");
-		} else {
+			
+		}else {
 			mv.setViewName("common/errorPage");
 		}
+		
 		
 		return mv;
 		
@@ -236,7 +273,7 @@ public class MailController {
 		
 		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
 		int result = 1;
-		if(m.getReadDate().equals("")) {
+		if(m.getReadDate() == null || m.getReadDate().equals("")) {
 			m.setRead("Y");
 			result = mService.updateMailRead(m);
 		}
@@ -398,11 +435,27 @@ public class MailController {
 	// 메일 답장
 	@RequestMapping("reply.ma")
 	public String replyMail(Mail m, Model model) {
-		System.out.println();
+		//System.out.println();
 		model.addAttribute("reply", m);
 		
 		return "mail/mailEnrollForm";
 		
+	}
+	
+	// 메일 발송취소
+	@ResponseBody
+	@RequestMapping("cancelSend.ma")
+	public String ajaxCancelSend(Mail m) {
+		int result = mService.cancelSend(m);
+		
+		if(result > 0) {
+			Alarm a = new Alarm();
+			a.setRefNo(m.getMailNo());
+			a.setTargetNo(m.getEmpNo());
+			aService.deleteAlarm(a);
+		}
+		
+		return result > 0 ? "success" : "fail";
 	}
 	
 	

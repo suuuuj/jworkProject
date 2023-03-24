@@ -1,5 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="alarmMapper">
-  
+  	
+  	<resultMap type="alarm" id="alarmResultMap">
+		<id column="alarm_no" property="alarmNo" />
+		<result column="target_no" property="targetNo" />
+		<result column="alarm_msg" property="alarmMsg" />
+		<result column="register_date" property="registerDate" />
+		<result column="read" property="read" />
+		<result column="ref_no" property="refNo" />
+		<result column="ref_type" property="refType" />
+		<result column="url" property="url" />
+		
+	</resultMap>
+  	
+  	<insert id='insertAlarm'>
+  		insert
+  		  into alarm
+  		     (
+  		       alarm_no
+  		     , target_no
+  		     , alarm_msg
+  		     , ref_no
+  		     , ref_type
+  		     , url
+  		     )
+  		values
+  		     (
+  		       seq_alano.nextval
+  		     , #{targetNo}
+  		     , #{alarmMsg}
+  		     , #{refNo}
+  		     , #{refType}
+  		     , #{url}
+  		     )
+  	</insert>
+  	
+  	<select id="selectAlarmList" resultMap="alarmResultMap">
+  		select
+  		       alarm_no
+  		     , target_no
+  		     , alarm_msg
+  		     , to_char(register_date, 'YYYY/MM/DD') "register_date"
+  		     , read
+  		     , ref_no
+  		     , ref_type
+  		     , url
+  		  from alarm
+  		 where target_no = #{targetNo}
+  		 order
+  		    by register_date desc
+  	</select>
+  	
+  	<select id="selectUnReadCount" resultType="_int">
+  		select
+  		       count(*)
+  		  from alarm
+  		 where target_no = #{targetNo}
+  		   and read = 'N'
+  	</select>
+  	
+  	<update id="updateRead">
+  		update
+  		       alarm
+  		   set read = 'Y'
+  		 where alarm_no = #{alarmNo}
+  	</update>
+  	
+  	<delete id="deleteAlarms">
+  		delete
+  		  from alarm
+  		 where target_no = #{targetNo}
+  	</delete>
+  	
+  	<delete id="deleteAlarm">
+  		delete
+  		  from alarm
+  		 where target_no = #{targetNo}
+  		   and ref_no = #{refNo}
+  	</delete>
+  	
 </mapper>

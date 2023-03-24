@@ -21,4 +21,7 @@ public interface CarService {
 	
 	//차량상세조회 (1개)
 	Car selectCar(String carName);
+	
+	//차량이름조회
+	ArrayList<Car> selectNList();
 }

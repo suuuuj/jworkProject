@@ -43,11 +43,13 @@ public interface ApprovalService{
 	//문서 insert 임시저장
 	int saveApproval(Approval a);
 	
+	//새문서 insert
+	int insertNewApp(Approval a);
 	
 	
 	
-	//결재 문서 작성 서비스
-	//int insertApproval(Approval a);
+	
+	
 	
 	//상신취소 서비스 (수정 후 재 결재)
 	//int updateApproval(Approval a);

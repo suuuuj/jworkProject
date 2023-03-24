@@ -453,9 +453,9 @@ public class EssController {
 	@RequestMapping("insert.ot")
 	public String insertOvertime(Overtime o, HttpSession session, Model model) {
 		
-		int result = eService.insertOvertime(o);
+		int result1 = eService.insertOvertime(o);
 		
-		if(result > 0) {
+		if(result1 > 0) {
 			session.setAttribute("alertMsg", "시간외 근무등록이 완료되었습니다.");
 			return "redirect:/list.wt";
 		}else {
@@ -952,6 +952,13 @@ public class EssController {
 		
 	}
 	
+	/**
+	 * 근태시간수정
+	 * @param w
+	 * @param session
+	 * @param mv
+	 * @return
+	 */
 	@RequestMapping("modify.at")
 	public ModelAndView modifyWorktime(Worktime w, HttpSession session, ModelAndView mv) {
 		
@@ -991,6 +998,41 @@ public class EssController {
 				return mv;
 				
 	}
+	
+	@RequestMapping("workCalendar.at")
+	public ModelAndView worktimeCalendar(HttpSession session, ModelAndView mv) {
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		ArrayList<Attendence> alist = eService.workCalendarAttendence(empNo);
+		ArrayList<Businesstrip> blist = eService.workCalendarBusinesstrip(empNo);
+		ArrayList<Overtime> olist = eService.workCalendarOvertime(empNo);
+		
+		Attendence week = eService.selectWeekWorktime(empNo);
+		Attendence month = eService.selectMonthWorktime(empNo);
+		System.out.println(week);
+		mv.addObject("week", week);
+		mv.addObject("month", month);
+		mv.addObject("alist");
+		mv.addObject("blist");
+		mv.addObject("olist");
+		mv.setViewName("ess/workingCalendar");
+		return mv;
+	}
+	
+	/*
+	@ResponseBody
+	@RequestMapping(value="workResult.at", produces="application/json; charset=UTF-8")
+	public String worktimeResultAll(HttpSession session) {
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		ArrayList<Attendence> alist = eService.workCalendarAttendence(empNo);
+		ArrayList<Businesstrip> blist = eService.workCalendarBusinesstrip(empNo);
+		ArrayList<Overtime> olist = eService.workCalendarOvertime(empNo);
+		//HashMap<String, ArrayList> map =  new HashMap<>();
+		//map.put("alist", alist);
+		//map.put("blist", blist);
+		//map.put("olist", olist);
+		return new Gson().toJson(alist);
+	}
+	*/ 
 	
 	
 	

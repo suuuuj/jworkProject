@@ -117,6 +117,11 @@ public class MailServiceImpl implements MailService{
 		return mDao.deleteMail(sqlSession, m);
 	}
 
+	@Override
+	public int cancelSend(Mail m) {
+		return mDao.cancelSend(sqlSession, m);
+	}
+
 	
 
 	

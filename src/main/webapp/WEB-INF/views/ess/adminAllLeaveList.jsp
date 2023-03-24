@@ -65,8 +65,7 @@
            events:
            [
            /*
-            [ 
-                {
+            {
                     //title: String, 이벤트에 표시될제목,
                     //start: Date object, 이벤트 시작 날짜(& 시간),
                     //end: Date object, 이벤트 종료 날짜(& 시간),
@@ -77,8 +76,7 @@
                     color:'rgb(39, 174, 96)',
                     textColor:'white',
                     start:'2023-03-07'
-                }
-            ]
+            }
             */
             $(function(){
                     $.ajax({
@@ -86,7 +84,7 @@
                         dataType:"JSON",
                         type:"GET",
                         success:function(list){
-                            //console.log(list);
+                            console.log(list);
                             /*
                             value = "{"
                             for(i=0; i<list.length-1; i++){

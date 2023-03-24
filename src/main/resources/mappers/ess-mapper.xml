@@ -11,6 +11,8 @@
 		<result column="att_status" property="attStatus" />
 		<result column="att_date" property="attDate" />
 		<result column="after_time" property="afterTime" />
+		<result column="week_time" property="weekTime" />
+		<result column="month_time" property="monthTime" />
 	</resultMap>
 	
 	<resultMap id="annualResult" type="Annual">
@@ -410,7 +412,7 @@
 		  , #{otCategory}
 		  , #{otStart}
 		  , #{otEnd}
-		  , #{otContent}
+		  , #{otContent} 
 		  )
 	</insert>
 	
@@ -470,6 +472,9 @@
 		     , ot_end
 		     , decode(ot_check,0,'결재대기(1차)',1,'결재대기(2차)',2,'승인',3,'반려') as "ot_check"
 		     , ot_content  
+		     , '0' || floor((to_date(ot_end, 'HH24:MI:SS') - to_date(ot_start, 'HH24:MI:SS'))*24) 
+                || ':' 
+               	|| round(mod((to_date(ot_end, 'HH24:MI:SS') - to_date(ot_start, 'HH24:MI:SS'))*24,1)*60) as "ot_time"
 		  from overtime o
 		  join employee e on (o.emp_no = e.emp_no)
 		  join department d on (e.dept_code = d.dept_code)
@@ -890,7 +895,75 @@
 		     , end_time = #{reEndTime} || ':00'
 		 where att_no = #{attNo}
 	</update>
+
+	<!-- 근태현황캘린더조회 -->
+	<select id="workCalendarAttendence" resultMap="attendenceResult">
+		select
+			   att_no
+			 , emp_no
+		     , start_time
+		     , end_time
+		     , att_status
+		     , att_date
+		  from attendence a
+		 where emp_no = #{empNo}
+	</select>
+		   
+	<select id="workCalendarBusinesstrip" resultMap="businesstripResult">
+		   select 
+		       bt_no
+		     , emp_no
+		     , bt_start
+		     , bt_end
+		  from businesstrip b
+		 where bt_status = 'Y'
+		   and bt_check = 2
+		   and b.emp_no = #{empNo}
+	</select>
 	
+	<select id="workCalendarOvertime" resultMap="overtimeResult">
+		select 
+			   ot_no	
+			 , emp_no
+		     , enroll_date
+		     , '0' || floor((to_date(ot_end, 'HH24:MI:SS') - to_date(ot_start, 'HH24:MI:SS'))*24) 
+                || ':' 
+               	|| round(mod((to_date(ot_end, 'HH24:MI:SS') - to_date(ot_start, 'HH24:MI:SS'))*24,1)*60) as "ot_time"
+		  from overtime o
+		 where ot_status = 'Y'
+		   and ot_check = 2
+		   and o.emp_no = #{empNo}
+	</select>
 	
+	<!-- 이번주 누적 근로시간 -->
+	<select id="selectWeekWorktime" resultMap="attendenceResult">
+		SELECT (Round(sum(ROUND((to_date(end_time,'HH24:MI:SS')-to_date(start_time,'HH24:MI:SS'))*24*60*60))/(60*60)))||'시'||' ' ||
+               LPad(Round(Mod((sum(ROUND((to_date(end_time,'HH24:MI:SS')-to_date(start_time,'HH24:MI:SS'))*24*60*60))/60),60)),2,0)||'분' || ' ' ||
+               LPad(Round(Mod(sum(ROUND((to_date(end_time,'HH24:MI:SS')-to_date(start_time,'HH24:MI:SS'))*24*60*60)),60)),2,0)||'초' as "week_time"
+          from attendence
+         where emp_no = #{empNo}
+           and att_date between trunc(sysdate, 'IW') and sysdate
+	</select>
+	
+	<!-- 이번달 누적 근로시간 -->
+	<select id="selectMonthWorktime" resultMap="attendenceResult">
+		SELECT (Round(sum(ROUND((to_date(end_time,'HH24:MI:SS')-to_date(start_time,'HH24:MI:SS'))*24*60*60))/(60*60)))||'시'||' ' ||
+               LPad(Round(Mod((sum(ROUND((to_date(end_time,'HH24:MI:SS')-to_date(start_time,'HH24:MI:SS'))*24*60*60))/60),60)),2,0)||'분' || ' ' ||
+               LPad(Round(Mod(sum(ROUND((to_date(end_time,'HH24:MI:SS')-to_date(start_time,'HH24:MI:SS'))*24*60*60)),60)),2,0)||'초' as "month_time"
+          from attendence
+         where emp_no = #{empNo}
+           and att_date between TRUNC(SYSDATE, 'MM') and sysdate
+	</select>
+	
+
+
+
+
+
+
+
+
+
+
 
 </mapper>
