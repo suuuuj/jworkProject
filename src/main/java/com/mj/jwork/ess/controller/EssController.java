@@ -876,7 +876,7 @@ public class EssController {
 	// -------------------- 근태 -------------------------------------
 	
 	// 근래스케줄링
-	// @Scheduled(cron="0 0 02 * * *") // 아무요일,매월,매일 02:00:00
+	// @Scheduled(cron="0 32 01 * * *") // 아무요일,매월,매일 02:00:00
 	@Scheduled(cron="0 0 02 * * *")
 	public void attendenceSubmit() {
 		int result = eService.adminInsertAttendence();
