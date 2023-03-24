@@ -67,4 +67,10 @@
   		 where alarm_no = #{alarmNo}
   	</update>
   	
+  	<delete id="deleteAlarms">
+  		delete
+  		  from alarm
+  		 where target_no = #{targetNo}
+  	</delete>
+  	
 </mapper>
