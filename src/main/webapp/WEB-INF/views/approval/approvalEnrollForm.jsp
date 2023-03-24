@@ -360,11 +360,11 @@
             </div> <!--end of approvalContent -->
 
             <div id="buttonarea"  align="left">
-                <button type="submit" class="btn btn-success">결재</button>
+                <button type="submit" class="btn btn-success" id="sbmitAppBtn" disabled='disabled'>결재</button>
             </div>
 
             <div id="buttonarea"  align="right">
-                <button type="button" class="btn btn-light" onclick="saveBtn();">임시저장</button>
+                <button type="button" class="btn btn-light" onclick="saveBtn();" >임시저장</button>
             </div>
             
            
@@ -640,6 +640,9 @@
                         $("#app-list").append("<input type='hidden' name='alist[" +count + "].appLevel' value='3'>");
                     }
                     
+                    const target = document.getElementById('sbmitAppBtn');
+                    target.disabled = false;
+                    
                    count++;
 
                 })
@@ -652,6 +655,9 @@
                     $('#name1').text('');
                     $('#name2').text('');
                     $('#name3').text('');
+                    
+                    const target = document.getElementById('sbmitAppBtn');
+                    target.disabled = true;
 
                 })
 
