@@ -113,6 +113,23 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return aDao.saveApproval(sqlSession,a);
 	}
 
+	//새문서 insert
+	@Override
+	public int insertNewApp(Approval a) {
+		return aDao.insertNewApp(sqlSession,a);
+		
+		//int result1 = aDao.insertNewApp(sqlSession,a);
+		//int result2 = aDao.insertNewAppLine(sqlSession,a);
+		
+		//int result3 = 1;
+		 
+		//if (result1 * result2 > 0) {
+		  //      result3 = aDao.insertNewRefLine(sqlSession,a);
+		 //   }
+		
+		//return result1*result2*result3; 
+	}
+
 	
 
 

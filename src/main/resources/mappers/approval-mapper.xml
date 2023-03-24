@@ -291,6 +291,66 @@
 			)
     
     </insert>
-	
+    
+    <!-- 새문서 insert -->
+    <insert id="insertNewApp">
+    	insert 
+		  into  approval
+		     (
+			    APP_NO
+		      , DOC_NO
+		      , EMP_NO
+		      , DOC_TYPE
+		      , CREATE_DATE
+		      , DOC_TITLE
+		      , DOC_CONTENT
+		      , DOC_ORIGINNAME
+		      , DOC_FILEPATH
+		      , APP_STATUS
+		      , DOC_STATUS
+		      , APP_COUNT
+		      , APP_TURN
+		      )
+		values
+		      (
+				SEQ_APNO.nextval
+				<if test="docType == 0">
+			  , '기안2023-'||(select count(doc_no)+1
+							   from approval
+				              where doc_no like '기안%')
+				</if>
+				<if test="docType == 1">
+			  , '품의2023-'||(select count(doc_no)+1
+							   from approval
+				              where doc_no like '품의%')
+				</if>
+				<if test="docType == 2">
+			  , '사직2023-'||(select count(doc_no)+1
+							   from approval
+				              where doc_no like '사직%')
+				</if>
+			  , #{empNo}
+			  , #{docType}
+			  , sysdate
+			  , #{docTitle}
+			  , #{docContent}
+			  , #{docOriginName}
+			  , #{docFilePath}
+			  , 0
+			  , 'Y'
+			  , #{alist.size()}
+			  , 1
+			    )
+    </insert>
+    
+    <!-- 결재선 insert -->
+    <insert id="insertNewAppLine">
+    
+    </insert>
+    
+    <!-- 참조인 insert -->
+    <insert id="insertNewRefLine">
+    
+    </insert>	
 
 </mapper>

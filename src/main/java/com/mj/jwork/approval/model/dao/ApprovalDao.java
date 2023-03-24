@@ -116,6 +116,20 @@ public class ApprovalDao {
 		return sqlSession.insert("approvalMapper.saveApproval",a);
 	}
 
+	//새문서 insert
+	//문서 내용
+	public int insertNewApp(SqlSessionTemplate sqlSession, Approval a) {
+		return sqlSession.insert("approvalMapper.insertNewApp",a);
+	}
+	//결재선
+	public int insertNewAppLine(SqlSessionTemplate sqlSession,Approval a) {
+		return sqlSession.insert("approvalMapper.insertNewAppLine",a);
+	}
+	//참조인
+	public int insertNewRefLine(SqlSessionTemplate sqlSession,Approval a) {
+		return sqlSession.insert("approvalMapper.insertNewRefLine",a);
+	}
+
 	
 	
 

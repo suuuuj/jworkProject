@@ -92,7 +92,11 @@ public class MailDao {
 	
 	public int insertMailDetail(SqlSessionTemplate sqlSession, Mail m) {
 		
-		return sqlSession.insert("mailMapper.insertMailDetail", m);
+		if(sqlSession.insert("mailMapper.insertMailDetail", m) > 0) {
+			return sqlSession.selectOne("mailMapper.selectThisMailNo");
+		} else {
+			return 0;
+		}
 		
 	}
 	

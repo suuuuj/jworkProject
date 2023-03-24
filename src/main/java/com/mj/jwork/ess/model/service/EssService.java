@@ -66,6 +66,7 @@ public interface EssService {
 	
 	// 시간외근무/출장등록(insert)
 	int insertOvertime(Overtime o);
+	int insertOvertimeAll(Overtime o);
 	int insertBusinesstrip(Businesstrip b);
 	
 	// 신청조회(select)
@@ -128,6 +129,13 @@ public interface EssService {
 	int updateEndTime(Worktime w);
 	int insertModifyWorktime(Worktime w);
 	int updateWorktime(Worktime w);
+	
+	// 근태현황 캘린더조회
+	ArrayList<Attendence> workCalendarAttendence(int empNo);
+	ArrayList<Businesstrip> workCalendarBusinesstrip(int empNo);
+	ArrayList<Overtime> workCalendarOvertime(int empNo);
+	Attendence selectWeekWorktime(int empNo);
+	Attendence selectMonthWorktime(int empNo);
 	
 	
 	

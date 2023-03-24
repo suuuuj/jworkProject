@@ -285,6 +285,30 @@ public class EssDao {
 		return sqlSession.update("essMapper.updateWorktime", w);
 	}
 	
+	public int insertOvertimeAll(SqlSession sqlSession, Overtime o) {
+		return sqlSession.update("essMapper.insertOvertimeAll", o);
+	}
+	
+	public ArrayList<Attendence> workCalendarAttendence(SqlSession sqlSession, int empNo){
+		return (ArrayList)sqlSession.selectList("essMapper.workCalendarAttendence" , empNo);
+	}
+	
+	public ArrayList<Businesstrip> workCalendarBusinesstrip(SqlSession sqlSession, int empNo){
+		return (ArrayList)sqlSession.selectList("essMapper.workCalendarBusinesstrip" , empNo);
+	}
+	
+	public ArrayList<Overtime> workCalendarOvertime(SqlSession sqlSession, int empNo){
+		return (ArrayList)sqlSession.selectList("essMapper.workCalendarOvertime" , empNo);
+	}
+	
+	public Attendence selectWeekWorktime(SqlSession sqlSession, int empNo) {
+		return sqlSession.selectOne("essMapper.selectWeekWorktime", empNo);
+	}
+	
+	public Attendence selectMonthWorktime(SqlSession sqlSession, int empNo) {
+		return sqlSession.selectOne("essMapper.selectMonthWorktime", empNo);
+	}
+	
 	
 	
 }

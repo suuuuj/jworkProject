@@ -21,5 +21,7 @@ public class Attendence {
 	private String attStatus; // 근무상태 0:정상 1:지각 2:조퇴 3:결근 4:휴가 5:출장 ( default : 3(결근) )
 	private String attDate; // 근무날짜
 	private String afterTime; // 연장시간
+	private String weekTime;
+	private String monthTime;
 
 }
