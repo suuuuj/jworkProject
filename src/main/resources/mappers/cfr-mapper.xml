@@ -184,7 +184,7 @@
 		set status=4
 		where res_no in(#{resNoArr})
 	</update>
-	<select id="ajaxSelectTime"resultMap="cfrResMap">
+	<select id="ajaxSelectTime" resultMap="cfrResMap">
 		select
 		    RES_NO
            ,CFR_NAME

@@ -175,8 +175,12 @@ public class CfrResController {
 		return new Gson().toJson(result);
 	}
 	
-	
-	
+	@ResponseBody
+	@RequestMapping(value="time.cfr",produces="application/json; charset=utf-8")
+	public String ajaxSelectTime(CfrReservation c) {
+		ArrayList<CfrReservation>list = cRService.ajaxSelectTime(c);
+		return new Gson().toJson(list);
+	}
 	
 		
 	

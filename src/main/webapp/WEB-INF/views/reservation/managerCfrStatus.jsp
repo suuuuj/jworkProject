@@ -214,7 +214,7 @@
                         <tr>
                             <th>시간</th>
                           	<td>
-                            <select name="startTime" onchange="endTimeShow();" required>
+                            <select name="startTime" onchange="endTimeShow($(this).val());" id="startTime" required>
                           	    <option>- 시작시간 -</option>
                                 <option value="09:00" >09:00</option>
                                 <option value="10:00">10:00</option>
@@ -226,12 +226,10 @@
                                 <option value="16:00">16:00</option>
                                 <option value="17:00">17:00</option>
                                 <option value="18:00">18:00</option>
-                                <option value="19:00">19:00</option>
                             </select>
                             -
-                            <select name="endTime" required>
-                                <option class=".ti0">- 종료시간 -</option>
-                                <option value="09:00">09:00</option>
+                            <select name="endTime" id="endTime" disabled required>
+                                <option >- 종료시간 -</option>
                                 <option value="10:00">10:00</option>
                                 <option value="11:00">11:00</option>
                                 <option value="12:00">12:00</option>
@@ -320,11 +318,12 @@
             		let value2="";
             		for(var i=0; i<list.length; i++){
             			
-            			value+="<button type='button' class='btn btn-sm btn-light'value='"
+            			value+="<button type='button' class='btn btn-sm btn-light cfrBtn'value='"
             					+list[i].cfrName+"' onclick='detailCfr($(this).val());'>" +list[i].cfrName
             					+"</button>";
             			
             			value2+="<option>"+list[i].cfrName+"</option>";
+            		
             		}
             		
             		$("#btn-area").html(value);
@@ -336,6 +335,8 @@
             	}
             		
         	});
+        	
+        	
         	
         	
         }
@@ -369,7 +370,20 @@
 					return false;
 			}
 	   		 }
-	    	
+	   		 
+	   		 function endTimeShow(val){
+	   			
+	   			 $("#endTime").prop("disabled",false);
+	   			 
+	   			$("#endTime option").each(
+						function(){    
+							if($(this).val() <= val) {
+								   $(this).prop("disabled",true);
+								}
+					    }
+					);
+
+	   		 }	    	
 	    	// 날짜선택제한
 	    	$(function(){
 	    		
@@ -390,18 +404,35 @@
 	    		$.ajax({
 	    			url:"time.cfr",
 	    			data:{useDate:val,cfrName:cfrName},
-	    			success:function(){
+	    			success:function(list){
+	    				for(let i=0; i<list.length; i++){
 	    				
-	    				console.log('성공');
+	    			
+	    					$("#startTime option").each(
+	    							function(){    
+	    								if($(this).val() > list[i].startTime && $(this).val() < list[i].endTime) {
+	    									   $(this).prop("disabled",true);
+	    									}
+	    						    }
+	    						);
+
+	    					$("#endTime option").each(
+	    							function(){    
+	    								if($(this).val() > list[i].startTime && $(this).val() < list[i].endTime) {
+	    									   $(this).prop("disabled",true);
+	    									}
+	    						    }
+	    						);
+
+	    				}
 	    			},error:function(){
-	    				console.log('실패');
+	    				console.log('날짜 조회용 ajax 통신 실패');
 	    			}
 	    			
 	    		})
 	    	}
 	    	
 	  
-	    
 	    </script>
   </body>
 </html>
