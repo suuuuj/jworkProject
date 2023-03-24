@@ -43,4 +43,9 @@ public class AlarmServiceImpl implements AlarmService{
 		return aDao.deleteAlarms(sqlSession, targetNo);
 	}
 
+	@Override
+	public int deleteAlarm(Alarm a) {
+		return aDao.deleteAlarm(sqlSession, a);
+	}
+
 }

@@ -21,4 +21,7 @@ public interface AlarmService {
 	// 알람들 삭제
 	int deleteAlarms(int targetNo);
 	
+	// 발송취소한 메일 알람 삭제
+	int deleteAlarm(Alarm a);
+	
 }

@@ -40,4 +40,10 @@ public class AlarmDao {
 		
 	}
 	
+	public int deleteAlarm(SqlSessionTemplate sqlSession, Alarm a) {
+		
+		return sqlSession.delete("alarmMapper.deleteAlarm", a);
+		
+	}
+	
 }
