@@ -33,4 +33,8 @@ public interface CfrResService {
 	//예약상태변경
 	
 	int updateStatus(String resNoArr);
+	
+	//시간 리스트 조회용
+	
+	ArrayList<CfrReservation> ajaxSelectTime (CfrReservation c);
 }

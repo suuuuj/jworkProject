@@ -74,6 +74,12 @@ public class CfrResServiceImpl implements CfrResService{
 	public int updateStatus(String resNoArr) {
 		return cRDao.updateStatus(sqlSession, resNoArr);
 	}
+
+
+	@Override
+	public ArrayList<CfrReservation> ajaxSelectTime(CfrReservation c) {
+		return cRDao.ajaxSelectTime(sqlSession, c);
+	}
 	
 	
 

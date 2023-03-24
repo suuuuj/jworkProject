@@ -159,7 +159,7 @@
            ,USE_DATE
            ,CF_TITLE
            from cfr_reservation
-         where status = 2
+         where status in (2,4)
 	</select>
 	<update id="deleteCfrRes" >
 		update
@@ -184,4 +184,18 @@
 		set status=4
 		where res_no in(#{resNoArr})
 	</update>
+	<select id="ajaxSelectTime"resultMap="cfrResMap">
+		select
+		    RES_NO
+           ,CFR_NAME
+           ,STATUS
+           ,START_TIME
+           ,END_TIME
+           ,USE_DATE
+           ,CF_TITLE
+           from cfr_reservation
+         where CFR_NAME=#{cfrName}
+         and USE_DATE=#{useDate}
+	
+	</select>
 </mapper>
