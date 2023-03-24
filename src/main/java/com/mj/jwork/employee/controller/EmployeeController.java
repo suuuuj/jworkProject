@@ -687,7 +687,10 @@ public class EmployeeController {
 
 	// 홈 아이콘 클릭시
 	@RequestMapping("home.jwork")
-	public String fowardingHome() {
+	public String fowardingHome(HttpSession session) {
+		Employee e = (Employee)session.getAttribute("loginUser");
+		Employee loginUser = eService.loginEmployee(e);
+		session.setAttribute("loginUser", loginUser);
 		return "common/mainPage";
 	}
 

@@ -57,5 +57,11 @@ public class Employee {
 	private int group;
 	private String groupColor;
 	
+	// 근태버튼
+	private int attNo;
+	private String startTime;
+	private String endTime;
+	private String attDate;
+	
 	
 }
