@@ -107,7 +107,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return aDao.returnStatus(sqlSession,appNo);
 	}
 
-	//결재 insert - 임시저장
+	//임시저장
 	@Override
 	public int saveApproval(Approval a) {
 		return aDao.saveApproval(sqlSession,a);
@@ -134,6 +134,12 @@ public class ApprovalServiceImpl implements ApprovalService {
 	   }
 		
 		return result1*result2*result3; 
+	}
+	
+	//상신취소, 임시저장form에서의 임시저장
+	@Override
+	public int resaveApproval(Approval a) {
+		return aDao.resaveApproval(sqlSession,a);
 	}
 
 	

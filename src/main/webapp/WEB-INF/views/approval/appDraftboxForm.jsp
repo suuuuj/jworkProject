@@ -9,6 +9,9 @@
 
 <!-- include summernote css/js-->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<!-- 조직도 트리 -->
+<script src="http://code.jquery.com/jquery-latest.js"></script> 
+<link rel="stylesheet" type="text/css" href="resources/css/treeview/jquery.treeview.css"/>
 
 <style>
 	 .content{
@@ -75,7 +78,8 @@
         border-radius: 5%;
         width: 300px;
         padding:15px;
-        text-align: left;
+        margin: auto;
+        overflow: auto;     
              
     }
     .approvalLine-button{
@@ -108,17 +112,71 @@
         list-style: none;
         font-size: small;
     }
+    #tree{
+            font-size: 14px;
+        }
+    
+   .emp:hover{
+       cursor: pointer;
+   }
+
+   .click {
+        font-weight:bolder;
+        color: green;
+    }
    
+   .employeeChart{
+  	   border: 1px solid black;
+       border-radius: 5%;
+       width: 300px;
+       padding:5px;
+       text-align: left;
+       height: 300px;
+       width: 300px;
+       overflow: auto;
+   }
+   .selectAppLine{
+      overflow: auto;
+      height: 265px;
+   }
+   .employeeChart::-webkit-scrollbar{
+        width: 5px; /*스크롤바의 너비*/
+    }
+
+    .approvalLine-area::-webkit-scrollbar{
+        width: 2px; /*스크롤바의 너비*/
+    }
+    .selectAppLine::-webkit-scrollbar{
+        width: 2px; /*스크롤바의 너비*/
+    }
+    
+  #selectAppLineTB tbody, #selectRefLineTB tbody{
+  	font-size: small;
+  }
+
+  .removeBtn{
+    display: flex;
+    align-items:center; 
+    justify-content: center;
+    height: 6px;
+    width: 4px;
+    font-size: 2px;
+  }
+
+ 
 </style>
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
        
         <h4><b>임시저장함</b></h4>
-    
+   
         <br>
 
-        <form action="insert.app" method="post" align="center" enctype="multipart/form-data">
+         <form action="insertNewApp.app" method="post" align="center" enctype="multipart/form-data" id="approvalForm">
+         <input type="hidden" name="empNo" value="${ loginUser.empNo }">
+       	 <input type="hidden" name="appNo" value="${ a.appNo }">
+         <input type="hidden" name="docType" value="${ a.docType }">
             <table id="selectApproval" border="1">
                 <tr>
                     <th width="140px">문서종류</th>
@@ -142,17 +200,17 @@
                 </tr>
 
             </table>
-            <table  id="selectApprovalLine" border="1">
+             <table  id="selectApprovalLine" border="1">
                 <tr >
                     <th width="90px" rowspan="3"style="text-align:center; background:rgb(237, 237, 237);">
-                        <button type="button" class="btn" data-toggle="modal" data-target="#myModal">
+                        <button type="button" class="btn" data-toggle="modal" data-target="#myModal" id="chart">
                             결재
                         </button>
                     </th>
                     <td height="25px" width="90px">${ loginUser.jobName }</td>
-                    <td width="90px"></td>
-                    <td width="90px"></td>
-                    <td width="90px"></td>
+                    <td width="90px" id="job1"></td>
+                    <td width="90px" id="job2"></td>
+                    <td width="90px" id="job3"></td>
                 </tr>
                 <tr>
                     <td height="70px"><img class="signLogo" src="resources/images/common/check.png"/></td>
@@ -162,82 +220,54 @@
                 </tr>
                 <tr>
                     <td height="25px">${ loginUser.empName }</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td id="name1"></td>
+                    <td id="name2"></td>
+                    <td id="name3"></td>
                 </tr>
             </table>
             <p id="appMsg">* 순서대로 결재가 진행됩니다.</p>
             
-           <!--  <script>
-                $(function(){
-                    $(".quit").hide();
-                    $(".request").hide();
-                    $("#appForm").change(function(){
-                        var appForm = $("#appForm option:selected").val();
-
-                        if(appForm == 2){
-                            $(".quit").show();
-                            $(".up").hide();
-                            $(".request").hide();
-                        }else if(appForm == 0){
-                            $(".up").show();
-                            $(".quit").hide();
-                            $(".request").hide();
-                        }else if(appForm == 1){
-                            $(".request").show();
-                            $(".quit").hide();
-                            $(".up").hide();
-                        }
-                    })
-                })
-            
-            
-            </script> -->
-            
-            <c:choose>
-	            <c:when test="${a.docType == 2 }">
-		            <div class="approvalContent quit" align="center">
-		                <br>
-		                <h3><b>사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;직&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
+            <div class="approvalContent quit" align="center">
+                <br>
+                <c:choose>
+	       			<c:when test="${ a.docType eq 0 }">
+	       				<div class="approvalContent up" align="center">
+			                <br>
+			                <h3><b>기&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;안&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
+			                <br>
+            		    </div>
+	       			</c:when>
+	       			<c:when test="${ a.docType eq 1 }">
+	       				<div class="approvalContent request" align="center">
+                			<br>
+			                <h3><b>품&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;의&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
+			                <br>
+            			</div>
+	       			</c:when>
+	       			<c:otherwise>
+	       				<h3><b>사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;직&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
 		                <table border="1" id="resignationAddForm">
 		                    <tr>
 		                        <th id="appThead">입사년도</th>
 		                        <td id="indate">${ loginUser.enrollDate }</td>
 		                        <th id="appThead">퇴사 예정일</th>
-		                        <td id="indate"><input type="date" name="" id=""></td>
+		                        <td id="indate"><input type="date" name="quitDate" value="${a.quitDate }"></td>
 		                    </tr>
 		                </table>
-		                <br>
-		            </div>
-	            </c:when>
-            
-				<c:when test="${a.docType == 1 }">
-		            <div class="approvalContent request" align="center">
-		                <br>
-		                <h3><b>품&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;의&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
-		                <br>
-		            </div>
-		       </c:when>
-		       <c:otherwise>
-		            <div class="approvalContent up" align="center">
-		                <br>
-		                <h3><b>기&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;안&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</b></h3>
-		                <br>
-		            </div>
-	            </c:otherwise>
-			</c:choose>
-           
+              			<br>
+	       			</c:otherwise>
+	       		</c:choose>
+            </div>
 
             <div class="approvalContent" align="center">
                 <table border="1" width="759px">
                     <tr>
                         <th id="appThead" >제목</th>
-                        <td ><input type="text" style="width:624px"  name="approvalTitle" value="${ a.docTitle }"></td>
+                        <td ><input type="text" style="width:624px"  name="docTitle" value="${ a.docTitle }" ></td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <textarea id="summernote" name="editordata">${ a.docContent }</textarea>
+                            <textarea id="summernote" name="docContent">${ a.docContent }</textarea>
                             <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
                             <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
                             <script>
@@ -289,9 +319,17 @@
                         </script>
                         </td>
                     </tr>
-                    <tr>
+                     <tr>
                         <th id="appThead">첨부파일</th>
-                        <td ><input type="file" style="width:624px"></td>
+                        <td >
+                        	<input type="file" id="upfile" class="form-control-file border" name="reupfile">
+                        	<c:if test="${ not empty a.docOriginName }"> <!-- 기존의 첨부파일이 있을 경우 -->
+	                            현재 업로드된 파일 : 
+	                            <a href="${ a.docFilePath }" download="${ a.docOriginName }">${a.docOriginName}</a>
+                            	
+                            	<input type="hidden" name="docOriginName" value="${ a.docOriginName }">
+                            	<input type="hidden" name="docFilePath" value="${ a.docFilePath }">
+                            </c:if>
                     </tr>
                     
                 </table>
@@ -299,20 +337,28 @@
             </div> <!--end of approvalContent -->
 
             <div id="buttonarea"  align="left">
-                <button type="submit" class="btn btn-success" >결재</button>
+               	<button type="submit" class="btn btn-success" id="sbmitAppBtn" disabled='disabled'>결재</button>
             </div>
 
-             <div id="buttonarea"  align="right">
+            <div id="buttonarea"  align="right">
                 <button type="button" class="btn btn-light" onclick="history.back()">취소</button>
-                <button type="button" class="btn btn-light">임시저장</button>
+                <button type="button" class="btn btn-light" onclick="resaveBtn();">임시저장</button>
                 <button type="button" class="btn btn-light" onclick="deleteSubmit();">삭제</button>
             </div>
-
-              <!-- The Modal -->
+			
+			 <script>
+	         	//임시저장 
+	         	function resaveBtn(){
+	         		$("#approvalForm").attr("action","resaveApp.app").submit();
+	         	}
+	         
+	         </script>
+			
+                <!-- The Modal -->
             <div class="modal fade" id="myModal">
                 <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                
+               
                     <!-- Modal Header -->
                     <div class="modal-header">
                     <h5 class="modal-title"><b>결재선</b></h5>
@@ -321,79 +367,197 @@
                     
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <div class="approvalLine-area"  id="selectEmpLine">
-                            <ul class="deptName">
-                                <li>인사부</li>
-                                <ul class="teamName" style="display:none">
-                                	<li>인사1팀</li>
-	                                <ul class="empName" style="display:none; overflow: auto">
-	                                    <li>유상무 상무</li>
-	                                    <li>김지연 차장</li>
-	                                    <li>박춘식 부장</li>
-	                                </ul>
-                                </ul> 
-                            </ul>
-                            <ul class="deptName">
-                                <li>총무부</li>
-                                <ul class="teamName" style="display:none">
-                                	<li>인사1팀</li>
-	                                <ul class="empName" style="display:none; overflow: auto">
-	                                    <li>유상무 상무</li>
-	                                    <li>김지연 차장</li>
-	                                    <li>박춘식 부장</li>
-	                                </ul>
-                                </ul> 
-                            </ul>
-                        </div>
+                            
+                            <div class="employeeChart">
+                                 <ul id="tree" class="filetree treeview-famfamfam ">
+            
                         
-                        <script>
-                        
-                        		//메뉴슬라이드
-                        		$('.deptName  li').click(function(){
-                                    $(this).next($('.teamName')).slideToggle();
-                                })
-                                $('.teamName  li').click(function(){
-                                    $(this).next($('.empName')).slideToggle();
-                                })
-                                $(".empName li").click(function(){
-                                	$(this).show();
-                               	console.log($(this).text());
-                               });
+                                                
+                                          
+                                  </ul>
+                                  <input type="hidden" id="appEmpNo" value="">
+                                            
+                           </div>
 
-                        </script>
+                       
+                       <!-- ajax로 트리 불러오기 --> 
+                        <script src="resources/js/treeview/jquery.cookie.js" type="text/javascript"></script>
+           				<script src="resources/js/treeview/jquery.treeview.js" type="text/javascript"></script>
+					   <script>
+			                $(document).ready(function(){
+			                    
+			                    
+			                    $(document).on("click", "#chart", function(){
+			
+			                        $.ajax({
+			                            url: "employeeChart.emp",
+			                            success: function(deptList){
+			                                //console.log(deptList);
+			                                let chart = "";
+			                                for(let i=0; i<deptList.length; i++){
+			                                    //console.log(deptList[i]);
+			                                    if(deptList[i].deptName == "사장"){
+			                                        chart += "<li><span class='emp' empNo='" + deptList[i].teamList[0].empList[0].empNo  +"' empName='" + deptList[i].teamList[0].empList[0].empName + "'>" 
+			                                                                            + deptList[i].teamList[0].empList[0].jobName + '&nbsp;' + deptList[i].teamList[0].empList[0].empName + "</span></li>";
+			                                    } else{
+			                                        chart += '<li class="closed"><span class="folder">' + deptList[i].deptName + '</span>';
+			                                        for(let j=0; j<deptList[i].teamList.length; j++){
+			                                            if(deptList[i].teamList[j].teamName == "임원"){
+			                                                for (let k=0; k<deptList[i].teamList[j].empList.length; k++){
+			                                                    chart += '<ul><li><span class="emp" empNo="' + deptList[i].teamList[j].empList[k].empNo + '" empName="' + deptList[i].teamList[j].empList[k].empName + '">'
+			                                                            + deptList[i].teamList[j].empList[k].jobName + '&nbsp;' + deptList[i].teamList[j].empList[k].empName + '</span></li></ul>';
+			                                                }
+			                                            } else{
+			                                                chart += '<ul><li class="closed"><span class="folder">' + deptList[i].teamList[j].teamName + '</span>';
+			                                                for(let k=0; k<deptList[i].teamList[j].empList.length; k++){
+			                                                    chart += '<ul><li><span class="emp" empNo="' + deptList[i].teamList[j].empList[k].empNo +  '" empName="' + deptList[i].teamList[j].empList[k].empName + '">'
+			                                                        + deptList[i].teamList[j].empList[k].jobName + '&nbsp;' + deptList[i].teamList[j].empList[k].empName + '</span></li></ul>';
+			                                                }
+			                                                chart+= '</li></ul>';
+			
+			                                            }
+			                                            
+			                                        }
+			                                        chart += "</li>";
+			                                    }
+			                                    
+			                                }
+			                                $("#tree").html(chart);
+			                                $("#tree").treeview({});
+			
+			                            }, error: function(){
+			                                console.log("조직도 조회용 ajax 통신 실패");
+			                            }
+			
+			                        })
+			
+			                    })
+
+                                
+                                //사원 선택시
+                                $(document).on("click",".emp",function(){
+                                   
+                                    const empNo= $(this).attr("empNo");
+                    
+                                    //console.log(empNo);
+                                    
+                                    $("#appEmpNo").val(empNo);
+                                   
+                                    // 이전에 클릭된 엘리먼트의 색상을 원래대로 되돌립니다.
+                                    $(".emp").css("color", "").css("font-weight", "normal");
+  
+                                    // 현재 클릭된 엘리먼트의 색상을 변경하고, #appEmpNo 엘리먼트의 값을 설정합니다.
+                                    $(this).css("color", "green").css("font-weight", "bolder");
+
+                                })
+
+			                });
+						
+			                
+                            $(document).on("click","#addSigner",function(){
+                            	var count = $(".signEmp").length;
+                            	if(count >= 3){
+                            		alert("결재자는 최대 3명까지 지정 가능합니다.");
+                            		return;
+                            	} else{
+                            		$.ajax({
+                                    url:"addSigner.app",
+                                    data:{empNo:$("#appEmpNo").val()},
+                                    success: function(list){
+                                    	//console.log(list)
+                                    	
+                                    	let value=""
+                                    	value += "<tr class='signEmp'>"
+                                                 + "<td style='color:red' class='removeEmp'><b>X</b></td>"
+                                                 + "<td style='display:none'>"+list.empNo+"</td>"
+                                                 + "<td style='display:none'>"+list.appLevel+"</td>"
+	                							 + "<td>" + list.deptName + "</td>"
+	                						 	 + "<td>" + list.empName + "</td>"
+	                							 + "<td>" + list.jobName + "</td>"
+                						     + "</tr>";
+                						     
+                                    	$("#selectAppLineTB tbody").append(value);
+                                        console.log(list);
+
+                                        $(".removeEmp").click(function(){
+                                            $(this).parent().remove();
+                                            count--;
+                                        })
+
+                                     
+                                    }, error:function(){
+                        				console.log("결재자 추가 ajax 통신실패");
+                        			}
+                                })
+                             }
+                                
+                            })
+
+                            $(document).on("click","#addRefer",function(){
+                                $.ajax({
+                                url:"addSigner.app",
+                                data:{empNo:$("#appEmpNo").val()},
+                                success: function(list){
+                                  
+                                    
+                                    let value=""
+                                    
+                                    value += "<tr class='refEmp'>"
+                                                + "<td style='color:red' class='removeRef'><b>X</b></td>"
+                                                + "<td style='display:none'>"+list.empNo+"</td>"
+                                                + "<td style='display:none'>"+list.appLevel+"</td>"
+                                                + "<td>" + list.deptName + "</td>"
+                                                + "<td>" + list.empName + "</td>"
+                                                + "<td>" + list.jobName + "</td>"
+                                            + "</tr>";
+                                            
+                                    $("#selectRefLineTB tbody").append(value);
+                                    console.log(list);
+
+                                    $(".removeRef").click(function(){
+                                        $(this).parent().remove();
+                                    })
+
+                                    
+                                }, error:function(){
+                                    console.log("결재자 추가 ajax 통신실패");
+                                }
+                                
+                                })
+                            })
+                           
+			            </script>
+                       
+                      
 
                         <div class="approvalLine-button">
                             <br>
                             <br>
                             <br>
-                            <button type="button" class="btn btn-outline-secondary">결재&gt;</button>
+                            <button type="button" class="btn btn-outline-secondary" id="addSigner">결재&gt;</button>
                             <br><br>
-                            <button type="button" class="btn btn-outline-secondary">&lt;제외</button>
+                            <!--<button type="button" class="btn btn-outline-secondary" id="removeEmp">&lt;제외</button>-->
                             <br><br>
-                            <button type="button" class="btn btn-outline-secondary">참조&gt;</button>
+                            <button type="button" class="btn btn-outline-secondary" id="addRefer">참조&gt;</button>
                         </div>
-                        <div class="approvalLine-area">
+
+                       
+
+                        <div class="approvalLine-area" >
                             <div class="selectAppLine">
                                 <table id="selectAppLineTB" border="1">
                                     <h6 style="text-align: center;"><b>결재자</b></h6>
                                     <thead >
                                         <tr>
+                                            <th width="15px"></th>
+                                            <th style="display: none;"></th>
                                             <th>부서</th>
                                             <th>이름</th>
                                             <th>직급</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>총무팀</td>
-                                            <td>홍길동</td>
-                                            <td>대리</td>
-                                        </tr>
-                                        <tr>
-                                            <td>총무팀</td>
-                                            <td>김과장</td>
-                                            <td>과장</td>
-                                        </tr>
+                                       
                                     </tbody>
                                 </table>
                                 <br>
@@ -401,22 +565,15 @@
                                     <h6 style="text-align: center;"><b>참조자</b></h6>
                                     <thead>
                                         <tr>
+                                            <th width="15px"></th>
+                                            <th style="display: none;"></th>
                                             <th>부서</th>
                                             <th>이름</th>
                                             <th>직급</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>총무팀</td>
-                                            <td>홍길동</td>
-                                            <td>대리</td>
-                                        </tr>
-                                        <tr>
-                                            <td>총무팀</td>
-                                            <td>김과장</td>
-                                            <td>과장</td>
-                                        </tr>
+                                        
                                     </tbody>
                                 </table>
 
@@ -427,15 +584,14 @@
                     
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary">적용</button>
+                    <button type="button" class="btn btn-secondary" id="selectApp" data-dismiss="modal">적용</button>
                     </div>
                     
                 </div>
                 </div>
             </div>
-
+			<div id="app-list"></div>
         </form>
-        <!-- 삭제하기 눌렀을때 전달값 전송 -->
         <form action="delete.app" method="post" id="deleteBtn">
         	<input type="hidden" name="no" value=${a.appNo }>
         </form>
@@ -444,6 +600,78 @@
         		$("#deleteBtn").attr("action", "delete.app").submit();
         	}
         </script>
+        
+        <script>
+			
+            $(document).on("click", "#selectApp", function(){
+            	
+                var count = 0;
+
+                $("#selectAppLineTB tbody tr").each(function(){
+                   
+                   let no = $(this).children().eq(1).text();
+                   let name = $(this).children().eq(3).text();
+                   let job = $(this).children().eq(4).text();
+                   console.log(count);
+                   console.log(name);
+
+                  
+                   
+                    if(count == 0){
+                        $("#job1").text(job);
+                        $("#name1").text(name);
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].appLevel' value='1'>");
+                    }else if(count == 1){
+                        $("#job2").text(job);
+                        $("#name2").text(name);
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].appLevel' value='2'>");
+                    }else if(count == 2){
+                        $("#job3").text(job);
+                        $("#name3").text(name);
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].appLevel' value='3'>");
+                    }
+                    
+                    const target = document.getElementById('sbmitAppBtn');
+                    target.disabled = false;
+                    
+                   count++;
+
+                })
+                
+              
+
+                $(document).on("click", "#chart", function() {
+                    count = 0;
+                    $('#job1').text('');
+                    $('#job2').text('');
+                    $('#job3').text('');
+                    $('#name1').text('');
+                    $('#name2').text('');
+                    $('#name3').text('');
+                    
+                    const target = document.getElementById('sbmitAppBtn');
+                    target.disabled = true;
+
+                })
+
+                
+                var num = 0;
+                $("#selectRefLineTB tbody tr").each(function(){
+                	let no = $(this).children().eq(1).text();
+                    
+                	$("#app-list").append("<input type='hidden' name='rlist[" +num + "].empNo' value='" + no + "'>");
+                	++num;
+                })
+                
+                
+					
+            })
+
+        </script>
+     
 
     </div> <!-- end of content-->
     </div>
