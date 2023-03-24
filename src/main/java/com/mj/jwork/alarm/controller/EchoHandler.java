@@ -37,15 +37,6 @@ public class EchoHandler  extends TextWebSocketHandler{
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
 
-		System.out.println("\n------------ 메세지 들어옴 --------------");
-		System.out.println("WebSocketSession 객체 : " + session);
-		System.out.println("현재 메세지를 보낸 회원의 이름 : " + ((Employee)session.getAttributes().get("loginUser")).getEmpName());
-		System.out.println("WebSocketMessage 객체 : " + message);
-		System.out.println("현재 전달된 메세지 : " + message.getPayload());
-		
-		
-			
-		
 		
 		
 	}
@@ -57,7 +48,7 @@ public class EchoHandler  extends TextWebSocketHandler{
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		
 		System.out.println("handleTextMessage: " + session + " : " + status);
-		
+		sessionList.remove(session);
 		
 	}
 	
