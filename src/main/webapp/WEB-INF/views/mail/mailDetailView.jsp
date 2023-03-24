@@ -119,7 +119,7 @@
         	border: 1px solid green;
         	border-radius: 5px;
         	padding-left: 5px;
-            width: 150px; height: 30px;
+            width: 140px; height: 30px;
         }
         #addMoveMailBoxInput:focus{
         	outline: 1px solid green;
@@ -137,7 +137,7 @@
 	<jsp:include page="../common/mailMenubar.jsp"/>
         <br>
         <div class="mailOuter">
-            <span class="content-title"><a class="prev" href="#">〈</a>&nbsp;&nbsp;&nbsp;${mailCategory}&nbsp;&nbsp;</span>
+            <span class="content-title"><a class="prev" href="javascript:window.history.back();">〈</a>&nbsp;&nbsp;&nbsp;${not empty mailBoxName ? mailBoxName : mailCategory}&nbsp;&nbsp;</span>
             <div class="line"></div>
             <div class="space"></div>
             

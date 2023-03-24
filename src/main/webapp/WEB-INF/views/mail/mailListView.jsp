@@ -61,7 +61,7 @@
         	border: 1px solid green;
         	border-radius: 5px;
         	padding-left: 5px;
-            width: 150px; height: 30px;
+            width: 140px; height: 30px;
         }
         #addMoveMailBoxInput:focus{
         	outline: 1px solid green;
@@ -120,7 +120,7 @@
 	<jsp:include page="../common/mailMenubar.jsp"/>
         <br>
         <div class="mailOuter">
-            <span class="content-title">&nbsp;&nbsp;&nbsp;${ mailCategory }&nbsp;&nbsp;</span> <a class="notRead" href="#">${ unReadCount }</a>&nbsp;/&nbsp;<a class="mailBox" href="#">${ listCount }</a> 
+            &nbsp;&nbsp;&nbsp;<span class="content-title">${ not empty mailBoxName ? mailBoxName : mailCategory }</span>&nbsp;&nbsp; <a class="notRead" href="#">${ unReadCount }</a>&nbsp;/&nbsp;<a class="mailBox" href="#">${ listCount }</a> 
             <div class="line"></div>
             <div class="space"></div>
             <div class="btnArea">
@@ -594,7 +594,7 @@
                                                 </c:choose>
                                                 <c:choose>
                                                     <c:when test="${ empty md.readDate and empty md.cancel}">
-                                                        <td><span mail-no="${m.mailNo}"><a href="#" class="smallsize cancelSend" mail-no="${m.mailNo}" emp-no="${md.empNo}">❌발송취소</a></span></td>
+                                                        <td><span mail-no="${m.mailNo}${md.empNo}"><a href="#" class="smallsize cancelSend" mail-no="${m.mailNo}" emp-no="${md.empNo}">❌발송취소</a></span></td>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <td></td>
@@ -620,7 +620,7 @@
                                             </c:choose>
                                             <c:choose>
                                                 <c:when test="${ empty m.mailList.get(0).readDate and empty m.mailList.get(0).cancel}">
-                                                    <td width="90px"><span mail-no="${m.mailNo}"><a href="#" class="smallsize cancelSend" mail-no="${m.mailNo}" emp-no="${m.mailList.get(0).empNo}">❌발송취소</a></span></td>
+                                                    <td width="90px"><span mail-no="${m.mailNo}${m.mailList.get(0).empNo}"><a href="#" class="smallsize cancelSend" mail-no="${m.mailNo}" emp-no="${m.mailList.get(0).empNo}">❌발송취소</a></span></td>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <td width="90px"></td>
@@ -699,6 +699,7 @@
 				<input type="hidden" id="formMailNo" name="mailNo" value="">
 				<input type="hidden" id="formReadDate" name="readDate" value="Y">
                 <input type="hidden" id="formMailCategory" name="mailCategory" value="${mailCategory}">
+                <input type="hidden" id="formMailBoxName" name="mailBoxName" value="${mailBoxName}">
 			</form>
             
             <!-- 페이징바 -->
@@ -857,7 +858,7 @@
                                 success: function(result){
 
                                     if(result == "success"){
-                                        $("span[mail-no=" + $mailNo + "]").html('<span class="smallsize canceled">발송취소</span>');
+                                        $("span[mail-no=" + $mailNo + $empNo + "]").html('<span class="smallsize canceled">발송취소</span>');
                                     } else{
                                         alert("알 수 없는 이유로 실패하였습니다. 다시 시도해주세요");
                                     }
