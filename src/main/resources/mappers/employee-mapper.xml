@@ -80,7 +80,25 @@
 	</resultMap>
 	
 	<!-- 일정 -->
-	
+	<resultMap id="scheduleResult" type="Schedule">
+		<id column="sch_no" property="schNo" />
+		<result column="sch_title" property="schTitle"></result>
+		<result column="sch_content" property="schContent"></result>
+		<result column="sch_begin" property="schBegin"></result>
+		<result column="sch_end" property="schEnd"></result>
+		<result column="time_begin" property="timeBegin"></result>
+		<result column="time_end" property="timeEnd"></result>
+		<result column="group_no" property="groupNo"></result>
+		<result column="group_name" property="groupName"></result>
+		<result column="group_color" property="groupColor"></result>
+		<result column="sch_place" property="schPlace"></result>
+		<result column="create_date" property="createDate"></result>
+		<result column="modify_date" property="modifyDate"></result>
+		<result column="status" property="status"></result>
+		<result column="emp_no" property="empNo"></result>
+		<result column="emp_name" property="empName"></result>
+		<result column="attendance" property="attendance"></result>
+	</resultMap>
 	
 	
 	<!-- 로그인 -->
@@ -855,7 +873,7 @@
 		values 
 		     (
 		       SEQ_SCHNO.CURRVAL	<!-- 일정번호 -->
-             , #{empNo}		<!-- 참석자 사원번호 -->
+             , #{empNo}				<!-- 참석자 사원번호 -->
 		     )
 	</insert>
 	
@@ -872,6 +890,7 @@
          group by dept_name, team_name
          order by dept_name
 	</select>
+	
 	<!-- 결재자 추가 -->
 	<select id="addSigner" resultMap="employeeResult">
 		select
@@ -885,6 +904,107 @@
 	     where emp_no = #{empNo}
 	</select>
 		
-
+	<!-- 일정 조회 -->
+	<select id="ajaxSelectMySchedule" resultMap="scheduleResult">
+		select distinct
+               s.sch_no
+             , sch_title
+             , sch_content
+             , sch_begin
+             , sch_end
+             , time_begin
+             , time_end
+             , s.group_no
+             , g.group_name
+             , g.group_color
+             , sch_place
+             , create_date
+             , modify_date
+         from schedule s
+         left join sch_group g on (s.group_no = g.group_no)
+         left join sch_attendee a on (s.sch_no = a.sch_no)
+        where status = 'Y'
+          and s.emp_no = #{loginNo} or a.emp_no = #{loginNo}
+	</select>
 	
+	<select id="ajaxSelectAttSchedule" resultMap="scheduleResult">
+		select 
+               a.sch_no
+             , sch_title
+             , sch_content
+             , sch_begin
+             , sch_end
+             , time_begin
+             , time_end
+             , sch_place
+         from sch_attendee a
+         join schedule s on (s.sch_no = a.sch_no)
+        where status = 'Y'
+          and a.emp_no = #{loginNo}
+	</select>
+	
+	<!-- 일정 상세 조회 -->
+	<select id="ajaxSelectSchDetail" resultMap="scheduleResult">
+		select distinct
+               sch_title
+             , sch_content
+             , sch_begin
+             , sch_end
+             , time_begin
+             , time_end
+             , s.group_no
+             , g.group_name
+             , g.group_color
+             , sch_place
+             , (select count(*)
+                  from sch_attendee
+                 where sch_no = #{schNo}) as attendance
+         from schedule s
+         left join sch_group g on (s.group_no = g.group_no)
+         left join sch_attendee a on (s.sch_no = a.sch_no)
+        where status = 'Y'
+          and s.sch_no = #{schNo}
+	</select>
+	<select id="ajaxSelectAttDetail" resultMap="scheduleResult">
+		select 
+               a.emp_no		<!-- 참석자 사원번호 -->
+             , e.emp_name
+          from sch_Attendee a
+          join employee e on (e.emp_no = a.emp_no)
+         where sch_no = #{schNo}
+	</select>
+	
+	<!-- 일정 수정 -->
+	<update id="updateSchedule">
+		update
+			   schedule
+		   set sch_title = #{schTitle}
+             , sch_content = #{schContent}
+             , sch_begin = #{schBegin}
+             , sch_end = #{schEnd}
+             , time_begin = #{timeBegin}
+             , time_end = #{timeEnd}
+             , group_no = #{groupNo}
+             , sch_place = #{schPlace}
+		     , modify_date = sysdate
+		 where sch_no = #{schNo}
+	</update>
+	<delete id="deleteAttendee">
+		delete 
+		  from sch_attendee
+		 where sch_no = #{schNo}
+	</delete>
+	<insert id="updateAttendee">
+		insert
+		  into sch_attendee
+		     (
+		       sch_no
+             , emp_no
+		     )
+		values 
+		     (
+		       #{schNo}
+             , #{empNo}
+             )
+	</insert>
 </mapper>

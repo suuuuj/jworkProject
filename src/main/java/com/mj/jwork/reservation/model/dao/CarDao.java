@@ -40,5 +40,10 @@ public class CarDao {
 		
 		return sqlSession.selectOne("carMapper.selectCar",carName);
 	}
+	
+	public ArrayList<Car>selectNList(SqlSessionTemplate sqlSession){
+		
+		return (ArrayList)sqlSession.selectList("carMapper.selectNList");
+	}
 
 }

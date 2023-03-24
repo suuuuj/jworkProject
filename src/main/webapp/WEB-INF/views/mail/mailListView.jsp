@@ -109,6 +109,9 @@
         .keyword{
             color: green;
         }
+        .canceled{
+            color:gray
+        }
 
     </style>
 </head>
@@ -572,19 +575,26 @@
                                             <td width="380px" class="middle sendMailDetail" mail-no="${ m.mailNo }">${ m.mailTitle }</td>
                                             <td class="smallsize" width="170px">${ m.registerDate }</td>
                                             <td class="smallsize" width="150px"></td>
-                                            <td width="80px"></td>
+                                            <td width="90px"></td>
                                         </tr>
                                         <c:forEach var="md" items="${ m.mailList }">
                                             <tr class='detail' mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">
-                                                <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
+                                                <td width="30px"></td>
                                                 <td width="30px"></td>
                                                 <td width="80px" class="middle">${ md.empName }</td>
                                                 <td class="middle sendMailDetail" mail-no="${ m.mailNo }">${ m.mailTitle }</td>
                                                 <td class="smallsize">${ m.registerDate }</td>
-                                                <td class="smallsize">${ not empty md.readDate ? md.readDate : "읽지않음" }</td>
                                                 <c:choose>
-                                                    <c:when test="${ empty md.readDate }">
-                                                        <td><a href="#" class="smallsize cancelSend">❌발송취소</a></td>
+                                                    <c:when test="${ empty md.cancel}">
+                                                        <td class="smallsize">${ not empty md.readDate ? md.readDate : "읽지않음" }</td>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <td><span class="smallsize canceled">발송취소</span></td>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <c:choose>
+                                                    <c:when test="${ empty md.readDate and empty md.cancel}">
+                                                        <td><span mail-no="${m.mailNo}"><a href="#" class="smallsize cancelSend" mail-no="${m.mailNo}" emp-no="${md.empNo}">❌발송취소</a></span></td>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <td></td>
@@ -600,13 +610,20 @@
                                             <td width="80px" class="middle">${ m.mailList.get(0).empName }</td>
                                             <td width="380px" class="middle sendMailDetail" mail-no="${ m.mailNo }">${ m.mailTitle }</td>
                                             <td class="smallsize" width="150px">${ m.registerDate }</td>
-                                            <td class="smallsize" width="170px">${ not empty m.mailList.get(0).readDate ? m.mailList.get(0).readDate : "읽지않음" }</td>
                                             <c:choose>
-                                                <c:when test="${ empty m.mailList.get(0).readDate }">
-                                                    <td width="80px"><a href="#" class="smallsize cancelSend">❌발송취소</a></td>
+                                                <c:when test="${ empty m.mailList.get(0).cancel}">
+                                                    <td class="smallsize" width="170px">${ not empty m.mailList.get(0).readDate ? m.mailList.get(0).readDate : "읽지않음" }</td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td width="80px"></td>
+                                                    <td width="90px"><span class="smallsize canceled">발송취소</span></td>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <c:choose>
+                                                <c:when test="${ empty m.mailList.get(0).readDate and empty m.mailList.get(0).cancel}">
+                                                    <td width="90px"><span mail-no="${m.mailNo}"><a href="#" class="smallsize cancelSend" mail-no="${m.mailNo}" emp-no="${m.mailList.get(0).empNo}">❌발송취소</a></span></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td width="90px"></td>
                                                 </c:otherwise>
                                             </c:choose>
                                         </tr>
@@ -823,6 +840,34 @@
 
                         $("#formMailNo").val($(this).attr("mail-no"));
                         $("#postForm").attr("action", "updateForm.ma").submit();
+
+                    })
+
+                    $(document).on("click", ".cancelSend", function(){
+
+                        const $mailNo = $(this).attr("mail-no");
+                        const $empNo = $(this).attr("emp-no");
+                        if(confirm("발송을 취소하면 수신자의 메일함에서 메일이 삭제됩니다.\n이 메일의 발송을 취소하시겠습니까?")){
+                            $.ajax({
+                                url:"cancelSend.ma",
+                                data:{
+                                    mailNo: $mailNo,
+                                    empNo: $empNo
+                                },
+                                success: function(result){
+
+                                    if(result == "success"){
+                                        $("span[mail-no=" + $mailNo + "]").html('<span class="smallsize canceled">발송취소</span>');
+                                    } else{
+                                        alert("알 수 없는 이유로 실패하였습니다. 다시 시도해주세요");
+                                    }
+
+                                }, error: function(){
+                                    console.log("발송취소용 ajax통신 실패");
+                                }
+                            })
+                        }
+                        
 
                     })
                     

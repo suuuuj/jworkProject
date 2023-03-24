@@ -56,7 +56,7 @@ public class MailController {
 		
 		ArrayList<Mail> mList = mService.selectMailList(m, pi);
 		
-		//System.out.println(mList);
+		System.out.println(mList);
 		//System.out.println(mList.get(0).getMailList());
 		
 		mv.addObject("mailCategory", m.getMailCategory())
@@ -246,6 +246,12 @@ public class MailController {
 					  .addObject("subMessage", "임시저장 메일은 임시저장함에서 확인 가능합니다.");
 				}
 				
+				md.setEmpNo(m.getSenderNo());
+				md.setEmpName(m.getSender());
+				md.setType("S");
+				
+				detailResult = detailResult * mService.insertMailDetail(md);
+				
 				mv.setViewName("mail/mailSuccess");
 				
 			} else {
@@ -429,11 +435,27 @@ public class MailController {
 	// 메일 답장
 	@RequestMapping("reply.ma")
 	public String replyMail(Mail m, Model model) {
-		System.out.println();
+		//System.out.println();
 		model.addAttribute("reply", m);
 		
 		return "mail/mailEnrollForm";
 		
+	}
+	
+	// 메일 발송취소
+	@ResponseBody
+	@RequestMapping("cancelSend.ma")
+	public String ajaxCancelSend(Mail m) {
+		int result = mService.cancelSend(m);
+		
+		if(result > 0) {
+			Alarm a = new Alarm();
+			a.setRefNo(m.getMailNo());
+			a.setTargetNo(m.getEmpNo());
+			aService.deleteAlarm(a);
+		}
+		
+		return result > 0 ? "success" : "fail";
 	}
 	
 	

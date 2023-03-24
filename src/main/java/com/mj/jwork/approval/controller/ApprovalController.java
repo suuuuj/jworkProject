@@ -267,11 +267,14 @@ public class ApprovalController {
 				
 	}
 	
+	//새문서 insert
 	@RequestMapping("insertNewApp.app")
 	public String insertNewApp(Approval a, MultipartFile upfile, HttpSession session, Model model) {
-		System.out.println(a);
-		System.out.println(a.getAlist());
-		System.out.println(a.getRlist());
+		//System.out.println(a);
+		//System.out.println(a.getAlist());
+		//System.out.println(a.getRlist());
+		
+		a.setAppCount(a.getAlist().size());
 		
 		if(!upfile.getOriginalFilename().equals("")) {
 			String saveFilePath = FileUpload.saveFile(upfile,session,"resources/uploadFiles/");
@@ -280,6 +283,7 @@ public class ApprovalController {
 		}
 		
 		int result = aService.insertNewApp(a);
+		
 		
 		if(result>0) {
 			session.setAttribute("alertMsg","문서가 등록 되었습니다.");

@@ -60,6 +60,8 @@ public interface MailService {
 	// 메일 영구삭제
 	int deleteMail(Mail m);
 	
+	// 메일 발송 취소
+	int cancelSend(Mail m);
 	
 	
 }

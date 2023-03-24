@@ -138,13 +138,26 @@ public interface EmployeeService {
 	// 일정 등록
 	int insertSchedule(Schedule s);
 	// 일정 등록 - 참석자 추가
-	int insertAttendee(String[] attendeeNo);
+	int insertAttendee(String[] attendance);
 	
 	// 주소록 - 조직도 조회
 	ArrayList<Employee> ajaxAddressInChart();
 
-	//결재자 추가
+	// 결재자 추가
 	Employee addSigner(int empNo);
+	
+	// 일정 조회
+	ArrayList<Schedule> ajaxSelectMySchedule(int loginNo);
+	ArrayList<Schedule> ajaxSelectAttSchedule(int loginNo);
+	
+	// 일정 상세 조회
+	Schedule ajaxSelectSchDetail(int schNo);
+	ArrayList<Schedule> ajaxSelectAttDetail(int schNo);
+
+	// 일정 수정
+	int deleteAttendee(int schNo);
+	int updateAttendee(String[] attendance, int schNo);
+	int updateSchedule(Schedule s);
 
 
 	

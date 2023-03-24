@@ -136,5 +136,11 @@ public class MailDao {
 		
 	}
 	
+	public int cancelSend(SqlSessionTemplate sqlSession, Mail m) {
+		
+		return sqlSession.update("mailMapper.cancelSend", m);
+		
+	}
+	
 	
 }

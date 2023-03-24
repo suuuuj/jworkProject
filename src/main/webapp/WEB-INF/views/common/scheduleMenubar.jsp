@@ -190,17 +190,17 @@
         #enroll-area input, #enroll-area select, #enroll-area label, #enroll-area table {
             font-size: 14px; color: rgb(47, 47, 47);
         }
-        #schTitle {
+        #schTitle, #schTitle2 {
             width: 650px;
             margin-left: 1.5px; margin-bottom: -5px;
         }
 
-        #startDate, #endDate, #startTime, #endTime {
+        .startDate, .endDate, #startTime, #endTime, #startTime2, #endTime2 {
             width: 130px; height: 35px;
             margin: 3px; float: left;
             border-radius: 5px; border: 1px solid gainsboro;     
         }
-        #startDate, #endDate { padding: 10px; }
+        .startDate, .endDate { padding: 10px; }
         #chkAllDay {
             display: inline; margin-left: 40px; 
             line-height: 35px; 
@@ -217,12 +217,12 @@
             height: 40px; width: 550px;
             padding-bottom: 8px; padding-top: 8px;
         }
-        #group, #attendeeInput, #place {
+        #group, #attendeeInput, #place, #group2, #place2, #editAttInput {
             width: 200px; height: 35px;
             border-radius: 5px; border: 1px solid gainsboro;
             padding: 10px;
         }
-        #group {padding: 5px;}
+        #group, #group2 {padding: 5px;}
         .plus {
             border: 1px solid gainsboro; border-radius: 5px;
             background-color: white; margin-left: 5px;
@@ -234,7 +234,7 @@
         }
 
         /*조직도*/
-        #tree{
+        .treeA{
             font-size: 12px;
         }
         .emp:hover{
@@ -247,35 +247,35 @@
         }
 
         /*참석자*/
-        #attendee{
+        #attendee, #attendee2{
             border:0; 
             width: 60px; height: 32px; margin-left: -6px;
         }
-        #attendee:focus {
+        #attendee:focus, #attendee2:focus {
             outline: none; /* outline 테두리 없애기 */
         }
-        #attendee-list{
+        #attendee-list, #editAtt-list {
             margin-top: 0px; margin-bottom: 0px; padding: 0px;
             list-style-type : none;
             line-height: 30px; display:inline-block;
         }
-        .attendee-li{
+        .attendee-li, .editAtt-li{
             display: inline-block;
             background-color: rgb(235, 229, 242); border-radius: 1em;
             color: black; font-size: 13px;
             line-height: 25px; padding-left: 7px; padding-right: 7px;     
         }
-        .attendee-delete{
+        .attendee-delete, .editAtt-delete{
             display: inline-block; box-sizing: border-box; 
             margin-right: 10px; line-height: 30px;
             font-size: 18px; background-color: none;  
         }
-        .attendee-delete:hover{cursor: pointer;}
-        #attendeeInput {display: inline-block; position: relative;}
-        #chartInput {
+        .attendee-delete:hover, .editAtt-delete:hover {cursor: pointer;}
+        #attendeeInput , #editAttInput {display: inline-block; position: relative;}
+        #chartInput, #chartInput2 {
             float: right; position: relative; right: 6px;
         }
-        #attendeeInput2{
+        #attendeeInput2, #editAttInput2{
             margin-top: -10px;
         }
 
@@ -413,10 +413,10 @@
                                     </div>
                                     <div>
                                         <div>
-                                            <input class="" id="startDate" type="text" placeholder="연도-월-일" name="schBegin" value="" required>           
+                                            <input class="startDate" id="startDate" type="text" placeholder="연도-월-일" name="schBegin" value="" required>           
                                         </div>
                                         <div class="form-group">
-                                            <select class="form-control" id="startTime" name="timeBegin" onchange="startTimeChange()">
+                                            <select class="form-control" class="startTime" id="startTime" name="timeBegin" onchange="startTimeChange()">
                                                 <option value="09:00">오전 09:00</option>
                                                 <option value="09:30">오전 09:30</option>
                                                 <option value="10:00">오전 10:00</option>
@@ -444,10 +444,10 @@
                                         <div style="width:30px; float: left; text-align: center; line-height: 35px;">~</div>
                      
                                         <div>
-                                            <input class="" id="endDate" type="text" placeholder="연도-월-일" name="schEnd" value="">
+                                            <input class="endDate" id="endDate" type="text" placeholder="연도-월-일" name="schEnd" value="">
                                         </div>
                                         <div class="form-group">
-                                            <select class="form-control" id="endTime" name="timeEnd"> 
+                                            <select class="form-control" class="endTime" id="endTime" name="timeEnd"> 
                                                 <option value="10:00">오전 10:00</option>
                                                 <option value="10:30">오전 10:30</option>
                                                 <option value="11:00">오전 11:00</option>
@@ -493,14 +493,14 @@
                                                 <div id="attendeeInput" style="width: 500px;">
                                                     <div id="attendeeInput2">
                                                         <ul id="attendee-list"></ul>
-                                                        <input type="text" id="attendee" name="attendeeNo">
+                                                        <input type="text" id="attendee" name="attendance">
                                                     </div>
                                                 </div>
                                                 <div id="chartInput">
                                                     <button type="button" id="chart" class="btn btn-sm dropdown-toggle plus" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">+</button>
                                                     <li class="dropdown-menu">
                                                         <div class="employeeChart">
-                                                            <ul id="tree" class="filetree treeview-famfamfam">
+                                                            <ul class="treeA" class="filetree treeview-famfamfam">
                             
                                                             </ul>
                                                         </div>
@@ -534,7 +534,7 @@
                         
                       </div>
                     </div>
-                  </div>
+                </div>
 
             </div>
             
@@ -639,7 +639,7 @@
                 // var tomorrow = new Date(Date.parse(today) + (1000 * 60 * 60 * 24));
                 $(function(){
                     //시작일 종료일
-                    $('#startDate, #endDate').datepicker({
+                    $('.startDate, .endDate').datepicker({
                         //showMonthAfterYear: true, //연도,달 순서로 지정
                         //changeMonth: true,//달 변경 지정
                         //dateFormat:"yy-mm-dd",//날짜 포맷
@@ -647,9 +647,9 @@
                         //monthNamesShort: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],//월 이름 지정
                         minDate:0, //오늘 이전 날짜를 선택할 수 없음
                         onClose:function(selectedDate){
-                            $('#endDate').datepicker("option", "minDate", selectedDate);
-                            var startDate = $.datepicker.formatDate("yy-mm-dd", $("#startDate").datepicker("getDate"));    
-                            var endDate = $.datepicker.formatDate("yy-mm-dd", $("#endDate").datepicker("getDate"));           
+                            $('.endDate').datepicker("option", "minDate", selectedDate);
+                            var startDate = $.datepicker.formatDate("yy-mm-dd", $(".startDate").datepicker("getDate"));    
+                            var endDate = $.datepicker.formatDate("yy-mm-dd", $(".endDate").datepicker("getDate"));           
                         },
                         // 시작일 선택 시 종료일 같은 값 자동으로 넘기기
                         onSelect:function(selected, evnt){
@@ -657,8 +657,8 @@
                         }       
                     });
                     function fnChangeEnd(value) {
-                        $("#endDate").val(value);
-                        console.log('종료일 값' + $("#endDate").val())
+                        $(".endDate").val(value);
+                        console.log('종료일 값' + $(".endDate").val())
                     }
                         
                 })    
@@ -667,13 +667,21 @@
                 function startTimeChange(){
                     var start = $('#startTime').val();
                     var end  = $('#endTime').val();
+                    var start2 = $('#startTime2').val();
+                    var end2  = $('#endTime2').val();
                     if(start.substring(3, 5) == '00')
                         // end = start.substring(0, 2) + ':30';
                         end = (parseInt(start.substring(0, 2))+1) + ':00';
                     else
                         end = (parseInt(start.substring(0, 2))+1) + ':30';
+                    if(start2.substring(3, 5) == '00')
+                        // end = start.substring(0, 2) + ':30';
+                        end2 = (parseInt(start2.substring(0, 2))+1) + ':00';
+                    else
+                        end2 = (parseInt(start2.substring(0, 2))+1) + ':30';
                     
                     $('#endTime').val(end);
+                    $('#endTime2').val(end2);
                 }
 
             </script>
@@ -714,8 +722,8 @@
                                         chart += "</li>";
                                     } 
                                 }
-                                $("#tree").html(chart);
-                                $("#tree").treeview({});
+                                $(".treeA").html(chart);
+                                $(".treeA").treeview({});
                             }, error: function(){
                                 console.log("조직도 조회용 ajax 통신 실패");
                             }
@@ -723,14 +731,14 @@
                     })
 
                     // 주소록에서 사원 클릭할 때
-                    $(document).on("click", ".emp", function(){
+                    $(document).on("click", "#enrollSchedule .emp", function(){
 
                         const empNo = $(this).attr("empNo");
                         const empName = $(this).attr("empName");
 
                         if($("#attendee-list").children().length == 0){ 
                         // li 요소가 없을 때
-                            $("#attendee-list").append($("<input type='hidden' name='attendeeNo' value='" + empNo + "'><input type='hidden' name='attendee' value='" + empName + "'><li class='attendee-li'>" + empName + "</li><div class='attendee-delete'>&times;</div>"));
+                            $("#attendee-list").append($("<input type='hidden' name='attendance' value='" + empNo + "'><input type='hidden' name='attendee' value='" + empName + "'><li class='attendee-li'>" + empName + "</li><div class='attendee-delete'>&times;</div>"));
                             $("#attendee-list").css("width", "$('#attendee-list').children().eq(0).val().length + 30");
                         } else { 
                         // li 요소가 있을 때
@@ -740,7 +748,7 @@
                                     return;
                                 }
                             }
-                            $("#attendee-list").append($("<input type='hidden' name='attendeeNo' value='" + empNo + "'><input type='hidden' name='attendee' value='" + empName + "'><li class='attendee-li'>" + empName + "</li><div class='attendee-delete'>&times;</div>"));   
+                            $("#attendee-list").append($("<input type='hidden' name='attendance' value='" + empNo + "'><input type='hidden' name='attendee' value='" + empName + "'><li class='attendee-li'>" + empName + "</li><div class='attendee-delete'>&times;</div>"));   
                         }
                     })
                 });
@@ -763,7 +771,7 @@
                                     $("#attendee").focus();
                                 } else{
                                     if($("#attendee-list").children().length == 0){ // li 요소 있을 때
-                                        $("#attendee-list").append($("<input type='hidden' name='attendeeNo' value='" + e.empNo + "'><input type='hidden' name='attendeeName' value='" + e.empName + "'><li class='attendee-li'>" + e.empName + "</li><div class='attendee-delete'>&times;</div>")); //&times; x 기호
+                                        $("#attendee-list").append($("<input type='hidden' name='attendance' value='" + e.empNo + "'><input type='hidden' name='attendeeName' value='" + e.empName + "'><li class='attendee-li'>" + e.empName + "</li><div class='attendee-delete'>&times;</div>")); //&times; x 기호
                                         $("#attendee-list").css("width", "$('#attendee-list').children().eq(0).val().length + 30");
                                         $("#attendee").val("");
                                         $("#attendee").focus();
@@ -776,7 +784,7 @@
                                                 return;
                                             }
                                         }
-                                        $("#attendee-list").append($("<input type='hidden' name='attendeeNo' value='" + e.empNo + "'><input type='hidden' name='attendeeName' value='" + e.empName + "'><li class='attendee-li'>" + e.empName + "</li><div class='attendee-delete'>&times;</div>"));
+                                        $("#attendee-list").append($("<input type='hidden' name='attendance' value='" + e.empNo + "'><input type='hidden' name='attendeeName' value='" + e.empName + "'><li class='attendee-li'>" + e.empName + "</li><div class='attendee-delete'>&times;</div>"));
                                         $("#attendee").val("");
                                         $("#attendee").focus();
                                     }

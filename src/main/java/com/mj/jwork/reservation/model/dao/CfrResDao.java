@@ -59,4 +59,8 @@ public class CfrResDao {
 		
 		return sqlSession.update("cfrMapper.updateStatus",resNoArr);
 	}
+	
+	public ArrayList<CfrReservation> ajaxSelectTime(SqlSessionTemplate sqlSession, CfrReservation c){
+		return (ArrayList)sqlSession.selectList("cfrMapper.ajaxSelectTime",c);
+	}
 }

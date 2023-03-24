@@ -20,6 +20,7 @@
 		<result column="important" property="important" />
 		<result column="type" property="type" />
 		<result column="status" property="status" />
+		<result column="cancel" property="cancel" />
 		
 		<result column="mailbox_name" property="mailBoxName" />
 		<result column="receiver_no" property="receiverNo" />
@@ -43,9 +44,11 @@
 		<result column="attachment" property="attachment" />
 		<!-- 컬렉션 사용 -->
 		<collection property="mailList" ofType="Mail">
+			<result column="cancel" property="cancel" />
 			<result column="important" property="important" />
 			<result column="read" property="read" />
 			<result column="emp_name" property="empName" />
+			<result column="emp_no" property="empNo" />
 			<result column="read_date" property="readDate" />
 		</collection>
 	</resultMap>
@@ -86,6 +89,7 @@
 			 	<when test='mailCategory == "휴지통"'>
 			 			status = 'N' 
 			 		and emp_no = #{empNo}
+			 		and cancel is null
 			 	</when>
 			 	<otherwise>
 			 		status = 'Y'
@@ -96,9 +100,10 @@
 		    	and emp_no = #{empNo}
 		    	and mailbox_no is null 
 		    	and send = 'Y'
+		    	and cancel is null
 		    </if>
 		    <if test='mailCategory == "보낸메일함"'>
-		    	and type = 'R' 
+		    	and type = 'S' 
 		    	and sender_no = #{empNo} 
 		    	and mailbox_no is null 
 		    	and send = 'Y'
@@ -106,6 +111,7 @@
 		    <if test='mailCategory == "중요"'>
 		    	and important = 'Y' 
 		    	and emp_no = #{empNo}
+		    	and cancel is null
 		    </if>
 		    <if test='mailCategory == "임시보관함"'>
 		    	and send = 'N' 
@@ -114,26 +120,32 @@
 		    <if test='mailCategory == "사용자메일함"'>
 		    	and send = 'Y' 
 		    	and mailbox_no = #{mailBoxNo}
+		    	and cancel is null
 		    </if>
 		    <if test='mailCategory == "안읽은메일함"'>
 		    	and read='N'
 		    	and emp_no = #{empNo}
+		    	and cancel is null
 		    </if>
 		   <if test='condition == "sender"'>
 		   		and emp_no = #{empNo}
+		   		and cancel is null
 		   		and sender like '%' || #{keyword} || '%'
 		   </if>
 		   <if test='condition == "receiver"'>
 		   		and emp_no = #{empNo}
+		   		and cancel is null
 		   		and receiver like '%' || #{keyword} || '%'
 		   </if>
 		   <if test='condition == "titleAndContent"'>
 		   		and emp_no = #{empNo}
+		   		and cancel is null
 		   		and (mail_title like '%' || #{keyword} || '%'
 		   		 or mail_content like '%' || #{keyword} || '%')
 		   </if>
 		   <if test='condition == "all"'>
 		   		and emp_no = #{empNo}
+		   		and cancel is null
 		   		and (sender like '%' || #{keyword} || '%'
 		   		 or receiver like '%' || #{keyword} || '%'
 		   		 or mail_title like '%' || #{keyword} || '%'
@@ -151,6 +163,7 @@
 			 	<when test='mailCategory == "휴지통"'>
 			 			status = 'N' 
 			 		and emp_no = #{empNo}
+			 		and cancel is null
 			 	</when>
 			 	<otherwise>
 			 		status = 'Y'
@@ -161,9 +174,10 @@
 		    	and emp_no = #{empNo}
 		    	and mailbox_no is null 
 		    	and send = 'Y'
+		    	and cancel is null
 		    </if>
 		    <if test='mailCategory == "보낸메일함"'>
-		    	and type = 'R' 
+		    	and type = 'S' 
 		    	and sender_no = #{empNo} 
 		    	and mailbox_no is null 
 		    	and send = 'Y'
@@ -171,6 +185,7 @@
 		    <if test='mailCategory == "중요"'>
 		    	and important = 'Y' 
 		    	and emp_no = #{empNo}
+		    	and cancel is null
 		    </if>
 		    <if test='mailCategory == "임시보관함"'>
 		    	and send = 'N' 
@@ -179,26 +194,32 @@
 		    <if test='mailCategory == "사용자메일함"'>
 		    	and send = 'Y' 
 		    	and mailbox_no = #{mailBoxNo}
+		    	and cancel is null
 		    </if>
 		    <if test='mailCategory == "안읽은메일함"'>
 		    	and read='N'
 		    	and emp_no = #{empNo}
+		    	and cancel is null
 		    </if>
 		    <if test='condition == "sender"'>
 		   		and emp_no = #{empNo}
+		   		and cancel is null
 		   		and sender like '%' || #{keyword} || '%'
 		   </if>
 		   <if test='condition == "receiver"'>
 		   		and emp_no = #{empNo}
+		   		and cancel is null
 		   		and receiver like '%' || #{keyword} || '%'
 		   </if>
 		   <if test='condition == "titleAndContent"'>
 		   		and emp_no = #{empNo}
+		   		and cancel is null
 		   		and (mail_title like '%' || #{keyword} || '%'
 		   		 or mail_content like '%' || #{keyword} || '%')
 		   </if>
 		   <if test='condition == "all"'>
 		   		and emp_no = #{empNo}
+		   		and cancel is null
 		   		and (sender like '%' || #{keyword} || '%'
 		   		 or receiver like '%' || #{keyword} || '%'
 		   		 or mail_title like '%' || #{keyword} || '%'
@@ -215,7 +236,9 @@
 		     , m.sender
 		     , m.receiver
 		     , d.emp_name
+		     , d.emp_no
 		     , m.mail_title
+		     , d.cancel
 		     , m.mail_content
 		     , to_char(m.register_date, 'YYYY.MM.DD HH24:MI:SS') "register_date"
 		     , (select count(*) from mail_at where mail_no = m.mail_no) "attachment"
@@ -227,54 +250,75 @@
 			 	<when test='mailCategory == "휴지통"'>
 			 			status = 'N' 
 			 		and emp_no = #{empNo}
+			 		and cancel is null
 			 	</when>
 			 	<otherwise>
-			 		status = 'Y'
+			 		
 			 	</otherwise>
 		    </choose>
 		    <if test='mailCategory == "받은메일함"'>
-		    	and type = 'R' 
+		    	type = 'R'
 		    	and emp_no = #{empNo}
 		    	and mailbox_no is null 
 		    	and send = 'Y'
+		    	and cancel is null
+		    	and status = 'Y'
 		    </if>
 		    <if test='mailCategory == "보낸메일함"'>
-		    	and type = 'R' 
+		    	type = 'R'
+		    	and m.mail_no in (select mail_no
+		    						from mail_detail
+		    					   where status ='Y' and type = 'S')
 		    	and sender_no = #{empNo} 
 		    	and mailbox_no is null 
 		    	and send = 'Y'
 		    </if>
 		    <if test='mailCategory == "중요"'>
-		    	and important = 'Y' 
+		    	important = 'Y' 
 		    	and emp_no = #{empNo}
+		    	and cancel is null
+		    	and status = 'Y'
 		    </if>
 		    <if test='mailCategory == "임시보관함"'>
-		    	and send = 'N'
+		    	send = 'N'
 		    	and emp_no = #{empNo}
+		    	and status = 'Y'
 		    </if>
 		    <if test='mailCategory == "사용자메일함"'>
-		    	and send = 'Y' 
+		    	send = 'Y' 
 		    	and mailbox_no = #{mailBoxNo}
+		    	and cancel is null
+		    	and status = 'Y'
 		    </if>
 		    <if test='mailCategory == "안읽은메일함"'>
-		    	and read='N'
+		    	read='N'
 		    	and emp_no = #{empNo}
+		    	and cancel is null
+		    	and status = 'Y'
 		    </if>
 		    <if test='condition == "sender"'>
-		   		and emp_no = #{empNo}
+		   		emp_no = #{empNo}
+		   		and cancel is null
 		   		and sender like '%' || #{keyword} || '%'
+		   		and status = 'Y'
 		   </if>
 		   <if test='condition == "receiver"'>
-		   		and emp_no = #{empNo}
+		   		emp_no = #{empNo}
+		   		and cancel is null
 		   		and receiver like '%' || #{keyword} || '%'
+		   		and status = 'Y'
 		   </if>
 		   <if test='condition == "titleAndContent"'>
-		   		and emp_no = #{empNo}
+		   		emp_no = #{empNo}
+		   		and cancel is null
+		   		and status = 'Y'
 		   		and (mail_title like '%' || #{keyword} || '%'
 		   		 or mail_content like '%' || #{keyword} || '%')
 		   </if>
 		   <if test='condition == "all"'>
-		   		and emp_no = #{empNo}
+		   		emp_no = #{empNo}
+		   		and cancel is null
+		   		and status = 'Y'
 		   		and (sender like '%' || #{keyword} || '%'
 		   		 or receiver like '%' || #{keyword} || '%'
 		   		 or mail_title like '%' || #{keyword} || '%'
@@ -469,7 +513,7 @@
 		update
 		       mail_detail
 		   set read = #{read}
-	     <if test='readDate == ""'>
+	     <if test='readDate == "" or readDate == null'>
 	    	 , read_date = sysdate
 	     </if>
 	     where mail_no = #{mailNo}
@@ -527,5 +571,12 @@
 		   and emp_no = #{ empNo }
 	</delete>
 	
+	<update id="cancelSend">
+		update
+		       mail_detail
+		   set cancel = 'Y'
+		 where mail_no = #{mailNo}
+		   and emp_no = #{empNo}
+	</update>
 	
 </mapper>

@@ -183,7 +183,7 @@
     }
     .alarm-area{
         width: 300px;
-        height: 400px;
+        height: 300px;
         overflow: auto;
     }
     .alarms{
@@ -255,15 +255,9 @@
                             </div>
                         </li>
                         <div class="alarmsDiv">
-                            <li class="alarm">
-                                <a class="dropdown-item " href="#"><div class="alarms"><img class="alarm-logo" src="resources/images/common/email1.png" alt=""><span class="textmsg">XXX님으로부터 메일이 도착했습니다.</span></div></a>
-                            </li>
-                            <li class="alarm new">
-                                <a class="dropdown-item " href="#"><div class="alarms">새 결재가 도착했습니다.</div></a>
-                            </li>
-                            <li class="alarm">
-                                <a class="dropdown-item " href="#"><div class="alarms">XXX사원의 휴가 승인 요청이 들어왔습니다.</div></a>
-                            </li>
+                            
+
+
                         </div>
                         
                         
@@ -278,8 +272,6 @@
                 $(function(){
                     connectWS();
                     
-                    loadAlarm();
-
                 });
 
                 function connectWS(){
@@ -315,7 +307,7 @@
                         url: "list.alarm",
                         data:{targetNo:empNo},
                         success: function(alarm){
-                            console.log(alarm);
+                            //console.log(alarm);
                             const unRead = alarm.unRead;
                             const list = alarm.list;
 
@@ -323,7 +315,8 @@
                             let msg = "";
 
                             if(list.length == 0){
-                                msg += '<li class="alarm"><span class="dropdown-item-text" href="#"><div class="alarms">알림이 없습니다.</div></span></li>'
+                                msg += '<li class="noAlarm"><a class="dropdown-item disabled" href="#"><div class="alarms"><img class="alarm-logo" src="resources/images/common/noAlarm.png" alt=""><span class="textmsg">알림이 없습니다.<span></div></a></li>';
+                                
                             } else{
                                 for(let i=0; i<list.length; i++){
                                     msg += '<li class="alarm read' + list[i].read + '"><a class="dropdown-item " alarmNo=' + list[i].alarmNo + ' href="#" url=' + list[i].url + ' read=' + list[i].read + '><div class="alarms">';
@@ -334,11 +327,11 @@
 
                                     }
                                     msg += '<span class="textmsg">' + list[i].alarmMsg + '</span></div></a>';
+                                    
                                 }
                             }
-                            
-                            $(".alarmsDiv").html(msg)
-                            console.log($("li").length);
+                            $(".alarmsDiv").html(msg);
+                            //console.log($("li").length);
                             
 
                         }, error: function(){
@@ -369,20 +362,41 @@
                             url: "readAlarm.al",
                             data: {alarmNo: $alarmNo},
                             success: function(result){
-                                if(result == "success"){
-                                    location.href = $url;
-                                } else{
+                                if(result == "fail"){
                                     alert("알 수 없는 오류로 읽어올 수 없습니다. 다시 시도해주세요");
                                 }
                             }, error: function(){
                                 console.log("알림 읽기 및 이동용 ajax 통신 실패");
                             }
                         })
-
-                    } else{
-                        location.href = $url;
                     }
+
+                    location.href = $url;
                     
+                })
+
+                $(document).on("click", ".alarm-delete", function(){
+                    // 알람이 1개 이상인 경우
+                    if($(".alarm").length > 0){
+                        $.ajax({
+                            url:"deleteAlarms.al",
+                            data:{targetNo:${ loginUser.empNo }},
+                            success: function(result){
+                                if(result == "fail"){
+                                    alert("알 수 없는 오류로 실패했습니다. 다시 시도해주세요.");
+                                }else{
+                                    $(".alarmsDiv").html("");
+                                    loadAlarm();
+                                }
+                            }, error: function(){
+                                console.log("알람 삭제용 ajax 통신 실패");
+                            }
+                            
+                        })
+                        
+                    }
+                    $(".alarmsDiv").html("");
+                    loadAlarm();
                     
                 })
 

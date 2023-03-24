@@ -265,7 +265,7 @@
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="" href="status.car">차량예약신청</a><br>
-                                <a id="" href="list.cfrRes">회의실예약신청</a><br>
+                                <a id="" href="status.cfr">회의실예약신청</a><br>
                             </div>
                         </div>
                     </div>

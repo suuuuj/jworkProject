@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
  <head>
+
 <style>
 	.fc-toolbar-chunk *{
 	 float:left!important;
@@ -16,14 +17,15 @@
 </style>
     <meta charset='utf-8' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.js'></script>
-    
+   
     <script>
     document.addEventListener('DOMContentLoaded', function() {
     	  var calendarEl = document.getElementById('calendar');
 
     	  var calendar = new FullCalendar.Calendar(calendarEl, {
     		  schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-    		 timeZone: 'UTC',
+    		  expandRows: true,
+    		  timeZone: 'local',
     		 slotMinTime: "09:00:00", // 최소시간
              slotMaxTime: "20:00:00", // 최대시간 (23시까지만 화면에 보여짐)
     	    initialView: 'resourceTimeGridDay',
@@ -56,7 +58,7 @@
     	    headerToolbar: {
                 left: 'info,reserve',
                 center: 'prev,title,next',
-               right:'today'
+               right:'today,listWeek'
             },
             
             buttonText: {
@@ -125,11 +127,12 @@
     	
    
     </script>
-    
+  
   </head>
   
   <body>
    <jsp:include page="../common/menubar.jsp"/>
+  
 	<div class="content">
 	
         <div class="innerOuter">
@@ -173,11 +176,7 @@
 	            </div>
 	        </div>
 	    </div> -->
-	   	<script>
-	   	  $(function(){
-	   	 	   $('.datepicker').datepicker();
-	   		  })
-   		 </script>
+	   	
 	       <!--회의실 예약 모달 -->
     <div class="modal" id="reservationForm">
         <div class="modal-dialog">
@@ -208,14 +207,16 @@
                         </tr>
                         <tr>
                             <th>날짜</th>
-                            <td><input class="datepicker" name="useDate" id="datepicker"required></td>
+                            <td><!-- <input class="datepicker" name="useDate" id="datepicker"required> -->
+                            	<input type="date" name="useDate" id="useDate" onchange="selectDay($(this).val());"required>
+                            </td>
                         </tr>
                         <tr>
                             <th>시간</th>
                           	<td>
-                            <select name="startTime" onchange="endTimeShow();" required>
+                            <select name="startTime" onchange="endTimeShow($(this).val());" id="startTime" required>
                           	    <option>- 시작시간 -</option>
-                                <option value="09:00">09:00</option>
+                                <option value="09:00" >09:00</option>
                                 <option value="10:00">10:00</option>
                                 <option value="11:00">11:00</option>
                                 <option value="12:00">12:00</option>
@@ -225,12 +226,10 @@
                                 <option value="16:00">16:00</option>
                                 <option value="17:00">17:00</option>
                                 <option value="18:00">18:00</option>
-                                <option value="19:00">19:00</option>
                             </select>
                             -
-                            <select name="endTime" required>
-                                <option class=".ti0">- 종료시간 -</option>
-                                <option value="09:00">09:00</option>
+                            <select name="endTime" id="endTime" disabled required>
+                                <option >- 종료시간 -</option>
                                 <option value="10:00">10:00</option>
                                 <option value="11:00">11:00</option>
                                 <option value="12:00">12:00</option>
@@ -315,16 +314,16 @@
         	$.ajax({
         		url:"alist.cfr",
             	success:function(list){
-            		console.log(list);
             		let value="";
             		let value2="";
             		for(var i=0; i<list.length; i++){
             			
-            			value+="<button type='button' class='btn btn-sm btn-light'value='"
+            			value+="<button type='button' class='btn btn-sm btn-light cfrBtn'value='"
             					+list[i].cfrName+"' onclick='detailCfr($(this).val());'>" +list[i].cfrName
             					+"</button>";
             			
             			value2+="<option>"+list[i].cfrName+"</option>";
+            		
             		}
             		
             		$("#btn-area").html(value);
@@ -336,6 +335,8 @@
             	}
             		
         	});
+        	
+        	
         	
         	
         }
@@ -369,19 +370,69 @@
 					return false;
 			}
 	   		 }
-	    	function endTimeShow(){
+	   		 
+	   		 function endTimeShow(val){
+	   			
+	   			 $("#endTime").prop("disabled",false);
+	   			 
+	   			$("#endTime option").each(
+						function(){    
+							if($(this).val() <= val) {
+								   $(this).prop("disabled",true);
+								}
+					    }
+					);
+
+	   		 }	    	
+	    	// 날짜선택제한
+	    	$(function(){
 	    		
-	    		$(".ti0").prop("selected", true);
-	    		if($("select[name=statTime] option:selected").val() == $("select[name=endTime] option:selected").val()){
-	    		console.log("안대");
+	    		var now_utc = Date.now() // 지금 날짜를 밀리초로
+	    		// getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환
+	    		var timeOff = new Date().getTimezoneOffset()*60000; // 분단위를 밀리초로 변환
+	    		// new Date(today-timeOff).toISOString()은 '2022-05-11T18:09:38.134Z'를 반환
+	    		var today = new Date(now_utc-timeOff).toISOString().substring(0, 10);
+	    		 
+	    		document.getElementById("useDate").setAttribute("min", today);
+				console.log(today);
+	    	
+	    	})
+	    	
+	    	
+	    	function selectDay(val){
+	    		let cfrName= $("#cfrName").val();
+	    		$.ajax({
+	    			url:"time.cfr",
+	    			data:{useDate:val,cfrName:cfrName},
+	    			success:function(list){
+	    				for(let i=0; i<list.length; i++){
+	    				
 	    			
-	    		
-	    		}	    		
+	    					$("#startTime option").each(
+	    							function(){    
+	    								if($(this).val() > list[i].startTime && $(this).val() < list[i].endTime) {
+	    									   $(this).prop("disabled",true);
+	    									}
+	    						    }
+	    						);
+
+	    					$("#endTime option").each(
+	    							function(){    
+	    								if($(this).val() > list[i].startTime && $(this).val() < list[i].endTime) {
+	    									   $(this).prop("disabled",true);
+	    									}
+	    						    }
+	    						);
+
+	    				}
+	    			},error:function(){
+	    				console.log('날짜 조회용 ajax 통신 실패');
+	    			}
+	    			
+	    		})
 	    	}
-	    		
+	    	
 	  
-	    
 	    </script>
-  	<input class="datepicker" type="text" name="useDate" id="datepicker"required>
   </body>
 </html>
