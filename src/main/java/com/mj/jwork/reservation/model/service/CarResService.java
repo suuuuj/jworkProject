@@ -17,9 +17,11 @@ public interface CarResService {
 	ArrayList<CarReservation> selectMyRes(PageInfo pi,int resevation);
 	
 	//전체 예약 목록 조회
-	int selectResCount(String option);
-	ArrayList<CarReservation> selectResList(PageInfo pi,String option);
+	int ajaxselectResCount(String option);
+	ArrayList<CarReservation> ajaxselectResList(PageInfo pi,String option);
+	ArrayList<CarReservation> selectResList();
 	
+	ArrayList<CarReservation> selectResList(CarReservation c);
 	//차량예약상세조회
 	
 	CarReservation selectCarRes(int resNo);

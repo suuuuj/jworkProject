@@ -28,6 +28,7 @@
 	.fc-daygrid-day-frame,.fc-timegrid-axis-frame-liquid,.fc-timegrid-axis{
 	display:none;
 	}
+	
   #car-updateForm th,#carDetailView th{  height: 50px;}
 </style>
 <meta charset="UTF-8">
@@ -126,7 +127,10 @@
     	    ], 
     	 
                  events: [
-                 	
+                		<c:forEach var="c" items="${list}">
+                     		{ id: '${c.resNo}', resourceId: '${c.carName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.carName}'},
+                   	  		
+                   		 </c:forEach>
                  ]
                  
     	  })

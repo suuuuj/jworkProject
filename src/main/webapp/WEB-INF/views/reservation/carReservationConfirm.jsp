@@ -180,12 +180,12 @@
     	})
     	 
     
-    	/* 	$("#option").on("click",function(){
+    	 	/* $("#option").on("click",function(){
     			console.log("ddd");
     			location.href='confirmList.car?option='+$("#option option:selected").val();
     			
-    		})ajax방식으로 페이징처리 해보기 */
-    
+    		})
+     */
     	
     	function detailView(resNo){
     		

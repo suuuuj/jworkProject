@@ -208,13 +208,13 @@
                         <tr>
                             <th>날짜</th>
                             <td><!-- <input class="datepicker" name="useDate" id="datepicker"required> -->
-                            	<input type="date" name="useDate" id="useDate" onchange="selectDay($(this).val());"required>
+                            	<input type="date" name="useDate" id="useDate" onchange="selectDay($(this).val());" required>
                             </td>
                         </tr>
                         <tr>
                             <th>시간</th>
                           	<td>
-                            <select name="startTime" onchange="endTimeShow($(this).val());" id="startTime" required>
+                            <select name="startTime" onchange="endTimeShow($(this).val());" id="startTime" disabled required>
                           	    <option>- 시작시간 -</option>
                                 <option value="09:00" >09:00</option>
                                 <option value="10:00">10:00</option>
@@ -365,7 +365,7 @@
      </script>
 	    <script>
 	   		 function timeNeed(){
-				if($("select[name=statTime]").val() == "- 시작시간 -" || $("select[name=endTime]").val() == "- 종료시간 -"){
+				if($("select[name=startTime]").val() == "- 시작시간 -" || $("select[name=endTime]").val() == "- 종료시간 -"){
 					alert("시작/종료시간을 입력하세요.");
 					return false;
 			}
@@ -382,8 +382,40 @@
 								}
 					    }
 					);
+	   			
+	   			let cfrName= $("#cfrName").val();
+	   			let useDate= $("#useDate").val();
+	   			
+	   			$.ajax({
+	    			url:"time.cfr",
+	    			data:{useDate:useDate,cfrName:cfrName},
+	    			success:function(list){
+	    				for(let i=0; i<list.length; i++){
+	    					$("#endTime option").each(
+	    							function(){    
+	    								if($(this).val() >= list[i].startTime && $(this).val() <= list[i].endTime) {
+	    									   $(this).prop("disabled",true);
+	    									   
+	    									}
+	    								
+	    								if(list[i].startTime >= val ){
+	    									
+	    									if($(this).val() >= list[i].startTime){
+	    										
+	    									  $(this).prop("disabled",true);
+	    									}
+	    								}
+	    						    }
+	    						);
 
-	   		 }	    	
+	    				}
+	    			},error:function(){
+	    				console.log('날짜 조회용 ajax 통신 실패');
+	    			}
+	    			
+	    		})
+	    	}
+	    	    	
 	    	// 날짜선택제한
 	    	$(function(){
 	    		
@@ -394,13 +426,13 @@
 	    		var today = new Date(now_utc-timeOff).toISOString().substring(0, 10);
 	    		 
 	    		document.getElementById("useDate").setAttribute("min", today);
-				console.log(today);
 	    	
 	    	})
 	    	
 	    	
 	    	function selectDay(val){
 	    		let cfrName= $("#cfrName").val();
+	    		 $("#startTime").prop("disabled",false);
 	    		$.ajax({
 	    			url:"time.cfr",
 	    			data:{useDate:val,cfrName:cfrName},
@@ -410,7 +442,7 @@
 	    			
 	    					$("#startTime option").each(
 	    							function(){    
-	    								if($(this).val() > list[i].startTime && $(this).val() < list[i].endTime) {
+	    								if($(this).val() >= list[i].startTime && $(this).val() < list[i].endTime) {
 	    									   $(this).prop("disabled",true);
 	    									}
 	    						    }
