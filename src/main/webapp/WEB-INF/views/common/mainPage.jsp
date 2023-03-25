@@ -66,8 +66,26 @@
                 <button type="button" id="essEnd" onclick="endResult(${at.attNo});">퇴근</button>
             </dir>
             <div class="btnPut">
-                <span id="startResult" style="margin-left:47px;">${at.startTime}</span>
-                <span id="endResult" style="margin-left:13px;">${at.endTime}</span>
+                <span id="startResult" style="margin-left:47px;">
+                    <c:choose>
+                        <c:when test="${not empty loginUser.startTime}">
+                            ${loginUser.startTime}
+                        </c:when>
+                        <c:otherwise>
+                            ${at.startTime}
+                        </c:otherwise>
+                    </c:choose>
+                </span>
+                <span id="endResult" style="margin-left:13px;">
+                    <c:choose>
+                        <c:when test="${not empty loginUser.endTime}">
+                            ${loginUser.endTime}
+                        </c:when>
+                        <c:otherwise>
+                            ${at.endTime}
+                        </c:otherwise>
+                    </c:choose>
+                </span>
             </div>
         </div>
 
@@ -88,6 +106,70 @@
 
         })
     </script>
+    <script>
+        function setClock(){
+            var dateInfo = new Date(); 
+            var hour = modifyNumber(dateInfo.getHours());
+            var min = modifyNumber(dateInfo.getMinutes());
+            var sec = modifyNumber(dateInfo.getSeconds());
+            document.getElementById("essClock").innerHTML = hour + " : " + min  + " : " + sec;
+        }
+        function modifyNumber(time){
+            if(parseInt(time)<10){
+                return "0"+ time;
+            }
+            else
+                return time;
+        }
+        window.onload = function(){
+            setClock();
+            setInterval(setClock,1000); //1초마다 setClock 함수 실행
+        }
+    </script>
+    <script>
+        $(function(){
+            if(${not empty at.startTime}){
+                $("#essStart").attr("disabled", true);
+            }
+
+            if(${not empty at.endTime}){
+                $("#essEnd").attr("disabled", true);
+            }
+            
+        })
+
+        function startResult(no){
+            $.ajax({
+                url:"insertStart.at",
+                data:{attNo:no},
+                success:function(start){
+                    //console.log(result);
+                    location.replace("mainPage.ess");
+                },
+                error:function(){
+                    console.log("출근시간입력 ajax통신실패");
+                }
+            })
+        }
+
+        function endResult(no){
+            $.ajax({
+                url:"insertEnd.at",
+                data:{attNo:no},
+                success:function(end){
+                    //console.log(end);
+                    location.replace("mainPage.ess");
+                },
+                error:function(){
+                    console.log("출근시간입력 ajax통신실패");
+                }
+            })
+        }
+
+        
+    </script>
+
+
 
 </body>
 </html>

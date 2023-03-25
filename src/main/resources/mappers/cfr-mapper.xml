@@ -144,8 +144,7 @@
 	<update id="updateCfr">
 		update
 			cf_room
-		set cfr_img=#{firstImg}
-		,CAPACITY=#{capacity}
+		set CAPACITY=#{capacity}
 		,equipment=#{equipment}
 		where cfr_name=#{cfrName}
 	</update>

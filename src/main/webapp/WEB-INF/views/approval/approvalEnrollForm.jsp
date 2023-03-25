@@ -260,8 +260,7 @@
                         }
                     })
                 })
-            
-            
+                
             </script>
             
             <div class="approvalContent quit" align="center">
@@ -273,7 +272,13 @@
                         <th id="appThead">입사년도</th>
                         <td id="indate">${ loginUser.enrollDate }</td>
                         <th id="appThead">퇴사 예정일</th>
-                        <td id="indate"><input type="date" name="resignDate" id=""></td>
+                        <td id="indate"><input type="date" name="quitDate" id="quitDate" ></td>
+                        <script>
+                        var today = new Date();
+      				    var threeWeeksLater = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 21);
+      				    var formattedDate = threeWeeksLater.toISOString().substr(0, 10);
+      				    document.getElementById("quitDate").min = formattedDate;
+                        </script>
                     </tr>
                 </table>
                 <br>
@@ -360,11 +365,11 @@
             </div> <!--end of approvalContent -->
 
             <div id="buttonarea"  align="left">
-                <button type="submit" class="btn btn-success">결재</button>
+                <button type="submit" class="btn btn-success" id="sbmitAppBtn" disabled='disabled'>결재</button>
             </div>
 
             <div id="buttonarea"  align="right">
-                <button type="button" class="btn btn-light" onclick="saveBtn();">임시저장</button>
+                <button type="button" class="btn btn-light" onclick="saveBtn();" >임시저장</button>
             </div>
             
            
@@ -640,6 +645,9 @@
                         $("#app-list").append("<input type='hidden' name='alist[" +count + "].appLevel' value='3'>");
                     }
                     
+                    const target = document.getElementById('sbmitAppBtn');
+                    target.disabled = false;
+                    
                    count++;
 
                 })
@@ -652,6 +660,9 @@
                     $('#name1').text('');
                     $('#name2').text('');
                     $('#name3').text('');
+                    
+                    const target = document.getElementById('sbmitAppBtn');
+                    target.disabled = true;
 
                 })
 

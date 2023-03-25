@@ -112,7 +112,7 @@ public class ApprovalDao {
 		return sqlSession.update("approvalMapper.returnStatus",appNo);
 	}
 
-	//결재 insert - 임시저장
+	//임시저장
 	public int saveApproval(SqlSessionTemplate sqlSession, Approval a) {
 		return sqlSession.insert("approvalMapper.saveApproval",a);
 	}
@@ -122,6 +122,7 @@ public class ApprovalDao {
 	public int insertNewApp(SqlSessionTemplate sqlSession, Approval a) {
 		return sqlSession.insert("approvalMapper.insertNewApp",a);
 	}
+	
 	//결재선
 	public int insertNewAppLine(SqlSessionTemplate sqlSession, Approval a) {
 		
@@ -138,6 +139,7 @@ public class ApprovalDao {
 		
 		return count;
 	}
+	
 	//참조인
 	public int insertNewRefLine(SqlSessionTemplate sqlSession,Approval a) {
 		int count = 0;
@@ -153,6 +155,12 @@ public class ApprovalDao {
 		}
 		
 		return count;
+	}
+	
+	//상신취소, 임시저장form에서의 임시저장
+	public int resaveApproval(SqlSessionTemplate sqlSession, Approval a) {
+		System.out.println(a);
+		return sqlSession.update("approvalMapper.resaveApproval",a);
 	}
 
 	

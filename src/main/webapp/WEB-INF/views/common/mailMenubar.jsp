@@ -397,8 +397,9 @@
                     
                     $(document).on("click", ".mailBoxNameBtn", function(){
                         const $mailBoxNo = $(this).prev().val();
+                        const $mailBoxName = $(this).text();
 
-                        location.href = "list.ma?mailCategory=사용자메일함&mailBoxNo=" + $mailBoxNo;
+                        location.href = "list.ma?mailCategory=사용자메일함&mailBoxNo=" + $mailBoxNo + "&mailBoxName=" + $mailBoxName;
 
                     })
                     

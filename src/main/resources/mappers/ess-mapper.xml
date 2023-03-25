@@ -109,6 +109,15 @@
 	<resultMap id="worktimeResult" type="Worktime">
 		<id column="wt_no" property="wtNo" />
 		<result column="att_no" property="attNo" />
+		<result column="emp_no" property="empNo" />
+		<result column="emp_name" property="empName" />
+		<result column="dept_name" property="deptName" />
+		<result column="job_name" property="jobName" />
+		<result column="approval_no" property="approvalNo" />
+		<result column="approval_date" property="approvalDate" />
+		<result column="approval_check" property="approvalCheck" />
+		<result column="att_date" property="attDate" />
+		<result column="start_time" property="end_time" />
 		<result column="re_start_time" property="reStartTime" />
 		<result column="re_end_time" property="reEndTime" />
 		<result column="re_content" property="reContent" />
@@ -140,6 +149,7 @@
 		  , emp_no
 		  , dept_code
 		  , team_code
+		  , job_code
 		  , leave_category
 		  , leave_start
 		  , leave_end
@@ -152,6 +162,7 @@
 		  , #{empNo}
 		  , #{deptCode}
 		  , #{teamCode}
+		  , #{jobCode}
 		  , #{leaveCategory}
 		  , #{leaveStart}
 		  , #{leaveEnd}
@@ -213,6 +224,7 @@
 		     , leave_start
 		     , leave_end
 		     , leave_content
+		     , leave_check
 		  from leave l
 		  join employee e on (l.emp_no = e.emp_no)
 		  join leave_category c on (l.leave_category = c.lcategory_no)
@@ -236,7 +248,7 @@
 		 where leave_status = 'Y'
 	</select>
 	
-	<!-- 관리자 : 휴가전체조회 -->
+	<!-- 관리자 : 휴가전체조회 (팀있는사람) -->
 	<select id="adminSelectLeaveList" resultMap="leaveResult">
 		select 
 		       leave_no
@@ -262,6 +274,47 @@
 		 where leave_status = 'Y' 
 		   and e.dept_code = #{deptCode}
 		   and e.team_code = #{teamCode}
+		   and e.job_code in (
+		   						select
+								       job_code
+								  from job
+								 where job_code > #{jobCode}
+		                    )
+		 order
+		    by leave_no desc
+	</select>
+	
+	<!-- 관리자 : 휴가전체조회 (팀없는사람) -->
+	<select id="adminNoSelectLeaveList" resultMap="leaveResult">
+		select 
+		       leave_no
+		     , l.emp_no
+		     , emp_name
+		     , e.dept_code
+		     , dept_name
+		     , e.job_code
+		     , job_name
+		     , team_name
+		     , e.team_code
+		     , l.enroll_date
+		     , lcategory_name
+		     , leave_start
+		     , leave_end
+		     , decode(leave_check,0,'결재대기(1차)',1,'결재대기(2차)',2,'승인',3,'반려') as "leave_check"
+		  from leave l
+		  join employee e on (l.emp_no = e.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
+		  join job j on (e.job_code = j.job_code)
+		  join leave_category c on (l.leave_category = c.lcategory_no)
+		  join team t on (e.team_code = t.team_code)
+		 where leave_status = 'Y' 
+		   and e.dept_code = #{deptCode}
+		   and e.job_code in (
+		   						select
+								       job_code
+								  from job
+								 where job_code > #{jobCode}
+		                    )
 		 order
 		    by leave_no desc
 	</select>
@@ -396,6 +449,7 @@
 		  , emp_no
 		  , dept_code
 		  , team_code
+		  , job_code
 		  , enroll_date
 		  , ot_category
 		  , ot_start
@@ -408,6 +462,7 @@
 		  , #{empNo}
 		  , #{deptCode}
 		  , #{teamCode}
+		  , #{jobCode}
 		  , #{enrollDate}
 		  , #{otCategory}
 		  , #{otStart}
@@ -425,6 +480,7 @@
 		  , emp_no
 		  , dept_code
 		  , team_code
+		  , job_code
 		  , bt_start
 		  , bt_end
 		  , bt_content
@@ -435,6 +491,7 @@
 		  , #{empNo}
 		  , #{deptCode}
 		  , #{teamCode}
+		  , #{jobCode}
 		  , #{btStart}
 		  , #{btEnd}
 		  , #{btContent}
@@ -573,6 +630,7 @@
 		     , e.team_code
 		     , team_name
 		     , job_name
+		     , e.job_code
 		     , o.enroll_date
 		     , decode(ot_category,0,'시간외근무',1,'야간',2,'주말') as "ot_category"
 		     , ot_start
@@ -587,6 +645,12 @@
 		 where ot_status = 'Y'
 		   and e.dept_code = #{deptCode}
 		   and e.team_code = #{teamCode}
+		   and e.job_code in (
+		   						select
+								       job_code
+								  from job
+								 where job_code > #{jobCode}
+		                    )
 		 order
 		    by ot_no desc
 	</select>
@@ -600,6 +664,7 @@
 		     , e.dept_code
 		     , dept_name
 		     , job_name
+		     , e.job_code
 		     , e.team_code
 		     , team_name
 		     , b.enroll_date
@@ -615,6 +680,12 @@
 		 where bt_status = 'Y'
 		   and e.dept_code = #{deptCode}
 		   and e.team_code = #{teamCode}
+		   and e.job_code in (
+		   						select
+								       job_code
+								  from job
+								 where job_code > #{jobCode}
+		                    )
 		 order
 		    by bt_no desc
 	</select>
@@ -896,7 +967,7 @@
 		 where att_no = #{attNo}
 	</update>
 
-	<!-- 근태현황캘린더조회 -->
+	<!-- 근태캘린더 : 근태시간 조회 -->
 	<select id="workCalendarAttendence" resultMap="attendenceResult">
 		select
 			   att_no
@@ -908,7 +979,8 @@
 		  from attendence a
 		 where emp_no = #{empNo}
 	</select>
-		   
+	
+	<!-- 근태캘린더 : 출장 조회  -->
 	<select id="workCalendarBusinesstrip" resultMap="businesstripResult">
 		   select 
 		       bt_no
@@ -921,6 +993,7 @@
 		   and b.emp_no = #{empNo}
 	</select>
 	
+	<!-- 근태캘린더 : 시간외근무 조회 -->
 	<select id="workCalendarOvertime" resultMap="overtimeResult">
 		select 
 			   ot_no	
@@ -953,6 +1026,45 @@
           from attendence
          where emp_no = #{empNo}
            and att_date between TRUNC(SYSDATE, 'MM') and sysdate
+	</select>
+	
+	<!-- 이번주 누적 시간외근무시간 -->
+	<select id="selectWeekOvertime" resultMap="overtimeResult">
+		SELECT (Round(sum(ROUND((to_date(ot_end,'HH24:MI:SS')-to_date(ot_start,'HH24:MI:SS'))*24*60*60))/(60*60)))||'시'||' ' ||
+               LPad(Round(Mod((sum(ROUND((to_date(ot_end,'HH24:MI:SS')-to_date(ot_start,'HH24:MI:SS'))*24*60*60))/60),60)),2,0)||'분' || ' ' ||
+               LPad(Round(Mod(sum(ROUND((to_date(ot_end,'HH24:MI:SS')-to_date(ot_start,'HH24:MI:SS'))*24*60*60)),60)),2,0)||'초' as "week_time"
+          from overtime
+         where emp_no = #{empNo}
+           and enroll_date between trunc(sysdate, 'IW') and sysdate
+	</select>
+	
+	<!-- 근태수정리스트 조회페이징 -->
+	<select id="selectModifyWorktimeListCount" resultType="_int">
+		select
+		       count(*)
+		  from worktime
+		 where emp_no = #{empNo}
+	</select>
+	
+	<!-- 근태수정리스트 조회 -->
+	<select id="selectModifyWorktimeList" resultMap="worktimeResult">
+		select 
+		       wt_no
+		     , att_no
+		     , a.emp_no
+		     , dept_name
+		     , job_name
+		     , emp_name
+		     , decode(approval_check,0,'결재대기(1차)',1,'결재대기(2치)',2,'승인',3,'반려')
+		     , start_time
+		     , end_time
+		     , att_date
+		  from worktime w
+		  join attendence a on (a.attNo = w.attNo)
+		  join employee e on (e.emp_no = a.emp_no)
+		  join department d on (e.emp_no = d.emp_no)
+		  jpin job j on (e.emp_no = j.emp_no)
+		 where emp_no = #{empNo}    
 	</select>
 	
 

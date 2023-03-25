@@ -23,15 +23,13 @@
 
     }
     .detail-img{display: inline-block;}
-    .outer{
-        width: 940px;
-        margin:20px;
-    }
+   
      .subImg{
         top:5px;
         right: 5px;
       
     }
+  
 </style>
 
 <meta charset="UTF-8">
@@ -39,7 +37,7 @@
 </head>
 <body>
       <jsp:include page="../common/menubar.jsp"/>
-    <div class="outer" >
+       <div class="outer" style="width:940px;  margin:20px;">
         <h2>차량 관리</h2>
         <hr><br>
         <div>
@@ -47,13 +45,13 @@
                 <a class="btn  btn-secondary" href="enrollForm.car">+차량 등록</a>
                 <a class="btn  btn-light" href="">승인 관리</a>
             </div>
-            <br><br>
-            <div id="img-area">
+            <br>
+            <div id="img-area" style="width:940px;">
             	<c:forEach var="c" items="${list}">
-                <div class="detail-img" style="position: relative;">
+                <div class="detail-img" style="position: relative; margin:10px;">
                     <article>
                         <figure>
-                            <img src="${c.carImg}" width="200px" height="140px"  onclick="detailView('${c.carName}');" data-toggle="modal" data-target="#carDetailView">
+                            <img src="${c.carImg}" width="260px" height="170px"  onclick="detailView('${c.carName}');" data-toggle="modal" data-target="#carDetailView">
                             <figcaption>${c.carName}</figcaption>
                         </figure>
                     </article>
@@ -65,6 +63,7 @@
                 </div>
                 </c:forEach>
             </div>
+            <br>
             <script>
             	function detailView(carName){
             		
@@ -183,7 +182,7 @@
                         <th>차량 대표 이미지</th>
                         <td>
                         	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/addImg.png'/>"   width="100px" height="70px" onclick="$('#carImgFile').click();">
-                             <input type="file" name="upfile" id="carImgFile" style="display:none;" required>
+                             <input type="file" name="reupfile"  id="carImgFile" style="display:none;">
                         </td>
                     </tr>
                     <tr>

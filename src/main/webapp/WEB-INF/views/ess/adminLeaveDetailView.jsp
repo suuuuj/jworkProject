@@ -102,7 +102,7 @@
                 
 	            <textarea name="leaveContent" id="textBox" cols="30" rows="10" maxlength="199" placeholder="휴가신청 내용을 입력해주세요.">${lc.leaveContent}</textarea>
 	            <div class="btnWrap" style="float: right; margin-top:160px;">
-                    <button type="bttton" class="btn btn-success" id="leaveSubmit">승인</button>
+                    <button type="button" class="btn btn-success" onclick="leaveSubmit(${lc.leaveNo});">승인</button>
                     <button type="button" class="btn btn-warning" id="leaveReturn">반려</button>
                     <button type="button" onclick="location.href='admin.ot'" class="btn btn-secondary">목록</button>
                 </div>
@@ -112,30 +112,26 @@
 	    </form>
 
         <script>
-
+            // 휴가등록 1차결재 2차결재 
             $(function(){
                 if(${not empty lc.secondDate}){
                     $("#leaveSubmit").attr("disabled", true);
                 }
             })
 
-            $(function(){
-                $("#leaveSubmit").click(function(){
-                    if(${empty lc.firstDate}){
-                        if(confirm("휴가등록 1차승인을 진행하시겠습니까?")){
-                            location.href = 'adminFirst.le?leaveNo=${lc.leaveNo}';
-                        }
-                    }else{
-                        if(confirm("휴가등록 2차승인을 진행하시겠습니까?")){
-                            location.href = 'adminSecond.le?leaveNo=${lc.leaveNo}';
-                        }
+            function leaveSubmit(no){
+                if(${empty lc.firstDate}){
+                    if(confirm("휴가등록 1차승인을 진행하시겠습니까?")){
+                        location.href = 'adminFirst.le?leaveNo=' + no;
                     }
-                })
-            })
-        </script>
+                }else{
+                    if(confirm("휴가등록 2차승인을 진행하시겠습니까?")){
+                        location.href = 'adminSecond.le?leaveNo=' + no;
+                    }
+                }
+            }
 
-        <script>
-
+            // 이미 반려했거나 2차결재일이있으면 반려버튼 disabled
             $(function(){
                 if(${not empty lc.failDate} || ${not empty lc.secondDate}){
                     $("#leaveReturn").attr("disabled", true);
@@ -147,7 +143,6 @@
                     if(confirm("휴가등록을 반려하시겠습니까?")){
                         location.href='adminReturn.le?leaveNo=${lc.leaveNo}?firstApproval=${firstApproval}';
                     }
-                    
                 })
             })
         </script>

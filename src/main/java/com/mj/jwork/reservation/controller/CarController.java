@@ -1,5 +1,6 @@
 package com.mj.jwork.reservation.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -136,4 +137,32 @@ public class CarController {
 		return new Gson().toJson(list);
 		
 		}
-}
+	
+	@RequestMapping("update.car")
+	public String updateCar(Car c,HttpSession session,MultipartFile reupfile) {
+
+		if(!reupfile.getOriginalFilename().equals("")) {
+		
+			if(c.getCarImg() != null) {
+				new File(session.getServletContext().getRealPath(c.getCarImg())).delete();
+			
+			}
+				String saveFilePath= FileUpload.saveFile(reupfile, session, "resources/uploadFiles/");
+				c.setCarImg(saveFilePath);
+
+			}
+
+				int result= cService.updateCar(c);
+				if(result>0) {
+					session.setAttribute("alertMsg", "차량 정보 수정 성공");
+					return "redirect: list.car";
+					
+				}else {
+					session.setAttribute("alertMsg", "차량 정보 수정 실패");
+					return "redirect: list.car";
+				}
+			}
+				
+				
+		}
+

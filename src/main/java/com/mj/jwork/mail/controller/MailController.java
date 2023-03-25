@@ -43,7 +43,7 @@ public class MailController {
 	
 	// 메일 리스트 조회
 	@RequestMapping(value="list.ma")
-	public ModelAndView mailListForward(@RequestParam(value="cpage", defaultValue="1") int currentPage, Mail m ,HttpSession session, ModelAndView mv) {
+	public ModelAndView mailListForward(@RequestParam(value="cpage", defaultValue="1") int currentPage, Mail m, String mailBoxName, HttpSession session, ModelAndView mv) {
 		
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		m.setEmpNo(empNo);
@@ -58,6 +58,9 @@ public class MailController {
 		
 		System.out.println(mList);
 		//System.out.println(mList.get(0).getMailList());
+		if(m.getMailCategory().equals("사용자메일함")) {
+			mv.addObject("mailBoxName", mailBoxName);
+		}
 		
 		mv.addObject("mailCategory", m.getMailCategory())
 		  .addObject("mailBoxNo", m.getMailBoxNo())
@@ -269,7 +272,7 @@ public class MailController {
 	}
 	
 	@RequestMapping("detail.ma")
-	public ModelAndView selectMail(Mail m, String mailCategory, HttpSession session, ModelAndView mv) {
+	public ModelAndView selectMail(Mail m, String mailCategory, String mailBoxName, HttpSession session, ModelAndView mv) {
 		
 		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
 		int result = 1;
@@ -281,7 +284,7 @@ public class MailController {
 		if(result > 0) {
 			Mail mi = mService.selectMail(m);
 			//System.out.println(mi);
-			mv.addObject("mi", mi).addObject("mailCategory", mailCategory).setViewName("mail/mailDetailView");
+			mv.addObject("mi", mi).addObject("mailCategory", mailCategory).addObject("mailBoxName", mailBoxName).setViewName("mail/mailDetailView");
 			
 		} else {
 			mv.setViewName("common/errorPage");

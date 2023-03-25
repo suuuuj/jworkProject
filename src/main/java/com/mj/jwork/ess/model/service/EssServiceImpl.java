@@ -84,6 +84,11 @@ public class EssServiceImpl implements EssService {
 	}
 	
 	@Override
+	public ArrayList<Leave> adminNoSelectLeaveList(PageInfo pi, Employee e) {
+		return eDao.adminNoSelectLeaveList(sqlSession, pi, e);
+	}
+	
+	@Override
 	public Leave adminLeaveDetail(Leave le) {
 		return eDao.adminLeaveDetail(sqlSession, le);
 	}
@@ -286,8 +291,8 @@ public class EssServiceImpl implements EssService {
 	}
 
 	@Override
-	public int insertAllAttendenceTime(Attendence a) {
-		return eDao.insertAllAttendenceTime(sqlSession, a);
+	public int insertAllAttendenceTime(int attNo) {
+		return eDao.insertAllAttendenceTime(sqlSession, attNo);
 	}
 
 	@Override
@@ -343,6 +348,21 @@ public class EssServiceImpl implements EssService {
 	@Override
 	public Attendence selectMonthWorktime(int empNo) {
 		return eDao.selectMonthWorktime(sqlSession, empNo);
+	}
+
+	@Override
+	public Overtime selectWeekOvertime(int empNo) {
+		return eDao.selectWeekOvertime(sqlSession, empNo);
+	}
+
+	@Override
+	public ArrayList<Worktime> selectModifyWorktimeList(PageInfo pi, int empNo) {
+		return eDao.selectModifyWorktimeList(sqlSession, pi, empNo);
+	}
+
+	@Override
+	public int selectModifyWorktimeListCount(int empNo) {
+		return eDao.selectModifyWorktimeListCount(sqlSession, empNo);
 	}
 
 

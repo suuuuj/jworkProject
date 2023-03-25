@@ -38,6 +38,7 @@ public interface EssService {
 	// 관리자 : 휴가전체조회(select)
 	int adminSelectLeaveListCount();
 	ArrayList<Leave> adminSelectLeaveList(PageInfo pi, Employee e);
+	ArrayList<Leave> adminNoSelectLeaveList(PageInfo pi, Employee e);
 	
 	// 관리자 : 휴가상세조회
 	Leave adminLeaveDetail(Leave le);
@@ -113,7 +114,7 @@ public interface EssService {
 	// 출퇴근시간 insert
 	int insertStartAttendence(Attendence a);
 	int insertEndAttendence(Attendence a);
-	int insertAllAttendenceTime(Attendence a);
+	int insertAllAttendenceTime(int attNo);
 	
 	// 출퇴근 전체조회
 	int selectAttendenceListCount();
@@ -130,12 +131,17 @@ public interface EssService {
 	int insertModifyWorktime(Worktime w);
 	int updateWorktime(Worktime w);
 	
+	// 출퇴근시간수정리스트
+	int selectModifyWorktimeListCount(int empNo);
+	ArrayList<Worktime> selectModifyWorktimeList(PageInfo pi, int empNo);
+	
 	// 근태현황 캘린더조회
 	ArrayList<Attendence> workCalendarAttendence(int empNo);
 	ArrayList<Businesstrip> workCalendarBusinesstrip(int empNo);
 	ArrayList<Overtime> workCalendarOvertime(int empNo);
 	Attendence selectWeekWorktime(int empNo);
 	Attendence selectMonthWorktime(int empNo);
+	Overtime selectWeekOvertime(int empNo);
 	
 	
 	

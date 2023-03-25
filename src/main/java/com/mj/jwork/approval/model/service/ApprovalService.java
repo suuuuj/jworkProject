@@ -46,6 +46,9 @@ public interface ApprovalService{
 	//새문서 insert
 	int insertNewApp(Approval a);
 	
+	//상신취소, 임시저장form에서의 임시저장
+	int resaveApproval(Approval a);
+	
 	
 	
 	

@@ -25,6 +25,10 @@
 		<result column="status" property="status"></result>
 		<result column="account_status" property="accountStatus"></result>
 		<result column="emp_fav" property="empFav"></result>
+		<result column="att_no" property="attNo"></result>
+		<result column="start_time" property="startTime"></result>
+		<result column="end_time" property="endTime"></result>
+		<result column="att_date" property="attDate"></result>
 		<!-- 외부 주소록 -->
 		<result column="addout_no" property="addoutNo"></result>
 		<result column="addout_fav" property="addoutFav"></result>
@@ -100,7 +104,7 @@
 	<!-- 로그인 -->
 	<select id="loginEmployee" resultMap="employeeResult">
 		select
-			   emp_no
+			   e.emp_no
 			 , emp_pwd
 			 , emp_name
 			 , gender
@@ -121,13 +125,17 @@
 			 , task
 			 , e.status
 			 , account_status
+			 , NVL(start_time,'') as "start_time"
+			 , NVL(end_time, '') as "end_time"
 		  from employee e
           left join department d on (e.dept_code = d.dept_code)
           left join team t on (e.team_code = t.team_code)
           left join job j on (e.job_code = j.job_code)
+          left join attendence a on (e.emp_no = a.emp_no)
 		 where e.status = 'Y'
 		   and account_status = 'Y'
-		   and emp_no = #{empNo}
+		   and e.emp_no = #{empNo}
+		   and att_date = to_char(sysdate, 'yy/mm/dd')
 	</select>
 	
 	<!-- 사원 정보 수정 -->

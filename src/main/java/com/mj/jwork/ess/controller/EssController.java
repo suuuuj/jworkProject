@@ -196,20 +196,29 @@ public class EssController {
 	@RequestMapping("adminList.le")
 	public String adminLeaveList(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session, Model model) {
 		
-		int jobCode = ((Employee)session.getAttribute("loginUser")).getJobCode();
+		Employee e = (Employee)session.getAttribute("loginUser");
 		
-		if(jobCode == 6 || jobCode == 7) {
+		if(e.getJobCode() == 6 || e.getJobCode() == 7) {
 			model.addAttribute("errorMsg", "접근권한이 없습니다.");
 			return "common/errorPage";
-		}else {
-		
+		}else if(e.getJobCode() == 2 || e.getJobCode() == 3) {
 			// 페이징
 			int ListCount = eService.adminSelectLeaveListCount();
 			PageInfo pi = Pagination.getPageInfo(ListCount, currentPage, 5, 15);
+									
+			ArrayList<Leave> list = eService.adminNoSelectLeaveList(pi, e);
+									
+			session.setAttribute("pi", pi);
+			session.setAttribute("list", list);
+			return "ess/adminLeaveList";
 			
-			Employee e = (Employee)session.getAttribute("loginUser");
+		}else {
+			// 페이징
+			int ListCount = eService.adminSelectLeaveListCount();
+			PageInfo pi = Pagination.getPageInfo(ListCount, currentPage, 5, 15);
+						
 			ArrayList<Leave> list = eService.adminSelectLeaveList(pi, e);
-			
+						
 			session.setAttribute("pi", pi);
 			session.setAttribute("list", list);
 			return "ess/adminLeaveList";
@@ -225,7 +234,6 @@ public class EssController {
 	 */
 	@RequestMapping("adminDetail.le")
 	public ModelAndView adminLeaveDetail(Leave le, HttpSession session, ModelAndView mv) {
-		
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		Leave lc = eService.adminLeaveDetail(le); 
 		
@@ -251,10 +259,9 @@ public class EssController {
 	@RequestMapping("adminFirst.le")
 	public ModelAndView adminFirstLeave(Leave le, HttpSession session, ModelAndView mv) {
 		
-		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
-		le.setFirstApproval(empNo);
+		Employee e = (Employee)session.getAttribute("loginUser");
+		le.setFirstApproval(e.getEmpNo());
 		int result = eService.adminFirstLeave(le);
-		
 		if(result > 0) {
 			session.setAttribute("alertMsg", "1차 휴가승인이 완료되었습니다.");
 			mv.setViewName("redirect:/adminList.le");
@@ -869,7 +876,7 @@ public class EssController {
 	// -------------------- 근태 -------------------------------------
 	
 	// 근래스케줄링
-	// @Scheduled(cron="0 0 02 * * *") // 아무요일,매월,매일 02:00:00
+	// @Scheduled(cron="0 32 01 * * *") // 아무요일,매월,매일 02:00:00
 	@Scheduled(cron="0 0 02 * * *")
 	public void attendenceSubmit() {
 		int result = eService.adminInsertAttendence();
@@ -889,6 +896,7 @@ public class EssController {
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		a.setEmpNo(empNo);
 		int result = eService.insertStartAttendence(a);
+		int retsult = eService.insertAllAttendenceTime(a.getAttNo());
 		Attendence at = eService.selectAttendence(a);
 		session.setAttribute("at", at);
 		return new Gson().toJson(at);
@@ -907,7 +915,7 @@ public class EssController {
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		a.setEmpNo(empNo);
 		int result = eService.insertEndAttendence(a);
-		int retsult = eService.insertAllAttendenceTime(a);
+		int retsult = eService.insertAllAttendenceTime(a.getAttNo());
 		Attendence at = eService.selectAttendence(a);
 		return new Gson().toJson(at);
 	}
@@ -966,6 +974,7 @@ public class EssController {
 				if(!w.getReStartTime().equals("") && w.getReEndTime().equals("")) {
 					int resultS = eService.insertModifyStartTime(w);
 					int resultSS = eService.updateStartTime(w);
+					int result = eService. insertAllAttendenceTime(w.getAttNo());
 					
 					if(resultS > 0 && resultSS > 0) {
 						session.setAttribute("alertMsg", "출근시간변경에 성공하였습니다.");
@@ -999,6 +1008,12 @@ public class EssController {
 				
 	}
 	
+	/**
+	 * 근무현황캘린더
+	 * @param session
+	 * @param mv
+	 * @return
+	 */
 	@RequestMapping("workCalendar.at")
 	public ModelAndView worktimeCalendar(HttpSession session, ModelAndView mv) {
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
@@ -1008,9 +1023,11 @@ public class EssController {
 		
 		Attendence week = eService.selectWeekWorktime(empNo);
 		Attendence month = eService.selectMonthWorktime(empNo);
+		Overtime oweek = eService.selectWeekOvertime(empNo);
 		System.out.println(week);
 		mv.addObject("week", week);
 		mv.addObject("month", month);
+		mv.addObject("oweek", oweek);
 		mv.addObject("alist");
 		mv.addObject("blist");
 		mv.addObject("olist");
@@ -1032,7 +1049,19 @@ public class EssController {
 		//map.put("olist", olist);
 		return new Gson().toJson(alist);
 	}
-	*/ 
+	*/
+	
+	@RequestMapping("wtModify.at")
+	public ModelAndView selectModifyWorktimeList(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session, ModelAndView mv) {
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		int listCount = eService.selectModifyWorktimeListCount(empNo);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
+		ArrayList<Worktime> list = eService.selectModifyWorktimeList(pi, empNo);
+		mv.addObject("pi", pi);
+		mv.addObject("list", list);
+		mv.setViewName("ess/workingTimeModifyList");
+		return mv;
+	}
 	
 	
 	

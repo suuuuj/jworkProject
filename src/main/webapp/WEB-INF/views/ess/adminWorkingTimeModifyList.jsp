@@ -1,4 +1,4 @@
-<%@ page language="java" contentType=`"text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -16,35 +16,12 @@
 <title>Insert title here</title>
 <style>
     /* outer영역 */
-    .outer{
-        width:960px;
-        height:1000px;
-        border:1px solid black;
-    }
-
-    /* 메뉴바 */
-    .title{
-        color:rgb(50,50,50);
-        margin-left: 30px;
-        margin-top:30px;
-    }
-    .selectBar{
-        margin-left: 30px;
-    }
-    .selectBar>span{
-        color:rgba(50, 50, 50, 0.79);
-        font-size:15px;
-        font-weight: 600;
-    }
-    .selectBar>div{
-        margin-top:10px;
-        height:3px;
-        float: left;
+    .worktimeOuter{
+        padding:50px;
+        margin:auto;
     }
     /* content영역 */
     .work-area{
-        margin-left:30px;
-        margin-right: 30px;
         margin-top: 30px;
     }
     .work-area>span{
@@ -151,28 +128,12 @@
 </style>
 </head>
 <body>
-    <div class="outer">
+    <jsp:include page = "../common/menubar.jsp" />
+    <div class="workOuter">
 
-        <div class="title">
-            <h3 style="color:rgb(50,50,50); font-weight: 600;">근무<h3> 
-        </div>
-        <br>
-        <div class="selectBar">
-            <span>&nbsp;근태현황</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>근태이력</span> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>근태수정</span> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">근태조정</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">근태관리</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">근태통계</span>
-            <br>
-            <div style="width:260px; background: rgb(234, 234, 234);">&nbsp;</div>
-            <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:573px; background: rgb(234, 234, 234);">&nbsp;</div>
-        </div>
-
+        <h4><b>출퇴근시간변경</b></h4>
         <div class="work-area">
 
-            <span>출퇴근 시간 변경</span> <br>
             <div class="workSelect" style="float:right;">
                 <select name="" id="">
                     <option value="">&nbsp;-선택안함-&nbsp;</option>
@@ -193,6 +154,7 @@
                             <td><input type="checkbox" name="" value="" id="firstCk"></td>
                             <td>사번</td>
                             <td>소속</td>
+                            <td>팀명</td>
                             <td>직위</td>
                             <td>이름</td>
                             <td>조정일</td>
@@ -202,107 +164,19 @@
                     </thead>
                     
                     <tbody>
-                        <tr>
-                            <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value="출퇴근신청문서번호"></td>
-                            <td>4505301111</td>
-                            <td>개발1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>출근시간변경</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value="출퇴근신청문서번호"></td>
-                            <td>4505301111</td>
-                            <td>개발1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>출근시간변경</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value="출퇴근신청문서번호"></td>
-                            <td>4505301111</td>
-                            <td>개발1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>출근시간변경</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value="출퇴근신청문서번호"></td>
-                            <td>4505301111</td>
-                            <td>개발1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>출근시간변경</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value="출퇴근신청문서번호"></td>
-                            <td>4505301111</td>
-                            <td>개발1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>출근시간변경</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value="출퇴근신청문서번호"></td>
-                            <td>4505301111</td>
-                            <td>개발1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>출근시간변경</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value="출퇴근신청문서번호"></td>
-                            <td>4505301111</td>
-                            <td>개발1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>출근시간변경</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value="출퇴근신청문서번호"></td>
-                            <td>4505301111</td>
-                            <td>개발1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>출근시간변경</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value="출퇴근신청문서번호"></td>
-                            <td>4505301111</td>
-                            <td>개발1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>출근시간변경</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-                        <tr>
-                            <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value="출퇴근신청문서번호"></td>
-                            <td>4505301111</td>
-                            <td>개발1팀</td>
-                            <td>사원</td>
-                            <td>김정만</td>
-                            <td>2023.03.05</td>
-                            <td>출근시간변경</td>
-                            <td>결재대기(1차)</td>
-                        </tr>
-
+                        <c:forEach var="w" items="${list}">
+                            <tr>
+                                <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value="${w.wt_no}"></td>
+                                <td>${w.emp_no}</td>
+                                <td>${w.deptName}</td>
+                                <td>${w.teamName}</td>
+                                <td>${w.jobName}</td>
+                                <td>${w.empName}</td>
+                                <td>${w.attDate}</td>
+                                <td>출근시간변경</td>
+                                <td>${w.approval_check}</td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
             </table>
             <br>

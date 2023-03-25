@@ -257,8 +257,8 @@ public class EssDao {
 		return (ArrayList)sqlSession.selectList("essMapper.selectAttendenceList", empNo, rowBounds);
 	}
 	
-	public int insertAllAttendenceTime(SqlSession sqlSession, Attendence a) {
-		return sqlSession.update("essMapper.insertAllAttendenceTime", a);
+	public int insertAllAttendenceTime(SqlSession sqlSession, int attNo) {
+		return sqlSession.update("essMapper.insertAllAttendenceTime", attNo);
 	}
 	
 	public int insertModifyStartTime(SqlSession sqlSession, Worktime w) {
@@ -307,6 +307,29 @@ public class EssDao {
 	
 	public Attendence selectMonthWorktime(SqlSession sqlSession, int empNo) {
 		return sqlSession.selectOne("essMapper.selectMonthWorktime", empNo);
+	}
+	
+	public Overtime selectWeekOvertime(SqlSession sqlSession, int empNo) {
+		return sqlSession.selectOne("essMapper.selectWeekOvertime", empNo);
+	}
+	
+	public ArrayList<Leave> adminNoSelectLeaveList(SqlSession sqlSession, PageInfo pi, Employee e){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return (ArrayList)sqlSession.selectList("essMapper.adminNoSelectLeaveList", e, rowBounds);
+	}
+	
+	public ArrayList<Worktime> selectModifyWorktimeList(SqlSession sqlSession, PageInfo pi, int empNo){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("essMapper.selectModifyWorktimeList", empNo, rowBounds);
+	}
+	
+	public int selectModifyWorktimeListCount(SqlSession sqlSession, int empNo) {
+		return sqlSession.selectOne("essMapper.selectModifyWorktimeList", empNo);
 	}
 	
 	

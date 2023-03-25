@@ -21,6 +21,7 @@
 		<result column="doc_name" property="docName"/>
 		<result column="job_name" property="jobName"/>
 		<result column="re_reason" property="reReason"/>
+		<result column="quit_date" property="quitDate"/>
 	</resultMap>
 	
 	<resultMap id="appLineResult" type="AppLine">
@@ -89,6 +90,7 @@
 		    , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
 		    , app_count
 		    , app_turn
+		    , QUIT_DATE
 		 from approval a
 		  join employee e on (e.emp_no = a.emp_no)
 		 join job j on (e.job_code = j.job_code)
@@ -208,7 +210,7 @@
 	      and app_status = 4
 	      and ap.emp_no = #{empNo}
 	    order
-	       by app_no desc
+	       by create_date desc
     </select>
     
     <!-- 문서 삭제 -->
@@ -266,7 +268,7 @@
   		 where app_no=#{appNo}
     </update> 
     
-    <!-- 결재 insert - 임시저장  -->
+    <!-- 임시저장 -->
     <insert id="saveApproval">
     	 insert 
 	       into approval
@@ -276,8 +278,11 @@
 			   , DOC_TYPE
 			   , DOC_TITLE
 			   , DOC_CONTENT
+			   , DOC_ORIGINNAME
+			   , DOC_FILEPATH
 			   , APP_STATUS
 			   , DOC_STATUS
+			   , QUIT_DATE
 			   )
 		  values
 			   (
@@ -286,8 +291,11 @@
 				, #{docType}
 				, #{docTitle}
 				, #{docContent}
+				, #{docOriginName}
+				, #{docFilePath}
 				, 4
 				, 'D'
+				, #{quitDate}
 			)
     
     </insert>
@@ -310,6 +318,7 @@
 		      , DOC_STATUS
 		      , APP_COUNT
 		      , APP_TURN
+		      , QUIT_DATE
 		      )
 		values
 		      (
@@ -340,6 +349,7 @@
 			  , 'Y'
 			  , #{appCount}
 			  , 1
+			  , #{quitDate}
 			    )
     </insert>
     
@@ -380,5 +390,20 @@
 			 , #{empNo}
 			 )
     </insert>	
-
+    
+	<!-- 상신취소, 임시저장form에서의 임시저장 -->
+    <update id="resaveApproval">
+    	update approval
+    	   set DOC_TYPE = #{docType}
+		     , DOC_TITLE = #{docTitle}
+		     , DOC_CONTENT = #{docContent}
+		     , DOC_ORIGINNAME = #{docOriginName}
+		     , DOC_FILEPATH = #{docFilePath}
+		     , APP_STATUS = 4
+		     , DOC_STATUS = 'D'
+		     , QUIT_DATE = #{quitDate}
+		     , create_date = sysdate
+		 where APP_NO = #{appNo}
+		  
+    </update>
 </mapper>

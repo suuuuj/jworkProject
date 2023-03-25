@@ -1,5 +1,6 @@
 package com.mj.jwork.approval.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -73,7 +74,7 @@ public class ApprovalController {
 		mv.addObject("a",a).setViewName("approval/myApprovalDetail");
 		mv.addObject("al",al).setViewName("approval/myApprovalDetail");
 		
-		//System.out.println(al);
+		//System.out.println(a);
 		
 		return mv;
 	}
@@ -240,13 +241,19 @@ public class ApprovalController {
 		}
 	}
 	
-	//결재 insert - 임시저장  -> 파일 저장안됨 수정해야햄
+	//임시저장
 	@RequestMapping("saveApp.app")
 	public String saveApproval(Approval a, MultipartFile upfile, HttpSession session, Model model) {
-		System.out.println(a);
-		System.out.println(upfile);
+		//System.out.println(a);
+		//System.out.println(upfile);
 		
 		if(!upfile.getOriginalFilename().equals("")) {
+			
+			if(a.getDocOriginName()!= null) {
+				new File(session.getServletContext().getRealPath(a.getDocFilePath())).delete();
+			}
+			
+			
 			String saveFilePath = FileUpload.saveFile(upfile,session,"resources/uploadFiles/");
 			
 			a.setDocOriginName(upfile.getOriginalFilename());
@@ -276,6 +283,7 @@ public class ApprovalController {
 		
 		a.setAppCount(a.getAlist().size());
 		
+		
 		if(!upfile.getOriginalFilename().equals("")) {
 			String saveFilePath = FileUpload.saveFile(upfile,session,"resources/uploadFiles/");
 			a.setDocOriginName(upfile.getOriginalFilename());
@@ -294,6 +302,39 @@ public class ApprovalController {
 			
 		}
 	}
+	
+	//상신취소, 임시저장form에서의 임시저장
+	@RequestMapping("resaveApp.app")
+	public String resaveApproval(Approval a, MultipartFile reupfile, HttpSession session, Model model) {
+		//System.out.println(a);
+		//System.out.println(upfile);
+		
+		if(!reupfile.getOriginalFilename().equals("")) {
+			
+			if(a.getDocOriginName()!= null) {
+				new File(session.getServletContext().getRealPath(a.getDocFilePath())).delete();
+			}
+			
+			String saveFilePath = FileUpload.saveFile(reupfile,session,"resources/uploadFiles/");
+			
+			a.setDocOriginName(reupfile.getOriginalFilename());
+			a.setDocFilePath(saveFilePath);
+			
+		}
+		
+		int result = aService.resaveApproval(a);
+		
+		if(result>0) {
+			session.setAttribute("alertMsg","임시저장 되었습니다.");
+			return "redirect:draftList.app";
+		}else {// 임시저장 실패
+			model.addAttribute("errorMsg", "임시저장 실패");
+			return "common/errorPage";
+			
+		}
+				
+	}
+	
 	
 	
 	

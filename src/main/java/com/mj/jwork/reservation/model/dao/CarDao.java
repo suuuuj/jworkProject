@@ -45,5 +45,10 @@ public class CarDao {
 		
 		return (ArrayList)sqlSession.selectList("carMapper.selectNList");
 	}
+	
+	public int updateCar(SqlSessionTemplate sqlSession,Car c) {
+		
+		return sqlSession.update("carMapper.updateCar",c);
+	}
 
 }

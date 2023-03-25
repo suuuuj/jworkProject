@@ -170,12 +170,12 @@
 	                            <td>${ a.deptName }</td>
 	                            <td>${ a.lcName }</td>
 	                            <td>
-	                                <input type="text" name="stDate" value="${ a.leaveStart }">
+	                                <input type="text" name="stDate" value="${ a.leaveStart }" readonly>
 	                                <span>~&nbsp;&nbsp;&nbsp;</span>
-	                                <input type="text" name="edDate" value="${ a.leaveEnd }">
+	                                <input type="text" name="edDate" value="${ a.leaveEnd }" readonly>
 	                            </td>
 	                            <td>${ a.leaveCheck }</td>
-	                            <td onclick="event.cancelBubble=true"><button class="btn btn-warning" id="deleteBtn" style="width:50px; height:25px; font-size:10px; line-height:1px;">취소</button></td>
+	                            <td onclick="event.cancelBubble=true"><button class="btn btn-warning" id="deleteBtn" style="width:50px; height:25px; font-size:10px; line-height:1px;" onclick="deleteFunction(${a.leaveNo})">취소</button></td>
 	                        </tr>
                        	</c:forEach>
                     </tbody>
@@ -197,6 +197,7 @@
                                     $(".modal-body textarea").text(leave.leaveContent);
                                     $(".textCount").text(leave.leaveContent.length + "자");
                                     $("#leaveModal").modal('show');
+                                    
                                 },
                                 error:function(){
                                     console.log("휴가상세조회 ajax통신 실패");
@@ -208,14 +209,11 @@
                 </script>
 
                 <script>
-                    $(function(){
-                            $("#deleteBtn").click(function(){
-                                if(confirm('휴가등록을 취소하시겠습니까?')){
-                                    location.href='delete.le?no=' + $(".leaveTable>tbody tr").children().eq(0).text();
+                    function deleteFunction(no){
+                        if(confirm('휴가등록을 취소하시겠습니까?')){
+                                    location.href='delete.le?no=' + no;
                                 }
-                               
-                            })
-                        })
+                    }
                 </script>
             
                 <br><br>

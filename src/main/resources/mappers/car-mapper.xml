@@ -204,4 +204,17 @@
 		        ,STATUS
 		    from car
 	</select>
+	<update id="updateCar">
+		update car
+	       set CAR_TYPE=#{carType}
+	        ,GEAR_TYPE=#{gearType}
+	        ,CAR_COLOR =#{color}
+	        ,MAKER =#{maker}
+	        ,FUEL_TYPE =#{fuelType}
+	        ,MODEL_YEAR =#{modelYear}
+	        ,ETC =#{etc}
+	        ,STATUS =#{status}
+			 where car_name= #{carName}
+		
+	</update>
 </mapper>
