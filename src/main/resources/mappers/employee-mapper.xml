@@ -897,6 +897,7 @@
 	</select>
 		
 	<!-- 일정 조회 -->
+	<!-- 
 	<select id="ajaxSelectMySchedule" resultMap="scheduleResult">
 		select distinct
                s.sch_no
@@ -916,9 +917,8 @@
          left join sch_group g on (s.group_no = g.group_no)
          left join sch_attendee a on (s.sch_no = a.sch_no)
         where status = 'Y'
-          and s.emp_no = #{loginNo} or a.emp_no = #{loginNo}
+          and (s.emp_no = #{loginNo} or a.emp_no = #{loginNo})
 	</select>
-	
 	<select id="ajaxSelectAttSchedule" resultMap="scheduleResult">
 		select 
                a.sch_no
@@ -934,11 +934,64 @@
         where status = 'Y'
           and a.emp_no = #{loginNo}
 	</select>
+	-->
+	
+	<!-- 이거 쓰기 -->
+	<select id="ajaxSelectSchedule" resultMap="scheduleResult">
+		select
+               s.sch_no
+             , sch_title
+             , sch_content
+             , sch_begin
+             , sch_end
+             , time_begin
+             , time_end
+             , s.group_no
+             , g.group_name
+             , g.group_color
+             , sch_place
+             , create_date
+             , modify_date
+         from schedule s
+         left join sch_group g on (s.group_no = g.group_no)
+         left join sch_attendee a on (s.sch_no = a.sch_no)
+        where status = 'Y'
+          and s.emp_no = #{loginNo}
+        union
+        select 
+               a.sch_no
+             , sch_title
+             , sch_content
+             , sch_begin
+             , sch_end
+             , time_begin
+             , time_end
+             , (select 0
+                  from sch_group
+                 where not emp_no in #{loginNo})
+             , (select ''
+                  from sch_group
+                 where not emp_no in #{loginNo})
+             , (select 'black'
+                  from sch_group
+                 where not emp_no in #{loginNo})
+             , sch_place
+             , create_date
+             , modify_date
+         from sch_attendee a
+         left join schedule s on (s.sch_no = a.sch_no)
+         left join sch_group g on (s.group_no = g.group_no)
+        where status = 'Y'
+          and a.emp_no = #{loginNo}
+	</select>
+	
+	
 	
 	<!-- 일정 상세 조회 -->
 	<select id="ajaxSelectSchDetail" resultMap="scheduleResult">
 		select distinct
-               sch_title
+			   s.emp_no
+             , sch_title
              , sch_content
              , sch_begin
              , sch_end
@@ -950,7 +1003,7 @@
              , sch_place
              , (select count(*)
                   from sch_attendee
-                 where sch_no = #{schNo}) as attendance
+                 where sch_no = #{schNo}) as attendance <!-- 참석자 있는지 여부 알기 위해서 -->
          from schedule s
          left join sch_group g on (s.group_no = g.group_no)
          left join sch_attendee a on (s.sch_no = a.sch_no)
@@ -999,4 +1052,13 @@
              , #{empNo}
              )
 	</insert>
+	
+	<!-- 일정 삭제 -->
+	<update id="ajaxDeleteSchedule">
+		update
+			   schedule
+		   set status = 'N'
+		 where sch_no = #{schNo}
+		   and emp_no = #{loginNo}
+	</update>
 </mapper>

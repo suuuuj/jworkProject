@@ -126,10 +126,10 @@
         </div>
     </div>
 
-
     <script>
-
-        document.addEventListener('DOMContentLoaded', function() {
+        
+        // document.addEventListener('DOMContentLoaded', function() {
+        function calendarRendering(eventArr) {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -161,73 +161,39 @@
                 locale: 'ko',
                 day:'numeric',
                 navLinks: true, // can click day/week names to navigate views
-                // 여기서부터 날짜 클릭 시 이벤트
-                
+
+                // 여기서부터 날짜 클릭 시 이벤트   
                 selectable: true,
                 selectMirror: true,
                 select: function(arg) {
-                    
                     console.log(arg);
                 },
 
-                eventClick: function(arg) {
-                    
+                // 일정 클릭시 상세 조회 (수정, 삭제)
+                eventClick: function(arg) {  
                     viewDetail(arg.event._def.groupId);
                     console.log(arg);
-  
                 },
                 
-                events: [
-
-                    $(function(){
-                        $.ajax({
-                            url:"selectSchedule.emp",
-                            dataType:"JSON",
-                            type:"GET",
-                            success:function(s){
-                                console.log(s.mySchList);
-                                console.log(s.attSchList);
-                                
-                                for(i=0; i<s.mySchList.length; i++){
-                                    calendar.addEvent({
-                                        groupId: s.mySchList[i].schNo,
-                                        title: s.mySchList[i].schTitle,
-                                        start: s.mySchList[i].schBegin,
-                                        end: s.mySchList[i].schEnd,
-                                        color: s.mySchList[i].groupColor
-                                    })
-                                }
-                                // for(j=0; j<s.attSchList.length; i++){
-                                //     calendar.addEvent({
-                                //         title: s.attSchList[j].schTitle,
-                                //         start: s.attSchList[j].schBegin,
-                                //         end: s.attSchList[j].schEnd
-                                //     })
-                                // }
-                            }, error: function(){
-                                console.log("일정조회 ajax 통신실패")
-                            }
-                            
-                        })
-                    })
-
-                ]
+                //일정 조회해오기
+                events: eventArr
             });
-    
             calendar.render();
-        });
+        };
+ 
     </script>
 
-    <!-- 일정수정 모달 -->
+    <!-- 일정수정/삭제 모달 -->
     <div class="modal fade" id="editSchedule" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">   
             <div class="modal-body">  
                 <form id="edit-area" action="updateSchedule.emp">
                     <div class="schDetail">
-                        <div style="text-align: center; font-size: 18px;">일정 수정</div><br>
+                        <div style="text-align: center; font-size: 18px;">일정 상세</div><br>
                         <input type="hidden" name="schNo" value="">
                         <input type="hidden" name="attendanceOld" value="">
+                        <input type="hidden" name="enrollEmpNo">
                         <div id="schTitle">
                             <input type="text" id="schTitle2" class="form-control" name="schTitle" placeholder="제목" required>
                         </div>
@@ -346,7 +312,8 @@
                         
                     </div>
                     <div id="schBtn-area">
-                        <button type="submit" class="btn btn-success btn-sm" style="width:70px" >등록</button>
+                        <button type="submit" class="btn btn-success btn-sm" style="width:70px" >수정</button>
+                        <button type="button" class="btn btn-success btn-sm" style="width:70px" onclick="deleteSchedule($('input[name=schNo]').val(), $('input[name=enrollEmpNo]').val())">삭제</button>
                         <button type="button" class="btn btn-outline-success btn-sm" style="width:70px" data-bs-dismiss="modal">취소</button>
                     </div><br><br>
                 </form>
@@ -430,6 +397,7 @@
     </div>
 
     <script>
+        // 일정 상세 조회
         function viewDetail(schNo){
             $.ajax({
                 url:"selectScheduleDetail.emp",
@@ -460,13 +428,144 @@
                     }
                     $("input[name=schNo]").val(schNo);
                     $("input[name=attendanceOld]").val(data.s.attendance);
-
+                    $("input[name=enrollEmpNo]").val(data.s.empNo);
 
                     $("#editSchedule").modal("show");
                 }, error: function(){
                     console.log("일정상세조회 ajax 통신실패")
                 },
 
+            })
+        }
+
+        // 일정 삭제
+        function deleteSchedule(schNo, enrollEmpNo){
+            if(confirm("일정을 삭제하시겠습니까?")){
+                $.ajax({
+                    url:"deleteSchedule.emp",
+                    data:{schNo: schNo},
+                    success: function(result){
+                        if(result == "success"){
+                            alert('삭제완');
+                            document.location.href = document.location.href;
+                        }
+                        if(result == "fail"){
+                            alert('일정을 등록한 사람만 삭제할 수 있습니다~~');
+                        }
+                    }, error: function(){
+                        console.log("일정 삭제 ajax 통신실패");
+                    }
+                })
+            }
+        }
+        
+    </script>
+
+    <script>
+        selectScheduleList();
+
+        $("#calendar").on("click", "input[type='checkbox']", function(){
+            if($(this).is(":checked")){
+                $('#calendar').find("."+$(this).attr("id")).show();
+            }else{
+                $('#calendar').find("."+$(this).attr("id")).hide();
+            }
+        });
+
+
+        // 체크되어있는 캘린더 번호
+        check=[];
+        $(".checkSchGroup").each(function(){
+            if($(this).is(":checked") == true){
+                check.push($(this).next().val());
+            }
+        })
+        console.log(check);
+
+
+        // 체크 이벤트 발생시 캘린더 번호 arr로
+        $(document).on("click", ".checkSchGroup", function(){
+            check=[];
+            $(".checkSchGroup").each(function(){
+                if($(this).is(":checked") == true){
+                    check.push($(this).next().val());
+                }
+            })
+            console.log(check);
+
+            let eventArr = [];
+
+            for(let i=0; i<check.length; i++){
+                for(let j=0; j<schedules.length; j++){
+                    if(check[i] == schedules[j].groupNo){
+                        let eventObj = {
+                            groupId: schedules[j].schNo,
+                            title: schedules[j].schTitle,
+                            start: schedules[j].schBegin,
+                            end: schedules[j].schEnd,
+                            color: schedules[j].groupColor
+                        }
+                        eventArr.push(eventObj);
+                    }
+                }
+            }
+            calendarRendering(eventArr);
+        })
+
+
+        let schedules;
+        function selectScheduleList(){
+            $.ajax({
+                url:"selectSchedule.emp",
+                dataType:"JSON",
+                type:"post",
+                success:function(sList){
+                    //console.log(s.mySchList);
+                    //console.log(s.attSchList);
+                    console.log(sList);
+
+                    // schedules = s.mySchList;
+                    // let eventArr = [];
+                    // for(let c=0; c<check.length; c++){
+                    //     // check[c] = > groupNo
+                    //     for(let i=0; i<s.mySchList.length; i++){
+                    //         //s.mySchList[i].groupNo => groupNo  // groupNo 조회해오기!!!!!
+                    //         if(check[i] == s.mySchList[i].groupNo){
+                    //             let eventObj = {
+                    //                 groupId: s.mySchList[i].schNo,
+                    //                 title: s.mySchList[i].schTitle,
+                    //                 start: s.mySchList[i].schBegin,
+                    //                 end: s.mySchList[i].schEnd,
+                    //                 color: s.mySchList[i].groupColor
+                    //             }
+                    //             eventArr.push(eventObj);
+                    //         }   
+                    //     }
+                    // }
+
+                    schedules = sList;
+                    let eventArr = [];
+                    for(let c=0; c<check.length; c++){
+                        // check[c] = > groupNo
+                        for(let i=0; i<sList.length; i++){
+                            //sList[i].groupNo => groupNo  // groupNo 조회해오기!!!!!
+                            if(check[i] == sList[i].groupNo){
+                                let eventObj = {
+                                    groupId: sList[i].schNo,
+                                    title: sList[i].schTitle,
+                                    start: sList[i].schBegin,
+                                    end: sList[i].schEnd,
+                                    color: sList[i].groupColor
+                                }
+                                eventArr.push(eventObj);
+                            }   
+                        }
+                    }
+
+                    calendarRendering(eventArr);   
+                }, error: function(){
+                    console.log("일정조회 ajax 통신실패")
+                }   
             })
         }
     </script>

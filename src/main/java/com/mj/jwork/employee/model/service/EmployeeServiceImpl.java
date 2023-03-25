@@ -324,13 +324,17 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 	
 	// 일정 조회
+//	@Override
+//	public ArrayList<Schedule> ajaxSelectMySchedule(int loginNo) {
+//		return eDao.ajaxSelectMySchedule(sqlSession, loginNo);
+//	}
+//	@Override
+//	public ArrayList<Schedule> ajaxSelectAttSchedule(int loginNo) {
+//		return eDao.ajaxSelectAttSchedule(sqlSession, loginNo);
+//	}
 	@Override
-	public ArrayList<Schedule> ajaxSelectMySchedule(int loginNo) {
-		return eDao.ajaxSelectMySchedule(sqlSession, loginNo);
-	}
-	@Override
-	public ArrayList<Schedule> ajaxSelectAttSchedule(int loginNo) {
-		return eDao.ajaxSelectAttSchedule(sqlSession, loginNo);
+	public ArrayList<Schedule> ajaxSelectSchedule(int loginNo) {
+		return eDao.ajaxSelectSchedule(sqlSession, loginNo);
 	}
 	
 	// 일정 상세 조회
@@ -356,6 +360,16 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public int updateSchedule(Schedule s) {
 		return eDao.updateSchedule(sqlSession, s);
 	}
+
+	@Override
+	public int ajaxDeleteSchedule(Schedule s) {
+		return eDao.ajaxDeleteSchedule(sqlSession, s);
+	}
+
+	
+
+	
+	
 	
 
 }

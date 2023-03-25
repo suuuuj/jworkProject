@@ -147,8 +147,9 @@ public interface EmployeeService {
 	Employee addSigner(int empNo);
 	
 	// 일정 조회
-	ArrayList<Schedule> ajaxSelectMySchedule(int loginNo);
-	ArrayList<Schedule> ajaxSelectAttSchedule(int loginNo);
+	//ArrayList<Schedule> ajaxSelectMySchedule(int loginNo);
+	//ArrayList<Schedule> ajaxSelectAttSchedule(int loginNo);
+	ArrayList<Schedule> ajaxSelectSchedule(int loginNo);
 	
 	// 일정 상세 조회
 	Schedule ajaxSelectSchDetail(int schNo);
@@ -158,6 +159,10 @@ public interface EmployeeService {
 	int deleteAttendee(int schNo);
 	int updateAttendee(String[] attendance, int schNo);
 	int updateSchedule(Schedule s);
+	
+	// 일정 삭제
+	int ajaxDeleteSchedule(Schedule s);
+
 
 
 	
