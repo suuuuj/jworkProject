@@ -292,11 +292,14 @@ public class EmployeeDao {
 	}
 	
 	// 일정 조회
-	public ArrayList<Schedule> ajaxSelectMySchedule(SqlSessionTemplate sqlSession, int loginNo) {
-		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxSelectMySchedule", loginNo);
-	}
-	public ArrayList<Schedule> ajaxSelectAttSchedule(SqlSessionTemplate sqlSession, int loginNo) {
-		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxSelectAttSchedule", loginNo);
+//	public ArrayList<Schedule> ajaxSelectMySchedule(SqlSessionTemplate sqlSession, int loginNo) {
+//		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxSelectMySchedule", loginNo);
+//	}
+//	public ArrayList<Schedule> ajaxSelectAttSchedule(SqlSessionTemplate sqlSession, int loginNo) {
+//		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxSelectAttSchedule", loginNo);
+//	}
+	public ArrayList<Schedule> ajaxSelectSchedule(SqlSessionTemplate sqlSession, int loginNo) {
+		return (ArrayList)sqlSession.selectList("employeeMapper.ajaxSelectSchedule", loginNo);
 	}
 	
 	// 일정 상세 조회
@@ -324,6 +327,13 @@ public class EmployeeDao {
 	public int updateSchedule(SqlSessionTemplate sqlSession, Schedule s) {
 		return sqlSession.update("employeeMapper.updateSchedule", s);
 	}
+	
+	// 일정 삭제
+	public int ajaxDeleteSchedule(SqlSessionTemplate sqlSession, Schedule s) {
+		return sqlSession.update("employeeMapper.ajaxDeleteSchedule", s);
+	}
+
+	
 	
 	
 

@@ -144,6 +144,9 @@
         #checkMySch:checked {
             background: rgb(193, 178, 249);
         }
+        #otherEnroll:checked {
+            background: black;
+        }
         
         /*내 일정 수정*/
         #modifyModal, #addModal {
@@ -312,20 +315,15 @@
                             <input type="checkbox" id="checkMySch" checked>
                             <span class="scheduleBoxName" readonly>내 일정</span>
                         </div>
-
-                        <!--반복문 돌리기-->
+                        
+                        <!-- 그룹 조회 반복문 돌리기-->
                         <div class="oneScheduleBox">
-                            <!-- <input type="checkbox" class="checkSchGroup" checked>
-                            <span class="scheduleBoxName schGroupName">ㅋㅋㅋㅋ</span>
-                            <span class="editScheduleBox dropdown dropend">
-                                <button class="" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="resources/images/mail/edit.png" width="20px">
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                                  <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modifyGroup" style="font-size:14px">그룹 수정</a></li>
-                                  <li><a class="dropdown-item" href="" style="font-size:14px">그룹 삭제</a></li>
-                                </ul>
-                            </span> -->
+                                  
+                        </div>
+                        <!-- 다른 사람이 등록한 일정 -->
+                        <div style="margin-left: 15px;">
+                            <input type="checkbox" class="checkSchGroup" id="otherEnroll" >
+                            <span class="scheduleBoxName schGroupName">다른 사람이 등록한 일정</span>
                         </div>
                     </div>
                     
@@ -543,6 +541,11 @@
                     groupList();
                 })
 
+                // 모달 닫으면 입력값 reset되게
+                $('.modal').on('hidden.bs.modal', function (e) {
+                    $(this).find('form')[0].reset();
+                });
+
                 // 캘린더 그룹 조회
                 function groupList(){
                     $.ajax({
@@ -552,6 +555,7 @@
                             for(let i=0; i<slist.length; i++){
                                 value += '<div class="hover" style="margin-bottom:10px;">'
                                             + '<input type="checkbox" class="checkSchGroup" id="'+ slist[i].groupColor +'" value="'+ slist[i].groupColor +'" checked>'
+                                            + '<input type="hidden" name="groupNoValue" value="'+ slist[i].groupNo +'">'
                                             + '<span class="scheduleBoxName schGroupName">' + slist[i].groupName + '</span>'
                                             + '<span class="editScheduleBox dropdown dropend" >'
                                                     + '<button class="" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false" style="display:none">'
@@ -626,6 +630,8 @@
                     })
 
                 }
+                
+                
 
 
             </script>

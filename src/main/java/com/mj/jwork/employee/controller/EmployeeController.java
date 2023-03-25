@@ -708,14 +708,19 @@ public class EmployeeController {
 		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		e.setLoginNo(loginNo);
 		
-		ArrayList<Schedule> mySchList = eService.ajaxSelectMySchedule(loginNo);
-		ArrayList<Schedule> attSchList = eService.ajaxSelectAttSchedule(loginNo); // 다른 사람이 나를 참석자로 등록
+//		ArrayList<Schedule> mySchList = eService.ajaxSelectMySchedule(loginNo);
+//		ArrayList<Schedule> attSchList = eService.ajaxSelectAttSchedule(loginNo); // 다른 사람이 나를 참석자로 등록
+//		
+//		Map<String, ArrayList> data = new HashMap<>();
+//		data.put("mySchList", mySchList);
+//		data.put("attSchList", attSchList);
+//		
+//		return new Gson().toJson(data);
 		
-		Map<String, ArrayList> data = new HashMap<>();
-		data.put("mySchList", mySchList);
-		data.put("attSchList", attSchList);
+		ArrayList<Schedule> sList = eService.ajaxSelectSchedule(loginNo);
+		return new Gson().toJson(sList);
+
 		
-		return new Gson().toJson(data);
 	}
 	
 	// 일정 상세 조회
@@ -742,15 +747,12 @@ public class EmployeeController {
 	@RequestMapping("updateSchedule.emp")
 	public String updateSchedule(Schedule s, String attendance, int schNo, int attendanceOld, HttpSession session, Model model) {
 		
-		
-		
 		String[] attendanceArr = attendance.split(",");
-		//System.out.println(attendanceArr);
-		//System.out.println(Arrays.toString(attendanceArr));
+		//System.out.println(attendance);
 		
-		//int result1 = eService.deleteAttendee(schNo);			// 먼저 참석자 모두 delete
-		//int result2 = eService.updateAttendee(attendanceArr);	// 참석자 insert
-		//int result3 = eService.updateSchedule(s);				// 일정 수정 update
+		//eService.deleteAttendee(schNo);			// 먼저 참석자 모두 delete
+		//eService.updateAttendee(attendanceArr);	// 참석자 insert
+		//eService.updateSchedule(s);				// 일정 수정 update
 		int result1 = 0;
 		int result2 = 0;
 		int result3 = 0;
@@ -799,9 +801,22 @@ public class EmployeeController {
 					return "common/errorPage";
 				}
 			}
-		}
-
-			
+		}	
 	}
+	
+	// 일정 삭제
+	@ResponseBody
+	@RequestMapping("deleteSchedule.emp")
+	public String ajaxDeleteSchedule(int schNo, Integer enrollEmpNo, HttpSession session, Model model) {
+		int loginNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		Schedule s = new Schedule();
+		s.setLoginNo(loginNo);
+		s.setSchNo(schNo);
+		
+		int result = eService.ajaxDeleteSchedule(s);
+		return result > 0 ? "success" : "fail";		
+
+	}
+	
 	
 }
