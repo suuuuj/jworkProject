@@ -128,7 +128,7 @@
     	 
                  events: [
                 		<c:forEach var="c" items="${list}">
-                     		{ id: '${c.resNo}', resourceId: '${c.carName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.carName}'},
+                     		{ id: '${c.resNo}', resourceId: '${c.carName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.carName}', color: '#FF5B5B'},
                    	  		
                    		 </c:forEach>
                  ]
@@ -226,9 +226,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>차량 대표 이미지</th>
+                        <th>차량 이미지</th>
                         <td>
-                        	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/imgAdd.png'/>"   width="100px" height="70px" readonly>
+                        	&nbsp; &nbsp;&nbsp;<img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/imgAdd.png'/>"   width="190px" height="120px" readonly>
                         </td>
                     </tr>
                     <tr>

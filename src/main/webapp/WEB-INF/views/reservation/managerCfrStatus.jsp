@@ -13,7 +13,9 @@
 	.fc-daygrid-day-frame,.fc-timegrid-axis-frame-liquid,.fc-timegrid-axis{
 	display:none;
 	}
-	
+	  #cfrDetail tr td{
+    	 height: 30px;
+    }
 </style>
     <meta charset='utf-8' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.js'></script>
@@ -26,6 +28,7 @@
     		  schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
     		  expandRows: true,
     		  timeZone: 'local',
+    		  selectable: true,
     		 slotMinTime: "09:00:00", // 최소시간
              slotMaxTime: "20:00:00", // 최대시간 (23시까지만 화면에 보여짐)
     	    initialView: 'resourceTimeGridDay',
@@ -75,6 +78,30 @@
             locale: 'ko',
             day:'numeric',
             navLinks: true,
+            select:function(info){
+
+            	$.ajax({
+            		url:"adetail.cfr"
+            	   ,data:{cfrName:info.resource.id}
+            	   ,success:function(c){
+            			$("#cfN").text(c.cfrName);
+            			$("#cfrImg").attr("src",c.firstImg);
+            			$("#cap").text(c.capacity);
+            		
+            			var equipment = c.equipment.split(","); 
+            			$("#eq").text(equipment);
+            	   },error:function(){
+            		   
+            		   console.log("ajax통신에러");
+            	   }
+            	   
+            	});
+            	
+        		
+        		
+        		$("#cfrDetailView").modal("show");
+        		
+           	},
     	    resources: [
     	      $.ajax({
     	    		url:"list.acfrn",
@@ -323,6 +350,8 @@
             					+"</button>";
             			
             			value2+="<option>"+list[i].cfrName+"</option>";
+            			
+            			
             		
             		}
             		
@@ -351,6 +380,7 @@
         			$("#firstImg").attr("src",c.firstImg);
         			$("#capacity").text(c.capacity);
         			var equipment = c.equipment.split(","); 
+        			
         			$("#equipment").text(equipment);
         	   },error:function(){
         		   
@@ -466,5 +496,59 @@
 	    	
 	  
 	    </script>
+	     <div class="modal" id="cfrDetailView">
+        <div class="modal-dialog">
+        <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <h4 class="modal-title">회의실 상세 정보</h4>
+            <button type="button" class="close" data-dismiss="modal" onclick=" $('#cfrDetailView').modal('hide');">&times;</button>
+            </div>
+    
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table id="cfrDetail">
+                    <tr >
+                        <th >회의실명</th>
+                        <td>
+                            <div class="col-10">
+                            	<span id="cfN"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>회의실 이미지</th>
+                        <td>
+                        	&nbsp; &nbsp;&nbsp;<img id="cfrImg"   width="190px" height="120px" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th >인원</th>
+                        <td>
+                          <div class="col-10">
+                         	 <span id="cap"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th >장비</th>
+                        <td>
+                           <div class="col-10">
+                           	<span id="eq"></span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+    
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal" onclick=" $('#carDetailView').modal('hide');">닫기</button>
+            </div>
+    
+        </div>
+        </div>
+    </div>
   </body>
 </html>
