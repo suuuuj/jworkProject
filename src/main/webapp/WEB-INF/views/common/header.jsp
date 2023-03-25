@@ -281,7 +281,7 @@
                     <div class="profile-area">
                         <li class="profileInformation">
                             <div class="info-box dropdown-item-text">
-                                <div class="left"><a href="myPage.emp"><img class="menubarProfileImg" src="<c:out value='${ loginUser.profileUrl }' default='resources/images/common/profileDefault3.png' />" /></a></div>
+                                <div class="left"><img class="menubarProfileImg" src="<c:out value='${ loginUser.profileUrl }' default='resources/images/common/profileDefault3.png' />" /></div>
                                 <div class="right">
                                     <span class="name">${ loginUser.empName }</span> <span class="number">${loginUser.empNo}</span>
                                     <p style="font-size: 12px;">${ loginUser.deptName }&nbsp;${ loginUser.teamName }&nbsp;${ loginUser.jobName }</p>
@@ -290,7 +290,7 @@
                         </li>
                         <li class="profileControl">
                             <div class="dropdown-item-text profileControl-area">
-                                <button class="btn btn-outline-success">마이페이지</button>&nbsp;&nbsp;<button class="btn btn-outline-warning">로그아웃</button>
+                                <a class="btn btn-outline-success" href="myPage.emp">마이페이지</a>&nbsp;&nbsp;<a class="btn btn-outline-warning" href="logout.emp">로그아웃</a>
                             </div>
                         </li>
                         
