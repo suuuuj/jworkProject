@@ -23,7 +23,7 @@
      <jsp:include page="../common/menubar.jsp"/>
     <div class="outer"  style="width:900px; margin:20px;">
         <h2>차량 예약 승인 관리</h2>
-        <hr><br>
+        <hr>
         <div>
             <div class="select-area">
                <select name="option" id="option" >
@@ -31,7 +31,7 @@
                     <option value="1,2,3" >전체예약</option>
                </select>
             </div>
-            <br><br>
+            <br>
             <div id="">
                 <table class="table table-hover text-center" style="width:900px;">
                     <thead>

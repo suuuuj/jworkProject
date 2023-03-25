@@ -39,11 +39,11 @@
       <jsp:include page="../common/menubar.jsp"/>
        <div class="outer" style="width:940px;  margin:20px;">
         <h2>차량 관리</h2>
-        <hr><br>
+        <hr>
         <div>
             <div class="btn-area" >
                 <a class="btn  btn-secondary" href="enrollForm.car">+차량 등록</a>
-                <a class="btn  btn-light" href="">승인 관리</a>
+                <a class="btn  btn-light" href="confirmList.car">승인 관리</a>
             </div>
             <br>
             <div id="img-area" style="width:940px;">
