@@ -50,4 +50,9 @@ public class CarServiceImpl implements CarService{
 		return cDao.selectNList(sqlSession);
 	}
 
+	@Override
+	public int updateCar(Car c) {
+		return cDao.updateCar(sqlSession,c);
+	}
+
 }

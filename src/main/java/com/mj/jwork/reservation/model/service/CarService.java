@@ -24,4 +24,7 @@ public interface CarService {
 	
 	//차량이름조회
 	ArrayList<Car> selectNList();
+	
+	//차량정보 업데이트
+	int updateCar(Car c);
 }
