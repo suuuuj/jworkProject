@@ -260,8 +260,7 @@
                         }
                     })
                 })
-            
-            
+                
             </script>
             
             <div class="approvalContent quit" align="center">
@@ -273,7 +272,13 @@
                         <th id="appThead">입사년도</th>
                         <td id="indate">${ loginUser.enrollDate }</td>
                         <th id="appThead">퇴사 예정일</th>
-                        <td id="indate"><input type="date" name="quitDate" ></td>
+                        <td id="indate"><input type="date" name="quitDate" id="quitDate" ></td>
+                        <script>
+                        var today = new Date();
+      				    var threeWeeksLater = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 21);
+      				    var formattedDate = threeWeeksLater.toISOString().substr(0, 10);
+      				    document.getElementById("quitDate").min = formattedDate;
+                        </script>
                     </tr>
                 </table>
                 <br>
