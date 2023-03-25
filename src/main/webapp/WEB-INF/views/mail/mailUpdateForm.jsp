@@ -18,123 +18,130 @@
     }
 	#mailHeader tr{height: 60px;}
 	.content-title{
-            font-size: 2em;
-            width: 200px;
-        }
-        #saveMailBtn{
-            color: gray;
+        font-size: 1.5em;
+        width: 200px;
+        font-weight: bolder;
+    }
+    #saveMailBtn{
+        color: gray;
+        font-weight: bold;
+    }
+    #saveMailBtn:hover{
+        color: gray;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+    .attachNotice{
+        font-size: 0.8em;
+        color: gray;
+    }
+    .fileArea{
+        height: 100px;
+        width: 850px;
+        border: 0.5px solid gray;
+        font-size: 0.8em;
+        overflow: auto;
+        
+    }
+    .nofile{
+        margin: 5px;
+        color: gray;
+    }
+    .enroll-form textarea{
+        width:850px;
+    }
 
-        }
-        .attachNotice{
-            font-size: 0.8em;
-            color: gray;
-        }
-        .fileArea{
-            height: 100px;
-            width: 850px;
-            border: 0.5px solid gray;
-            font-size: 0.8em;
-            overflow: auto;
-            
-        }
-        .nofile{
-            margin: 5px;
-            color: gray;
-        }
-        .enroll-form textarea{
-            width:850px;
-        }
-        
-        #receiver, #mailTitle{
-            border:none;
-        }
-        .receiverInput, .titleInput{
-            height: 40px;
-            border-bottom: 1px solid rgb(193, 193, 193);
-        }
-        
-        
-        #receiver:focus, #mailTitle:focus{
-            outline: none; /* outline 테두리 없애기 */
-        }
-        #receiver-list{
-            margin-top: 0px;
-            list-style-type : none;
-            line-height: 30px;
-            padding: 0px;
-            display:inline-block;
-            margin-bottom: 0px;
-        }
-        .receiver-li{
-            display: inline-block;
-            background-color: lightgray;
-            color: black;
-            border-radius: 1em;
-            padding-left: 7px;
-            padding-right: 7px;
-            font-size: 13px;
-        }
-        .receiver-delete{
-            display: inline-block;
-            background-color: none;
-            margin-right: 15px;
-            font-size: 18px;
-            box-sizing: border-box;
-            line-height: 30px;
-        }
-        .receiver-delete:hover{cursor: pointer;}
-        
-        .file-block{
-            margin: 5px;
-            color: initial;
-            display: flex;
-        }
-        .file-block span.name{
-            padding-right: 10px;
-            width: max-content;
-            display: inline-flex;
-        }
-        .file-delete, .originFile-delete{
-            display: inline-block;
-            width: 18px;
-            color: initial;
-            font-size: 13px;
-            justify-content: center;
-            margin-right: 3px;
-            cursor: pointer;
-        }
-        .file-delete:hover, .originFile-delete{cursor: pointer;}
-        /*
-        .file-delete{
-            display: inline-block;
-            background-color: none;
-            margin-left: 5px;
-            margin-right: 15px;
-            font-size: 13px;
-            box-sizing: border-box;
-            line-height: 20px;
-        }
-        .file-delete:hover{cursor: pointer;}
-        */
-        form input::file-selector-button {
-            display: none;
-        }
-        form .files{
-            width: auto;
-        }
-        #tree{
-            font-size: 12px;
-        }
-    
-        .emp:hover{
-            cursor: pointer;
-        }
-        .employeeChart{
-            padding-left: 10px;
-            height: 300px;
-            width: 200px;
-            overflow: auto;
-        }
+    #receiver, #mailTitle{
+        border:none;
+    }
+    .receiverInput, .titleInput{
+        height: 40px;
+        border-bottom: 1px solid rgb(193, 193, 193);
+    }
+
+
+    #receiver:focus, #mailTitle:focus{
+        outline: none; /* outline 테두리 없애기 */
+    }
+    #receiver-list{
+        margin-top: 0px;
+        list-style-type : none;
+        line-height: 30px;
+        padding: 0px;
+        display:inline-block;
+        margin-bottom: 0px;
+    }
+    .receiver-li{
+        display: inline-block;
+        background-color: lightgray;
+        color: black;
+        border-radius: 1em;
+        padding-left: 7px;
+        padding-right: 7px;
+        font-size: 13px;
+    }
+    .receiver-delete{
+        display: inline-block;
+        background-color: none;
+        margin-right: 15px;
+        font-size: 18px;
+        box-sizing: border-box;
+        line-height: 30px;
+    }
+    .receiver-delete:hover{cursor: pointer;}
+
+    .file-block{
+        margin: 5px;
+        color: initial;
+        display: flex;
+    }
+    .file-block span.name{
+        padding-right: 10px;
+        width: max-content;
+        display: inline-flex;
+    }
+    .file-delete, .originFile-delete{
+        display: inline-block;
+        width: 18px;
+        color: initial;
+        font-size: 13px;
+        justify-content: center;
+        margin-right: 3px;
+        cursor: pointer;
+    }
+    .file-delete:hover, .originFile-delete{cursor: pointer;}
+    /*
+    .file-delete{
+        display: inline-block;
+        background-color: none;
+        margin-left: 5px;
+        margin-right: 15px;
+        font-size: 13px;
+        box-sizing: border-box;
+        line-height: 20px;
+    }
+    .file-delete:hover{cursor: pointer;}
+    */
+    form input::file-selector-button {
+        display: none;
+    }
+    form .files{
+        width: auto;
+    }
+    #tree{
+        font-size: 12px;
+    }
+
+    .emp:hover{
+        cursor: pointer;
+    }
+    .employeeChart{
+        padding-left: 10px;
+        height: 300px;
+        width: 200px;
+        overflow: auto;
+    }
 
 </style>
 </head>
@@ -144,7 +151,7 @@
 	
 	<br>
 	<div class="mailOuter">
-        <span class="content-title">메일 쓰기&nbsp;&nbsp;</span> <a id="saveMailBtn" href="#">임시보관 메일 4</a>
+                <span class="content-title">메일 쓰기&nbsp;&nbsp;</span> <a id="saveMailBtn" href="list.ma?mailCategory=임시보관함">임시보관 메일 ${savedMailCount}개</a>
                 <div class="line"></div>
                 <div class="space"></div>
                 
@@ -153,10 +160,17 @@
                 <button id="toMe" type="button" class="btn btn-outline-secondary btn-sm">내게쓰기</button>&nbsp;
 
                 <script>
+                    var checkUnload = true;
+                    // 페이지를 나갈 경우에 실행되는 함수
+                    $(document).on("beforeunload", function() {
+                        if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+                    });
 
+                    //단, 보내기 혹은 임시저장 버튼을 클릭할때는 메시지가 뜨지않도록 checkUnload를 false로 변경 후 이동
                     // 메일 임시저장시 실행되는 함수
                     function saveMail(){
                         $("#sendType").val('N');
+                        checkUnload = false;
                         $("#mailForm").submit();
 
                     }
@@ -175,7 +189,7 @@
                                 
                                 //let formData = new FormData(document.getElementById("mailForm"));
                                 //console.log(formData.get("senderNo"));
-
+                                checkUnload = false;
                                 $("#mailForm").submit();
 
 
@@ -184,7 +198,7 @@
                                 return false;
                             }
                         }
-
+                        checkUnload = false;
                         $("#mailForm").submit();
 
                     }

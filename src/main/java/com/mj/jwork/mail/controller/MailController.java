@@ -130,7 +130,11 @@ public class MailController {
 	
 	//메일작성페이지 포워딩
 	@RequestMapping("mailEnrollForm.ma")
-	public String mailEnrollForm() {
+	public String mailEnrollForm(HttpSession session, Model m) {
+		
+		int savedMailCount = mService.savedMailCount(((Employee)session.getAttribute("loginUser")).getEmpNo());
+		
+		m.addAttribute("savedMailCount", savedMailCount);
 		
 		return "mail/mailEnrollForm";
 		
@@ -271,6 +275,8 @@ public class MailController {
 		
 	}
 	
+	
+	// 메일 상세페이지
 	@RequestMapping("detail.ma")
 	public ModelAndView selectMail(Mail m, String mailCategory, String mailBoxName, HttpSession session, ModelAndView mv) {
 		
@@ -294,12 +300,17 @@ public class MailController {
 		
 	}
 	
+	// 메일 임시작성 페이지 포워딩
 	@RequestMapping("updateForm.ma")
 	public ModelAndView updateForm(Mail m, HttpSession session, ModelAndView mv) {
-		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
 		
+		// 임시저장 메일 불러오
+		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
 		Mail mi = mService.selectMail(m);
-		mv.addObject("mi", mi).setViewName("mail/mailUpdateForm");
+		
+		// 임시저장 메일 개수
+		int savedMailCount = mService.savedMailCount(((Employee)session.getAttribute("loginUser")).getEmpNo());
+		mv.addObject("mi", mi).addObject("savedMailCount", savedMailCount).setViewName("mail/mailUpdateForm");
 		
 		return mv;
 		
@@ -307,14 +318,17 @@ public class MailController {
 	
 	@RequestMapping("updateMail.ma")
 	public ModelAndView updateMail(Mail m, @RequestPart(value="upfile") List<MultipartFile> upfile, String deleteAt, 
-													String deleteOrigins, HttpSession session, ModelAndView mv) {
+												String deleteOrigins, HttpSession session, ModelAndView mv) {
 		
-		String deleteAtArr[] = deleteAt.split(",");
-		String deleteOriginsArr[] = deleteOrigins.split(",");
-		
+		System.out.println("m : " + m);
 		int result = mService.updateMail(m);
+		
+		
 		int attachResult = 1;
-		if(result > 0) {
+		// 기존 첨부파일 있었다면
+		if(result > 0 && !deleteAt.isEmpty()) {
+			String deleteAtArr[] = deleteAt.split(",");
+			String deleteOriginsArr[] = deleteOrigins.split(",");
 			for(int i=0; i<deleteAtArr.length; i++) {
 				
 				attachResult = attachResult * mService.deleteMailAt(Integer.parseInt(deleteAtArr[i]));
@@ -324,67 +338,75 @@ public class MailController {
 				}
 				
 			}
+		}
+		
+		
+		int mailAtResult = 1;
+		// 첨부파일 있다면
+		if(!upfile.get(0).getOriginalFilename().equals("")) {
 			
-			int mailAtResult = 1;
-			if(attachResult > 0) {
-				if(!upfile.get(0).getOriginalFilename().equals("")) {
-					for(int i=0; i<upfile.size(); i++) {
-						System.out.println(upfile.get(i).getOriginalFilename());
-						String saveFilePath = FileUpload.saveFile(upfile.get(i), session, "resources/mailUploadFiles/");
-						
-						MailAt ma = new MailAt();
-						ma.setOriginName(upfile.get(i).getOriginalFilename());
-						ma.setChangeName(saveFilePath);
-						
-						mailAtResult = mailAtResult * mService.insertMailAt(ma);
-						
-					}
-				}
+			for(int i=0; i<upfile.size(); i++) {
+				System.out.println(upfile.get(i).getOriginalFilename());
+				String saveFilePath = FileUpload.saveFile(upfile.get(i), session, "resources/mailUploadFiles/");
 				
-				if(mailAtResult > 0){
-					Mail md = new Mail();
-					if(m.getSend().equals("Y")) {
-						
-						int detailResult = 1;
-						String[] receiverArr = m.getReceiver().split(",");
-						String[] receiverNoArr = m.getReceiverNo().split(",");
-						
-						for(int i=0; i<receiverArr.length; i++) {
-							
-							md.setEmpNo(Integer.parseInt(receiverNoArr[i]));
-							md.setEmpName(receiverArr[i]);
-							md.setType("R");
-							System.out.println(md);
-							detailResult = detailResult * mService.insertMailDetail(md);
-							
-						}
-						if(detailResult > 0) {
-							mv.addObject("send", "Y")
-							  .addObject("message", "메일 전송 성공!")
-							  .addObject("subMessage", "보낸 메일은 보낸 메일함에서 확인 가능합니다.")
-							  .setViewName("mail/mailSuccess");
-						}else {
-							mv.setViewName("common/errorPage");
-						}
-						
-						
-					} else {
-						mv.addObject("send", "N")
-						  .addObject("message", "임시저장 성공!")
-						  .addObject("subMessage", "임시저장 메일은 임시저장함에서 확인 가능합니다.")
-						  .setViewName("mail/mailSuccess");
-					}
-				} else {
+				MailAt ma = new MailAt();
+				ma.setOriginName(upfile.get(i).getOriginalFilename());
+				ma.setChangeName(saveFilePath);
+				
+				mailAtResult = mailAtResult * mService.insertMailAt(ma);
+				
+			}
+		}
+				
+		if(mailAtResult > 0){
+			// 메일 전송이었다면
+			if(m.getSend().equals("Y")) {
+				Mail md = new Mail();
+				int detailResult = 1;
+				String[] receiverArr = m.getReceiver().split(",");
+				String[] receiverNoArr = m.getReceiverNo().split(",");
+				
+				for(int i=0; i<receiverArr.length; i++) {
+				
+					md.setEmpNo(Integer.parseInt(receiverNoArr[i]));
+					md.setEmpName(receiverArr[i]);
+					md.setType("R");
+					System.out.println("md : " + md);
+					detailResult = detailResult * mService.insertMailDetail(md);
+					Alarm a = new Alarm();
+					a.setTargetNo(md.getEmpNo());
+					a.setAlarmMsg(m.getSender() + "님이 메일을 보냈습니다.");
+					a.setRefNo(m.getMailNo());
+					a.setRefType("mail");
+					a.setUrl("detail.ma?mailNo=" + m.getMailNo() + "&mailCategory=받은메일함");
+					
+					// 알람 테이블 insert
+					aService.insertAlarm(a);
+					// 메세지 보내는 구문
+					SendAlarm.sendAlarm(a, ec.getSessionList());
+					
+					
+				}
+				if(detailResult > 0) {
+					mv.addObject("send", "Y")
+					  .addObject("message", "메일 전송 성공!")
+					  .addObject("subMessage", "보낸 메일은 보낸 메일함에서 확인 가능합니다.")
+					  .setViewName("mail/mailSuccess");
+				}else {
 					mv.setViewName("common/errorPage");
 				}
 				
-			}else {
-				mv.setViewName("common/errorPage");
+			// 다시 임시저장이었다면
+			} else {
+				mv.addObject("send", "N")
+				  .addObject("message", "임시저장 성공!")
+				  .addObject("subMessage", "임시저장 메일은 임시저장함에서 확인 가능합니다.")
+				  .setViewName("mail/mailSuccess");
 			}
-			
-		}else {
+		} else {
 			mv.setViewName("common/errorPage");
 		}
+				
 		
 		return mv;
 		

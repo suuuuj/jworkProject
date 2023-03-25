@@ -579,4 +579,15 @@
 		   and emp_no = #{empNo}
 	</update>
 	
+	<select id="savedMailCount" resultType="_int">
+		select
+	           count(*)
+	      from mail
+	      left
+	      join mail_detail using (mail_no)
+	     where send = 'N'
+	       and status = 'Y'
+	       and sender_no = #{empNo}
+	</select>
+	
 </mapper>
