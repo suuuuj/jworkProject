@@ -122,6 +122,11 @@ public class MailServiceImpl implements MailService{
 		return mDao.cancelSend(sqlSession, m);
 	}
 
+	@Override
+	public int savedMailCount(int empNo) {
+		return mDao.savedMailCount(sqlSession, empNo);
+	}
+
 	
 
 	

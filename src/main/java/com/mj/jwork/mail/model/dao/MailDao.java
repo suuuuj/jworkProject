@@ -142,5 +142,11 @@ public class MailDao {
 		
 	}
 	
+	public int savedMailCount(SqlSessionTemplate sqlSession, int empNo) {
+		
+		return sqlSession.selectOne("mailMapper.savedMailCount", empNo);
+		
+	}
+	
 	
 }

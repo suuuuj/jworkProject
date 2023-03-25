@@ -177,14 +177,26 @@
         background-color: rgb(130, 180, 130);
         cursor:pointer;
     }
-    #alarmBtn{
+    #alarmBtn, #profileBtn{
         border:none;
         background-color: white;
     }
-    .alarm-area{
+    .alarm-area {
         width: 300px;
         height: 300px;
         overflow: auto;
+    }
+    .profile-area{
+        height: 150px;
+        width: 300px;
+    }
+    .number{
+        font-size: 12px;
+        color: gray;
+    }
+    .profileControl-area{
+        margin-top: 10px;
+        text-align: center;
     }
     .alarms{
         height: 40px;
@@ -264,7 +276,26 @@
                     </div>
                 </ul>
                 &nbsp;&nbsp;
-                <a href="#"><img class="headerIcon" src="resources/images/common/profileDefault3.png" alt=""></a>
+                <button id="profileBtn"  data-bs-toggle="dropdown" data-bs-auto-close="outside"><img class="headerIcon" src="resources/images/common/profileDefault3.png" alt=""></button>
+                <ul class="dropdown-menu">
+                    <div class="profile-area">
+                        <li class="profileInformation">
+                            <div class="info-box dropdown-item-text">
+                                <div class="left"><img class="menubarProfileImg" src="<c:out value='${ loginUser.profileUrl }' default='resources/images/common/profileDefault3.png' />" /></div>
+                                <div class="right">
+                                    <span class="name">${ loginUser.empName }</span> <span class="number">${loginUser.empNo}</span>
+                                    <p style="font-size: 12px;">${ loginUser.deptName }&nbsp;${ loginUser.teamName }&nbsp;${ loginUser.jobName }</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="profileControl">
+                            <div class="dropdown-item-text profileControl-area">
+                                <a class="btn btn-outline-success" href="myPage.emp">마이페이지</a>&nbsp;&nbsp;<a class="btn btn-outline-warning" href="logout.emp">로그아웃</a>
+                            </div>
+                        </li>
+                        
+                    </div>
+                </ul>
             </div>
             <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>          
             <script>
