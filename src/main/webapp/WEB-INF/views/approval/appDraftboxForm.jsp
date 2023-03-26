@@ -628,16 +628,19 @@
                         $("#name1").text(name);
                         $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
                         $("#app-list").append("<input type='hidden' name='alist[" +count + "].appLevel' value='1'>");
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].appNo' value='${a.appNo}'>");
                     }else if(count == 1){
                         $("#job2").text(job);
                         $("#name2").text(name);
                         $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
                         $("#app-list").append("<input type='hidden' name='alist[" +count + "].appLevel' value='2'>");
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].appNo' value='${a.appNo}'>");
                     }else if(count == 2){
                         $("#job3").text(job);
                         $("#name3").text(name);
                         $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
                         $("#app-list").append("<input type='hidden' name='alist[" +count + "].appLevel' value='3'>");
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].appNo' value='${a.appNo}'>");
                     }
                     
                     const target = document.getElementById('sbmitAppBtn');

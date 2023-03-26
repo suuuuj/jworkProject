@@ -69,7 +69,7 @@
 		 </if>
 		   and emp_no = #{empNo}
 		 order
-		    by app_no desc
+		    by create_date desc
 	</select>
 	
 	<!-- 문서 상세 조회 -->
@@ -147,7 +147,7 @@
 	      and al.emp_no = #{empNo}
 	      and app_status in (0,1)
 	    order
-	       by app_no desc
+	       by create_date desc
       
     </select>
     
@@ -179,7 +179,7 @@
 	      and al.confirm_status not in (0)
 	      and al.emp_no = #{empNo}
 	    order
-	       by app_no desc
+	       by create_date desc
     </select>
     
      <!-- 임시저장함 문서 게시글 수 카운트 -->
@@ -403,6 +403,7 @@
 		     , DOC_STATUS = 'D'
 		     , QUIT_DATE = #{quitDate}
 		     , create_date = sysdate
+		     , app_count = 0
 		 where APP_NO = #{appNo}
     </update>
     
@@ -436,7 +437,13 @@
     	     , quit_date = #{quitDate}
          where app_no = #{appNo}
     </update>
-  
+    
+    <!-- 기존 결재선 삭제 -->
+    <delete id="deleteAppLine">
+  		DELETE 
+  		  FROM APP_LINE 
+ 		 WHERE app_no = #{appNo}
+    </delete>
     
     <!-- 상신취소문서 재결재  -->
     
@@ -453,6 +460,42 @@
 			 , APP_TURN = 1
 			 , QUIT_DATE = #{quitDate}
     	 where APP_NO = #{appNo}
+    </update>
+    
+        <!-- 임시저장에서의 결재선 insert -->
+    <insert id="reinsertAppLine">
+	    insert 
+	      into app_line
+			 (
+			   LINE_NO
+			 , APP_NO
+			 , EMP_NO
+			 , APP_LEVEL
+			 , CONFIRM_STATUS
+			 )
+	    values
+			 (
+			   SEQ_ALNO.nextval
+			 , #{appNo}
+			 , #{empNo}
+			 , #{appLevel}
+			 , 0
+			 )
+    </insert>
+    
+    <update id="insertCancleApp">
+		update approval
+		   set  create_date = sysdate
+		      , doc_title = #{docTitle}
+		      , doc_content = #{docContent}
+		      , doc_originname = #{docOriginName}
+		      , doc_filepath = #{docFilePath}
+		      , app_status = 0
+		      , doc_status = 'Y'
+		      , app_count = #{appCount}
+		      , app_turn = 1
+		      , quit_date = #{quitDate}
+	      where app_no = #{appNo}
     </update>
 
     

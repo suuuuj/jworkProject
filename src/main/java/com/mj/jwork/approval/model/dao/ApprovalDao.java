@@ -163,11 +163,44 @@ public class ApprovalDao {
 		return sqlSession.update("approvalMapper.resaveApproval",a);
 	}
 	
-	// 임시저장문서 결재
-		public int insertDrafbox(SqlSessionTemplate sqlSession, Approval a) {
-			return sqlSession.update("approvalMapper.insertDrafbox",a);
-		}
+	// 상신-> 임시저장 기존 결재선 삭제
+	public int deleteAppLine(SqlSessionTemplate sqlSession, Approval a) {
+		
+		return sqlSession.delete("approvalMapper.deleteAppLine",a);
+		
+	}
 	
+	// 임시저장문서 결재
+	public int insertDrafbox(SqlSessionTemplate sqlSession, Approval a) {
+		return sqlSession.update("approvalMapper.insertDrafbox",a);
+	}
+
+	// 재결재시 재결재선 insert
+	public int reinsertAppLine(SqlSessionTemplate sqlSession, Approval a) {
+		int count = 0;
+		
+		ArrayList<AppLine> alist = new ArrayList<>();
+		alist = a.getAlist();
+		//System.out.println("alist: " + alist);
+		
+		for(AppLine al : alist) {
+			
+			count += sqlSession.insert("approvalMapper.reinsertAppLine",al);
+		}
+		
+		return count;
+	}
+	
+	// 상신취소 재결재
+	public int insertCancleApp(SqlSessionTemplate sqlSession, Approval a) {
+		return sqlSession.update("approvalMapper.insertCancleApp",a);
+	}
+	
+	
+	
+
+	
+
 
 	
 }
