@@ -404,6 +404,56 @@
 		     , QUIT_DATE = #{quitDate}
 		     , create_date = sysdate
 		 where APP_NO = #{appNo}
-		  
     </update>
+    
+    <!-- 임시저장문서 결재 -->
+    <update id="insertDrafbox">
+    	update approval
+    	   set  <if test="docType == 0">
+    	        doc_no = '기안2023-'||(select count(doc_no)+1
+							            from approval
+				                       where doc_no like '기안%')
+				</if>
+				<if test="docType == 1">
+    	        doc_no = '품의2023-'||(select count(doc_no)+1
+							            from approval
+				                       where doc_no like '품의%')
+				</if>
+				<if test="docType == 2">
+    	        doc_no = '사직2023-'||(select count(doc_no)+1
+									    from approval
+						               where doc_no like '사직%')
+				</if>
+    	     , create_date = sysdate
+    	     , doc_title = #{docTitle}
+    	     , doc_content = #{docContent}
+    	     , doc_originname = #{docOriginName}
+    	     , doc_filepath = #{docFilePath}
+    	     , app_status = 0
+    	     , doc_status = 'Y'
+    	     , app_count = #{appCount}
+    	     , app_turn = 1
+    	     , quit_date = #{quitDate}
+         where app_no = #{appNo}
+    </update>
+  
+    
+    <!-- 상신취소문서 재결재  -->
+    
+    <update id="updateApp">
+    	update approval
+    	   set UPDATE_DATE = sysdate
+			 , DOC_TITLE = #{docTitle}
+			 , DOC_CONTENT = #{docContent}
+			 , DOC_ORIGINNAME = #{docOriginName}
+			 , DOC_FILEPATH = #{docFilePath}
+			 , APP_STATUS = 0
+			 , DOC_STATUS = 'Y'
+			 , APP_COUNT = #{appCount}
+			 , APP_TURN = 1
+			 , QUIT_DATE = #{quitDate}
+    	 where APP_NO = #{appNo}
+    </update>
+
+    
 </mapper>

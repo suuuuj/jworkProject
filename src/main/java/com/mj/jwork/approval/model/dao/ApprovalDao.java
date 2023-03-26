@@ -159,14 +159,15 @@ public class ApprovalDao {
 	
 	//상신취소, 임시저장form에서의 임시저장
 	public int resaveApproval(SqlSessionTemplate sqlSession, Approval a) {
-		System.out.println(a);
+		//System.out.println(a);
 		return sqlSession.update("approvalMapper.resaveApproval",a);
 	}
+	
+	// 임시저장문서 결재
+		public int insertDrafbox(SqlSessionTemplate sqlSession, Approval a) {
+			return sqlSession.update("approvalMapper.insertDrafbox",a);
+		}
+	
 
 	
-	
-
-
-
-
 }

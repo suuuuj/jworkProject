@@ -334,14 +334,45 @@ public class ApprovalController {
 		}
 				
 	}
+
 	
+	//임시저장함에서의 재결재
+		@RequestMapping("insertDrafbox.app")
+		public String insertDrafbox(Approval a, MultipartFile reupfile, HttpSession session, Model model) {
+			//System.out.println(a);
+			//System.out.println(a.getAlist());
+			//System.out.println(a.getRlist());
+			
+			a.setAppCount(a.getAlist().size());
+			
+			
+			if(!reupfile.getOriginalFilename().equals("")) {
+				
+				if(a.getDocOriginName()!= null) {
+					new File(session.getServletContext().getRealPath(a.getDocFilePath())).delete();
+				}
+				
+				String saveFilePath = FileUpload.saveFile(reupfile,session,"resources/uploadFiles/");
+				
+				a.setDocOriginName(reupfile.getOriginalFilename());
+				a.setDocFilePath(saveFilePath);
+				
+			}
+			
+			int result = aService.insertDrafbox(a);
+			
+			
+			if(result>0) {
+				session.setAttribute("alertMsg","문서가 등록 되었습니다.");
+				return "redirect:mylist.app";
+			}else {// 문서등록 실패
+				model.addAttribute("errorMsg", "문서등록 실패");
+				return "common/errorPage";
+				
+			}
+		}
 	
-	
-	
-	
-	
-	
-	
+
 }
 
 

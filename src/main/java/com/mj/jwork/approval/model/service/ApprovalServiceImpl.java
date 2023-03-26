@@ -129,7 +129,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 		//System.out.println("result2 : " + result2);
 		int result3 = 1;
 		 
-		if (a.getRlist().size()>0) {
+		if (a.getRlist() != null && a.getRlist().size()>0) {
 	        result3 = aDao.insertNewRefLine(sqlSession,a);
 	   }
 		
@@ -141,9 +141,25 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int resaveApproval(Approval a) {
 		return aDao.resaveApproval(sqlSession,a);
 	}
-
 	
-
+	// 임시저장문서 결재
+	@Override
+	public int insertDrafbox(Approval a) {
+		
+		int result1 = aDao.insertDrafbox(sqlSession,a);
+		
+		//System.out.println("result1 : " + result1);
+		
+		int result2 = aDao.insertNewAppLine(sqlSession,a);
+		//System.out.println("result2 : " + result2);
+		int result3 = 1;
+		 
+		if (a.getRlist() != null && a.getRlist().size()>0) {
+	        result3 = aDao.insertNewRefLine(sqlSession,a);
+	   }
+		
+		return result1*result2*result3; 
+	}
 
 
 
