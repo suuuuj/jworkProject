@@ -29,7 +29,7 @@
         right: 5px;
       
     }
-  
+  #car-updateForm td{height:50px;}
 </style>
 
 <meta charset="UTF-8">
@@ -42,7 +42,7 @@
         <hr>
         <div>
             <div class="btn-area" >
-                <a class="btn  btn-secondary" href="enrollForm.car">+차량 등록</a>
+                <a class="btn  btn-success" href="enrollForm.car">+차량 등록</a>
                 <a class="btn  btn-light" href="confirmList.car">승인 관리</a>
             </div>
             <br>
@@ -169,7 +169,7 @@
             <!-- Modal body -->
             <div class="modal-body">
                <form action="update.car" method="post" enctype="multipart/form-data" >
-                <table id="car-updateForm">
+                <table id="car-updateForm" >
                     <tr>
                         <th >차량명</th>
                         <td>
@@ -181,7 +181,8 @@
                     <tr>
                         <th>차량 대표 이미지</th>
                         <td>
-                        	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/addImg.png'/>"   width="100px" height="70px" onclick="$('#carImgFile').click();">
+                        &nbsp;&nbsp;
+                        	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/addImg.png'/>"   width="180px" height="130px" onclick="$('#carImgFile').click();">
                              <input type="file" name="reupfile"  id="carImgFile" style="display:none;">
                         </td>
                     </tr>
@@ -245,7 +246,7 @@
                     <tr>
                         <th >비고</th>
                         <td>
-                            <textarea class="form-control" name="etc" id="" cols="30" rows="10" style="resize:none" name="etc" id="etc"></textarea>
+                            <textarea class="form-control" name="etc" id="" cols="26" rows="3" style="resize:none" name="etc" id="etc"></textarea>
                         </td>
                     </tr>
 
@@ -270,7 +271,7 @@
 						
                 <br><br>
                  <div class="btn-area" align="center">
-	                <button type="submit" class="btn btn-sm btn-secondary">수정하기</button>
+	                <button type="submit" class="btn btn-sm btn-success">수정하기</button>
             	</div>
             </form>
             </div>

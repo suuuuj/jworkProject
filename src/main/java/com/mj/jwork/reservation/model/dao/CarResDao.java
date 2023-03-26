@@ -69,4 +69,10 @@ public ArrayList<CarReservation> selectResList(SqlSessionTemplate sqlSession,Car
 		return (ArrayList)sqlSession.selectList("carMapper.selectResList2",c);
 		
 	}
+
+	public CarReservation ajaxselectCarRes(SqlSessionTemplate sqlSession, int resNo) {
+	
+	return sqlSession.selectOne("carMapper.ajaxselectCarRes",resNo);
+	
+}
 }

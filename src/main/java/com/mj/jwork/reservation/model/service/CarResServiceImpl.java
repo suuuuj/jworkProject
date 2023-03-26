@@ -67,6 +67,12 @@ public class CarResServiceImpl implements CarResService{
 	public ArrayList<CarReservation> selectResList(CarReservation c) {
 		return cDao.selectResList(sqlSession,c);
 	}
+
+
+	@Override
+	public CarReservation ajaxselectCarRes(int resNo) {
+		return cDao.ajaxselectCarRes(sqlSession,resNo);
+	}
 	
 	
 	
