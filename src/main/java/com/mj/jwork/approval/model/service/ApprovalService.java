@@ -62,7 +62,10 @@ public interface ApprovalService{
 	int selectRefListCount(int empNo);
 	ArrayList<Approval> selectRefList(PageInfo pi, int empNo);
 	
+	// 새로 생성된 문서 번호 가져오기
+	int selectCurrentAppNo();
 	
-
+	// 알람 보낼 정보 조회
+	Approval selectAppInfo(int newAppNo);
 
 }

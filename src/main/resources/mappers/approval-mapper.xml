@@ -22,6 +22,7 @@
 		<result column="job_name" property="jobName"/>
 		<result column="re_reason" property="reReason"/>
 		<result column="quit_date" property="quitDate"/>
+		<result column="target_no" property="targetNo"/>
 	</resultMap>
 	
 	<resultMap id="appLineResult" type="AppLine">
@@ -536,5 +537,27 @@
     </select>
     
 
+	
+	<select id="selectCurrentAppNo" resultType="_int">
+		select 
+		       seq_apno.currval 
+		  from dual
+	</select>
+	
+	<select id="selectAppInfo" resultMap="approvalResult">
+		select
+		       a.app_no
+		     , doc_no
+		     , app_count
+		     , app_turn
+		     , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
+		     , a.emp_no
+		     , al.emp_no "target_no"
+		  from approval a
+		  left
+		  join app_line al on (al.app_no = a.app_no)
+		 where a.app_no = #{newAppNo}
+		   and app_turn = app_level
+	</select>
     
 </mapper>

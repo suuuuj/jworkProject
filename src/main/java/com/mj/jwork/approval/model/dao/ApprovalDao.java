@@ -214,8 +214,19 @@ public class ApprovalDao {
 	
 
 	
+	// 새로 생성된 문서 번호 가져오기
+	public int selectCurrentAppNo(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("approvalMapper.selectCurrentAppNo");
+		
+	}
 	
-	
+	// 알람 보낼 문서 정보 가져오기
+	public Approval selectAppInfo(SqlSessionTemplate sqlSession, int newAppNo) {
+		
+		return sqlSession.selectOne("approvalMapper.selectAppInfo", newAppNo);
+		
+	}
 
 	
 
