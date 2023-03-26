@@ -58,6 +58,10 @@ public interface ApprovalService{
 	//상신취소문서 재결재
 	int reinsertApp(Approval a);
 	
-
+	// 새로 생성된 문서 번호 가져오기
+	int selectCurrentAppNo();
+	
+	// 알람 보낼 정보 조회
+	Approval selectAppInfo(int newAppNo);
 
 }

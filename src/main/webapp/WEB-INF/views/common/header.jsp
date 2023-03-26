@@ -223,12 +223,15 @@
     }
     .newAlarm{
         position: absolute;
-        top: 30px;
-        right: 50px;
+        top: 25px;
+        right: 60px;
         font-size: 12px;
         color: white;
         background-color: red;
-        border-radius: 5px;
+        border-radius: 10px;
+    }
+    .textmsg{
+        font-size: 12px;
     }
      
 
@@ -257,7 +260,7 @@
 
             </div>
 			<div class="header-right dropdown">
-                <span class="newAlarm" id="newIcon" style="display:none">&nbsp;new&nbsp;</span>
+                <span class="newAlarm" id="newIcon" style="display:none">&nbsp;&nbsp;<span class="count"></span>&nbsp;&nbsp;</span>
                 <button id="alarmBtn"  data-bs-toggle="dropdown" data-bs-auto-close="outside"><img class="headerIcon " src="resources/images/common/alarmLogo.png" ></button>
                 <ul class="dropdown-menu">
                     <div class="alarm-area">
@@ -302,6 +305,7 @@
                 var socket = null;
                 $(function(){
                     connectWS();
+                    loadAlarm();
                     
                 });
 
@@ -315,7 +319,7 @@
                         ws.onmessage = function(event) {
                             console.log("onmessage : " +event.data);
                             
-                            $("#newIcon").css("display", "block");
+                            loadAlarm();
 
                         };
                         
@@ -343,6 +347,10 @@
                             const list = alarm.list;
 
                             $(".alarmCount").text(unRead);
+                            $(".count").text(unRead);
+                            if(unRead > 0){
+                                $("#newIcon").css("display", "block");
+                            }
                             let msg = "";
 
                             if(list.length == 0){
@@ -353,8 +361,9 @@
                                     msg += '<li class="alarm read' + list[i].read + '"><a class="dropdown-item " alarmNo=' + list[i].alarmNo + ' href="#" url=' + list[i].url + ' read=' + list[i].read + '><div class="alarms">';
                                     if(list[i].refType == 'mail'){
                                         msg += '<img class="alarm-logo" src="resources/images/common/email1.png" alt="">';
-                                    } else{
-                                        // 다른 종류의 알람일때
+                                    } else if(list[i].refType == 'approval'){
+                                        // 결재 종류의 알람일때
+                                        msg += '<img class="alarm-logo" src="resources/images/common/ap-icon.png" alt="">';
 
                                     }
                                     msg += '<span class="textmsg">' + list[i].alarmMsg + '</span></div></a>';
@@ -373,7 +382,7 @@
 
                     
                 }
-
+                /*
                 $(document).on("click", "#alarmBtn", function(){
                     //console.log($("#newIcon").css("display"));
                     if($("#newIcon").css("display") == "block"){
@@ -381,6 +390,7 @@
                     }
                     loadAlarm();
                 })
+                */
 
                 $(document).on("click", ".alarmsDiv .dropdown-item", function(){
                     const $alarmNo = $(this).attr("alarmNo");

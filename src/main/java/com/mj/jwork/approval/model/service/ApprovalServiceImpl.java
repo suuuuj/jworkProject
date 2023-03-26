@@ -184,6 +184,18 @@ public class ApprovalServiceImpl implements ApprovalService {
 		
 		return result1*result2*result3;
 	}
+	
+	// 새로 생성된 문서 번호 가져오기
+	@Override
+	public int selectCurrentAppNo() {
+		return aDao.selectCurrentAppNo(sqlSession);
+	}
+	
+	// 알람보낼 정보 가져오기
+	@Override
+	public Approval selectAppInfo(int newAppNo) {
+		return aDao.selectAppInfo(sqlSession, newAppNo);
+	}
 
 	
 

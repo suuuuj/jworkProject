@@ -17,12 +17,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.mj.jwork.alarm.controller.EchoHandler;
+import com.mj.jwork.alarm.model.service.AlarmServiceImpl;
+import com.mj.jwork.alarm.model.vo.Alarm;
 import com.mj.jwork.approval.model.service.ApprovalService;
 import com.mj.jwork.approval.model.vo.AppLine;
 import com.mj.jwork.approval.model.vo.Approval;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.common.template.Pagination;
+import com.mj.jwork.common.template.SendAlarm;
 import com.mj.jwork.employee.model.vo.Employee;
 
 
@@ -32,6 +36,12 @@ public class ApprovalController {
 	
 	@Autowired
 	private ApprovalService aService;
+	
+	@Autowired
+	private AlarmServiceImpl alarmService;
+	
+	@Autowired
+	private EchoHandler ec;
 	
 	// 내 결제 리스트 조회 페이징
 	@RequestMapping("mylist.app")
@@ -213,7 +223,32 @@ public class ApprovalController {
 		int result1 = aService.signBtn(al);
 		
 		if(result1>0) {
-			int result2 = aService.signStatus(al.getAppNo()); 
+			int result2 = aService.signStatus(al.getAppNo());
+			
+			Approval app = aService.selectAppInfo(al.getAppNo());
+			Alarm alarm = new Alarm();
+			if(app.getAppStatus().equals("결재완료")) {
+				alarm.setTargetNo(app.getEmpNo());
+				alarm.setAlarmMsg("(" + app.getDocNo() + ")문서가 결재 완료되었습니다.");
+				alarm.setRefNo(app.getAppNo());
+				alarm.setRefType("approval");
+				alarm.setUrl("myDetail.app?no=" + app.getAppNo());
+				
+			}else {
+				alarm.setTargetNo(app.getTargetNo());
+				alarm.setAlarmMsg("결재할 문서가 도착했습니다. (" + app.getDocNo() + ")");
+				alarm.setRefNo(app.getAppNo());
+				alarm.setRefType("approval");
+				alarm.setUrl("unsignDetail.app?no=" + app.getAppNo());
+			}
+			
+			
+			alarmService.insertAlarm(alarm);
+			
+			SendAlarm.sendAlarm(alarm, ec.getSessionList());
+			
+			
+			
 			session.setAttribute("alertMsg","승인 완료 되었습니다.");
 			return "redirect:unsignlist.app";
 		}else {// 승인 실패
@@ -231,7 +266,24 @@ public class ApprovalController {
 		int result1 = aService.returnBtn(al);
 		
 		if(result1>0) {
-			int result2 = aService.returnStatus(al.getAppNo()); 
+			int result2 = aService.returnStatus(al.getAppNo());
+			
+			Approval app = aService.selectAppInfo(al.getAppNo());
+			Alarm alarm = new Alarm();
+			
+			alarm.setTargetNo(app.getEmpNo());
+			alarm.setAlarmMsg("(" + app.getDocNo() + ")문서가 반려되었습니다.");
+			alarm.setRefNo(app.getAppNo());
+			alarm.setRefType("approval");
+			alarm.setUrl("myDetail.app?no=" + app.getAppNo());
+				
+			
+			alarmService.insertAlarm(alarm);
+			
+			SendAlarm.sendAlarm(alarm, ec.getSessionList());
+			
+			
+			
 			session.setAttribute("alertMsg","반려 완료 되었습니다.");
 			return "redirect:unsignlist.app";
 		}else {// 승인 실패
@@ -294,6 +346,20 @@ public class ApprovalController {
 		
 		
 		if(result>0) {
+			int newAppNo = aService.selectCurrentAppNo();
+			Approval app = aService.selectAppInfo(newAppNo);
+			Alarm alarm = new Alarm();
+			alarm.setTargetNo(app.getTargetNo());
+			alarm.setAlarmMsg("결재할 문서가 도착했습니다. (" + app.getDocNo() + ")");
+			alarm.setRefNo(app.getAppNo());
+			alarm.setRefType("approval");
+			alarm.setUrl("unsignDetail.app?no=" + app.getAppNo());
+			
+			alarmService.insertAlarm(alarm);
+			
+			SendAlarm.sendAlarm(alarm, ec.getSessionList());
+			
+			
 			session.setAttribute("alertMsg","문서가 등록 되었습니다.");
 			return "redirect:mylist.app";
 		}else {// 문서등록 실패
@@ -340,8 +406,8 @@ public class ApprovalController {
 	//임시저장함에서의 재결재
 		@RequestMapping("insertDrafbox.app")
 		public String insertDrafbox(Approval a, MultipartFile reupfile, HttpSession session, Model model) {
-			System.out.println(a);
-			System.out.println(a.getAlist());
+			//System.out.println(a);
+			//System.out.println(a.getAlist());
 			//System.out.println(a.getRlist());
 
 			a.setAppCount(a.getAlist().size());
@@ -362,6 +428,18 @@ public class ApprovalController {
 			int result = aService.insertDrafbox(a);
 			
 			if(result>0) {
+				Approval app = aService.selectAppInfo(a.getAppNo());
+				Alarm alarm = new Alarm();
+				alarm.setTargetNo(app.getTargetNo());
+				alarm.setAlarmMsg("결재할 문서가 도착했습니다. (" + app.getDocNo() + ")");
+				alarm.setRefNo(app.getAppNo());
+				alarm.setRefType("approval");
+				alarm.setUrl("unsignDetail.app?no=" + app.getAppNo());
+				
+				alarmService.insertAlarm(alarm);
+				
+				SendAlarm.sendAlarm(alarm, ec.getSessionList());
+				
 				session.setAttribute("alertMsg","문서가 등록 되었습니다.");
 				return "redirect:mylist.app";
 			}else {// 문서등록 실패
