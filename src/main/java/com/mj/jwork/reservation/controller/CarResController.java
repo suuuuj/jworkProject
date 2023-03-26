@@ -31,12 +31,12 @@ public class CarResController {
 		int result = cService.insertReservation(cRes);
 
 		if (result > 0) {
-			session.setAttribute("alertMsg", "차량 예약 등록 성공");
-			return "redirect: status.car";
+			session.setAttribute("alertMsg", "차량 예약 신청 성공");
+			return "redirect: list.carMe";
 
 		} else {
 			session.setAttribute("alertMsg", "차량 예약 등록 실패");
-			return "redirect: status.car";
+			return "redirect: list.carMe";
 		}
 	}
 
@@ -69,6 +69,15 @@ public class CarResController {
 	@RequestMapping(value = "detail.carRes", produces = "application/json; charset=utf-8")
 	public String selectCarRes(int resNo) {
 		CarReservation c = cService.selectCarRes(resNo);
+
+		return new Gson().toJson(c);
+
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "ajaxdetail.carRes", produces = "application/json; charset=utf-8")
+	public String ajaxselectCarRes(int resNo) {
+		CarReservation c = cService.ajaxselectCarRes(resNo);
 
 		return new Gson().toJson(c);
 

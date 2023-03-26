@@ -21,6 +21,8 @@
 		<typeAlias type="com.mj.jwork.mail.model.vo.Mail" alias="Mail" />
 		<typeAlias type="com.mj.jwork.mail.model.vo.MailAt" alias="MailAt" />
 		<typeAlias type="com.mj.jwork.project.model.vo.Project" alias="Project" />
+		<typeAlias type="com.mj.jwork.project.model.vo.ProjectEmp" alias="ProjectEmp" />
+		<typeAlias type="com.mj.jwork.project.model.vo.ProjectReply" alias="ProjectReply" />
 		<typeAlias type="com.mj.jwork.reservation.model.vo.Car" alias="Car" />
 		<typeAlias type="com.mj.jwork.reservation.model.vo.CarReservation" alias="CarReservation" />
 		<typeAlias type="com.mj.jwork.reservation.model.vo.CfrReservation" alias="CfrReservation" />

@@ -8,13 +8,14 @@
      #pagingArea{width:fit-content;margin:auto;}
      div{box-sizing: border-box;}
 
-	#resDatilView td{
+	#resDetailView td{
 	 height:50px;
 	
 	}
-	#resDatilView{
+	#resDetailView{
 		width:600px;
 	}
+	#reject{padding:10px;}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -61,7 +62,7 @@
 	                               	 	<button type="button" class="btn btn-sm btn-primary" disabled>승인완료</button>
 	                                </c:when>
 	                                <c:otherwise>
-	                                	<button type="button" class="btn btn-sm btn-warning">반려</button>
+	                                	<button type="button" class="btn btn-sm btn-danger">반려</button>
 	                                </c:otherwise>
                                 </c:choose>
                             </td>
@@ -116,7 +117,7 @@
     
             <!-- Modal body -->
             <div class="modal-body">
-                <table id="resDatilView">
+                <table id="resDetailView">
                     <tr>
                         <th>차량명</th>
                         <td id=carName></td>
@@ -190,9 +191,10 @@
     	function detailView(resNo){
     		
     		$.ajax({
-    			url:"detail.carRes",
+    			url:"ajaxdetail.carRes",
     			data:{resNo:resNo},
     			success:function(c){
+    				console.log(c);
     				$("#carName").text(c.carName);
     				$("#reservation").text(c.empName + c.reservation);
 					$("#useDate").html(c.resDate+"&nbsp;"+ c.startTime +"~" +c.endTime);
@@ -200,7 +202,6 @@
     				$("#reject").val(c.reject);
     				$("#resNo").val(c.resNo);
     				
-    				console.log(c.apStatus);
     				if(c.apStatus == 1){
     					let value="";
     					
@@ -225,9 +226,10 @@
     	}
     	
     	function changeStatus(num){
+    		console.log($("#reject").val());
     		$.ajax({
 				url:"approve.res",
-				data:{apStatus:num,resNo:$("#resNo").val()},
+				data:{apStatus:num,resNo:$("#resNo").val(),reject:$("#reject").val()},
 				success:function(num){
 					if(num==2){
 						alert("예약 승인 처리 완료되었습니다.");
