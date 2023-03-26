@@ -227,9 +227,9 @@
                                 <a id="" href="workCalendar.at">근태현황</a><br>
                                 <a id="" href="list.at">근태이력</a><br>
                                 <a id="" href="wtModify.at">근태수정</a><br>
-                                <a id="" href="" style="color:rgb(2, 152, 52)">근태조정</a><br>
-                                <a id="" href="" style="color:rgb(2, 152, 52)">근태관리</a><br>
-                                <a id="" href="" style="color:rgb(2, 152, 52)">근태통계</a><br>
+                                <a id="" href="adModify.wt" style="color:rgb(2, 152, 52)">근태조정</a><br>
+                                <a id="" href="adminWorktime.at" style="color:rgb(2, 152, 52)">근태관리</a><br>
+                                <a id="" href="adminWorkStatistic.at" style="color:rgb(2, 152, 52)">근태통계</a><br>
                             </div>
                         </div>
                     </div>
