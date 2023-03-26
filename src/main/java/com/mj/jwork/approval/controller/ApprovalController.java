@@ -338,75 +338,117 @@ public class ApprovalController {
 
 	
 	//임시저장함에서의 재결재
-		@RequestMapping("insertDrafbox.app")
-		public String insertDrafbox(Approval a, MultipartFile reupfile, HttpSession session, Model model) {
-			System.out.println(a);
-			System.out.println(a.getAlist());
-			//System.out.println(a.getRlist());
+	@RequestMapping("insertDrafbox.app")
+	public String insertDrafbox(Approval a, MultipartFile reupfile, HttpSession session, Model model) {
+		System.out.println(a);
+		System.out.println(a.getAlist());
+		//System.out.println(a.getRlist());
 
-			a.setAppCount(a.getAlist().size());
+		a.setAppCount(a.getAlist().size());
+		
+		if(!reupfile.getOriginalFilename().equals("")) {
 			
-			if(!reupfile.getOriginalFilename().equals("")) {
-				
-				if(a.getDocOriginName()!= null) {
-					new File(session.getServletContext().getRealPath(a.getDocFilePath())).delete();
-				}
-				
-				String saveFilePath = FileUpload.saveFile(reupfile,session,"resources/uploadFiles/");
-				
-				a.setDocOriginName(reupfile.getOriginalFilename());
-				a.setDocFilePath(saveFilePath);
-				
+			if(a.getDocOriginName()!= null) {
+				new File(session.getServletContext().getRealPath(a.getDocFilePath())).delete();
 			}
 			
-			int result = aService.insertDrafbox(a);
+			String saveFilePath = FileUpload.saveFile(reupfile,session,"resources/uploadFiles/");
 			
-			if(result>0) {
-				session.setAttribute("alertMsg","문서가 등록 되었습니다.");
-				return "redirect:mylist.app";
-			}else {// 문서등록 실패
-				model.addAttribute("errorMsg", "문서등록 실패");
-				return "common/errorPage";
-				
-			}
-	
+			a.setDocOriginName(reupfile.getOriginalFilename());
+			a.setDocFilePath(saveFilePath);
+			
 		}
 		
-		//상신 취소 후 재결재
-		@RequestMapping("reinsert.app")
-		public String reinsertApp(Approval a, MultipartFile reupfile, HttpSession session, Model model) {
-			System.out.println(a);
-			System.out.println(a.getAlist());
-			//System.out.println(a.getRlist());
-
-			a.setAppCount(a.getAlist().size());
+		int result = aService.insertDrafbox(a);
+		
+		if(result>0) {
+			session.setAttribute("alertMsg","문서가 등록 되었습니다.");
+			return "redirect:mylist.app";
+		}else {// 문서등록 실패
+			model.addAttribute("errorMsg", "문서등록 실패");
+			return "common/errorPage";
 			
-			if(!reupfile.getOriginalFilename().equals("")) {
-				
-				if(a.getDocOriginName()!= null) {
-					new File(session.getServletContext().getRealPath(a.getDocFilePath())).delete();
-				}
-				
-				String saveFilePath = FileUpload.saveFile(reupfile,session,"resources/uploadFiles/");
-				
-				a.setDocOriginName(reupfile.getOriginalFilename());
-				a.setDocFilePath(saveFilePath);
-				
-			}
-			
-			int deleteAppLine = aService.deleteAppLine(a);
-			
-			if(deleteAppLine>0) {
-				int result = aService.reinsertApp(a);
-				session.setAttribute("alertMsg","문서가 등록 되었습니다.");
-				return "redirect:mylist.app";
-			}else {// 문서등록 실패
-				model.addAttribute("errorMsg", "문서등록 실패");
-				return "common/errorPage";
-				
-			}
-	
 		}
+
+	}
+		
+	//상신 취소 후 재결재
+	@RequestMapping("reinsert.app")
+	public String reinsertApp(Approval a, MultipartFile reupfile, HttpSession session, Model model) {
+		System.out.println(a);
+		System.out.println(a.getAlist());
+		//System.out.println(a.getRlist());
+
+		a.setAppCount(a.getAlist().size());
+		
+		if(!reupfile.getOriginalFilename().equals("")) {
+			
+			if(a.getDocOriginName()!= null) {
+				new File(session.getServletContext().getRealPath(a.getDocFilePath())).delete();
+			}
+			
+			String saveFilePath = FileUpload.saveFile(reupfile,session,"resources/uploadFiles/");
+			
+			a.setDocOriginName(reupfile.getOriginalFilename());
+			a.setDocFilePath(saveFilePath);
+			
+		}
+		
+		int deleteAppLine = aService.deleteAppLine(a);
+		
+		if(deleteAppLine>0) {
+			int result = aService.reinsertApp(a);
+			session.setAttribute("alertMsg","문서가 등록 되었습니다.");
+			return "redirect:mylist.app";
+		}else {// 문서등록 실패
+			model.addAttribute("errorMsg", "문서등록 실패");
+			return "common/errorPage";
+			
+		}
+
+	}
+	
+	// 참조문서 리스트 조회 페이징
+	@RequestMapping("reflist.app")
+	public String selectRefList(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
+		
+		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+		
+		int listCount = aService.selectRefListCount(e.getEmpNo()); //페이징 매길 전체 게시글 수
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+		ArrayList<Approval> list = aService.selectRefList(pi,e.getEmpNo()); // 게시글 목록 조회
+		
+		model.addAttribute("pi",pi);
+		model.addAttribute("list",list);
+		model.addAttribute("listCount",listCount);
+		
+		//System.out.println(list);
+		
+		return "approval/referenceList";
+		
+	}
+	
+	// 참조문서 상세 조회 페이지
+	@RequestMapping("refDetail.app")
+	public ModelAndView refDetail(int no, ModelAndView mv) {
+		Approval a = aService.selectApproval(no);
+		ArrayList<AppLine> al = aService.selectAppLine(no);
+		
+		mv.addObject("a",a).setViewName("approval/refApprovalDetail");
+		mv.addObject("al",al).setViewName("approval/refApprovalDetail");
+		
+		//System.out.println(al);
+		
+		return mv;
+	}
+	
+	//내문서 리스트 검색
+	@RequestMapping("searchMyApp.app")
+	public void searchMyApp() {
+		
+	}
+	
+		
 		
 
 

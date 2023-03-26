@@ -36,6 +36,14 @@
 		<result column="job_name" property="jobName"/>
 	</resultMap>
 	
+	<resultMap id="referenceResult" type="Reference">
+		<id column="ref_no" property="refNo"/>
+		<result column="app_no" property="appNo"/>
+		<result column="emp_no" property="empNo"/>
+		<result column="check_date" property="checkDate"/>
+	</resultMap>
+	
+	
 	<!-- 게시글 수 카운트 -->
 	<select id="selectListCount" resultType="_int">
 		select count(*)
@@ -462,7 +470,7 @@
     	 where APP_NO = #{appNo}
     </update>
     
-        <!-- 임시저장에서의 결재선 insert -->
+    <!-- 임시저장에서의 결재선 insert -->
     <insert id="reinsertAppLine">
 	    insert 
 	      into app_line
@@ -497,6 +505,36 @@
 		      , quit_date = #{quitDate}
 	      where app_no = #{appNo}
     </update>
+    
+    <!-- 참조 문서 게시글 수 카운트 -->
+	<select id="selectRefListCount" resultType="_int">
+		select
+		       count(*)
+		  from approval ap
+		  join reference ref on (ap.app_no = ref.app_no)
+		 where ref.emp_no = #{empNo}
+		   and doc_status ='Y'
+	</select>
+    
+    <!-- 참조문서 리스트 조회 -->
+	<select id="selectRefList" resultMap="approvalResult">
+		select  
+	          ap.app_no
+	        , emp_name
+	        , decode(doc_type,0,'기안서',1,'품의서',2,'사직서') as "doc_type"
+	        , to_char(create_date, 'YYYY-MM-DD')"create_date"
+	        , doc_title
+	        , doc_originname
+	        , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
+	     from approval ap
+	     join employee e on (ap.emp_no = e.emp_no)
+	     join reference ref on (ap.app_no = ref.app_no)
+	    where doc_status='Y'
+	      and ref.emp_no = #{empNo}
+	    order
+	       by create_date desc
+    </select>
+    
 
     
 </mapper>

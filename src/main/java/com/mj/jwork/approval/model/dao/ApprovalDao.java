@@ -70,7 +70,7 @@ public class ApprovalDao {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectSignList",empNo,rowBounds);
-			}
+	}
 
 	
 	//임시저장함 리스트 조회
@@ -195,6 +195,24 @@ public class ApprovalDao {
 	public int insertCancleApp(SqlSessionTemplate sqlSession, Approval a) {
 		return sqlSession.update("approvalMapper.insertCancleApp",a);
 	}
+
+	//참조문서 카운팅
+	public int selectRefListCount(SqlSessionTemplate sqlSession, int empNo) {
+		return sqlSession.selectOne("approvalMapper.selectRefListCount", empNo);
+	}
+	//참조문서 리스트 조회
+	public ArrayList<Approval> selectRefList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+		//건너뛸 게시물 개수
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		//조회할 게시글 개수
+		int limit = pi.getBoardLimit();
+			
+		RowBounds rowBounds = new RowBounds(offset, limit);
+			
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectRefList",empNo,rowBounds);
+	}
+	
+
 	
 	
 	

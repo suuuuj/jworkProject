@@ -185,6 +185,17 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return result1*result2*result3;
 	}
 
+	//참조문서 카운트
+	@Override
+	public int selectRefListCount(int empNo) {
+		return aDao.selectRefListCount(sqlSession, empNo);
+	}
+	 //참조문서 리스트 조회
+	@Override
+	public ArrayList<Approval> selectRefList(PageInfo pi, int empNo) {
+		return aDao.selectRefList(sqlSession,pi, empNo);
+	}
+
 	
 
 

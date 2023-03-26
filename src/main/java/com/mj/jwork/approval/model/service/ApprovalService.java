@@ -58,6 +58,11 @@ public interface ApprovalService{
 	//상신취소문서 재결재
 	int reinsertApp(Approval a);
 	
+	//참조문서 리스트 조회
+	int selectRefListCount(int empNo);
+	ArrayList<Approval> selectRefList(PageInfo pi, int empNo);
+	
+	
 
 
 }
