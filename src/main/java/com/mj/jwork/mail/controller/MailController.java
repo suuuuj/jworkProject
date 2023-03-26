@@ -483,5 +483,31 @@ public class MailController {
 		return result > 0 ? "success" : "fail";
 	}
 	
+	@ResponseBody
+	@RequestMapping("readMail.ma")
+	public String ajaxReadMail(Mail m, @RequestParam(value="mailNoList[]") ArrayList<Integer> mailNoList, String readDateList) {
+		//System.out.println(m);
+		//System.out.println("read : " + readDateList);
+		
+		String[] readDateArr = readDateList.split(",");
+		int datelength = readDateArr.length;
+		for(int i=0; i<readDateArr.length; i++) {
+			System.out.println(i + " : " + readDateArr[i]);
+		}
+		int result = 1;
+		for(int i=0; i<mailNoList.size(); i++) {
+			System.out.println(mailNoList.get(i));
+			m.setMailNo(mailNoList.get(i));
+			if(i < datelength) {
+				m.setReadDate(readDateArr[i]);
+			}
+			//System.out.println(m);
+			result = result * mService.updateMailRead(m);			
+		}
+		
+		return result > 0 ? "success" : "fail";
+		
+	}
+	
 	
 }

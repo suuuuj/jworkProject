@@ -513,12 +513,11 @@
 		update
 		       mail_detail
 		   set read = #{read}
-	     <if test='readDate == "" or readDate == null'>
+	     <if test='read == "Y" and (readDate == "" or readDate == null)'>
 	    	 , read_date = sysdate
 	     </if>
 	     where mail_no = #{mailNo}
 	       and emp_no = #{empNo}
-	       and type = 'R'
 	</update>
 	
 	<select id="selectMail" resultMap="mailAtResultMap">
