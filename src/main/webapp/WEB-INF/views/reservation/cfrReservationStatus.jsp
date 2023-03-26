@@ -131,52 +131,19 @@
   </head>
   
   <body>
-   <jsp:include page="../common/menubar.jsp"/>
-  
-	<div class="content">
-	
-        <div class="innerOuter">
-			<!-- 
-                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#cfrInfo" onclick="selectList();">회의실 정보</button>
-                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#reservationForm" onclick="selectList();">예약하기</button>&nbsp; -->
-            <div id='calendar' style="margin:20px;">
-          
+    <jsp:include page="../common/menubar.jsp"/>
+    <div style="width: 940px; margin:20px;">
+        <h3>회의실 예약 현황</h3>
+        <hr>
+         <div id='calendar' style="margin:20px;">
+         </div>
+        
+        <div>
+     
            
-            </div>
-
-        </div>
     </div>
-    <!-- Edit Modal -->
-		<!-- <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-	        aria-hidden="true">
-	        <div class="modal-dialog" role="document">
-	            <div class="modal-content">
-	                <div class="modal-header">
-	                    <h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>
-	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	                        <span aria-hidden="true">&times;</span>
-	                    </button>
-	                </div>
-	                <div class="modal-body">
-	                    <div class="form-group">
-	                        <label for="taskId" class="col-form-label">일정 내용</label>
-	                        <input type="text" class="form-control" id="calendar_content" name="calendar_content">
-	                        <label for="taskId" class="col-form-label">시작 날짜</label>
-	                        <input type="date" class="form-control" id="calendar_start_date" name="calendar_start_date">
-	                        <label for="taskId" class="col-form-label">종료 날짜</label>
-	                        <input type="date" class="form-control" id="calendar_end_date" name="calendar_end_date">
-	                    </div>
-	                </div>
-	                <div class="modal-footer">
-	                    <button type="button" class="btn btn-warning" id="addCalendar">추가</button>
-	                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-	                        id="sprintSettingModalClose">취소</button>
-	                </div>
-	    
-	            </div>
-	        </div>
-	    </div> -->
-	   	
+      
+   </div>
 	       <!--회의실 예약 모달 -->
     <div class="modal" id="reservationForm">
         <div class="modal-dialog">
@@ -242,7 +209,6 @@
                                 <option value="19:00">19:00</option>
                             </select>
                             </td>
-                          <!--   <td><input type="text" name="startTime"  class="timepicker"  required>-<input type="text" class="timepicker" name="endTime" required></td> -->
                         </tr>
                         <tr>
                             <th>인원</th>

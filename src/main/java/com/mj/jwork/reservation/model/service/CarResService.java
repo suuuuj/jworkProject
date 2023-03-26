@@ -25,7 +25,7 @@ public interface CarResService {
 	//차량예약상세조회
 	
 	CarReservation selectCarRes(int resNo);
-	
+	CarReservation ajaxselectCarRes(int resNo);
 	//승인상태 변경
 	int updateApStatus(CarReservation c);
 }

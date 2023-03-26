@@ -190,7 +190,7 @@ public class MailController {
 			
 			if(!upfile.get(0).getOriginalFilename().equals("")) {
 				for(int i=0; i<upfile.size(); i++) {
-					System.out.println(upfile.get(i).getOriginalFilename());
+					//System.out.println(upfile.get(i).getOriginalFilename());
 					String saveFilePath = FileUpload.saveFile(upfile.get(i), session, "resources/mailUploadFiles/");
 					
 					MailAt ma = new MailAt();
@@ -228,7 +228,7 @@ public class MailController {
 							a.setRefType("mail");
 							a.setUrl("detail.ma?mailNo=" + mailNo + "&mailCategory=받은메일함");
 							
-							System.out.println(a);
+							//System.out.println(a);
 							aService.insertAlarm(a);
 							
 							SendAlarm.sendAlarm(a, ec.getSessionList());
@@ -371,7 +371,7 @@ public class MailController {
 					md.setEmpNo(Integer.parseInt(receiverNoArr[i]));
 					md.setEmpName(receiverArr[i]);
 					md.setType("R");
-					System.out.println("md : " + md);
+					//System.out.println("md : " + md);
 					detailResult = detailResult * mService.insertMailDetail(md);
 					Alarm a = new Alarm();
 					a.setTargetNo(md.getEmpNo());
@@ -481,6 +481,30 @@ public class MailController {
 		}
 		
 		return result > 0 ? "success" : "fail";
+	}
+	
+	@ResponseBody
+	@RequestMapping("readMail.ma")
+	public String ajaxReadMail(Mail m, @RequestParam(value="mailNoList[]") ArrayList<Integer> mailNoList, String readDateList) {
+		//System.out.println(m);
+		//System.out.println("read : " + readDateList);
+		
+		String[] readDateArr = readDateList.split(",");
+		int datelength = readDateArr.length;
+		
+		int result = 1;
+		for(int i=0; i<mailNoList.size(); i++) {
+			//System.out.println(mailNoList.get(i));
+			m.setMailNo(mailNoList.get(i));
+			if(i < datelength) {
+				m.setReadDate(readDateArr[i]);
+			}
+			//System.out.println(m);
+			result = result * mService.updateMailRead(m);			
+		}
+		
+		return result > 0 ? "success" : "fail";
+		
 	}
 	
 	

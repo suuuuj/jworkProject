@@ -70,7 +70,7 @@ public class ApprovalDao {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectSignList",empNo,rowBounds);
-			}
+	}
 
 	
 	//임시저장함 리스트 조회
@@ -159,14 +159,77 @@ public class ApprovalDao {
 	
 	//상신취소, 임시저장form에서의 임시저장
 	public int resaveApproval(SqlSessionTemplate sqlSession, Approval a) {
-		System.out.println(a);
+		//System.out.println(a);
 		return sqlSession.update("approvalMapper.resaveApproval",a);
+	}
+	
+	// 상신-> 임시저장 기존 결재선 삭제
+	public int deleteAppLine(SqlSessionTemplate sqlSession, Approval a) {
+		
+		return sqlSession.delete("approvalMapper.deleteAppLine",a);
+		
+	}
+	
+	// 임시저장문서 결재
+	public int insertDrafbox(SqlSessionTemplate sqlSession, Approval a) {
+		return sqlSession.update("approvalMapper.insertDrafbox",a);
+	}
+
+	// 재결재시 재결재선 insert
+	public int reinsertAppLine(SqlSessionTemplate sqlSession, Approval a) {
+		int count = 0;
+		
+		ArrayList<AppLine> alist = new ArrayList<>();
+		alist = a.getAlist();
+		//System.out.println("alist: " + alist);
+		
+		for(AppLine al : alist) {
+			
+			count += sqlSession.insert("approvalMapper.reinsertAppLine",al);
+		}
+		
+		return count;
+	}
+	
+	// 상신취소 재결재
+	public int insertCancleApp(SqlSessionTemplate sqlSession, Approval a) {
+		return sqlSession.update("approvalMapper.insertCancleApp",a);
+	}
+
+	//참조문서 카운팅
+	public int selectRefListCount(SqlSessionTemplate sqlSession, int empNo) {
+		return sqlSession.selectOne("approvalMapper.selectRefListCount", empNo);
+	}
+	//참조문서 리스트 조회
+	public ArrayList<Approval> selectRefList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+		//건너뛸 게시물 개수
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		//조회할 게시글 개수
+		int limit = pi.getBoardLimit();
+			
+		RowBounds rowBounds = new RowBounds(offset, limit);
+			
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectRefList",empNo,rowBounds);
+	}
+	
+
+	
+	// 새로 생성된 문서 번호 가져오기
+	public int selectCurrentAppNo(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("approvalMapper.selectCurrentAppNo");
+		
+	}
+	
+	// 알람 보낼 문서 정보 가져오기
+	public Approval selectAppInfo(SqlSessionTemplate sqlSession, int newAppNo) {
+		
+		return sqlSession.selectOne("approvalMapper.selectAppInfo", newAppNo);
+		
 	}
 
 	
+
+
 	
-
-
-
-
 }

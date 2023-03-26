@@ -382,17 +382,23 @@
                 const receiverArr = "${ mi.receiver }".split(",");
                 const receiverNoArr = "${ mi.receiverNo }".split(",");
                 const mailTitle = "${ mi.mailTitle }";
-                const mailContent = "${ mi.mailContent }";
+                const mailContent = '${ mi.mailContent }';
+                
+                if(receiverArr.length != 0){
+                    let receiverValue = "";
+                    if(receiverArr[0] != ""){
+                        for(let i=0; i<receiverArr.length; i++){
+                            receiverValue += "<input type='hidden' name='receiverNo' value='" 
+                                            + receiverNoArr[i] + "'><input type='hidden' name='receiver' value='" 
+                                            + receiverArr[i] + "'><li class='receiver-li'>" + receiverArr[i] + "</li><div class='receiver-delete'>&times;</div>"
+                        }
+                    }
+                    
+                    $("#receiver-list").append(receiverValue);
+                    $("#receiver-list").css("width", "$('#receiver-list').children().eq(0).val().length + 30");
 
-
-                let receiverValue = "";
-                for(let i=0; i<receiverArr.length; i++){
-                    receiverValue += "<input type='hidden' name='receiverNo' value='" 
-                                        + receiverNoArr[i] + "'><input type='hidden' name='receiver' value='" 
-                                        + receiverArr[i] + "'><li class='receiver-li'>" + receiverArr[i] + "</li><div class='receiver-delete'>&times;</div>"
                 }
-                $("#receiver-list").append(receiverValue);
-                $("#receiver-list").css("width", "$('#receiver-list').children().eq(0).val().length + 30");
+                
                 $("#mailTitle").val(mailTitle);
                 $("#summernote").html(mailContent);
 

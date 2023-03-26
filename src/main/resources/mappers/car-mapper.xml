@@ -138,6 +138,7 @@
 			,END_TIME
 			,CAUSE
 			,ap_status
+			,REJECT
 		from car_reservation
 		where reservation = #{reservation}
 	</select>
@@ -166,6 +167,7 @@
 		<if test="option !=null">
 		where ap_status in (${option})
 		</if>
+		order by request_date desc
 	</select> 
 	<select id="selectResList" resultMap="carResResult">
 		select
@@ -193,6 +195,25 @@
 			,START_TIME
 			,END_TIME
 			,CAUSE
+			,ap_date
+			,approver
+            ,EMP_NAME
+            ,ap_status
+            ,reject
+        	from car_reservation
+		join employee on approver=emp_no
+        where res_no =#{resNo}
+	</select>
+	<select id="ajaxselectCarRes" resultMap="carResResult">
+		    select
+		    RES_NO
+			,CAR_NAME
+			,reservation
+			,REQUEST_DATE
+			,RES_DATE
+			,START_TIME
+			,END_TIME
+			,CAUSE
             ,EMP_NAME
             ,ap_status
             ,reject
@@ -200,11 +221,13 @@
 		join employee on reservation=emp_no
         where res_no =#{resNo}
 	</select>
+	
 	<update id="updateApStatus">
 		update car_reservation
 		set ap_status =#{apStatus}
 		,approver=#{approver}
 		,ap_date = SYSDATE
+		,reject=#{reject}
 		where res_no=#{resNo}
 	</update>
 	<select id="selectNList" resultMap="carResult">
@@ -252,4 +275,5 @@
 		and car_name=#{carName}
 		and RES_DATE=#{resDate}
 	</select>
+
 </mapper>

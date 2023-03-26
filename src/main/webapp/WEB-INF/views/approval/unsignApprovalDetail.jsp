@@ -223,7 +223,7 @@
                     <td colspan="3" style="text-align: left;">
                     <c:choose>
                     	<c:when test="${ not empty a.docOriginName }">	
-                    		<a href="${ a.docChangeName }" download="${a.docOriginName}">${a.docOriginName}"</a>
+                    		<a href="${ a.docFilePath }" download="${a.docOriginName}">${a.docOriginName}"</a>
                    		</c:when>
                    		<c:otherwise>
                    			첨부파일이 없습니다.

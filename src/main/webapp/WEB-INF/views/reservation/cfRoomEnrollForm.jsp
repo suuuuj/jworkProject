@@ -13,7 +13,7 @@
     }
     .outer{
         width: 960px;
-        margin:20px;
+      
     }
     #equipment-area{display:inline;}
 </style>
@@ -23,9 +23,9 @@
 </head>
 <body>
     <jsp:include page="../common/menubar.jsp"/>
-    <div class="outer" style="width:920px;">
-        <h2>회의실 등록</h2>
-        <hr><br>
+    <div class="outer" style="width:920px;   margin:20px;">
+        <h4>회의실 등록</h4>
+        <hr>
         <div>
             <form action="insert.cfr" method="post" enctype="multipart/form-data" >
                 <table id="cfRoom-enrollForm"  style="width:700px;">
@@ -72,7 +72,7 @@
                 </table>
                 <br><br>
                  <div class="btn-area">
-	                <button type="submit" class="btn btn-sm btn-secondary">제출하기</button>
+	                <button type="submit" class="btn btn-sm btn-success">제출하기</button>
 	                <button type="button" class="btn btn-sm btn-light" onclick="history.back();">이전으로</button>
             	</div>
             </form>

@@ -22,6 +22,7 @@
 		<result column="job_name" property="jobName"/>
 		<result column="re_reason" property="reReason"/>
 		<result column="quit_date" property="quitDate"/>
+		<result column="target_no" property="targetNo"/>
 	</resultMap>
 	
 	<resultMap id="appLineResult" type="AppLine">
@@ -35,6 +36,14 @@
 		<result column="emp_name" property="empName"/>
 		<result column="job_name" property="jobName"/>
 	</resultMap>
+	
+	<resultMap id="referenceResult" type="Reference">
+		<id column="ref_no" property="refNo"/>
+		<result column="app_no" property="appNo"/>
+		<result column="emp_no" property="empNo"/>
+		<result column="check_date" property="checkDate"/>
+	</resultMap>
+	
 	
 	<!-- 게시글 수 카운트 -->
 	<select id="selectListCount" resultType="_int">
@@ -69,7 +78,7 @@
 		 </if>
 		   and emp_no = #{empNo}
 		 order
-		    by app_no desc
+		    by create_date desc
 	</select>
 	
 	<!-- 문서 상세 조회 -->
@@ -147,7 +156,7 @@
 	      and al.emp_no = #{empNo}
 	      and app_status in (0,1)
 	    order
-	       by app_no desc
+	       by create_date desc
       
     </select>
     
@@ -179,7 +188,7 @@
 	      and al.confirm_status not in (0)
 	      and al.emp_no = #{empNo}
 	    order
-	       by app_no desc
+	       by create_date desc
     </select>
     
      <!-- 임시저장함 문서 게시글 수 카운트 -->
@@ -403,7 +412,152 @@
 		     , DOC_STATUS = 'D'
 		     , QUIT_DATE = #{quitDate}
 		     , create_date = sysdate
+		     , app_count = 0
 		 where APP_NO = #{appNo}
-		  
     </update>
+    
+    <!-- 임시저장문서 결재 -->
+    <update id="insertDrafbox">
+    	update approval
+    	   set  <if test="docType == 0">
+    	        doc_no = '기안2023-'||(select count(doc_no)+1
+							            from approval
+				                       where doc_no like '기안%')
+				</if>
+				<if test="docType == 1">
+    	        doc_no = '품의2023-'||(select count(doc_no)+1
+							            from approval
+				                       where doc_no like '품의%')
+				</if>
+				<if test="docType == 2">
+    	        doc_no = '사직2023-'||(select count(doc_no)+1
+									    from approval
+						               where doc_no like '사직%')
+				</if>
+    	     , create_date = sysdate
+    	     , doc_title = #{docTitle}
+    	     , doc_content = #{docContent}
+    	     , doc_originname = #{docOriginName}
+    	     , doc_filepath = #{docFilePath}
+    	     , app_status = 0
+    	     , doc_status = 'Y'
+    	     , app_count = #{appCount}
+    	     , app_turn = 1
+    	     , quit_date = #{quitDate}
+         where app_no = #{appNo}
+    </update>
+    
+    <!-- 기존 결재선 삭제 -->
+    <delete id="deleteAppLine">
+  		DELETE 
+  		  FROM APP_LINE 
+ 		 WHERE app_no = #{appNo}
+    </delete>
+    
+    <!-- 상신취소문서 재결재  -->
+    
+    <update id="updateApp">
+    	update approval
+    	   set UPDATE_DATE = sysdate
+			 , DOC_TITLE = #{docTitle}
+			 , DOC_CONTENT = #{docContent}
+			 , DOC_ORIGINNAME = #{docOriginName}
+			 , DOC_FILEPATH = #{docFilePath}
+			 , APP_STATUS = 0
+			 , DOC_STATUS = 'Y'
+			 , APP_COUNT = #{appCount}
+			 , APP_TURN = 1
+			 , QUIT_DATE = #{quitDate}
+    	 where APP_NO = #{appNo}
+    </update>
+    
+    <!-- 임시저장에서의 결재선 insert -->
+    <insert id="reinsertAppLine">
+	    insert 
+	      into app_line
+			 (
+			   LINE_NO
+			 , APP_NO
+			 , EMP_NO
+			 , APP_LEVEL
+			 , CONFIRM_STATUS
+			 )
+	    values
+			 (
+			   SEQ_ALNO.nextval
+			 , #{appNo}
+			 , #{empNo}
+			 , #{appLevel}
+			 , 0
+			 )
+    </insert>
+    
+    <update id="insertCancleApp">
+		update approval
+		   set  create_date = sysdate
+		      , doc_title = #{docTitle}
+		      , doc_content = #{docContent}
+		      , doc_originname = #{docOriginName}
+		      , doc_filepath = #{docFilePath}
+		      , app_status = 0
+		      , doc_status = 'Y'
+		      , app_count = #{appCount}
+		      , app_turn = 1
+		      , quit_date = #{quitDate}
+	      where app_no = #{appNo}
+    </update>
+    
+    <!-- 참조 문서 게시글 수 카운트 -->
+	<select id="selectRefListCount" resultType="_int">
+		select
+		       count(*)
+		  from approval ap
+		  join reference ref on (ap.app_no = ref.app_no)
+		 where ref.emp_no = #{empNo}
+		   and doc_status ='Y'
+	</select>
+    
+    <!-- 참조문서 리스트 조회 -->
+	<select id="selectRefList" resultMap="approvalResult">
+		select  
+	          ap.app_no
+	        , emp_name
+	        , decode(doc_type,0,'기안서',1,'품의서',2,'사직서') as "doc_type"
+	        , to_char(create_date, 'YYYY-MM-DD')"create_date"
+	        , doc_title
+	        , doc_originname
+	        , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
+	     from approval ap
+	     join employee e on (ap.emp_no = e.emp_no)
+	     join reference ref on (ap.app_no = ref.app_no)
+	    where doc_status='Y'
+	      and ref.emp_no = #{empNo}
+	    order
+	       by create_date desc
+    </select>
+    
+
+	
+	<select id="selectCurrentAppNo" resultType="_int">
+		select 
+		       seq_apno.currval 
+		  from dual
+	</select>
+	
+	<select id="selectAppInfo" resultMap="approvalResult">
+		select
+		       a.app_no
+		     , doc_no
+		     , app_count
+		     , app_turn
+		     , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
+		     , a.emp_no
+		     , al.emp_no "target_no"
+		  from approval a
+		  left
+		  join app_line al on (al.app_no = a.app_no)
+		 where a.app_no = #{newAppNo}
+		   and app_turn = app_level
+	</select>
+    
 </mapper>
