@@ -132,6 +132,11 @@ public class MailServiceImpl implements MailService{
 		return mDao.countMailBoxMail(sqlSession, mailBoxNo);
 	}
 
+	@Override
+	public Mail checkMailStatus(Mail m) {
+		return mDao.checkMailStatus(sqlSession, m);
+	}
+
 	
 
 	
