@@ -132,7 +132,7 @@ public class MailDao {
 	
 	public int deleteMail(SqlSessionTemplate sqlSession, Mail m) {
 		
-		return sqlSession.delete("mailMapper.deleteMail", m);
+		return sqlSession.update("mailMapper.deleteMail", m);
 		
 	}
 	
@@ -151,6 +151,12 @@ public class MailDao {
 	public int countMailBoxMail(SqlSessionTemplate sqlSession, int mailBoxNo) {
 		
 		return sqlSession.selectOne("mailMapper.countMailBoxMail", mailBoxNo);
+		
+	}
+	
+	public Mail checkMailStatus(SqlSessionTemplate sqlSession, Mail m) {
+		
+		return sqlSession.selectOne("mailMapper.checkMailStatus", m);
 		
 	}
 	

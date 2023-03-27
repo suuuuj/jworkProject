@@ -69,4 +69,7 @@ public interface MailService {
 	// 메일함에 있는 메일 개수
 	int countMailBoxMail(int mailBoxNo);
 	
+	// 메일 상세페이지 조회시 메일 상태 확인
+	Mail checkMailStatus(Mail m);
+	
 }
