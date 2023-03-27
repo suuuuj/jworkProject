@@ -416,6 +416,20 @@
 		 where APP_NO = #{appNo}
     </update>
     
+    <!-- 기존 결재선 삭제 -->
+    <delete id="deleteAppLine">
+  		DELETE 
+  		  FROM APP_LINE 
+ 		 WHERE app_no = #{appNo}
+    </delete>
+    
+     <!-- 기존 참조인 삭제 -->
+    <delete id="deleteRefLine">
+  		DELETE 
+  		  FROM reference
+ 		 WHERE app_no = #{appNo}
+    </delete>
+    
     <!-- 임시저장문서 결재 -->
     <update id="insertDrafbox">
     	update approval
@@ -447,16 +461,9 @@
          where app_no = #{appNo}
     </update>
     
-    <!-- 기존 결재선 삭제 -->
-    <delete id="deleteAppLine">
-  		DELETE 
-  		  FROM APP_LINE 
- 		 WHERE app_no = #{appNo}
-    </delete>
-    
     <!-- 상신취소문서 재결재  -->
     
-    <update id="updateApp">
+    <update id="insertCancleApp">
     	update approval
     	   set UPDATE_DATE = sysdate
 			 , DOC_TITLE = #{docTitle}
@@ -471,7 +478,8 @@
     	 where APP_NO = #{appNo}
     </update>
     
-    <!-- 임시저장에서의 결재선 insert -->
+      
+    <!-- 상신취소, 임시저장에서 결재선 insert -->
     <insert id="reinsertAppLine">
 	    insert 
 	      into app_line
@@ -492,20 +500,22 @@
 			 )
     </insert>
     
-    <update id="insertCancleApp">
-		update approval
-		   set  create_date = sysdate
-		      , doc_title = #{docTitle}
-		      , doc_content = #{docContent}
-		      , doc_originname = #{docOriginName}
-		      , doc_filepath = #{docFilePath}
-		      , app_status = 0
-		      , doc_status = 'Y'
-		      , app_count = #{appCount}
-		      , app_turn = 1
-		      , quit_date = #{quitDate}
-	      where app_no = #{appNo}
-    </update>
+    <!-- 상신취소, 임시저장에서 참조선 insert -->
+    <insert id="reinsertRefLine">
+	    insert 
+	      into reference
+			 (
+			   REF_NO
+			 , APP_NO
+			 , EMP_NO
+			 )
+	    values
+			 (
+			   SEQ_ALNO.nextval
+			 , #{appNo}
+			 , #{empNo}
+			 )
+    </insert>
     
     <!-- 참조 문서 게시글 수 카운트 -->
 	<select id="selectRefListCount" resultType="_int">

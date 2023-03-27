@@ -388,9 +388,9 @@ public class ApprovalController {
 			
 		}		
 		
-		int deleteAppLine = aService.deleteAppLine(a);
+		int resultLine = aService.deleteLine(a);
 		
-		if(deleteAppLine>0) {
+		if(resultLine>0) {
 			int result = aService.resaveApproval(a);
 			session.setAttribute("alertMsg","임시저장 되었습니다.");
 			return "redirect:draftList.app";
@@ -474,9 +474,9 @@ public class ApprovalController {
 			
 		}
 		
-		int deleteAppLine = aService.deleteAppLine(a);
+		int resultLine = aService.deleteLine(a);
 		
-		if(deleteAppLine>0) {
+		if(resultLine>0) {
 			int result = aService.reinsertApp(a);
 			session.setAttribute("alertMsg","문서가 등록 되었습니다.");
 			return "redirect:mylist.app";

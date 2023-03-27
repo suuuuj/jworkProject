@@ -142,10 +142,14 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return aDao.resaveApproval(sqlSession,a);
 	}
 	
-	// 기존 결재선 삭제
+	//기존 결재선, 참조선 삭제
 	@Override
-	public int deleteAppLine(Approval a) {
-		return aDao.deleteAppLine(sqlSession,a);
+	public int deleteLine(Approval a) {
+		
+		int result1 = aDao.deleteAppLine(sqlSession,a);
+		int result2 = aDao.deleteRefLine(sqlSession,a);
+		
+		return result1*result2;
 	}
 	
 	// 임시저장문서 결재
@@ -161,7 +165,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 		int result3 = 1;
 		 
 		if (a.getRlist() != null && a.getRlist().size()>0) {
-	        result3 = aDao.insertNewRefLine(sqlSession,a);
+	        result3 = aDao.reinsertRefLine(sqlSession,a);
 	   }
 		
 		return result1*result2*result3; 
@@ -178,7 +182,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 		int result3 = 1;
 		 
 		if (a.getRlist() != null && a.getRlist().size()>0) {
-	        result3 = aDao.insertNewRefLine(sqlSession,a);
+	        result3 = aDao.reinsertRefLine(sqlSession,a);
 	   }
 		
 		
@@ -207,6 +211,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public ArrayList<Approval> selectRefList(PageInfo pi, int empNo) {
 		return aDao.selectRefList(sqlSession,pi, empNo);
 	}
+
+
+	
 
 	
 
