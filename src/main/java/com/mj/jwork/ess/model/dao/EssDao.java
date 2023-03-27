@@ -392,6 +392,8 @@ public class EssDao {
 	
 	public Attendence selectWeekRemainWorktime(SqlSession sqlSession, int empNo) {
 		return sqlSession.selectOne("essMapper.selectWeekRemainWorktime", empNo);
+	}
+	
 	public Worktime selectSignedWorktime(SqlSession sqlSession, int wtNo) {
 		
 		return sqlSession.selectOne("essMapper.selectSignedWorktime", wtNo);
