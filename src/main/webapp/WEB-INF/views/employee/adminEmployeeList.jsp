@@ -303,14 +303,14 @@
                                         <th>부서</th>
                                         <td>
                                             <select name="deptCode" id="dept">
-                                                <option value="">부서없음</option>
+                                                <option value="0">부서없음</option>
                                             </select>
                                         </td>
                                         <th><td></td></th>
                                         <th>팀</th>
                                         <td>
                                             <select name="teamCode" id="team">
-                                                <option value="">팀없음</option>
+                                                <option value="0">팀없음</option>
                                             </select>
                                         </td>
                                     </tr>

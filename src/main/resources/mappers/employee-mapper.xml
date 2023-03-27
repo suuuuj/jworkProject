@@ -159,6 +159,15 @@
 		 where emp_no = #{empNo}
 	</update>
 	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePwd">
+		update
+			   employee
+		   set emp_pwd = #{empPwd}
+		     , modify_date = sysdate
+		 where emp_no = #{loginNo}
+	</update>
+	
 	<!-- 결재선 선택시 사원조회리스트(ajax)  -->
 	<select id="ajaxSelectEmpList" resultMap="employeeResult"> 
 		select
@@ -1229,5 +1238,7 @@
 			   , seq_eno.currval <!-- 등록한 사원의 사원번호 -->
 			   )
 	</insert>
+	
+
 	
 </mapper>

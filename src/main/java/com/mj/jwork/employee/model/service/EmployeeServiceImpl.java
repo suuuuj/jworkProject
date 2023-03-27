@@ -44,6 +44,12 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public int updateProfileImg(Employee e) {
 		return eDao.updateProfileImg(sqlSession, e);
 	}
+	
+	// 비밀번호 변경
+	@Override
+	public int updatePwd(Employee e) {
+		return eDao.updatePwd(sqlSession, e);
+	}
 
 	
 	//결재선 선택시 사원조회리스트(ajax)
@@ -408,6 +414,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public int insertSchBasicGroup() {
 		return eDao.insertSchBasicGroup(sqlSession);
 	}
+
+
 
 	
 
