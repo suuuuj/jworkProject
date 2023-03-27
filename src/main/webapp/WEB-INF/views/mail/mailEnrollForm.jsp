@@ -254,7 +254,7 @@
                             </tr>
                             <tr>
                                 <td>제목</td>
-                                <td colspan="2"><div class="titleInput"><input type="text" style="width:850px" id="mailTitle" name="mailTitle"></div></td>
+                                <td colspan="2"><div class="titleInput"><input type="text" style="width:850px" id="mailTitle" name="mailTitle" value="${ reply.mailTitle }"></div></td>
                             </tr>
                             <tr>
                                 <td>파일 첨부</td>
@@ -595,7 +595,10 @@
                     document.getElementById('upfile').files = dt.files;
                 })
 
-                
+                // 답장시 제목에 RE : 붙이기
+                if($("#mailTitle").val() != ""){
+                    $("#mailTitle").val("RE:" + $("#mailTitle").val());
+                }
                 
 
             }) 

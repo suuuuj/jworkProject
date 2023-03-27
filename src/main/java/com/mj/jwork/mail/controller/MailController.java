@@ -56,7 +56,7 @@ public class MailController {
 		
 		ArrayList<Mail> mList = mService.selectMailList(m, pi);
 		
-		System.out.println(mList);
+		//System.out.println(mList);
 		//System.out.println(mList.get(0).getMailList());
 		if(m.getMailCategory().equals("사용자메일함")) {
 			mv.addObject("mailBoxName", mailBoxName);
@@ -459,9 +459,11 @@ public class MailController {
 		
 	// 메일 답장
 	@RequestMapping("reply.ma")
-	public String replyMail(Mail m, Model model) {
+	public String replyMail(Mail m, Model model, HttpSession session) {
 		//System.out.println();
-		model.addAttribute("reply", m);
+		// 임시저장 메일 개수
+			int savedMailCount = mService.savedMailCount(((Employee)session.getAttribute("loginUser")).getEmpNo());
+		model.addAttribute("reply", m).addAttribute("savedMailCount", savedMailCount);
 		
 		return "mail/mailEnrollForm";
 		
