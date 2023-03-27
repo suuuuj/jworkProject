@@ -423,32 +423,25 @@ public class ApprovalController {
 			a.setDocOriginName(reupfile.getOriginalFilename());
 			a.setDocFilePath(saveFilePath);
 			
-			if(result>0) {
-				Approval app = aService.selectAppInfo(a.getAppNo());
-				Alarm alarm = new Alarm();
-				alarm.setTargetNo(app.getTargetNo());
-				alarm.setAlarmMsg("결재할 문서가 도착했습니다. (" + app.getDocNo() + ")");
-				alarm.setRefNo(app.getAppNo());
-				alarm.setRefType("approval");
-				alarm.setUrl("unsignDetail.app?no=" + app.getAppNo());
-				
-				alarmService.insertAlarm(alarm);
-				
-				SendAlarm.sendAlarm(alarm, ec.getSessionList());
-				
-				session.setAttribute("alertMsg","문서가 등록 되었습니다.");
-				return "redirect:mylist.app";
-			}else {// 문서등록 실패
-				model.addAttribute("errorMsg", "문서등록 실패");
-				return "common/errorPage";
-				
-			}
 	
 		}
 		
 		int result = aService.insertDrafbox(a);
 		
 		if(result>0) {
+			
+			Approval app = aService.selectAppInfo(a.getAppNo());
+			Alarm alarm = new Alarm();
+			alarm.setTargetNo(app.getTargetNo());
+			alarm.setAlarmMsg("결재할 문서가 도착했습니다. (" + app.getDocNo() + ")");
+			alarm.setRefNo(app.getAppNo());
+			alarm.setRefType("approval");
+			alarm.setUrl("unsignDetail.app?no=" + app.getAppNo());
+			
+			alarmService.insertAlarm(alarm);
+			
+			SendAlarm.sendAlarm(alarm, ec.getSessionList());
+			
 			session.setAttribute("alertMsg","문서가 등록 되었습니다.");
 			return "redirect:mylist.app";
 		}else {// 문서등록 실패
