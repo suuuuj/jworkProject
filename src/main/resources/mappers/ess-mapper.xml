@@ -1012,11 +1012,11 @@
 		select
 			   att_no
 			 , emp_no
-		     , start_time
-		     , end_time
+		     , nvl(start_time, '') start_time
+		     , nvl(end_time, '') end_time
 		     , att_status
-		     , att_date
-		  from attendence a
+		     , to_char(to_date(att_date, 'yy/mm/dd'), 'YYYY-MM-DD') as "att_date"
+		  from attendence 
 		 where emp_no = #{empNo}
 	</select>
 	
