@@ -9,10 +9,10 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <!-- jquery CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- fullcalendar CDN -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<!-- 풀캘린더 -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
+<!-- <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'> -->
+<!-- <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'> -->
 <!-- fullcalendar 언어 CDN -->
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
 <script>
@@ -39,9 +39,6 @@
             locale: 'ko', // 한국어설정
             events:
             [   
-                <c:forEach var="a" items="${alist}">
-                    { title: '①출근 ${a.startTime}', start: '${a.startTime}', color: 'rgb(224, 224, 224)', textColor: 'rgb(51, 51, 51)' },
-                </c:forEach>
                 /*
                 {
                 //title:String, 이벤트에 표시될제목,
@@ -70,20 +67,19 @@
                     textColor:'rgb(50,50,50)',
                     start:'2023-03-08'
                 }
+                */
                 
                 $(function(){
                     $.ajax({
-                        url:"workResult.at",
+                        url:"ajaxWorkCalendar.at",
                         dataType:"JSON",
                         type:"GET",
                         success:function(map){
-
-                            //var alist = map.alist;
                             console.log(map);
-                            for(i=0; i<map.length; i++){
+                            for(i=0; i<map.alist.length; i++){
                                 calendar.addEvent({
-                                    title: "①출근 " + map[i].startTime ,
-                                    start: map[i].startTime,
+                                    title: "①출근 " + map.alist[i].startTime ,
+                                    start: map.alist[i].startTime,
                                     color:'rgb(224, 224, 224)',
                                     textColor:'rgb(51, 51, 51)'
                                 })
@@ -95,7 +91,6 @@
                         }
                     })
                 })
-                */
 
             ]
 
@@ -118,7 +113,7 @@
     .workTable{
         margin:auto;
         text-align: center;
-        width:900px;
+        width:850px;
         border-top:1px solid rgb(234, 234, 234);
         border-bottom:1px solid rgb(234, 234, 234);
         border-left:1px solid rgb(234, 234, 234);
@@ -173,8 +168,8 @@
                     <tbody>
                         <tr>
                             <td>${week.weekTime}</td>
-                            <td>3${oweek.weekTime}</td>
-                            <td>20시간 00분</td>
+                            <td>${oweek.weekTime}</td>
+                            <td>${remain.remainTime}</td>
                             <td>${month.monthTime}</td>
                         </tr>
                     </tbody>

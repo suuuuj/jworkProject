@@ -32,10 +32,13 @@
         border:1px solid rgb(170, 170, 170);
     }
     .workSelect input[type=text]{
-        width:150px;
+        width:80px;
         height:30px;
         border-radius: 5px;
         border:1px solid rgb(170, 170, 170);
+    }
+    .workSelect input[type=text]::placeholder{
+        font-size: 13px;
     }
     .workSelect button{
         width:60px;
@@ -124,55 +127,39 @@
                     <button type="button" id="finBtn" style="background: gray;">조퇴</button>
                     <button type="button" id="reBtn" style="background: gray;">결근</button>
                 </div>
-                <div style="margin-left:267px;">
-                        <select name="dept" id="">
-                            <option value="">인사부</option>
-                            <option value="">총무부</option>
-                            <option value="">개발부</option>
-                        </select>
-                        <input type="text" name="" value="" placeholder="&nbsp;사원명/사원번호">
+                <div style="margin-left:300px;">
+                        <input type="text" name="" value="" placeholder="&nbsp;시작일">
+                        <span style="font-size:25px;">~</span>
+                        <input type="text" name="" value="" placeholder="&nbsp;종료일">
                         <button type="button" class="btn btn-success">검색</button>
                 </div>
                 
             </div>
 
-            <br><br><br>
+            <br>
 
             <div class="workList">
-                <div class="workDay">
-                    <form action="">
-                        <button type="button" id="daycheck"><</button>
-                        <input type="text" name="" value="2023.03.06">
-                        <button type="button" id="daycheck">></button>&nbsp;&nbsp;
-
-                        <!--
-                        <button type="button" onclick="$('#dataBtn').click();">클릭</button>
-                        <input type="date" id="dateBtn" name="" value="" style="display:none">
-                        -->
-                    </form>
-                </div>
-
-                <br>
-                
                 <table class="workTable">
                     <colgroup>
+                        <col width="5%">
                         <col width="*">
                         <col width="*">
                         <col width="*">
                         <col width="*">
                         <col width="**">
-                        <col width="15%">
-                        <col width="15%">
-                        <col width="15%">
+                        <col width="12%">
+                        <col width="12%">
+                        <col width="12%">
                         <col width="10%">
                     </colgroup>
                     <thead>
                             <tr style="font-weight: 600; background: rgb(234, 234, 234);">
+                                <td scope="col">No.</td>
                                 <td scope="col">사번</td>
                                 <td scope="col">소속</td>
-                                <td scope="col">팀명</td>
                                 <td scope="col">직위</td>
                                 <td scope="col">이름</td>
+                                <td scope="col">근무일자</td>
                                 <td scope="col">출근시간</td>
                                 <td scope="col">퇴근시간</td>
                                 <td scope="col">총근무시간</td>
@@ -205,7 +192,8 @@
             $.ajax({
                 url: "adWorktimeStatus.at",
                 data:{
-                    appStatus: status,
+                    empNo:${e.empNo},
+                    attStatus: status,
                     cpage: cpage
                     },
                 success:function(map){
@@ -223,15 +211,16 @@
                     
                     for(i=0; i<map.list.length; i++){
                         value += "<tr>"
-                                 + "<td class='ano'>" + map.list[i].attNo + "</td>"
-                                 + "<td>" + map.list[i].deptName + "</td>"
+                                 + "<td>" + map.list[i].attNo + "</td>"
+                                 + "<td class='ano'>" + map.list[i].empNo + "</td>"
                                  + "<td>" + map.list[i].teamName + "</td>"
                                  + "<td>" + map.list[i].jobName + "</td>"
                                  + "<td>" + map.list[i].empName + "</td>"
+                                 + "<td>" + map.list[i].attDate + "</td>"
                                  + "<td>" + map.list[i].startTime + "</td>"
                                  + "<td>" + map.list[i].endTime + "</td>"
                                  + "<td>" + map.list[i].attTime + "</td>"
-                                 + "<td>" + map.list[i].attCheck + "</td></tr>";
+                                 + "<td>" + map.list[i].attStatus + "</td></tr>";
                     }
                     $(".workTable tbody").html(value);
                     
