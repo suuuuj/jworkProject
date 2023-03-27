@@ -140,12 +140,14 @@
 			,RES_NO
 		from cfr_reservation
 	where res_no = #{resNo}
+	 order by USE_DATE desc
 	</select>
 
 	<update id="updateCfr">
 		update
 			cf_room
 		set CAPACITY=#{capacity}
+		,cfr_img=#{firstImg}
 		,equipment=#{equipment}
 		where cfr_name=#{cfrName}
 	</update>
@@ -163,6 +165,7 @@
            from cfr_reservation c
            join employee e on (c.reservation=e.emp_no)
          where c.status in (2,4)
+         order by USE_DATE desc
 	</select>
 	<update id="deleteCfrRes" >
 		update
@@ -200,5 +203,38 @@
          where CFR_NAME=#{cfrName}
          and USE_DATE=#{useDate}
 	
+	</select>
+	<select id="selectResListCount" resultType="_int">
+		select count(*) 
+		from cfr_reservation	
+		where status in (2,4)
+	</select>
+	<select id="selectDetailRes" resultMap="cfrResMap">
+		select count(*) 
+		from cfr_reservation	
+		where status in (2,4)
+	</select>
+	<select id="cfrResListCount" resultType="_int">
+		select count(*) 
+		from cfr_reservation	
+		where status in (2,4)
+		and cfr_name=#{cfrName}
+	</select>
+	<select id="cfrDetailRes" resultMap="cfrResMap">
+			select
+		    RES_NO
+           ,CFR_NAME
+           ,c.STATUS
+           ,START_TIME
+           ,END_TIME
+           ,USE_DATE
+           ,reservation
+           ,CF_TITLE
+           ,EMP_NAME
+           from cfr_reservation c
+           join employee e on (c.reservation=e.emp_no)
+         where c.status in (2,4)
+         and cfr_name=#{cfrName}
+         order by USE_DATE desc
 	</select>
 </mapper>

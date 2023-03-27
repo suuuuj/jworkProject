@@ -2,6 +2,7 @@ package com.mj.jwork.reservation.controller;
 
 import java.io.Console;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -120,17 +121,24 @@ public class CfrResController {
 	@RequestMapping(value="list.acfrn",produces="application/json; charset=utf-8")
 	public String ajaxselectCfrNList() {
 		ArrayList<CfRoom>list = cRService.selectNList();
-		
 		return new Gson().toJson(list);
 		
 		}
 	//회의실 예약 내역 조회
 	@ResponseBody
 	@RequestMapping(value="call.events",produces="application/json; charset=utf-8")
-	public String ajaxselectCfrList() {
-		ArrayList<CfrReservation>list = cRService.selectResList();
+	public String ajaxselectCfrList(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
 		
-		return new Gson().toJson(list);
+		int listCount = cRService.selectListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+		ArrayList<CfrReservation>list = cRService.selectPagingResList(pi);
+		
+		HashMap<String, Object> map = new HashMap();
+		map.put("listCount", listCount);
+		map.put("pi", pi);
+		map.put("list", list);
+		
+		return new Gson().toJson(map);
 		
 	}
 	
@@ -186,9 +194,18 @@ public class CfrResController {
 		
 	@ResponseBody
 	@RequestMapping(value="select.cfrRes",produces="application/json; charset=utf-8")
-	public String selectDetailRes(String cfrName) {
-		ArrayList<CfrReservation>list = cRService.selectDetailRes(cfrName);
-		return new Gson().toJson(list);
+	public String selectDetailRes(@RequestParam(value="cpage", defaultValue="1") int currentPage,String cfrName,Model model, HttpServletRequest request) {
+
+		int listCount = cRService.cfrResListCount(cfrName);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+		ArrayList<CfrReservation>list = cRService.selectDetailRes(pi,cfrName);
+		
+		HashMap<String, Object> map = new HashMap();
+		map.put("listCount", listCount);
+		map.put("pi", pi);
+		map.put("list", list);
+		
+		return new Gson().toJson(map);
 	}
 	
 }

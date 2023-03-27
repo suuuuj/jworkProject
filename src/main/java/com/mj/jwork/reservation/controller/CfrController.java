@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.FileUpload;
 import com.mj.jwork.common.template.Pagination;
+import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.reservation.model.service.CfrService;
 import com.mj.jwork.reservation.model.vo.CfRoom;
 
@@ -31,7 +32,14 @@ public class CfrController {
 	private CfrService cService;
 	
 	@RequestMapping("list.cfr")
-	public ModelAndView selectCfrList(@RequestParam(value="cpage",defaultValue="1")int currentPage,ModelAndView mv) {
+	public ModelAndView selectCfrList(@RequestParam(value="cpage",defaultValue="1")int currentPage,ModelAndView mv,HttpSession session) {
+		Employee e = (Employee)session.getAttribute("loginUser");
+		
+		if(e.getDeptCode() != 2 || e.getJobCode() > 5){
+			mv.addObject("errorMsg", "접근권한이 없습니다.").setViewName("common/errorPage");
+			return mv;
+		}
+		
 		int listCount = cService.selectListCount();
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 6);
 		ArrayList<CfRoom>list = cService.selectList(pi);

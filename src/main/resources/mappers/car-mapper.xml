@@ -250,6 +250,7 @@
 	        ,GEAR_TYPE=#{gearType}
 	        ,CAR_COLOR =#{color}
 	        ,MAKER =#{maker}
+	        ,car_img=#{carImg}
 	        ,FUEL_TYPE =#{fuelType}
 	        ,MODEL_YEAR =#{modelYear}
 	        ,ETC =#{etc}

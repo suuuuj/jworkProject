@@ -64,7 +64,32 @@ public class CfrResDao {
 		return (ArrayList)sqlSession.selectList("cfrMapper.ajaxSelectTime",c);
 	}
 	
-	public ArrayList<CfrReservation> selectDetailRes(SqlSessionTemplate sqlSession, String cfrName){
-		return (ArrayList)sqlSession.selectList("cfrMapper.selectDetailRes",cfrName);
+
+	
+	public int selectListCount(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("cfrMapper.selectResListCount");
+	}
+	
+	public ArrayList<CfrReservation>selectPagingResList(SqlSessionTemplate sqlSession,PageInfo pi){
+		
+		int offset = (pi.getCurrentPage() -1)* pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("cfrMapper.selectResList",null,rowBounds);
+	}
+	
+	public ArrayList<CfrReservation> selectDetailRes(SqlSessionTemplate sqlSession,PageInfo pi, String cfrName){
+		int offset = (pi.getCurrentPage() -1)* pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("cfrMapper.cfrDetailRes",cfrName,rowBounds);
+	}
+	
+	public int cfrResListCount(SqlSessionTemplate sqlSession,String cfrName) {
+		
+		return sqlSession.selectOne("cfrMapper.cfrResListCount",cfrName);
 	}
 }

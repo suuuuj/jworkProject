@@ -261,7 +261,7 @@
                     </div>
 
                     <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/ess.png" alt="" />예약</div>
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/address2.png" alt="" />예약</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="" href="status.car">차량예약신청</a><br>

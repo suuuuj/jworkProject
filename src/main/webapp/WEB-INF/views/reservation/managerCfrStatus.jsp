@@ -120,25 +120,25 @@
                  events: [
                  	<c:forEach var="c" items="${list}">
                  		<c:if test="${c.cfrName eq '1회의실'}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#FF5B5B'},
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.empName} / ${c.cfTitle} ', color: '#FF5B5B'},
                   		</c:if>
                      	<c:if test="${c.cfrName eq '2회의실'}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#f7C38C'},
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.empName} / ${c.cfTitle}', color: '#f7C38C'},
                   		</c:if>
                      	<c:if test="${c.cfrName eq '3회의실'}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#FFFF7D'},
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.empName} / ${c.cfTitle}', color: '#FFFF7D'},
                   		</c:if>
                      	<c:if test="${c.cfrName eq '4회의실'}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#61Cf8F'},
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.empName} / ${c.cfTitle}', color: '#61Cf8F'},
                   		</c:if>
                      	<c:if test="${c.cfrName eq '5회의실'}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#8DD7EE'},
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.empName} / ${c.cfTitle}', color: '#8DD7EE'},
                   		</c:if>
                      	<c:if test="${c.cfrName eq '6회의실'}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#54A1DC'},
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.empName} / ${c.cfTitle}', color: '#54A1DC'},
                   		</c:if>
                      	<c:if test="${c.cfrName eq '7회의실'}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#F0B6D8'},
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.empName} / ${c.cfTitle}', color: '#F0B6D8'},
                   		</c:if>
                      	
                     </c:forEach>
@@ -271,7 +271,7 @@
                 </div>
                 <br>
                 <div style="width:800px">
-                    <table  style="width:800px; height:300px;"> 
+                    <table  style="width:800px; height:320px;"> 
                         <tr>
                             <th>회의실명</th>
                             <td id="inputCfrName"></td>
@@ -280,7 +280,7 @@
                             <th>회의실 이미지</th>
                             <td >
                                 <div style="width: 320px;">
-                                    <img src="" width="150px" height="100px" id="firstImg">
+                                    <img src="" width="220px" height="170px" id="firstImg">
                                 </div>
                             </td>
                             
@@ -323,7 +323,7 @@
             		
             		$("#btn-area").html(value);
             		$("select[name=cfrName]").html(value2);
-            		
+            		$("#btn-area .btn")[0].click();
             		
             	},error:function(){
             		console.log("ajax통신실패");
@@ -474,11 +474,11 @@
     
             <!-- Modal body -->
             <div class="modal-body">
-                <table id="cfrDetail">
+                <table id="cfrDetail" style="width:600px;">
                     <tr >
                         <th >회의실명</th>
                         <td>
-                            <div class="col-10">
+                            <div class="col-7">
                             	<span id="cfN"></span>
                             </div>
                         </td>
@@ -486,13 +486,13 @@
                     <tr>
                         <th>회의실 이미지</th>
                         <td>
-                        	&nbsp; &nbsp;&nbsp;<img id="cfrImg"   width="190px" height="120px" readonly>
+                        	&nbsp; &nbsp;&nbsp;<img id="cfrImg"   width="230px" height="150px" readonly>
                         </td>
                     </tr>
                     <tr>
                         <th >인원</th>
                         <td>
-                          <div class="col-10">
+                          <div class="col-4">
                          	 <span id="cap"></span>
                             </div>
                         </td>
@@ -510,7 +510,7 @@
     
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal" onclick=" $('#carDetailView').modal('hide');">닫기</button>
+                <button type="button" class="btn btn-sm btn-outline-success" data-dismiss="modal" onclick=" $('#cfrDetailView').modal('hide');">닫기</button>
             </div>
     
         </div>
