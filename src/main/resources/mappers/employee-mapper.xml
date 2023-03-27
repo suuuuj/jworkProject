@@ -135,7 +135,7 @@
 		 where e.status = 'Y'
 		   and account_status = 'Y'
 		   and e.emp_no = #{empNo}
-		   and att_date = '23/03/22'
+		   and att_date = to_char(sysdate, 'yy/mm/dd')
 	</select>
 	
 	<!-- 사원 정보 수정 -->
