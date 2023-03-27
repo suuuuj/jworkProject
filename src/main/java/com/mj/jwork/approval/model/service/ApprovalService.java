@@ -17,8 +17,8 @@ public interface ApprovalService{
 	ArrayList<AppLine> selectAppLine(int appNo);
 	
 	//미결재문서 리스트 조회
-	int selectUnsignListCount(int empNo);
-	ArrayList<Approval> selectUnsignList(PageInfo pi, int empNo);
+	int selectUnsignListCount(Approval a);
+	ArrayList<Approval> selectUnsignList(PageInfo pi, Approval a);
 	
 	//결재문서 리스트 조회
 	int selectSignListCount(int empNo);
@@ -68,6 +68,4 @@ public interface ApprovalService{
 	// 알람 보낼 정보 조회
 	Approval selectAppInfo(int newAppNo);
 	
-	
-
 }

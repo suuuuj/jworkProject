@@ -44,6 +44,8 @@
         color: rgb(14, 126, 14);
         font-weight: bolder;
    } 
+   
+
 </style>
 </head>
 <body>
@@ -55,23 +57,32 @@
             </div>
         </div>
         <br>
-        <div class="btnNSerch">
+        <div class="btnNSerch" align="right">
             <table>
                 <tr>
-                    <td class="btnArea"></td>
-                    <td class="searchArea">
-                        <select class="searchBox">
-                            <option selected>결재종류</option>
-                            <option value="">제목</option>
-                            <option value="">작성자</option>
-                        </select>
-                        <input type="text" class="inputSearch">
-                        <button type="button" class="btn btn-success btn-sm mr-2" onclick="">검색</button>
+                    <td id="searchArea">
+	                    <form action="search.app" method="get">
+	                    	<input type="hidden" name="cpage" value="1">
+		                        <select class="condition" name="condition">
+		                            <option value="title">제목</option>
+		                            <option value="content">내용</option>
+		                            <option value="writer">기안자</option>
+		                            <option value="type">문서번호</option>
+		                        </select>
+                        	<input type="text" class="inputSearch keyword" name="keyword" value="${ keyword }">
+                        	<button type="submit" id="searchBtn" class="btn btn-success btn-sm mr-2" id="searchBtn">검색</button>
+	                   </form>
                     </td>
                 </tr>
             </table>
         </div>
         <br>
+        
+       <script>
+      	 if(${not empty condition}){
+          	 document.querySelector("#searchArea option[value=${ condition }]").selected = true;
+      	 }
+        </script>
         
         <table class="table table-hover" id="appListTB" >
             <colgroup>
@@ -95,8 +106,6 @@
                 </tr>
             </thead>
             <tbody id="defaultAllTB">
-           
-           
             	<c:forEach var="a" items="${ list }">
 	                <tr>
 						<td class="ano">${ a.appNo }</td>
@@ -125,38 +134,71 @@
         		})
         	})
         </script>
-        
-        
-        
         <br>
+		<!-- 페이징바 -->
         <div id="pagingArea">
-        <c:if test="${ not empty list}">
+         <c:if test="${ not empty list}">
             <ul class="my pagination justify-content-end pagination-sm">
             
-            <c:choose>
-            	<c:when test="${ pi.currentPage eq 1 }">
-                	<li class="page-item disabled" ><a class="page-link" href="#" style="color:rgb(196, 197, 197)">Previous</a></li>
-          		</c:when>
-            	<c:otherwise>
-             	   <li class="page-item"><a class="page-link" href="unsignlist.app?cpage=${ pi.currentPage-1 }">Previous</a></li>
+			<c:choose>
+				<c:when test="${ pi.currentPage eq 1 }">
+                	<c:choose>
+                    	<c:when test="${ empty keyword }">
+                        	<li class="page-item disabled" ><a class="page-link" href="#" style="color:rgb(196, 197, 197)">Previous</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item disabled"><a class="page-link" href="search.app?cpage=${ pi.currentPage - 1 }&condition=${ condition }&keyword=${ keyword }" style="color:rgb(196, 197, 197)">Previous</a></li>
+                        </c:otherwise>
+                    </c:choose>
+       			</c:when>
+       			<c:otherwise>
+                    <c:choose>
+                        <c:when test="${ empty keyword }">
+                             <li class="page-item"><a class="page-link" href="unsignlist.app?cpage=${ pi.currentPage - 1 }">Previous</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link" href="search.app?cpage=${ pi.currentPage - 1 }&condition=${ condition }&keyword=${ keyword }">Previous</a></li>
+                         </c:otherwise>
+                    </c:choose>
                 </c:otherwise>
-            </c:choose>
-            
-           	<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-        		<li class="page-item"><a class="page-link" href="unsignlist.app?cpage=${ p }">${ p }</a></li>
-        	</c:forEach>
-            
-            <c:choose>
-         		<c:when test="${ pi.currentPage eq pi.maxPage }">
-          			<li class="page-item disabled"><a class="page-link " href="#" style="color:rgb(196, 197, 197)">Next</a></li>
-          		</c:when>
-          		<c:otherwise>
-          			<li class="page-item"><a class="page-link" href="unsignlist.app?cpage=${ pi.currentPage+1 }">Next</a></li>
-          		</c:otherwise>
-        	</c:choose>
+           	</c:choose>
+                  
+                  <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+                      <c:choose>
+                          <c:when test="${ empty keyword }">
+                  	        <li class="page-item"><a class="page-link" href="unsignlist.app?cpage=${ p }">${ p }</a></li>
+                          </c:when>
+                          <c:otherwise>
+                              <li class="page-item"><a class="page-link" href="search.app?cpage=${ p }&condition=${ condition }&keyword=${ keyword }">${ p }</a></li>
+                          </c:otherwise>
+                      </c:choose>
+                  </c:forEach>
+                  <c:choose>
+                  	<c:when test="${ pi.currentPage eq pi.maxPage }">
+                          <c:choose>
+                              <c:when test="${ empty keyword }">
+                                  <li class="page-item disabled"><a class="page-link " href="#" style="color:rgb(196, 197, 197)">Next</a></li>
+                              </c:when>
+                              <c:otherwise>
+                                  <li class="page-item disabled"><a class="page-link" style="color:rgb(196, 197, 197)" href="search.app?cpage=${ pi.currentPage + 1 }&condition=${ condition }&keyword=${ keyword }">Next</a></li>
+                              </c:otherwise>
+                          </c:choose>
+				</c:when>
+                  	<c:otherwise>
+                          <c:choose>
+                              <c:when test="${ empty keyword }">
+                                  <li class="page-item"><a class="page-link" href="unsignlist.app?cpage=${ pi.currentPage + 1 }">Next</a></li>
+                              </c:when>
+                              <c:otherwise>
+                                  <li class="page-item"><a class="page-link" href="search.app?cpage=${ pi.currentPage + 1 }&condition=${ condition }&keyword=${ keyword }">Next</a></li>
+                              </c:otherwise>
+                          </c:choose>
+                  	</c:otherwise>
+                  </c:choose>
               </ul>
-        </c:if>
-        </div>
+          </c:if>
+          </div>
+        	
 
     </div> <!-- end of outer-->
 </div>

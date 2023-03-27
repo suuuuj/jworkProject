@@ -35,10 +35,15 @@ public class Approval {
 	 private String docName;
 	 private String jobName;
 	 private String reReason;
+	 private String appDate;
 	 
 	 private int targetNo;
 	 
 	 ArrayList<AppLine> alist;
 	 ArrayList<Reference> rlist;
+	 
+	 //검색 필드
+	 private String condition;
+	 private String keyword;
 
 }

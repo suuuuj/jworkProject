@@ -45,20 +45,20 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	//미결재문서 카운팅
 	@Override
-	public int selectUnsignListCount(int empNo) {
-		return aDao.selectUnsignListCount(sqlSession, empNo);
+	public int selectUnsignListCount(Approval a) {
+		return aDao.selectUnsignListCount(sqlSession, a);
 	}
 	
 	//미결재문서 리스트 조회
 	@Override
-	public ArrayList<Approval> selectUnsignList(PageInfo pi, int empNo) {
-		return aDao.selectUnsignList(sqlSession,pi, empNo);
+	public ArrayList<Approval> selectUnsignList(PageInfo pi, Approval a) {
+		return aDao.selectUnsignList(sqlSession,pi, a);
 	}
 	
 	//결재문서 카운팅
 	@Override
 	public int selectSignListCount(int empNo) {
-		return aDao.selectUnsignListCount(sqlSession, empNo);
+		return aDao.selectSignListCount(sqlSession, empNo);
 	}
 	
 	
@@ -211,7 +211,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public ArrayList<Approval> selectRefList(PageInfo pi, int empNo) {
 		return aDao.selectRefList(sqlSession,pi, empNo);
 	}
-
+	
 
 	
 
