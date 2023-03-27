@@ -70,35 +70,27 @@
         <br><br>
 
         <div class="enroll-area">
-            <form action="insertEmployee.ad" method="post">
+            <form action="insertEmployee.ad" method="post" enctype="multipart/form-data">
                 <div class="profileImg-pwd">
                     <div>
-                        <img id="profileImg" src="resources/images/common/profileDefault3.png" onclick="clickFile()">
-                        <input type="file" name="profileUrl" id="profileImgFile" onchange="loadImg(this)" style="display:none;">
+                        <img id="profileImg" src="<c:out value='${ e.profileUrl }' default='resources/images/common/profileDefault3.png' />" onclick="$('#profileImgFile').click();">
+                        <input type="file" name="upfile" id="profileImgFile" style="display:none;" value="">
                     </div>
                     <br>
                 </div>
 
                 <script>
-                    function clickFile(){
-                        $('input[name=profileUrl]').click();
-                    }
+                    $(function(){
+                        $("#profileImgFile").on("change", function(event) {
+                            var file = event.target.files[0];
 
-                    function loadImg(inputFile){
-                        if(inputFile.files.length == 1){
-                            const reader = new FileReader();
-                            reader.readAsDataURL(inputFile.files[0]);
-                            reader.onload = function(e){
-                                $('#profileImg').attr("src", e.target.result);
+                            var reader = new FileReader(); 
+                            reader.onload = function(e) {
+                                $("#profileImg").attr("src", e.target.result);
                             }
-                        }else{
-                            $('#profileImg').attr("src", null); 
-                        }
-
-                        console.log($('#profileImg').attr('src'))
-                    }
-
-                    
+                            reader.readAsDataURL(file);
+                        });           
+                    })
                 </script>
                 
                 <div class="profile-detail">
@@ -186,7 +178,7 @@
                     <br><br>
                     <div class="btns">
                         <button type="submit" class="btn btn-success">저장하기</button>&nbsp;&nbsp;&nbsp;
-                        <button type="reset" class="btn btn-outline-success">취소하기</button>
+                        <button type="reset" class="btn btn-outline-success" onclick="history.back();">취소하기</button>
                     </div>
             
                 </div>

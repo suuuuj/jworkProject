@@ -996,7 +996,7 @@ public class EmployeeController {
 	// 사원 관리 - 프로필 이미지 수정
 	@ResponseBody	
 	@RequestMapping("uploadProfile.ad")
-	public void updateEmpProfileImg(MultipartFile uploadFile, Employee e, 
+	public void updateEmpProfileImg(MultipartFile uploadFile, Employee e, int empNo,
 								 String originalFile, HttpSession session) { 
 		
 		if(uploadFile != null) {
@@ -1009,7 +1009,7 @@ public class EmployeeController {
 				if(!originalFile.equals("")) {
 					new File(session.getServletContext().getRealPath(originalFile)).delete();
 				}
-				//session.setAttribute("alertMsg", "수정완");
+				//
 			}
 		}	
 	}
@@ -1023,16 +1023,20 @@ public class EmployeeController {
 	
 	// 사원 등록
 	@RequestMapping("insertEmployee.ad")
-	public String insertEmployee(MultipartFile profileImg, Employee e, HttpSession session, Model model) {
+	public String insertEmployee(MultipartFile upfile, Employee e, HttpSession session, Model model) {
 		
-		System.out.println(profileImg);
-		String saveFilePath = FileUpload.saveFile(profileImg, session, "resources/profile_images/");
-		e.setProfileUrl(saveFilePath);
+		// 암호화 비밀번호
+		String encPwd = bcryptPasswordEncoder.encode(e.getEmpPwd());
+		e.setEmpPwd(encPwd);
+		if(upfile.getSize() > 0) {
+			// 프로필 이미지 업로드
+			String saveFilePath = FileUpload.saveFile(upfile, session, "resources/profile_images/");
+			e.setProfileUrl(saveFilePath);
+		}
 		
-		int result1 = eService.insertEmployee(e);
-		System.out.println(result1);
-		if(result1 > 0) {
-			//eService.insertSchBasicGroup();
+		int result = eService.insertEmployee(e);
+		if(result > 0) {
+			eService.insertSchBasicGroup();
 			session.setAttribute("alertMsg", "추가완");
 			return "redirect:employeeList.ad";
 		}else {
@@ -1041,17 +1045,6 @@ public class EmployeeController {
 		}
 	}
 	
-	
-	
-	// 로그아웃
-	@RequestMapping("logout.emp")
-	public String logOut(HttpSession session) {
-		
-		session.invalidate();
-		
-		return "redirect:/";
-		
-	}
 	
 	
 }

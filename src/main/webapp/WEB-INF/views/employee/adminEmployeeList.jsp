@@ -251,14 +251,13 @@
                                 </div>
 
                                 <script>
-                                    // 프로필수정 값 어떻게 가져와야될지 모르겠음 ㅠㅠ
                                     $(function(){
                                         $("#profileImgFile").change(function(){
                                             let formData = new FormData();
                                             let uploadFile = this.files[0];
                                             
                                             formData.append("uploadFile", uploadFile);
-                                            formData.append("empNo", empNo);
+                                            formData.append("empNo", $("input[name=empNo]").val());
                                             formData.append("originalFile", profileUrl);
                                         
                                             $.ajax({
@@ -268,6 +267,7 @@
                                                 contentType:false,
                                                 type:"POST",
                                                 success:function(){
+                                                    //수정했을때 모달창에서 로드되야하는데 안됨.. 물어보기
                                                     location.reload();
                                                 }, error:function(){
                                                     
@@ -374,6 +374,7 @@
 
         <script>
             // 상세 조회 모달
+            let profileUrl = "";
             function viewDetail(empNo) {
                 $.ajax({
                     url:"selectEmployee.ad",
@@ -427,7 +428,8 @@
                             $('#profileImg').attr('src', 'resources/images/common/profileDefault3.png');
                         }
                         $('#profileImg').attr('onclick', '$("#profileImgFile").click()');
-                        //onclick="$('#profileImgFile').click();"
+                        
+                        profileUrl = map.e.profileUrl;
 
                     }, error: function(){
                         console.log("사원상세조회 ajax 통신실패")
@@ -439,7 +441,6 @@
 
                 
 		    }
-
 
         </script>
         
