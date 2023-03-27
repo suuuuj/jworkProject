@@ -161,10 +161,15 @@ public interface EssService {
 	int adminWorktimeStatusListCount(Attendence a);
 	ArrayList<Attendence> adminWorktimeStatusList(PageInfo pi, Attendence a);
 	
+	// ------------------------------ 알람 -----------------------------------
+	// 휴가 최종 승인 후 휴가정보 	불러오기
+	Leave selectSignedLeave(int leaveNo);
 	
+	// 출장 최종 승인 후 출장 정보 불러오기
+	Businesstrip selectSignedBusinesstrip(int btNo);
 	
-	
-	
+	// 시간외근무 최종 승인 후 시간외근무 정보 불러오기
+	Overtime selectSignedOvertime(int otNo);
 	
 	
 	

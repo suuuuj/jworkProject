@@ -403,6 +403,18 @@ public class EssServiceImpl implements EssService {
 	@Override
 	public ArrayList<Attendence> adminWorktimeStatusList(PageInfo pi, Attendence a) {
 		return eDao.adminWorktimeStatusList(sqlSession, pi,a);
+	public Leave selectSignedLeave(int leaveNo) {
+		return eDao.selectSignedLeave(sqlSession, leaveNo);
+	}
+
+	@Override
+	public Businesstrip selectSignedBusinesstrip(int btNo) {
+		return eDao.selectSignedBusinesstrip(sqlSession, btNo);
+	}
+
+	@Override
+	public Overtime selectSignedOvertime(int otNo) {
+		return eDao.selectSignedOvertime(sqlSession, otNo);
 	}
 
 
