@@ -1046,6 +1046,12 @@ public class EmployeeController {
 		}
 	}
 	
+
+	// 조직도 포워딩
+	@RequestMapping("organizationChart.emp")
+	public String organizationChart() {
+		return "employee/organizationChart";
+	}
 	
 	
 }

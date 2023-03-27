@@ -206,7 +206,7 @@
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/org.png" alt="" />조직도</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
-                                <a id="" href="">조직도</a><br>
+                                <a id="" href="organizationChart.emp">조직도</a><br>
                                 <a id="" href="department.ad">부서 관리</a><br>
                                 <a id="" href="employeeList.ad">사원 관리</a><br>
                             </div>
