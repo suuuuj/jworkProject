@@ -1277,7 +1277,15 @@
 		 where ot_no = #{otNo}
 	</select>
 
-
-
+	<!-- 출퇴근시간 변경 승인 후 근태 정보 조회 -->
+	<select id="selectSignedWorktime" resultMap="worktimeResult">
+		 select
+		       wt_no
+		     , att_no
+		     , emp_no
+		  from worktime
+		 where wt_no = #{wtNo}
+	
+	</select>
 
 </mapper>

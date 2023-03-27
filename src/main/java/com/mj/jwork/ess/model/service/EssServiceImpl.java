@@ -420,6 +420,11 @@ public class EssServiceImpl implements EssService {
 		return eDao.selectSignedOvertime(sqlSession, otNo);
 	}
 
+	@Override
+	public Worktime selectSignedWorktime(int wtNo) {
+		return eDao.selectSignedWorktime(sqlSession, wtNo);
+	}
+	
 
 	
 

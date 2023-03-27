@@ -390,4 +390,10 @@ public class EssDao {
 		
 	}
 	
+	public Worktime selectSignedWorktime(SqlSession sqlSession, int wtNo) {
+		
+		return sqlSession.selectOne("essMapper.selectSignedWorktime", wtNo);
+		
+	}
+	
 }

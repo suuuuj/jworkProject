@@ -171,7 +171,8 @@ public interface EssService {
 	// 시간외근무 최종 승인 후 시간외근무 정보 불러오기
 	Overtime selectSignedOvertime(int otNo);
 	
-	
+	// 출퇴근 시간 변경 승인 후 근태정보 불러오기
+	Worktime selectSignedWorktime(int wtNo);
 	
 	
 	

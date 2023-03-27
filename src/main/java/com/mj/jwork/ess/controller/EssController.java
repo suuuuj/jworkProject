@@ -1206,6 +1206,20 @@ public class EssController {
 					int resultS = eService.adminModifyWorktimeSubmit(w);
 					
 					if(resultS > 0 && resultSS > 0) {
+						
+						Worktime wt = eService.selectSignedWorktime(w.getWtNo());
+						Alarm a = new Alarm(); 
+						a.setTargetNo(wt.getEmpNo());
+						a.setAlarmMsg("출∙퇴근 시간 변경이 승인되었습니다.");
+						a.setRefNo(wt.getAttNo());
+						a.setRefType("ess");
+						a.setUrl("list.at");
+						
+						aService.insertAlarm(a);
+						
+						SendAlarm.sendAlarm(a, ec.getSessionList());
+						
+						
 						session.setAttribute("alertMsg", "출근시간변경에 성공하였습니다.");
 						mv.setViewName("ess/workingTimeModifyList");
 					}
@@ -1219,6 +1233,19 @@ public class EssController {
 					int resultE = eService.adminModifyWorktimeSubmit(w);
 					
 					if(resultEE > 0) {
+						
+						Worktime wt = eService.selectSignedWorktime(w.getWtNo());
+						Alarm a = new Alarm(); 
+						a.setTargetNo(wt.getEmpNo());
+						a.setAlarmMsg("출∙퇴근 시간 변경이 승인되었습니다.");
+						a.setRefNo(wt.getAttNo());
+						a.setRefType("ess");
+						a.setUrl("list.at");
+						
+						aService.insertAlarm(a);
+						
+						SendAlarm.sendAlarm(a, ec.getSessionList());
+						
 						session.setAttribute("alertMsg", "퇴근시간변경에 성공하였습니다.");
 						mv.setViewName("ess/workingTimeModifyList");
 					}
@@ -1233,6 +1260,19 @@ public class EssController {
 					int resultSE = eService.adminModifyWorktimeSubmit(w);
 					
 					if(resultSSEE > 0) {
+						
+						Worktime wt = eService.selectSignedWorktime(w.getWtNo());
+						Alarm a = new Alarm(); 
+						a.setTargetNo(wt.getEmpNo());
+						a.setAlarmMsg("출∙퇴근 시간 변경이 승인되었습니다.");
+						a.setRefNo(wt.getAttNo());
+						a.setRefType("ess");
+						a.setUrl("list.at");
+						
+						aService.insertAlarm(a);
+						
+						SendAlarm.sendAlarm(a, ec.getSessionList());
+						
 						session.setAttribute("alertMsg", "근태시간변경에 성공하였습니다.");
 						mv.setViewName("ess/workingTimeModifyList");
 					}
