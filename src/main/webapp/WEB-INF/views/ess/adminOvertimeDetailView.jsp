@@ -167,7 +167,9 @@
 
             $(function(){
                 $("#otReturn").click(function(){
-                    location.href='adminReturn.ot?otNo=${ot.otNo}';
+                    if(confirm("시간외근무등록을 반려하시겠습니까?")){
+                        location.href='adminReturn.ot?otNo=${ot.otNo}';
+                    }
                 })
             })
         </script>
