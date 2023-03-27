@@ -49,8 +49,8 @@ public interface ApprovalService{
 	//상신취소, 임시저장form에서의 임시저장
 	int resaveApproval(Approval a);
 	
-	//기존 결재선 삭제
-	int deleteAppLine(Approval a);
+	//기존 결재선/참조선 삭제
+	int deleteLine(Approval a);
 	
 	//임시저장문서 결재
 	int insertDrafbox(Approval a);
@@ -67,5 +67,7 @@ public interface ApprovalService{
 	
 	// 알람 보낼 정보 조회
 	Approval selectAppInfo(int newAppNo);
+	
+	
 
 }

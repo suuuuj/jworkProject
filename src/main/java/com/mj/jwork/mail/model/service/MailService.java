@@ -63,7 +63,13 @@ public interface MailService {
 	// 메일 발송 취소
 	int cancelSend(Mail m);
 	
-	// 임시저장 메일 갯수
+	// 임시저장 메일 개수
 	int savedMailCount(int empNo);
+	
+	// 메일함에 있는 메일 개수
+	int countMailBoxMail(int mailBoxNo);
+	
+	// 메일 상세페이지 조회시 메일 상태 확인
+	Mail checkMailStatus(Mail m);
 	
 }

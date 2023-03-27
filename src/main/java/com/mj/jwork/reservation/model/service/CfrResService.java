@@ -37,4 +37,7 @@ public interface CfrResService {
 	//시간 리스트 조회용
 	
 	ArrayList<CfrReservation> ajaxSelectTime (CfrReservation c);
+	
+	//회의실별 예약 조회
+	ArrayList<CfrReservation> selectDetailRes(String cfrName);
 }

@@ -89,7 +89,9 @@
         line-height: 30px;
     }
     .receiver-delete:hover{cursor: pointer;}
-  
+  #receiver, #mailTitle{
+        border:none;
+    }
   
 </style>
 <meta charset="UTF-8">
@@ -121,28 +123,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>프로젝트 책임자</th>
-                        <td>
-                            <div class="emp-area">
-                            </div>
-                            &nbsp;
-                             <button type="button" id="chart" class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">주소록</button>
-                                    <li class="dropdown-menu">
-                                        <div class="employeeChart">
-                                            <ul id="tree" class="filetree treeview-famfamfam">
-            
-                        
-                                                
-                                          
-                                            </ul>
-                                            
-                                        </div>
-                                        
-                                    </li>
-                        </td>
-                    </tr>
-                
-                    <tr>
                         <th>프로젝트 참여자</th>
                         <td>
                              <div class="receiverInput">
@@ -161,42 +141,13 @@
                                     <li class="dropdown-menu">
                                         <div class="employeeChart">
                                             <ul id="tree" class="filetree treeview-famfamfam">
-            
-                        
-                                                
-                                          
                                             </ul>
-                                            
                                         </div>
-                                        
                                     </li>
                     
                
                         </td>
-                    </tr>
-                    <tr>
-                        <th>프로젝트 열람자</th>
-                        <td>
-                            <div class="emp-area">
-                                
-                           </div>
-                           &nbsp;
-                             <button type="button" id="chart" class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">주소록</button>
-                                    <li class="dropdown-menu">
-                                        <div class="employeeChart">
-                                            <ul id="tree" class="filetree treeview-famfamfam">
-            
-                        
-                                                
-                                          
-                                            </ul>
-                                            
-                                        </div>
-                                        
-                                    </li>
-                    
-               
-                        </td>
+                       
                     </tr>
                     <tr>
                         <th>프로젝트 내용</th>

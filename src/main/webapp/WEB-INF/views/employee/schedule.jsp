@@ -462,6 +462,8 @@
     </script>
 
     <script>
+        // 체크된 캘린더 조회하기 위한
+        
         selectScheduleList();
 
         $("#calendar").on("click", "input[type='checkbox']", function(){
@@ -471,7 +473,6 @@
                 $('#calendar').find("."+$(this).attr("id")).hide();
             }
         });
-
 
         // 체크되어있는 캘린더 번호
         check=[];
@@ -512,7 +513,6 @@
             calendarRendering(eventArr);
         })
 
-
         let schedules;
         function selectScheduleList(){
             $.ajax({
@@ -520,28 +520,8 @@
                 dataType:"JSON",
                 type:"post",
                 success:function(sList){
-                    //console.log(s.mySchList);
-                    //console.log(s.attSchList);
-                    console.log(sList);
 
-                    // schedules = s.mySchList;
-                    // let eventArr = [];
-                    // for(let c=0; c<check.length; c++){
-                    //     // check[c] = > groupNo
-                    //     for(let i=0; i<s.mySchList.length; i++){
-                    //         //s.mySchList[i].groupNo => groupNo  // groupNo 조회해오기!!!!!
-                    //         if(check[i] == s.mySchList[i].groupNo){
-                    //             let eventObj = {
-                    //                 groupId: s.mySchList[i].schNo,
-                    //                 title: s.mySchList[i].schTitle,
-                    //                 start: s.mySchList[i].schBegin,
-                    //                 end: s.mySchList[i].schEnd,
-                    //                 color: s.mySchList[i].groupColor
-                    //             }
-                    //             eventArr.push(eventObj);
-                    //         }   
-                    //     }
-                    // }
+                    console.log(sList);
 
                     schedules = sList;
                     let eventArr = [];

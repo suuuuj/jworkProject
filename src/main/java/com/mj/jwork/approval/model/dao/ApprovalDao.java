@@ -163,15 +163,29 @@ public class ApprovalDao {
 		return sqlSession.update("approvalMapper.resaveApproval",a);
 	}
 	
-	// 상신-> 임시저장 기존 결재선 삭제
+	//기존 결재선 삭제
 	public int deleteAppLine(SqlSessionTemplate sqlSession, Approval a) {
+		int count = 1;
+		System.out.println("결재선삭제: "+sqlSession.delete("approvalMapper.deleteAppLine",a));
 		
-		return sqlSession.delete("approvalMapper.deleteAppLine",a);
+		count += sqlSession.delete("approvalMapper.deleteAppLine",a);
+		
+		return count;
 		
 	}
+	// 기존 참조인 삭제
+	public int deleteRefLine(SqlSessionTemplate sqlSession, Approval a) {
+		int count = 1;
+		System.out.println("참조인삭제: "+sqlSession.delete("approvalMapper.deleteRefLine",a));
+		count += sqlSession.delete("approvalMapper.deleteRefLine",a);
+		return count;
+		
+	}
+
 	
 	// 임시저장문서 결재
 	public int insertDrafbox(SqlSessionTemplate sqlSession, Approval a) {
+		
 		return sqlSession.update("approvalMapper.insertDrafbox",a);
 	}
 
@@ -186,6 +200,23 @@ public class ApprovalDao {
 		for(AppLine al : alist) {
 			
 			count += sqlSession.insert("approvalMapper.reinsertAppLine",al);
+		}
+		
+		return count;
+	}
+	
+	//재 참조인 insert
+	public int reinsertRefLine(SqlSessionTemplate sqlSession, Approval a) {
+		int count = 0;
+		
+		ArrayList<Reference> rlist = new ArrayList<>();
+		rlist = a.getRlist();
+		//System.out.println("rlist: " + rlist);
+		
+		for(Reference rl : rlist) {
+			
+			count += sqlSession.insert("approvalMapper.reinsertRefLine",rl);
+			
 		}
 		
 		return count;
@@ -228,6 +259,8 @@ public class ApprovalDao {
 		
 	}
 
+
+	
 	
 
 

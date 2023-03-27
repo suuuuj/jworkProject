@@ -17,6 +17,7 @@
 		<result column="USE_DATE" property="useDate" />
 		<result column="CAPACITY" property="capacity" />
 		<result column="CF_TITLE" property="cfTitle" />
+		<result column="emp_name" property="empName" />
 	</resultMap>
 	<update id="updateFirstImg">
 		update CF_ROOM
@@ -149,16 +150,19 @@
 		where cfr_name=#{cfrName}
 	</update>
 	<select id="selectResList" resultMap="cfrResMap">
-		select
+			select
 		    RES_NO
            ,CFR_NAME
-           ,STATUS
+           ,c.STATUS
            ,START_TIME
            ,END_TIME
            ,USE_DATE
+           ,reservation
            ,CF_TITLE
-           from cfr_reservation
-         where status in (2,4)
+           ,EMP_NAME
+           from cfr_reservation c
+           join employee e on (c.reservation=e.emp_no)
+         where c.status in (2,4)
 	</select>
 	<update id="deleteCfrRes" >
 		update

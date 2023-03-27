@@ -56,7 +56,7 @@ public class MailController {
 		
 		ArrayList<Mail> mList = mService.selectMailList(m, pi);
 		
-		System.out.println(mList);
+		//System.out.println(mList);
 		//System.out.println(mList.get(0).getMailList());
 		if(m.getMailCategory().equals("사용자메일함")) {
 			mv.addObject("mailBoxName", mailBoxName);
@@ -116,13 +116,17 @@ public class MailController {
 	@RequestMapping("deleteMailBox.ma")
 	public String ajaxDeleteMailBox(int mailBoxNo) {
 		
+		// 해당 메일함에 있는 메일 개수 Count
+		int count = mService.countMailBoxMail(mailBoxNo);
+		
 		// 해당 메일함에 있는 메일들을 휴지통으로 이동
-		int mailsResult = mService.updateMailsWithMailBox(mailBoxNo);
+		int deleteMailsResult = mService.updateMailsWithMailBox(mailBoxNo);
 		
-		// 메일이 있었을수도,, 없었을 수도 있음,, 이것에 대한건 나중에 조건 확인할 것
+		int mailBoxResult = 0;
 		
-		int mailBoxResult = mService.deleteMailBox(mailBoxNo);
-		
+		if(deleteMailsResult == count) {
+			mailBoxResult = mService.deleteMailBox(mailBoxNo);
+		}
 		
 		return mailBoxResult > 0 ? "success" : "fail";
 		
@@ -226,7 +230,7 @@ public class MailController {
 							a.setAlarmMsg(m.getSender() + "님이 메일을 보냈습니다.");
 							a.setRefNo(mailNo);
 							a.setRefType("mail");
-							a.setUrl("detail.ma?mailNo=" + mailNo + "&mailCategory=받은메일함");
+							a.setUrl("alarmDetail.ma?mailNo=" + mailNo);
 							
 							//System.out.println(a);
 							aService.insertAlarm(a);
@@ -277,28 +281,25 @@ public class MailController {
 	
 	
 	// 메일 상세페이지
-	@RequestMapping("detail.ma")
-	public ModelAndView selectMail(Mail m, String mailCategory, String mailBoxName, HttpSession session, ModelAndView mv) {
-		
-		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
-		int result = 1;
-		if(m.getReadDate() == null || m.getReadDate().equals("")) {
-			m.setRead("Y");
-			result = mService.updateMailRead(m);
-		}
-		
-		if(result > 0) {
-			Mail mi = mService.selectMail(m);
-			//System.out.println(mi);
-			mv.addObject("mi", mi).addObject("mailCategory", mailCategory).addObject("mailBoxName", mailBoxName).setViewName("mail/mailDetailView");
-			
-		} else {
-			mv.setViewName("common/errorPage");
-		}
-		
-		return mv;
-		
-	}
+	   @RequestMapping("detail.ma")
+	   public ModelAndView selectMail(Mail m, String mailCategory, String mailBoxName, HttpSession session, ModelAndView mv) {
+	      //System.out.println(m);
+	      m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
+	      
+	      int result = mService.updateMailRead(m);
+	      
+	      if(result > 0) {
+	         Mail mi = mService.selectMail(m);
+	         //System.out.println(mi);
+	         mv.addObject("mi", mi).addObject("mailCategory", mailCategory).addObject("mailBoxName", mailBoxName).setViewName("mail/mailDetailView");
+	         
+	      } else {
+	         mv.setViewName("common/errorPage");
+	      }
+	      
+	      return mv;
+	      
+	   }
 	
 	// 메일 임시작성 페이지 포워딩
 	@RequestMapping("updateForm.ma")
@@ -378,7 +379,7 @@ public class MailController {
 					a.setAlarmMsg(m.getSender() + "님이 메일을 보냈습니다.");
 					a.setRefNo(m.getMailNo());
 					a.setRefType("mail");
-					a.setUrl("detail.ma?mailNo=" + m.getMailNo() + "&mailCategory=받은메일함");
+					a.setUrl("alarmDetail.ma?mailNo=" + m.getMailNo());
 					
 					// 알람 테이블 insert
 					aService.insertAlarm(a);
@@ -459,9 +460,11 @@ public class MailController {
 		
 	// 메일 답장
 	@RequestMapping("reply.ma")
-	public String replyMail(Mail m, Model model) {
+	public String replyMail(Mail m, Model model, HttpSession session) {
 		//System.out.println();
-		model.addAttribute("reply", m);
+		// 임시저장 메일 개수
+			int savedMailCount = mService.savedMailCount(((Employee)session.getAttribute("loginUser")).getEmpNo());
+		model.addAttribute("reply", m).addAttribute("savedMailCount", savedMailCount);
 		
 		return "mail/mailEnrollForm";
 		
@@ -505,6 +508,49 @@ public class MailController {
 		
 		return result > 0 ? "success" : "fail";
 		
+	}
+	
+	@RequestMapping("alarmDetail.ma")
+	public ModelAndView alarmDetail(Mail m, HttpSession session, ModelAndView mv) {
+		
+		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
+		
+		Mail mailStatus = mService.checkMailStatus(m);
+		System.out.println(mailStatus);
+		System.out.println(mailStatus.getCancel());
+		// 발송취소된 메일 아닐때
+		if(mailStatus.getCancel().equals("N")) {
+			mailStatus.setRead("Y");
+			int result = mService.updateMailRead(mailStatus);
+			System.out.println(result);
+			if(result > 0) {
+				Mail mi = mService.selectMail(mailStatus);
+				// 삭제하지 않은 메일
+				if(mailStatus.getStatus().equals("Y")) {
+					// 사용자메일함에 들어있지 않을 때
+					if(mailStatus.getMailBoxName() == null) {
+						mv.addObject("mi", mi).addObject("mailCategory", "받은메일함").setViewName("mail/mailDetailView");
+					} else {
+						mv.addObject("mi", mi).addObject("mailCategory", "사용자메일함").addObject("mailBoxName", mailStatus.getMailBoxName()).setViewName("mail/mailDetailView");
+					}
+					
+				} else if(mailStatus.getStatus().equals("N")){
+					mv.addObject("mi", mi).addObject("mailCategory", "휴지통").setViewName("mail/mailDetailView");
+				} else {
+					session.setAttribute("errorMsg", "삭제된 메일은 확인할 수 없습니다.");
+					mv.setViewName("redirect:/home.jwork");
+				}
+				
+			}else {
+				session.setAttribute("errorMsg", "조회 실패");
+				mv.setViewName("common/errorPage");
+			}
+		
+		}else {
+			session.setAttribute("errorMsg", "발송 취소되어 확인할 수 없습니다.");
+			mv.setViewName("redirect:/home.jwork");
+		}
+		return mv;
 	}
 	
 	

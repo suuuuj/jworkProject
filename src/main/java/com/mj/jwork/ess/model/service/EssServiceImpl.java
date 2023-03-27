@@ -425,6 +425,10 @@ public class EssServiceImpl implements EssService {
 		return eDao.selectWeekRemainWorktime(sqlSession, empNo);
 	}
 
+	public Worktime selectSignedWorktime(int wtNo) {
+		return eDao.selectSignedWorktime(sqlSession, wtNo);
+	}
+	
 
 	
 

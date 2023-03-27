@@ -776,6 +776,7 @@
             <form action="" mothod="post" id="postForm">
 				<input type="hidden" id="formMailNo" name="mailNo" value="">
 				<input type="hidden" id="formReadDate" name="readDate" value="Y">
+                <input type="hidden" id="formRead" name="read" value="Y">
                 <input type="hidden" id="formMailCategory" name="mailCategory" value="${mailCategory}">
                 <input type="hidden" id="formMailBoxName" name="mailBoxName" value="${mailBoxName}">
 			</form>

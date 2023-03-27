@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.vo.Department;
@@ -332,15 +333,52 @@ public class EmployeeDao {
 	public int ajaxDeleteSchedule(SqlSessionTemplate sqlSession, Schedule s) {
 		return sqlSession.update("employeeMapper.ajaxDeleteSchedule", s);
 	}
+	
+	// 사원 관리 - 조회 페이지
+	public int selectEmployeeListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("employeeMapper.selectEmployeeListCount");
+	}
+	public ArrayList<Employee> selectEmployeeList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("employeeMapper.selectEmployeeList", null, rowBounds);
+	}
+	
+	// 사원 관리 - 리스트 엑셀 변환
+	public ArrayList<Employee> selectEmployeeAllList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("employeeMapper.selectEmployeeAllList");
+	}
+	
+	// 사원 관리 - 상세 조회(ajax)
+	public Employee ajaxSelectEmployee(SqlSessionTemplate sqlSession, int empNo) {
+		return sqlSession.selectOne("employeeMapper.ajaxSelectEmployee", empNo);
+	}
+
+	// 사원 관리 - 상세 수정
+	public int updateEmployeeDetail(SqlSessionTemplate sqlSession, Employee e) {
+		return sqlSession.update("employeeMapper.updateEmployeeDetail", e);
+	}
+	public int updateEmpProfileImg(SqlSessionTemplate sqlSession, Employee e) {
+		return sqlSession.update("employeeMapper.updateEmpProfileImg", e);
+	}
+
+	// 사원 등록
+	public int insertEmployee(SqlSessionTemplate sqlSession, Employee e) {
+		return sqlSession.insert("employeeMapper.insertEmployee", e);
+	}
+	public int insertSchBasicGroup(SqlSessionTemplate sqlSession) {
+		return sqlSession.insert("employeeMapper.insertSchBasicGroup");
+	}
 
 	
 	
 	
 
 	
-	
 
-	
 
 	
 

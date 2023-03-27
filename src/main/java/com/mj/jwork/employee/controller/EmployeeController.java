@@ -1,13 +1,28 @@
 package com.mj.jwork.employee.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -817,6 +832,215 @@ public class EmployeeController {
 		return result > 0 ? "success" : "fail";		
 
 	}
+	
+	// 사원 관리 - 조회 페이지
+	@RequestMapping("employeeList.ad")
+	public String selectEmployeeList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Model model) {
+		
+		int listCount = eService.selectEmployeeListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+		ArrayList<Employee> list = eService.selectEmployeeList(pi);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", list);
+		
+		return "employee/adminEmployeeList";
+	}
+	
+	// 사원 관리 - 리스트 엑셀 변환
+	@RequestMapping(value = "/employeeExcel.ad")
+
+	public void excelDown(HttpServletResponse response) throws Exception {
+
+	    // 게시판 목록조회
+	    ArrayList<Employee> list = eService.selectEmployeeAllList();
+
+	    // 워크북 생성
+	    Workbook wb = new HSSFWorkbook();
+	    Sheet sheet = wb.createSheet("사원정보");
+	    Row row = null;
+	    Cell cell = null;
+	    int rowNo = 0;
+
+	    // 테이블 헤더용 스타일
+	    CellStyle headStyle = wb.createCellStyle();
+	    CellStyle bodyStyle = wb.createCellStyle();
+
+	    // 가는 경계선
+	    headStyle.setBorderTop(BorderStyle.THIN);
+	    headStyle.setBorderBottom(BorderStyle.THIN);
+	    headStyle.setBorderLeft(BorderStyle.THIN);
+	    headStyle.setBorderRight(BorderStyle.THIN);
+	    sheet.setDefaultColumnWidth(15); // 열 너비
+
+	    // 초록 배경
+	    headStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_GREEN.getIndex());
+	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+	    // 데이터 가운데 정렬
+	    headStyle.setAlignment(HorizontalAlignment.CENTER);
+	    bodyStyle.setAlignment(HorizontalAlignment.CENTER);
+
+	    // 경계 스타일 테두리만 지정    
+	    bodyStyle.setBorderTop(BorderStyle.THIN);
+	    bodyStyle.setBorderBottom(BorderStyle.THIN);
+	    bodyStyle.setBorderLeft(BorderStyle.THIN);
+	    bodyStyle.setBorderRight(BorderStyle.THIN);
+
+	    // 헤더 생성
+	    row = sheet.createRow(rowNo++);
+	    
+	    cell = row.createCell(0); cell.setCellStyle(headStyle); 
+	    cell.setCellValue("사원번호");
+	    cell = row.createCell(1); cell.setCellStyle(headStyle); 
+	    cell.setCellValue("이름");
+	    cell = row.createCell(2); cell.setCellStyle(headStyle); 
+	    cell.setCellValue("부서"); 
+	    cell = row.createCell(3); cell.setCellStyle(headStyle); 
+	    cell.setCellValue("팀");
+	    cell = row.createCell(4); cell.setCellStyle(headStyle); 
+	    cell.setCellValue("직급"); 
+	    cell = row.createCell(5); cell.setCellStyle(headStyle); 
+	    cell.setCellValue("성별");
+	    cell = row.createCell(6); cell.setCellStyle(headStyle); 
+	    cell.setCellValue("이메일");
+	    cell = row.createCell(7); cell.setCellStyle(headStyle); 
+	    cell.setCellValue("전화번호");
+	    cell = row.createCell(8); cell.setCellStyle(headStyle); 
+	    cell.setCellValue("생년월일");
+	    cell = row.createCell(9); cell.setCellStyle(headStyle); 
+	    cell.setCellValue("사내번호");
+	    cell = row.createCell(10); cell.setCellStyle(headStyle); 
+	    cell.setCellValue("입사일");
+	    cell = row.createCell(11); cell.setCellStyle(headStyle); 
+	    cell.setCellValue("퇴사일");
+	    cell = row.createCell(12); cell.setCellStyle(headStyle); 
+	    cell.setCellValue("업무");
+
+	    // 데이터 부분 생성
+	    for(Employee e : list) {
+	        row = sheet.createRow(rowNo++);
+	        
+	        cell = row.createCell(0); cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(e.getEmpNo());
+	        cell = row.createCell(1); cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(e.getEmpName());
+	        cell = row.createCell(2); cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(e.getDeptName());
+	        cell = row.createCell(3); cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(e.getTeamName());
+	        cell = row.createCell(4); cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(e.getJobName());
+	        cell = row.createCell(5); cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(e.getGender());
+	        cell = row.createCell(6); cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(e.getEmail());
+	        cell = row.createCell(7); cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(e.getPhone());
+	        cell = row.createCell(8); cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(e.getBirth());
+	        cell = row.createCell(9); cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(e.getEmpPhone());
+	        cell = row.createCell(10); cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(e.getEnrollDate());
+	        cell = row.createCell(11); cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(e.getResignDate());
+	        cell = row.createCell(12); cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(e.getTask());
+	    }
+
+	    // 컨텐츠 타입과 파일명 지정
+	    response.setContentType("ms-vnd/excel");
+	    response.setHeader("Content-Disposition", "attachment;filename=employee.xls");
+
+	    // 엑셀 출력
+	    wb.write(response.getOutputStream());
+	    wb.close();
+	}
+
+	
+	// 사원 관리 - 상세 조회(ajax)
+	@ResponseBody
+	@RequestMapping(value="selectEmployee.ad", produces="application/json; charset=utf-8")
+	public String ajaxSelectEmployee(int empNo, HttpSession session) {
+
+		ArrayList<Department> deptList = eService.ajaxSelectDeptList();
+		ArrayList<Team> teamList = eService.ajaxSelectTeamList();
+		ArrayList<Job> jobList = eService.ajaxSelectJobList();
+		
+		Employee e = eService.ajaxSelectEmployee(empNo);
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("deptList", deptList);
+		map.put("teamList", teamList);
+		map.put("jobList", jobList);
+		map.put("e", e);
+		
+		return new Gson().toJson(map);
+	}
+	
+	// 사원 관리 - 상세 수정
+	@RequestMapping("updateEmployee.ad")
+	public String updateEmployeeDetail(Employee e, HttpSession session, Model model) {
+		int result = eService.updateEmployeeDetail(e);
+		System.out.println(result);
+		if(result>0) {
+			session.setAttribute("alertMsg", "수정완");
+			return "redirect:employeeList.ad";	
+		}else {
+			model.addAttribute("errorMsg", "수정실패");
+			return "common/errorPage";
+		}
+	}	
+	// 사원 관리 - 프로필 이미지 수정
+	@ResponseBody	
+	@RequestMapping("uploadProfile.ad")
+	public void updateEmpProfileImg(MultipartFile uploadFile, Employee e, 
+								 String originalFile, HttpSession session) { 
+		
+		if(uploadFile != null) {
+			String saveFilePath = FileUpload.saveFile(uploadFile, session, "resources/profile_images/");
+			e.setProfileUrl(saveFilePath);
+			
+			int result = eService.updateEmpProfileImg(e);
+			
+			if(result>0) {
+				if(!originalFile.equals("")) {
+					new File(session.getServletContext().getRealPath(originalFile)).delete();
+				}
+				//session.setAttribute("alertMsg", "수정완");
+			}
+		}	
+	}
+	
+	// 사원 등록 페이지
+	@RequestMapping("enrollEmpForm.ad")
+	public String enrollEmpForm() {
+		
+		return "employee/adminEmployeeEnroll";
+	}
+	
+	// 사원 등록
+	@RequestMapping("insertEmployee.ad")
+	public String insertEmployee(MultipartFile profileImg, Employee e, HttpSession session, Model model) {
+		
+		System.out.println(profileImg);
+		String saveFilePath = FileUpload.saveFile(profileImg, session, "resources/profile_images/");
+		e.setProfileUrl(saveFilePath);
+		
+		int result1 = eService.insertEmployee(e);
+		System.out.println(result1);
+		if(result1 > 0) {
+			//eService.insertSchBasicGroup();
+			session.setAttribute("alertMsg", "추가완");
+			return "redirect:employeeList.ad";
+		}else {
+			model.addAttribute("errorMsg", "추가실패");
+			return "common/errorPage";
+		}
+	}
+	
 	
 	
 	// 로그아웃

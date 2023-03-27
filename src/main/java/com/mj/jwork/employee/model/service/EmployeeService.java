@@ -3,6 +3,8 @@ package com.mj.jwork.employee.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.vo.Department;
 import com.mj.jwork.employee.model.vo.Employee;
@@ -162,6 +164,24 @@ public interface EmployeeService {
 	
 	// 일정 삭제
 	int ajaxDeleteSchedule(Schedule s);
+
+	// 사원 관리 - 조회 페이지
+	int selectEmployeeListCount();
+	ArrayList<Employee> selectEmployeeList(PageInfo pi);
+	
+	// 사원 관리 - 리스트 엑셀 변환
+	ArrayList<Employee> selectEmployeeAllList();
+	
+	// 사원 관리 - 상세 조회(ajax)
+	Employee ajaxSelectEmployee(int empNo);
+
+	// 사원 관리 - 상세 수정
+	int updateEmployeeDetail(Employee e);
+	int updateEmpProfileImg(Employee e);
+
+	// 사원 등록
+	int insertEmployee(Employee e);
+	int insertSchBasicGroup();
 
 
 
