@@ -138,15 +138,26 @@ public class ApprovalController {
 	
 	// 미결재문서 상세 조회 페이지
 	@RequestMapping("unsignDetail.app")
-	public ModelAndView unsignDetail(int no, ModelAndView mv) {
+	public ModelAndView unsignDetail(int no, ModelAndView mv, HttpSession session) {
 		Approval a = aService.selectApproval(no);
 		ArrayList<AppLine> al = aService.selectAppLine(no);
+		int check = 0;
+		for(int i=0; i<al.size(); i++) {
+			
+			if(al.get(i).getEmpNo() != ((Employee)session.getAttribute("loginUser")).getEmpNo()) {
+				check += 1;
+			}
+			
+		}
 		
-		mv.addObject("a",a).setViewName("approval/unsignApprovalDetail");
-		mv.addObject("al",al).setViewName("approval/unsignApprovalDetail");
-		
-		//System.out.println(a);
-		//System.out.println(al);
+		if(check == al.size()) {
+				session.setAttribute("errorMsg", "상신 취소된 문서는 조회할 수 없습니다.");
+				mv.setViewName("redirect:/home.jwork");
+				
+			} else {
+				mv.addObject("a",a).setViewName("approval/unsignApprovalDetail");
+				mv.addObject("al",al).setViewName("approval/unsignApprovalDetail");
+			}
 		
 		return mv;
 	}

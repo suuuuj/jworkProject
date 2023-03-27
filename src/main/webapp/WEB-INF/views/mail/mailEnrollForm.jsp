@@ -448,32 +448,10 @@
 
 
         </script>
-        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-        
         <script>
             
-        
-            
             $(function() {
-                /*
-                $(function() {
-                    $('#summernote').summernote({
-                        height: 300,                 // set editor height
-                        minHeight: null,             // set minimum height of editor
-                        maxHeight: null,             // set maximum height of editor
-                        focus: true,                 // set focus to editable area after initializing summernote
-                        lang: "ko-KR"                // 한글 설정
-                    });
-                });
-        
-                $(function() {
-                    $('#summernote').summernote();
-                });
-                */
-
-
-                
                 $('#summernote').summernote({
                     height : 550, // 기본 길이
                     minHeight : 550,
@@ -505,17 +483,11 @@
                     // 추가한 폰트사이즈
                     fontSizes : [ '8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36', '50', '72']
                 });
-                
+        
                 
             });
             
-
-            /*
-            $(function() {
-                $('#summernote').summernote();
-            });
-            */
-        </script>        
+        </script> 
         <script> 
             $(function(){
                 let f = 0;

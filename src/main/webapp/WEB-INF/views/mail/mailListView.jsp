@@ -646,7 +646,7 @@
                             <c:forEach var="m" items="${ mList }">
                                 <c:choose>
                                     <c:when test="${ m.mailList.size() gt 1 }">
-                                        <tr class='${ m.mailList.get(0).read == "N" ? "font-bold" : ""}' mail-no="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}">
+                                        <tr mail-no="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}">
                                             <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}"></td>
                                             <td width="30px" mail-no="${ m.mailNo }" class="toggle">∨</td>
                                             <td width="80px" class="middle">${ m.mailList.size() }명</td>
@@ -663,7 +663,7 @@
                                                 <td class="middle sendMailDetail" mail-no="${ m.mailNo }">${ m.mailTitle }</td>
                                                 <td class="smallsize">${ m.registerDate }</td>
                                                 <c:choose>
-                                                    <c:when test="${ empty md.cancel}">
+                                                    <c:when test="${ md.cancel == 'N'}">
                                                         <td class="smallsize">${ not empty md.readDate ? md.readDate : "읽지않음" }</td>
                                                     </c:when>
                                                     <c:otherwise>
@@ -671,7 +671,7 @@
                                                     </c:otherwise>
                                                 </c:choose>
                                                 <c:choose>
-                                                    <c:when test="${ empty md.readDate and empty md.cancel}">
+                                                    <c:when test="${ empty md.readDate and md.cancel == 'N'}">
                                                         <td><span mail-no="${m.mailNo}${md.empNo}"><a href="#" class="smallsize cancelSend" mail-no="${m.mailNo}" emp-no="${md.empNo}">❌발송취소</a></span></td>
                                                     </c:when>
                                                     <c:otherwise>
@@ -682,14 +682,14 @@
                                         </c:forEach>
                                     </c:when>
                                     <c:otherwise>
-                                        <tr class='${ m.mailList.get(0).read == "N" ? "font-bold" : ""}' mail-no="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}">
+                                        <tr mail-no="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}">
                                             <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}"></td>
                                             <td width="30px"></td>
                                             <td width="80px" class="middle">${ m.mailList.get(0).empName }</td>
                                             <td width="380px" class="middle sendMailDetail" mail-no="${ m.mailNo }">${ m.mailTitle }</td>
                                             <td class="smallsize" width="150px">${ m.registerDate }</td>
                                             <c:choose>
-                                                <c:when test="${ empty m.mailList.get(0).cancel}">
+                                                <c:when test="${ m.mailList.get(0).cancel == 'N'}">
                                                     <td class="smallsize" width="170px">${ not empty m.mailList.get(0).readDate ? m.mailList.get(0).readDate : "읽지않음" }</td>
                                                 </c:when>
                                                 <c:otherwise>
@@ -697,7 +697,7 @@
                                                 </c:otherwise>
                                             </c:choose>
                                             <c:choose>
-                                                <c:when test="${ empty m.mailList.get(0).readDate and empty m.mailList.get(0).cancel}">
+                                                <c:when test="${ empty m.mailList.get(0).readDate and m.mailList.get(0).cancel == 'N'}">
                                                     <td width="90px"><span mail-no="${m.mailNo}${m.mailList.get(0).empNo}"><a href="#" class="smallsize cancelSend" mail-no="${m.mailNo}" emp-no="${m.mailList.get(0).empNo}">❌발송취소</a></span></td>
                                                 </c:when>
                                                 <c:otherwise>
