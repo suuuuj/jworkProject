@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
+import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
@@ -379,6 +380,10 @@ public class EmployeeDao {
 	}
 	
 
+	// 신입사원 근태등록
+	public int adminInsertNewAttendence(SqlSession sqlSession, int empNo) {
+		return sqlSession.insert("essMapper.adminInsertNewAttendence", empNo);
+	}
 
 	
 	

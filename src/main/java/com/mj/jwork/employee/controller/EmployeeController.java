@@ -1069,6 +1069,7 @@ public class EmployeeController {
 		}
 		
 		int result = eService.insertEmployee(e);
+		int result2 = eService.adminInsertNewAttendence(e.getEmpNo());
 		if(result > 0) {
 			eService.insertSchBasicGroup();
 			session.setAttribute("alertMsg", "추가완");
@@ -1079,6 +1080,12 @@ public class EmployeeController {
 		}
 	}
 	
+
+	// 조직도 포워딩
+	@RequestMapping("organizationChart.emp")
+	public String organizationChart() {
+		return "employee/organizationChart";
+	}
 	
 	
 }

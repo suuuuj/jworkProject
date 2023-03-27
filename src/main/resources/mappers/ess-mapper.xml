@@ -632,7 +632,7 @@
 		 where bt_status = 'Y'
 	</select>
 	
-	<!-- 관리자 : 시간외근무 전체조회 -->
+	<!-- 관리자 : 시간외근무 전체조회(팀있는사람) -->
 	<select id="adminSelectOvertimeList" resultMap="overtimeResult">
 		select 
 			   ot_no
@@ -668,7 +668,42 @@
 		    by ot_no desc
 	</select>
 	
-	<!-- 관리자 : 출장 전체조회 -->
+	<!-- 관리자 : 시간외근무 전체조회(팀없는사람) -->
+	<select id="adminSelectOvertimeListNo" resultMap="overtimeResult">
+		select 
+			   ot_no
+			 , o.emp_no	
+		     , emp_name
+		     , dept_name
+		     , e.dept_code
+		     , e.team_code
+		     , team_name
+		     , job_name
+		     , e.job_code
+		     , o.enroll_date
+		     , decode(ot_category,0,'시간외근무',1,'야간',2,'주말') as "ot_category"
+		     , ot_start
+		     , ot_end
+		     , decode(ot_check,0,'결재대기(1차)',1,'결재대기(2차)',2,'승인',3,'반려') as "ot_check"
+		     , ot_content  
+		  from overtime o
+		  join employee e on (o.emp_no = e.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
+		  join job j on (e.job_code = j.job_code)
+		  join team t on (e.team_code = t.team_code)
+		 where ot_status = 'Y'
+		   and e.dept_code = #{deptCode}
+		   and e.job_code in (
+		   						select
+								       job_code
+								  from job
+								 where job_code > #{jobCode}
+		                    )
+		 order
+		    by ot_no desc
+	</select>
+	
+	<!-- 관리자 : 출장 전체조회(팀있음) -->
 	<select id="adminSelectBusinessetripList" resultMap="businesstripResult">
 		select 
 		       bt_no
@@ -693,6 +728,40 @@
 		 where bt_status = 'Y'
 		   and e.dept_code = #{deptCode}
 		   and e.team_code = #{teamCode}
+		   and e.job_code in (
+		   						select
+								       job_code
+								  from job
+								 where job_code > #{jobCode}
+		                    )
+		 order
+		    by bt_no desc
+	</select>
+	
+	<!-- 관리자 : 출장 전체조회(팀없음) -->
+	<select id="adminSelectBusinessetripListNo" resultMap="businesstripResult">
+		select 
+		       bt_no
+		     , b.emp_no
+		     , emp_name
+		     , e.dept_code
+		     , dept_name
+		     , job_name
+		     , e.job_code
+		     , e.team_code
+		     , team_name
+		     , b.enroll_date
+		     , bt_start
+		     , bt_end
+		     , decode(bt_check,0,'결재대기(1차)',1,'결재대기(2차)',2,'승인',3,'반려')as "bt_check"
+		     , bt_content
+		  from businesstrip b
+		  join employee e on (e.emp_no = b.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
+		  join job j on (e.job_code = j.job_code)
+		  join team t on (e.team_code = t.team_code)
+		 where bt_status = 'Y'
+		   and e.dept_code = #{deptCode}
 		   and e.job_code in (
 		   						select
 								       job_code
@@ -821,6 +890,24 @@
 		select seq_attno.nextval, emp_no, 3, sysdate
 		  from employee
 	</insert>
+	
+	<!-- 관리자 : 새벽12시근태입력(신입사원)  -->
+	<insert id="adminInsertNewAttendence">
+		insert 
+		  into attendence(att_no, emp_no, att_status, att_date)
+		select seq_attno.nextval, emp_no, 3, sysdate
+		  from employee
+		 where emp_no = #{empNo}
+	</insert>
+	
+	<!-- 관리자 : 출장승인시 출장근태입력 
+	<insert id="adminInsertBusinesstrip">
+		insert 
+		  into attendence(att_no, emp_no, att_status, att_date)
+		select seq_attno.nextval, emp_no, 4, #{}
+		  from employee
+	</insert>
+	-->
 	
 	<!-- 출근버튼 입력 -->
 	<update id="insertStartAttendence">

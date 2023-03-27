@@ -187,6 +187,7 @@ public interface EmployeeService {
 	int insertSchBasicGroup();
 	
 
+	int adminInsertNewAttendence(int empNo); /*신입사원 근태등록*/
 
 
 
