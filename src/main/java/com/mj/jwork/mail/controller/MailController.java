@@ -279,13 +279,11 @@ public class MailController {
 	// 메일 상세페이지
 	@RequestMapping("detail.ma")
 	public ModelAndView selectMail(Mail m, String mailCategory, String mailBoxName, HttpSession session, ModelAndView mv) {
-		
+		System.out.println(m);
 		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
-		int result = 1;
-		if(m.getReadDate() == null || m.getReadDate().equals("")) {
-			m.setRead("Y");
-			result = mService.updateMailRead(m);
-		}
+		
+		int result = mService.updateMailRead(m);
+		
 		
 		if(result > 0) {
 			Mail mi = mService.selectMail(m);
