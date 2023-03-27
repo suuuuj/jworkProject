@@ -522,12 +522,28 @@ public class ApprovalController {
 		return mv;
 	}
 	
-	//내문서 리스트 검색
+	//검색
 	@RequestMapping("searchMyApp.app")
-	public void searchMyApp() {
+	public ModelAndView searchAppList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Approval a, ModelAndView mv, HttpSession session) {
+		
+		a.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
+		int listCount = aService.selectListCount(a);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+		
+		ArrayList<Approval> aList = aService.searchList(a, pi);
+		
+		//addObject("mailCategory", "검색결과")
+		mv.addObject("listCount", listCount)
+		  .addObject("pi", pi)
+		  .addObject("aList", aList)
+		  .addObject("condition", a.getCondition())
+		  .addObject("keyword", a.getKeyword())
+		  .setViewName("approval/myApprovalList");
+		  
+		return mv;
 		
 	}
-	
 		
 		
 
