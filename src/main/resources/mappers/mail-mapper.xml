@@ -589,4 +589,12 @@
 	       and sender_no = #{empNo}
 	</select>
 	
+	<select id="countMailBoxMail" resultType="_int">
+		select count(*)
+		  from mail_detail
+		 where mailbox_no = #{mailBoxNo}
+		   and status = 'Y'
+		   and cancel is null
+	</select>
+	
 </mapper>

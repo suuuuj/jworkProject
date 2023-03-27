@@ -148,5 +148,11 @@ public class MailDao {
 		
 	}
 	
+	public int countMailBoxMail(SqlSessionTemplate sqlSession, int mailBoxNo) {
+		
+		return sqlSession.selectOne("mailMapper.countMailBoxMail", mailBoxNo);
+		
+	}
+	
 	
 }

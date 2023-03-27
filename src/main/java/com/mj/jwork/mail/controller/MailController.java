@@ -116,13 +116,17 @@ public class MailController {
 	@RequestMapping("deleteMailBox.ma")
 	public String ajaxDeleteMailBox(int mailBoxNo) {
 		
+		// 해당 메일함에 있는 메일 개수 Count
+		int count = mService.countMailBoxMail(mailBoxNo);
+		
 		// 해당 메일함에 있는 메일들을 휴지통으로 이동
-		int mailsResult = mService.updateMailsWithMailBox(mailBoxNo);
+		int deleteMailsResult = mService.updateMailsWithMailBox(mailBoxNo);
 		
-		// 메일이 있었을수도,, 없었을 수도 있음,, 이것에 대한건 나중에 조건 확인할 것
+		int mailBoxResult = 0;
 		
-		int mailBoxResult = mService.deleteMailBox(mailBoxNo);
-		
+		if(deleteMailsResult == count) {
+			mailBoxResult = mService.deleteMailBox(mailBoxNo);
+		}
 		
 		return mailBoxResult > 0 ? "success" : "fail";
 		
@@ -279,7 +283,7 @@ public class MailController {
 	// 메일 상세페이지
 	@RequestMapping("detail.ma")
 	public ModelAndView selectMail(Mail m, String mailCategory, String mailBoxName, HttpSession session, ModelAndView mv) {
-		System.out.println(m);
+		//System.out.println(m);
 		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
 		
 		int result = mService.updateMailRead(m);
