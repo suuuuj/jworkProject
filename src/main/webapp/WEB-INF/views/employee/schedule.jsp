@@ -416,7 +416,7 @@
                     for(let j=0; j<data.alist.length; j++){
                         attendee += "<input type='hidden' name='attendance' value='" + data.alist[j].empNo + "'><input type='hidden' name='attendanceName' value='" + data.alist[j].empName + "'><li class='editAtt-li'>" + data.alist[j].empName + "</li><div class='editAtt-delete'>&times;</div>"
                     }
-                    $("#editAtt-list").append(attendee);
+                    $("#editAtt-list").html(attendee);
 
                     for(let i=0; i<data.slist.length; i++){
                         $("#group2").append(
@@ -548,6 +548,7 @@
                 }   
             })
         }
+
     </script>
 
 </body>
