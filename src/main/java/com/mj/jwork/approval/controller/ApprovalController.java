@@ -138,15 +138,26 @@ public class ApprovalController {
 	
 	// 미결재문서 상세 조회 페이지
 	@RequestMapping("unsignDetail.app")
-	public ModelAndView unsignDetail(int no, ModelAndView mv) {
+	public ModelAndView unsignDetail(int no, ModelAndView mv, HttpSession session) {
 		Approval a = aService.selectApproval(no);
 		ArrayList<AppLine> al = aService.selectAppLine(no);
+		int check = 0;
+		for(int i=0; i<al.size(); i++) {
+			
+			if(al.get(i).getEmpNo() != ((Employee)session.getAttribute("loginUser")).getEmpNo()) {
+				check += 1;
+			}
+			
+		}
 		
-		mv.addObject("a",a).setViewName("approval/unsignApprovalDetail");
-		mv.addObject("al",al).setViewName("approval/unsignApprovalDetail");
-		
-		//System.out.println(a);
-		//System.out.println(al);
+		if(check == al.size()) {
+				session.setAttribute("errorMsg", "상신 취소된 문서는 조회할 수 없습니다.");
+				mv.setViewName("redirect:/home.jwork");
+				
+			} else {
+				mv.addObject("a",a).setViewName("approval/unsignApprovalDetail");
+				mv.addObject("al",al).setViewName("approval/unsignApprovalDetail");
+			}
 		
 		return mv;
 	}
@@ -522,12 +533,28 @@ public class ApprovalController {
 		return mv;
 	}
 	
-	//내문서 리스트 검색
+	//검색
 	@RequestMapping("searchMyApp.app")
-	public void searchMyApp() {
+	public ModelAndView searchAppList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Approval a, ModelAndView mv, HttpSession session) {
+		
+		a.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
+		int listCount = aService.selectListCount(a);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+		
+		ArrayList<Approval> aList = aService.searchList(a, pi);
+		
+		//addObject("mailCategory", "검색결과")
+		mv.addObject("listCount", listCount)
+		  .addObject("pi", pi)
+		  .addObject("aList", aList)
+		  .addObject("condition", a.getCondition())
+		  .addObject("keyword", a.getKeyword())
+		  .setViewName("approval/myApprovalList");
+		  
+		return mv;
 		
 	}
-	
 		
 		
 

@@ -516,13 +516,13 @@ public class MailController {
 		m.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
 		
 		Mail mailStatus = mService.checkMailStatus(m);
-		System.out.println(mailStatus);
-		System.out.println(mailStatus.getCancel());
+		//System.out.println(mailStatus);
+		//System.out.println(mailStatus.getCancel());
 		// 발송취소된 메일 아닐때
 		if(mailStatus.getCancel().equals("N")) {
 			mailStatus.setRead("Y");
 			int result = mService.updateMailRead(mailStatus);
-			System.out.println(result);
+			//System.out.println(result);
 			if(result > 0) {
 				Mail mi = mService.selectMail(mailStatus);
 				// 삭제하지 않은 메일
