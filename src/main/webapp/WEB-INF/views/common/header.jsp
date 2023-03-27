@@ -256,6 +256,13 @@
 		</script>
 		<c:remove var="alertMsg" scope="session"/>	
 	</c:if>
+    <c:if test="${not empty errorMsg }">
+		<script>
+			//alertify.alert('${alertMsg}');
+            swal('${errorMsg}', '', 'error');
+		</script>
+		<c:remove var="errorMsg" scope="session"/>	
+	</c:if>
 	    
     <div class="totalOuter">
 
