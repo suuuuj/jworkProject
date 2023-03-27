@@ -892,7 +892,7 @@
 	</insert>
 	
 	<!-- 관리자 : 새벽12시근태입력(신입사원)  -->
-	<insert id="adminInsertAttendence">
+	<insert id="adminInsertNewAttendence">
 		insert 
 		  into attendence(att_no, emp_no, att_status, att_date)
 		select seq_attno.nextval, emp_no, 3, sysdate
