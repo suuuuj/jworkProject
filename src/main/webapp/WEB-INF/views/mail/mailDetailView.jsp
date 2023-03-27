@@ -142,7 +142,6 @@
             <div class="space"></div>
             
             <button id="reply" type="button" class="btn btn-outline-success btn-sm">답장</button>&nbsp;
-            <button id="deliver" type="button" class="btn btn-outline-success btn-sm">전달</button>&nbsp;
             <c:choose>
                 <c:when test="${mailCategory == '휴지통'}">
                     <button id="deleteEverBtn" class="btn btn-outline-success btn-sm">영구삭제</button>&nbsp;

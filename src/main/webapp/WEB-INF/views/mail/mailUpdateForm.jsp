@@ -505,8 +505,6 @@
         <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
         <script>
             
-        
-            
             $(function() {
                 $('#summernote').summernote({
                     height : 550, // 기본 길이
@@ -542,11 +540,7 @@
         
                 
             });
-            /*
-            $(function() {
-                $('#summernote').summernote();
-            });
-            */
+          
         </script>        
         <script> 
             $(function(){
