@@ -360,16 +360,16 @@ public class EssDao {
 		return sqlSession.selectOne("essMapper.adminSelectAttendence", wtNo);
 	}
 	
-	public int adminWorktimeStatusListCount(SqlSession sqlSession, Attendence a) {
-		return sqlSession.selectOne("essMapper.adminWorktimeStatusListCount",a);
+	public int ajaxAllAttendenceListCount(SqlSession sqlSession, Attendence a) {
+		return sqlSession.selectOne("essMapper.ajaxAllAttendenceListCount",a);
 	}
 	
-	public ArrayList<Attendence> adminWorktimeStatusList(SqlSession sqlSession, PageInfo pi, Attendence a){
+	public ArrayList<Attendence> ajaxAllAttendenceList(SqlSession sqlSession, PageInfo pi, Attendence a){
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("essMapper.adminWorktimeStatusList", a, rowBounds);
+		return (ArrayList)sqlSession.selectList("essMapper.ajaxAllAttendenceList", a, rowBounds);
 	}
 	
 	public Leave selectSignedLeave(SqlSession sqlSession, int leaveNo) {
@@ -388,6 +388,10 @@ public class EssDao {
 		
 		return sqlSession.selectOne("essMapper.selectSignedOvertime", otNo);
 		
+	}
+	
+	public Attendence selectWeekRemainWorktime(SqlSession sqlSession, int empNo) {
+		return sqlSession.selectOne("essMapper.selectWeekRemainWorktime", empNo);
 	}
 	
 }

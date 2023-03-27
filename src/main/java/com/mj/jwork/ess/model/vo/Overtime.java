@@ -36,6 +36,6 @@ public class Overtime {
 	private int teamCode;
 	private String teamName;
 	
-	private String weektime;
+	private String weekTime;
 	
 }

@@ -23,5 +23,11 @@ public class Attendence {
 	private String afterTime; // 연장시간
 	private String weekTime;
 	private String monthTime;
+	private String remainTime;
+	
+	private String empName;
+	private String deptName;
+	private String jobName;
+	private String teamName;
 
 }

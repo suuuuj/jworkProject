@@ -144,6 +144,7 @@ public interface EssService {
 	ArrayList<Overtime> workCalendarOvertime(int empNo);
 	Attendence selectWeekWorktime(int empNo);
 	Attendence selectMonthWorktime(int empNo);
+	Attendence selectWeekRemainWorktime(int empNo);
 	Overtime selectWeekOvertime(int empNo);
 	
 	// 관리자 : 근태수정리스트조회
@@ -158,8 +159,8 @@ public interface EssService {
 	int adminModifyWorktimeReturn(int wtNo);
 	
 	// 관리자 : 전사원 근태조회
-	int adminWorktimeStatusListCount(Attendence a);
-	ArrayList<Attendence> adminWorktimeStatusList(PageInfo pi, Attendence a);
+	int ajaxAllAttendenceListCount(Attendence a);
+	ArrayList<Attendence> ajaxAllAttendenceList(PageInfo pi, Attendence a);
 	
 	// ------------------------------ 알람 -----------------------------------
 	// 휴가 최종 승인 후 휴가정보 	불러오기

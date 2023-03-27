@@ -396,13 +396,13 @@ public class EssServiceImpl implements EssService {
 	}
 
 	@Override
-	public int adminWorktimeStatusListCount(Attendence a) {
-		return eDao.adminWorktimeStatusListCount(sqlSession,a);
+	public int ajaxAllAttendenceListCount(Attendence a) {
+		return eDao.ajaxAllAttendenceListCount(sqlSession,a);
 	}
 
 	@Override
-	public ArrayList<Attendence> adminWorktimeStatusList(PageInfo pi, Attendence a) {
-		return eDao.adminWorktimeStatusList(sqlSession, pi,a);
+	public ArrayList<Attendence> ajaxAllAttendenceList(PageInfo pi, Attendence a) {
+		return eDao.ajaxAllAttendenceList(sqlSession, pi,a);
 	}
 	
 	@Override
@@ -418,6 +418,11 @@ public class EssServiceImpl implements EssService {
 	@Override
 	public Overtime selectSignedOvertime(int otNo) {
 		return eDao.selectSignedOvertime(sqlSession, otNo);
+	}
+
+	@Override
+	public Attendence selectWeekRemainWorktime(int empNo) {
+		return eDao.selectWeekRemainWorktime(sqlSession, empNo);
 	}
 
 

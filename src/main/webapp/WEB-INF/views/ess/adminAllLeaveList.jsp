@@ -108,6 +108,7 @@
                                 calendar.addEvent({
                                     title: "[" + list[i].empName + "] " + list[i].lcName ,
                                     start: list[i].leaveStart,
+                                    end: list[i].leaveEnd,
                                     color:'rgb(39, 174, 96)',
                                     textColor:'white'
                                 })

@@ -3,6 +3,7 @@ package com.mj.jwork.ess.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1068,7 +1069,9 @@ public class EssController {
 	 */
 	@RequestMapping("workCalendar.at")
 	public ModelAndView worktimeCalendar(HttpSession session, ModelAndView mv) {
+		
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		
 		ArrayList<Attendence> alist = eService.workCalendarAttendence(empNo);
 		ArrayList<Businesstrip> blist = eService.workCalendarBusinesstrip(empNo);
 		ArrayList<Overtime> olist = eService.workCalendarOvertime(empNo);
@@ -1076,9 +1079,11 @@ public class EssController {
 		Attendence week = eService.selectWeekWorktime(empNo);
 		Attendence month = eService.selectMonthWorktime(empNo);
 		Overtime oweek = eService.selectWeekOvertime(empNo);
+		Attendence remain = eService.selectWeekRemainWorktime(empNo);
 		mv.addObject("week", week);
 		mv.addObject("month", month);
 		mv.addObject("oweek", oweek);
+		mv.addObject("remain", remain);
 		mv.addObject("alist");
 		mv.addObject("blist");
 		mv.addObject("olist");
@@ -1086,21 +1091,26 @@ public class EssController {
 		return mv;
 	}
 	
-	/*
+	/**
+	 * ajax근태캘린더 상세조회
+	 * @param session
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value="workResult.at", produces="application/json; charset=UTF-8")
+	@RequestMapping(value="ajaxWorkCalendar.at", produces="application/json; charset=UTF-8")
 	public String worktimeResultAll(HttpSession session) {
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		
 		ArrayList<Attendence> alist = eService.workCalendarAttendence(empNo);
 		ArrayList<Businesstrip> blist = eService.workCalendarBusinesstrip(empNo);
 		ArrayList<Overtime> olist = eService.workCalendarOvertime(empNo);
-		//HashMap<String, ArrayList> map =  new HashMap<>();
-		//map.put("alist", alist);
-		//map.put("blist", blist);
-		//map.put("olist", olist);
-		return new Gson().toJson(alist);
+		
+		HashMap<String, ArrayList> map =  new HashMap<>();
+		map.put("alist", alist);
+		map.put("blist", blist);
+		map.put("olist", olist);
+		return new Gson().toJson(map);
 	}
-	*/
 	
 	/**
 	 * 근태수정리스트조회
@@ -1243,22 +1253,32 @@ public class EssController {
 	}
 	
 	/**
-	 * 관리자 : 전사원 근태조회
+	 * 관리자 : 전사원 근태조회페이지
 	 * @param session
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("adminWorktime.at")
-	public String adminAllWortime(HttpSession session, Model model) {
+	public String adminAllWortime(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session, Model model) {
+		Employee e = (Employee)session.getAttribute("loginUser");
+		session.setAttribute("e", e);
 		return "ess/adminWorkingTimeList";
 	}
 	
+	/**
+	 * 관리자 : ajax전사원 근무상태조회 
+	 * @param a
+	 * @param currentPage
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="adWorktimeStatus.at", produces="application/json; charset=UTF-8")
-	public String adminWorktimeStatusList(Attendence a, @RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session, Model model) {
-		int listCount = eService.adminWorktimeStatusListCount(a);
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 15, 5);
-		ArrayList<Attendence> list = eService.adminWorktimeStatusList(pi,a);
+	public String adminWorktimeStatusList(Attendence a, @RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session, Model model, HttpServletRequest request) {
+		int listCount = eService.ajaxAllAttendenceListCount(a);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+		ArrayList<Attendence> list = eService.ajaxAllAttendenceList(pi,a);
 		
 		HashMap<String, Object> map = new HashMap();
 		map.put("listCount", listCount);

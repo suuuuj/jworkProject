@@ -13,6 +13,12 @@
 		<result column="after_time" property="afterTime" />
 		<result column="week_time" property="weekTime" />
 		<result column="month_time" property="monthTime" />
+		<result column="month_time" property="monthTime" />
+		<result column="remain_time" property="remainTime" />
+		<result column="emp_name" property="empName" />
+		<result column="dept_name" property="deptName" />
+		<result column="job_name" property="jobName" />
+		<result column="team_name" property="teamName" />
 	</resultMap>
 	
 	<resultMap id="annualResult" type="Annual">
@@ -1056,7 +1062,7 @@
 	<select id="selectWeekRemainWorktime" resultMap="attendenceResult">
 		SELECT (Round((162000 - sum(ROUND( (to_date(end_time,'HH24:MI:SS')-to_date(start_time,'HH24:MI:SS') )*24*60*60))) /(60*60)))||'시'||' ' ||
                 LPad(Round(Mod(((162000 - sum(ROUND( (to_date(end_time,'HH24:MI:SS')-to_date(start_time,'HH24:MI:SS') )*24*60*60))) /60),60)),2,0)||'분' || ' ' ||
-       		    LPad(Round(Mod((162000 - sum(ROUND( (to_date(end_time,'HH24:MI:SS')-to_date(start_time,'HH24:MI:SS') )*24*60*60))) ,60)),2,0)||'초' AS TT
+       		    LPad(Round(Mod((162000 - sum(ROUND( (to_date(end_time,'HH24:MI:SS')-to_date(start_time,'HH24:MI:SS') )*24*60*60))) ,60)),2,0)||'초' AS "remain_time"
            from attendence
           where emp_no = #{empNo}
             and att_date between trunc(sysdate, 'IW') and sysdate
@@ -1207,40 +1213,56 @@
 		 where wt_no = #{wtNo}
 	</update>
 	
-	<!-- 관리자 : 전사원 근태조회 페이징 -->
-	<select id="adminWorktimeStatusListCount" resultType="_int">
+	<!-- 관리자 : ajax전사원 근태조회 페이징 -->
+	<select id="ajaxAllAttendenceListCount" resultType="_int">
 		select count(*)
 		  from attendence
-		 where <if test="attStatus != 100">
-		       att_status = #{attStatus}
-		       </if>
+		  <if test="attStatus != 100">
+		  where att_status = #{attStatus}
+		  </if>
 	</select>
 	
-	
-	<!-- 버튼 눌렀을 시 리스트 조회 -->
-	<select id="adminWorktimeStatusList" resultMap="attendenceResult">
+	<!-- 관리자 : ajax버튼 눌렀을 시 리스트 조회 -->
+	<select id="ajaxAllAttendenceList" resultMap="attendenceResult">
 		select  
-	      	   a.emp_no
-	     	 , dept_name
-	     	 , team_name
-	     	 , job_name
-	         , emp_name
-	         , start_time
-	         , end_time
-	         , att_time
+	      	   att_no
+	      	 , a.emp_no
+	         , nvl(start_time, '-') start_time
+	         , nvl(end_time, '-') end_time
+	         , nvl(att_time, '-') att_time
+	         , att_date
 	         , decode(att_status,0,'정상',1,'지각',2,'조퇴',3,'결근',4,'휴가',5,'출장') as "att_status"
+	         , emp_name
+	         , dept_name
+	         , job_name
+	         , team_name
 		  from attendence a
-		  join employee e on (e.emp_no = a.emp_no)
-		  join department d on (e.dept_code = e.dept_code)
+		  join employee e on (a.emp_no = e.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
 		  join job j on (e.job_code = j.job_code)
 		  join team t on (e.team_code = t.team_code)
-		 where <if test="attStatus != 100">
-		       att_status = #{attStatus}
-		       </if>
-		   and att_date between TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+		 where att_date between TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE) 
+          <if test="attStatus != 100">
+		  and att_status = #{attStatus}
+          </if>
 		 order
 		    by att_no desc
 	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
