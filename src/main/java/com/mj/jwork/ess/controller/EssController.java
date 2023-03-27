@@ -729,7 +729,7 @@ public class EssController {
 			// 사원과 부서코드와 팀코드가 같으면서 직급코드가 3456인사람
 			mv.addObject("list", list);
 			mv.addObject("pi", pi);
-			mv.setViewName("ess/adminOvertimeList");
+			mv.setViewName("ess/adminOverTimeList");
 		}
 		
 		return mv;
