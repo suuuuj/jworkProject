@@ -80,6 +80,12 @@ public class CfrResServiceImpl implements CfrResService{
 	public ArrayList<CfrReservation> ajaxSelectTime(CfrReservation c) {
 		return cRDao.ajaxSelectTime(sqlSession, c);
 	}
+
+
+	@Override
+	public ArrayList<CfrReservation> selectDetailRes(String cfrName) {
+		return cRDao.selectDetailRes(sqlSession,cfrName);
+	}
 	
 	
 

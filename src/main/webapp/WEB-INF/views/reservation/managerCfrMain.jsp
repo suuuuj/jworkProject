@@ -49,8 +49,8 @@
         <hr>
         <div>
             <div class="btn-area" style="width:960px;">
-                <a class="btn btn-success" href="enrollForm.cfr">+회의실 등록</a>
-<!--                 <button type="button" class="btn btn-secondary">회의실 예약 내역</button> -->
+                <a class="btn btn-success " href="enrollForm.cfr">+회의실 등록</a>
+                <a class="btn btn-secondary" href="list.cfrRes">회의실 예약 내역</a> 
             </div>
             <br>
             <div id="img-area" style="position: relative;">

@@ -63,4 +63,8 @@ public class CfrResDao {
 	public ArrayList<CfrReservation> ajaxSelectTime(SqlSessionTemplate sqlSession, CfrReservation c){
 		return (ArrayList)sqlSession.selectList("cfrMapper.ajaxSelectTime",c);
 	}
+	
+	public ArrayList<CfrReservation> selectDetailRes(SqlSessionTemplate sqlSession, String cfrName){
+		return (ArrayList)sqlSession.selectList("cfrMapper.selectDetailRes",cfrName);
+	}
 }
