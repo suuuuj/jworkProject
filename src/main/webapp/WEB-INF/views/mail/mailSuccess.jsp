@@ -42,7 +42,7 @@
                 <span class="subMessage">${subMessage}</span>
                 <br><br>
                 <div class="btn-area">
-                    <a class="btn btn-outline-success btn-sm" href="">보낸 메일함</a>
+                    <a class="btn btn-outline-success btn-sm" href="list.ma?mailCategory=보낸메일함">보낸 메일함</a>
                     <a class="btn btn-outline-success btn-sm" href="mailEnrollForm.ma">메일 쓰기</a>
                 </div>
             </c:if>
