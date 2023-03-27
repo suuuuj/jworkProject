@@ -182,6 +182,7 @@ public interface EmployeeService {
 	// 사원 등록
 	int insertEmployee(Employee e);
 	int insertSchBasicGroup();
+	int adminInsertNewAttendence(int empNo); /*신입사원 근태등록*/
 
 
 

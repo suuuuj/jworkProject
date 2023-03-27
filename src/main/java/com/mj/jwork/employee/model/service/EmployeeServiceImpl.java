@@ -409,6 +409,12 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return eDao.insertSchBasicGroup(sqlSession);
 	}
 
+	// 신입사원근태등록
+	@Override
+	public int adminInsertNewAttendence(int empNo) {
+		return eDao.adminInsertNewAttendence(sqlSession, empNo);
+	}
+
 	
 
 
