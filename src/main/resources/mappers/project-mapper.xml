@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="projectMapper">
-
-
+	<resultMap type="Project" id="projectResult">
+		<id column="PROJECT_NO" property="projectNo" />
+		<result column="PROJECT_WRITER" property="projectWriter" />
+		<result column="PROJECT_NAME" property="projectName" />
+		<result column="PROJECT_CONTENT" property="projectContent" />
+		<result column="STATUS" property="status" />
+		<result column="FILE_URL" property="fileUrl" />
+		<result column="ORIGIN_FILENAME" property="originName" />
+		<result column="START_DATE" property="startDate" />
+		<result column="END_DATE" property="endDate" />
+	</resultMap>
+	<resultMap type="ProjectEmp" id="projectEmpResult">
+		<id column="PROJECT_NO" property="projectNo" />
+		<result column="PROJECT_EMP" property="projectEmp" />
+		<result column="EMP_LEVEL" property="empLevel" />
+		<result column="STATUS" property="status" />
+	</resultMap>
+	<resultMap type="ProjectReply" id="projectReplyResult">
+		<id column="REPLY_NO" property="replyNo" />
+		<result column="REF_PROJECT" property="refProject" />
+		<result column="REPLY_WRITER" property="replyWriter" />
+		<result column="REPLY_CONTENT" property="replyContent" />
+		<result column="ENROLL_DATE" property="enrollDate" />
+	</resultMap>	
+	
+	
 </mapper>

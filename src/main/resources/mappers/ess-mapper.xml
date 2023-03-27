@@ -104,23 +104,30 @@
 		<result column="fail_date" property="failDate" />
 		<result column="first_approval" property="firstApproval" />
 		<result column="second_approval" property="secondApproval" />
+		<result column="week_time" property="weekTime" />
 	</resultMap>
 	
 	<resultMap id="worktimeResult" type="Worktime">
 		<id column="wt_no" property="wtNo" />
 		<result column="att_no" property="attNo" />
-		<result column="emp_no" property="empNo" />
-		<result column="emp_name" property="empName" />
-		<result column="dept_name" property="deptName" />
-		<result column="job_name" property="jobName" />
-		<result column="approval_no" property="approvalNo" />
-		<result column="approval_date" property="approvalDate" />
-		<result column="approval_check" property="approvalCheck" />
-		<result column="att_date" property="attDate" />
-		<result column="start_time" property="end_time" />
+		<result column="wt_date" property="wtDate" />
 		<result column="re_start_time" property="reStartTime" />
 		<result column="re_end_time" property="reEndTime" />
 		<result column="re_content" property="reContent" />
+		<result column="approval_no" property="approvalNo" />
+		<result column="approval_date" property="approvalDate" />
+		<result column="approval_check" property="approvalCheck" />
+		<result column="emp_no" property="empNo" />
+		<result column="emp_name" property="empName" />
+		<result column="dept_code" property="deptCode" />
+		<result column="dept_name" property="deptName" />
+		<result column="job_code" property="jobCode" />
+		<result column="job_name" property="jobName" />
+		<result column="team_code" property="teamCode" />
+		<result column="team_name" property="teamName" />
+		<result column="att_date" property="attDate" />
+		<result column="start_time" property="startTime" />
+		<result column="end_time" property="endTime" />
 	</resultMap>
 	
 	<!-- 휴가등록화면조회 -->
@@ -801,7 +808,7 @@
 		   and att_date = to_char(sysdate, 'yy/mm/dd')
 	</select>
 	
-	<!-- 관리자 : 새벽2시근태입력  -->
+	<!-- 관리자 : 새벽12시근태입력  -->
 	<insert id="adminInsertAttendence">
 		insert 
 		  into attendence(att_no, emp_no, att_status, att_date)
@@ -838,12 +845,9 @@
 	<!-- 근태 전체시간 입력 -->
 	<update id="insertAllAttendenceTime">
 		update attendence
-		   set att_time = floor((to_date(end_time, 'HH24:MI:SS') - to_date(start_time, 'HH24:MI:SS'))*24) 
-                          || '시간' 
-               			  || round(mod((to_date(end_time, 'HH24:MI:SS') - to_date(start_time, 'HH24:MI:SS'))*24,1)*60) 
-               			  || '분' 
-               			  || trunc(round(mod((to_date(end_time, 'HH24:MI:SS') - to_date(start_time, 'HH24:MI:SS'))*24*60,1)*60)) 
-               			  || '초' 
+		   set att_time = (Round((((to_date(end_time, 'HH24:MI:SS') - to_date(start_time, 'HH24:MI:SS'))*60*60*24) - 3600)/(60*60)))||'시간' ||
+                          LPad(Round(Mod(((((to_date(end_time, 'HH24:MI:SS') - to_date(start_time, 'HH24:MI:SS'))*60*60*24) - 3600)/60),60)),2,0)||'분' ||
+                          LPad(Round(Mod((((to_date(end_time, 'HH24:MI:SS') - to_date(start_time, 'HH24:MI:SS'))*60*60*24) - 3600),60)),2,0)||'초' 
 		 where att_no = #{attNo}
 	</update>
 	
@@ -895,6 +899,11 @@
 		  , att_no
 		  , re_start_time
 		  , re_content
+		  , wt_date
+		  , emp_no
+		  , dept_code
+		  , job_code
+		  , team_code
 		  )
 		  values
 		  (
@@ -902,13 +911,18 @@
 		  , #{attNo}
 		  , #{reStartTime} || ':00'
 		  , #{reContent}
+		  , sysdate
+		  , #{empNo}
+		  , #{deptCode}
+		  , #{jobCode}
+		  , #{teamCode}
 		  )
 	</update>
 	
 	<!-- 출근시간 수정 -->
 	<update id="updateStartTime">
 		update attendence
-		   set start_time = #{reStartTime} || ':00'
+		   set start_time = #{reStartTime} 
 		 where att_no = #{attNo}
 	</update>
 	
@@ -921,6 +935,11 @@
 		  , att_no
 		  , re_end_time
 		  , re_content
+		  , wt_date
+		  , emp_no
+		  , dept_code
+		  , job_code
+		  , team_code
 		  )
 		  values
 		  (
@@ -928,13 +947,18 @@
 		  , #{attNo}
 		  , #{reEndTime} || ':00'
 		  , #{reContent}
+		  , sysdate
+		  , #{empNo}
+		  , #{deptCode}
+		  , #{jobCode}
+		  , #{teamCode}
 		  )
 	</insert>
 	
 	<!-- 퇴근시간 수정 -->
 	<update id="updateEndTime">
 		update attendence
-		   set end_time = #{reEndTime} || ':00'
+		   set end_time = #{reEndTime} 
 		 where att_no = #{attNo}
 	</update>
 	
@@ -945,9 +969,14 @@
 		  (
 		  	wt_no
 		  , att_no
-		  , re_start_time || ':00'
-		  , re_end_time || ':00'
+		  , re_start_time 
+		  , re_end_time 
 		  , re_content
+		  , wt_date
+		  , emp_no
+		  , dept_code
+		  , job_code
+		  , team_code
 		  )
 		  values
 		  (
@@ -956,14 +985,19 @@
 		  , #{reStartTime} || ':00'
 		  , #{reEndTime} || ':00'
 		  , #{reContent}
+		  , sysdate
+		  , #{empNo}
+		  , #{deptCode}
+		  , #{jobCode}
+		  , #{teamCode}
 		  )
 	</insert>
 	
 	<!-- 근태시간 수정 -->
 	<update id="updateWorktime">
 		update attendence
-		   set start_time = #{reStartTime} || ':00'
-		     , end_time = #{reEndTime} || ':00'
+		   set start_time = #{reStartTime} 
+		     , end_time = #{reEndTime} 
 		 where att_no = #{attNo}
 	</update>
 
@@ -1018,6 +1052,16 @@
            and att_date between trunc(sysdate, 'IW') and sysdate
 	</select>
 	
+	<!-- 이번주 잔여 근로시간 -->
+	<select id="selectWeekRemainWorktime" resultMap="attendenceResult">
+		SELECT (Round((162000 - sum(ROUND( (to_date(end_time,'HH24:MI:SS')-to_date(start_time,'HH24:MI:SS') )*24*60*60))) /(60*60)))||'시'||' ' ||
+                LPad(Round(Mod(((162000 - sum(ROUND( (to_date(end_time,'HH24:MI:SS')-to_date(start_time,'HH24:MI:SS') )*24*60*60))) /60),60)),2,0)||'분' || ' ' ||
+       		    LPad(Round(Mod((162000 - sum(ROUND( (to_date(end_time,'HH24:MI:SS')-to_date(start_time,'HH24:MI:SS') )*24*60*60))) ,60)),2,0)||'초' AS TT
+           from attendence
+          where emp_no = #{empNo}
+            and att_date between trunc(sysdate, 'IW') and sysdate
+	</select>
+	
 	<!-- 이번달 누적 근로시간 -->
 	<select id="selectMonthWorktime" resultMap="attendenceResult">
 		SELECT (Round(sum(ROUND((to_date(end_time,'HH24:MI:SS')-to_date(start_time,'HH24:MI:SS'))*24*60*60))/(60*60)))||'시'||' ' ||
@@ -1042,40 +1086,206 @@
 	<select id="selectModifyWorktimeListCount" resultType="_int">
 		select
 		       count(*)
-		  from worktime
-		 where emp_no = #{empNo}
+		  from attendence  
+		 where emp_no in #{empNo}
 	</select>
 	
 	<!-- 근태수정리스트 조회 -->
 	<select id="selectModifyWorktimeList" resultMap="worktimeResult">
 		select 
 		       wt_no
-		     , att_no
-		     , a.emp_no
+		     , w.att_no
+		     , decode(approval_check,0,'결재대기',1,'승인',2,'반려') as "approval_check"
+		     , e.emp_no
 		     , dept_name
 		     , job_name
+		     , team_name
 		     , emp_name
-		     , decode(approval_check,0,'결재대기(1차)',1,'결재대기(2치)',2,'승인',3,'반려')
 		     , start_time
 		     , end_time
 		     , att_date
 		  from worktime w
-		  join attendence a on (a.attNo = w.attNo)
+		  join attendence a on (a.att_no = w.att_no)
 		  join employee e on (e.emp_no = a.emp_no)
-		  join department d on (e.emp_no = d.emp_no)
-		  jpin job j on (e.emp_no = j.emp_no)
-		 where emp_no = #{empNo}    
+		  join department d on (e.dept_code = d.dept_code)
+		  join job j on (e.job_code = j.job_code)
+		  join team t on (e.team_code = t.team_code)
+		 where e.emp_no = #{empNo}   
+		 order
+		    by wt_no desc
 	</select>
 	
+	<!-- 근태수정 상세조회 -->
+	<select id="selectModifyDetailWorktime" resultMap="worktimeResult">
+		select
+		       wt_no
+		     , w.att_no
+		     , w.emp_no
+		     , start_time
+		     , end_time
+		     , att_date
+		     , re_start_time
+		     , re_end_time
+		     , re_content
+		     , approval_check
+	     from worktime w
+	     join attendence a on (w.att_no = a.att_no) 
+	    where wt_no = #{wtNo}
+	</select>
+	
+	<!-- 관리자 : 근태수정조회리스트 페이징 -->
+	<select id="adminSelectModifyWorktimeListCount" resultType="_int">
+		select
+		       count(*)
+		  from worktime
+	</select>
+	
+	<!-- 관리자 : 근태수정조회리스트조회 -->
+	<select id="adminSelectModifyWorktimeList" resultMap="worktimeResult">
+	<![CDATA[
+		select 
+		       wt_no
+		     , w.att_no
+		     , w.emp_no
+		     , dept_name
+		     , team_name
+		     , job_name
+		     , emp_name
+		     , att_date
+		     , decode(approval_check, 0, '결재대기', 1, '승인', 2, '반려') as "approval_check"
+		  from worktime w
+		  join attendence a on (w.att_no = a.att_no)
+		  join employee e on (e.emp_no = w.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
+		  join team t on (e.team_code = t.team_code)
+		  join job j on (e.job_code = j.job_code)
+		 where w.att_no = a.att_no 
+		   and e.dept_code = #{deptCode}
+		   and e.team_code = #{teamCode}
+		   and e.job_code in (
+		   						select
+								       job_code
+								  from job
+								 where job_code > #{jobCode}
+		                    ) 
+		 order
+		    by wt_no desc
+	]]>
+	</select>
+	
+	<!-- 관리자 : 출퇴근상세조회 -->
+	<select id="adminSelectAttendence" resultMap="worktimeResult">
+		select
+		       w.att_no
+		     , w.wt_no
+		     , w.emp_no
+		     , start_time
+		     , end_time
+		     , approval_check
+		     , re_start_time
+		     , re_end_time
+		     , re_content
+		     , att_status
+		     , att_date
+		  from worktime w
+		  join attendence a on (w.att_no = w.att_no)
+		 where wt_no = #{wtNo}
+		   and w.att_no = a.att_no
+	</select>
+
+	<!-- 관리자 : 근태수정 반려 -->
+	<update id="adminModifyWorktimeReturn">
+		update worktime
+		   set approval_check = 2
+		 where wt_no = #{wtNo}
+	</update>
+	
+	<!-- 관리자 : 근태수정 승인 -->
+	<update id="adminModifyWorktimeSubmit">
+		update worktime
+		   set approval_check = 1
+		 where wt_no = #{wtNo}
+	</update>
+	
+	<!-- 관리자 : 전사원 근태조회 페이징 -->
+	<select id="adminWorktimeStatusListCount" resultType="_int">
+		select count(*)
+		  from attendence
+		 where <if test="attStatus != 100">
+		       att_status = #{attStatus}
+		       </if>
+	</select>
+	
+	
+	<!-- 버튼 눌렀을 시 리스트 조회 -->
+	<select id="adminWorktimeStatusList" resultMap="attendenceResult">
+		select  
+	      	   a.emp_no
+	     	 , dept_name
+	     	 , team_name
+	     	 , job_name
+	         , emp_name
+	         , start_time
+	         , end_time
+	         , att_time
+	         , decode(att_status,0,'정상',1,'지각',2,'조퇴',3,'결근',4,'휴가',5,'출장') as "att_status"
+		  from attendence a
+		  join employee e on (e.emp_no = a.emp_no)
+		  join department d on (e.dept_code = e.dept_code)
+		  join job j on (e.job_code = j.job_code)
+		  join team t on (e.team_code = t.team_code)
+		 where <if test="attStatus != 100">
+		       att_status = #{attStatus}
+		       </if>
+		   and att_date between TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+		 order
+		    by att_no desc
+	</select>
 
 
 
 
+	
+	<!-- 휴가 승인 후 휴가 정보 조회 -->
+	<select id="selectSignedLeave" resultMap="leaveResult">
+		select
+		       leave_no
+		     , emp_no
+		     , lcategory_name
+		  from leave
+		  join leave_category on (lcategory_no = leave_category)
+		 where leave_no = #{leaveNo}
+	</select>
 
 
+	<!-- 출장 승인 후 출장 정보 조회 -->
+	<select id="selectSignedBusinesstrip" resultMap="businesstripResult">
+		select
+		       bt_no
+		     , emp_no
+		  from businesstrip
+		 where bt_no = #{btNo}
+	</select>
+	
+	
+	<!-- 시간외근무 승인 후 시간외근무 정보 조회 -->
+	<select id="selectSignedOvertime" resultMap="overtimeResult">
+		select
+		       ot_no
+		     , emp_no
+		  from overtime
+		 where ot_no = #{otNo}
+	</select>
 
-
-
-
+	<!-- 출퇴근시간 변경 승인 후 근태 정보 조회 -->
+	<select id="selectSignedWorktime" resultMap="worktimeResult">
+		 select
+		       wt_no
+		     , att_no
+		     , emp_no
+		  from worktime
+		 where wt_no = #{wtNo}
+	
+	</select>
 
 </mapper>

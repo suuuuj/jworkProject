@@ -45,12 +45,12 @@
 <body>
       <jsp:include page="../common/menubar.jsp"/>
     <div class="outer" style="width:940px;  margin:20px;">
-        <h2>회의실 관리</h2>
+        <h3>회의실 관리</h3>
         <hr>
         <div>
             <div class="btn-area" style="width:960px;">
-                <a class="btn btn-secondary" href="enrollForm.cfr">+회의실 등록</a>
-<!--                 <button type="button" class="btn btn-secondary">회의실 예약 내역</button> -->
+                <a class="btn btn-success " href="enrollForm.cfr">+회의실 등록</a>
+                <a class="btn btn-secondary" href="list.cfrRes">회의실 예약 내역</a> 
             </div>
             <br>
             <div id="img-area" style="position: relative;">
@@ -175,7 +175,7 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <form action="update.cfr" method="post" enctype="multipart/form-data" >
-                        <table id="cfRoom-updateForm">
+                        <table id="cfRoom-updateForm" style="width:600px;">
                             <tr >
                            	   <th>회의실명</th>
 	                            <td >
@@ -188,7 +188,8 @@
 	                            <th>회의실 이미지</th>
 	                            <td >
 	                                <div style="width: 320px;">
-	                                    <img width="150px" height="100px" id="firstImg" onclick="$('#firstImgFile').click();">
+	                                &nbsp;   &nbsp;
+	                                    <img width="230px" height="150px" id="firstImg" onclick="$('#firstImgFile').click();">
 	                                    <input type="file" id="firstImgFile" name="reupfile" style="display:none;">
 	                                </div>
 	                            </td>
@@ -209,16 +210,9 @@
 		                            </td>
 		                        </tr>
 	                            <tr>
-	                                <td colspan="2"><button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#addObject">+장비추가</button></td>
+	                                <td colspan="2"><button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#addObject">+장비추가</button></td>
 	                            </tr>
-	                            <tr>
-	                            	<td colspan="2">
-						                <div class="modal-footer">
-						                    <button type="submit" class="btn btn-sm btn-primary" >수정하기</button>
-						                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal" onclick="history.back();">이전으로</button>
-						                </div>
-					                </td>
-	                            </tr>
+	                            
                         </table>
                     </form>
                      <script>
@@ -239,6 +233,10 @@
 							
 						</script>
                 </div>
+                   <div class="modal-footer">
+	                    <button type="submit" class="btn btn-sm btn-success" >수정하기</button>
+	                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal" onclick="history.back();">이전으로</button>
+	                </div>
             </div>
             </div>
         </div>

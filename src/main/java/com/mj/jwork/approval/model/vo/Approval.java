@@ -36,7 +36,7 @@ public class Approval {
 	 private String jobName;
 	 private String reReason;
 	 
-	 
+	 private int targetNo;
 	 
 	 ArrayList<AppLine> alist;
 	 ArrayList<Reference> rlist;

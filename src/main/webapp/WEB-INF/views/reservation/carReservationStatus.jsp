@@ -28,6 +28,7 @@
 	.fc-daygrid-day-frame,.fc-timegrid-axis-frame-liquid,.fc-timegrid-axis{
 	display:none;
 	}
+	
   #car-updateForm th,#carDetailView th{  height: 50px;}
 </style>
 <meta charset="UTF-8">
@@ -126,7 +127,10 @@
     	    ], 
     	 
                  events: [
-                 	
+                		<c:forEach var="c" items="${list}">
+                     		{ id: '${c.resNo}', resourceId: '${c.carName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.carName}', color: '#FF5B5B'},
+                   	  		
+                   		 </c:forEach>
                  ]
                  
     	  })
@@ -145,7 +149,7 @@
    
     <jsp:include page="../common/menubar.jsp"/>
     <div style="width: 940px; margin:20px;">
-        <h2>차량 예약 현황</h2>
+        <h3>차량 예약 현황</h3>
         <hr>
          <div id='calendar' style="margin:20px;">
           
@@ -222,9 +226,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>차량 대표 이미지</th>
+                        <th>차량 이미지</th>
                         <td>
-                        	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/imgAdd.png'/>"   width="100px" height="70px" readonly>
+                        	&nbsp; &nbsp;&nbsp;<img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/imgAdd.png'/>"   width="190px" height="120px" readonly>
                         </td>
                     </tr>
                     <tr>
@@ -296,7 +300,7 @@
             <div class="modal-footer">
             	<form action="reservForm.car" method="post">
             		<input type="hidden"  name="carName" id="reserveCarName" >
-            		<button type="submit" class="btn btn-sm btn-primary"  type="submit" id="reserveBtn">예약하기</button>
+            		<button type="submit" class="btn btn-sm btn-success"  type="submit" id="reserveBtn">예약하기</button>
             	</form>
                 <button type="button" class="btn btn-sm btn-light" data-dismiss="modal" onclick=" $('#carDetailView').modal('hide');">닫기</button>
             </div>

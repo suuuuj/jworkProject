@@ -227,9 +227,9 @@
                                 <a id="" href="workCalendar.at">근태현황</a><br>
                                 <a id="" href="list.at">근태이력</a><br>
                                 <a id="" href="wtModify.at">근태수정</a><br>
-                                <a id="" href="" style="color:rgb(2, 152, 52)">근태조정</a><br>
-                                <a id="" href="" style="color:rgb(2, 152, 52)">근태관리</a><br>
-                                <a id="" href="" style="color:rgb(2, 152, 52)">근태통계</a><br>
+                                <a id="" href="adModify.wt" style="color:rgb(2, 152, 52)">근태조정</a><br>
+                                <a id="" href="adminWorktime.at" style="color:rgb(2, 152, 52)">근태관리</a><br>
+                                <a id="" href="adminWorkStatistic.at" style="color:rgb(2, 152, 52)">근태통계</a><br>
                             </div>
                         </div>
                     </div>
@@ -266,6 +266,10 @@
                             <div class="menuDetail">
                                 <a id="" href="status.car">차량예약신청</a><br>
                                 <a id="" href="status.cfr">회의실예약신청</a><br>
+                                <a id="" href="list.cfrMe">나의회의실예약</a><br>
+                                <a id="" href="list.carMe">나의차량예약</a><br>
+                                <a id="" href="list.cfr" style="color:rgb(2, 152, 52)">회의실관리</a><br>
+                                <a id="" href="list.car" style="color:rgb(2, 152, 52)">차량관리</a><br>
                             </div>
                         </div>
                     </div>
@@ -277,7 +281,7 @@
                                 <a id="myApprovalList" href="mylist.app">기안 문서함</a><br>
                                 <a id="selectunSignList" href="unsignlist.app">미결재 문서함</a><br>
                                 <a id="selectSignList" href="signlist.app">결재 문서함</a><br>
-                                <a id="" href="">수신/참조 문서함</a><br>
+                                <a id="" href="reflist.app">수신/참조 문서함</a><br>
                                 <a id="selectdraftList" href="draftList.app">임시저장함</a><br>
                             </div>
                         </div>

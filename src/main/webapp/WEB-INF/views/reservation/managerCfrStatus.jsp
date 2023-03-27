@@ -13,7 +13,9 @@
 	.fc-daygrid-day-frame,.fc-timegrid-axis-frame-liquid,.fc-timegrid-axis{
 	display:none;
 	}
-	
+	  #cfrDetail tr td{
+    	 height: 30px;
+    }
 </style>
     <meta charset='utf-8' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.js'></script>
@@ -26,6 +28,7 @@
     		  schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
     		  expandRows: true,
     		  timeZone: 'local',
+    		  selectable: true,
     		 slotMinTime: "09:00:00", // 최소시간
              slotMaxTime: "20:00:00", // 최대시간 (23시까지만 화면에 보여짐)
     	    initialView: 'resourceTimeGridDay',
@@ -75,6 +78,30 @@
             locale: 'ko',
             day:'numeric',
             navLinks: true,
+            select:function(info){
+
+            	$.ajax({
+            		url:"adetail.cfr"
+            	   ,data:{cfrName:info.resource.id}
+            	   ,success:function(c){
+            			$("#cfN").text(c.cfrName);
+            			$("#cfrImg").attr("src",c.firstImg);
+            			$("#cap").text(c.capacity);
+            		
+            			var equipment = c.equipment.split(","); 
+            			$("#eq").text(equipment);
+            	   },error:function(){
+            		   
+            		   console.log("ajax통신에러");
+            	   }
+            	   
+            	});
+            	
+        		
+        		
+        		$("#cfrDetailView").modal("show");
+        		
+           	},
     	    resources: [
     	      $.ajax({
     	    		url:"list.acfrn",
@@ -132,51 +159,17 @@
   
   <body>
    <jsp:include page="../common/menubar.jsp"/>
-  
-	<div class="content">
-	
-        <div class="innerOuter">
-			<!-- 
-                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#cfrInfo" onclick="selectList();">회의실 정보</button>
-                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#reservationForm" onclick="selectList();">예약하기</button>&nbsp; -->
-            <div id='calendar' style="margin:20px;">
-          
+    <div style="width: 940px; margin:20px;">
+        <h3>회의실 예약 현황</h3>
+        <hr>
+         <div id='calendar' style="margin:;">
+         </div>
+        
+        <div>
            
-            </div>
-
-        </div>
     </div>
-    <!-- Edit Modal -->
-		<!-- <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-	        aria-hidden="true">
-	        <div class="modal-dialog" role="document">
-	            <div class="modal-content">
-	                <div class="modal-header">
-	                    <h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>
-	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	                        <span aria-hidden="true">&times;</span>
-	                    </button>
-	                </div>
-	                <div class="modal-body">
-	                    <div class="form-group">
-	                        <label for="taskId" class="col-form-label">일정 내용</label>
-	                        <input type="text" class="form-control" id="calendar_content" name="calendar_content">
-	                        <label for="taskId" class="col-form-label">시작 날짜</label>
-	                        <input type="date" class="form-control" id="calendar_start_date" name="calendar_start_date">
-	                        <label for="taskId" class="col-form-label">종료 날짜</label>
-	                        <input type="date" class="form-control" id="calendar_end_date" name="calendar_end_date">
-	                    </div>
-	                </div>
-	                <div class="modal-footer">
-	                    <button type="button" class="btn btn-warning" id="addCalendar">추가</button>
-	                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-	                        id="sprintSettingModalClose">취소</button>
-	                </div>
-	    
-	            </div>
-	        </div>
-	    </div> -->
-	   	
+      
+   </div>
 	       <!--회의실 예약 모달 -->
     <div class="modal" id="reservationForm">
         <div class="modal-dialog">
@@ -208,13 +201,13 @@
                         <tr>
                             <th>날짜</th>
                             <td><!-- <input class="datepicker" name="useDate" id="datepicker"required> -->
-                            	<input type="date" name="useDate" id="useDate" onchange="selectDay($(this).val());"required>
+                            	<input type="date" name="useDate" id="useDate" onchange="selectDay($(this).val());" required>
                             </td>
                         </tr>
                         <tr>
                             <th>시간</th>
                           	<td>
-                            <select name="startTime" onchange="endTimeShow($(this).val());" id="startTime" required>
+                            <select name="startTime" onchange="endTimeShow($(this).val());" id="startTime" disabled required>
                           	    <option>- 시작시간 -</option>
                                 <option value="09:00" >09:00</option>
                                 <option value="10:00">10:00</option>
@@ -253,7 +246,7 @@
                             <td><input type="text" name="cfTitle"required></td>
                         </tr>
                     </table>
-                    <button type="submit" onclick="return timeNeed();" class="btn btn-primary btn-sm">예약하기</button>
+                    <button type="submit" onclick="return timeNeed();" class="btn btn-success btn-sm">예약하기</button>
                </form>
 	      </div>
     
@@ -323,6 +316,8 @@
             					+"</button>";
             			
             			value2+="<option>"+list[i].cfrName+"</option>";
+            			
+            			
             		
             		}
             		
@@ -351,6 +346,7 @@
         			$("#firstImg").attr("src",c.firstImg);
         			$("#capacity").text(c.capacity);
         			var equipment = c.equipment.split(","); 
+        			
         			$("#equipment").text(equipment);
         	   },error:function(){
         		   
@@ -365,7 +361,7 @@
      </script>
 	    <script>
 	   		 function timeNeed(){
-				if($("select[name=statTime]").val() == "- 시작시간 -" || $("select[name=endTime]").val() == "- 종료시간 -"){
+				if($("select[name=startTime]").val() == "- 시작시간 -" || $("select[name=endTime]").val() == "- 종료시간 -"){
 					alert("시작/종료시간을 입력하세요.");
 					return false;
 			}
@@ -382,8 +378,40 @@
 								}
 					    }
 					);
+	   			
+	   			let cfrName= $("#cfrName").val();
+	   			let useDate= $("#useDate").val();
+	   			
+	   			$.ajax({
+	    			url:"time.cfr",
+	    			data:{useDate:useDate,cfrName:cfrName},
+	    			success:function(list){
+	    				for(let i=0; i<list.length; i++){
+	    					$("#endTime option").each(
+	    							function(){    
+	    								if($(this).val() >= list[i].startTime && $(this).val() <= list[i].endTime) {
+	    									   $(this).prop("disabled",true);
+	    									   
+	    									}
+	    								
+	    								if(list[i].startTime >= val ){
+	    									
+	    									if($(this).val() >= list[i].startTime){
+	    										
+	    									  $(this).prop("disabled",true);
+	    									}
+	    								}
+	    						    }
+	    						);
 
-	   		 }	    	
+	    				}
+	    			},error:function(){
+	    				console.log('날짜 조회용 ajax 통신 실패');
+	    			}
+	    			
+	    		})
+	    	}
+	    	    	
 	    	// 날짜선택제한
 	    	$(function(){
 	    		
@@ -394,13 +422,13 @@
 	    		var today = new Date(now_utc-timeOff).toISOString().substring(0, 10);
 	    		 
 	    		document.getElementById("useDate").setAttribute("min", today);
-				console.log(today);
 	    	
 	    	})
 	    	
 	    	
 	    	function selectDay(val){
 	    		let cfrName= $("#cfrName").val();
+	    		 $("#startTime").prop("disabled",false);
 	    		$.ajax({
 	    			url:"time.cfr",
 	    			data:{useDate:val,cfrName:cfrName},
@@ -410,7 +438,7 @@
 	    			
 	    					$("#startTime option").each(
 	    							function(){    
-	    								if($(this).val() > list[i].startTime && $(this).val() < list[i].endTime) {
+	    								if($(this).val() >= list[i].startTime && $(this).val() < list[i].endTime) {
 	    									   $(this).prop("disabled",true);
 	    									}
 	    						    }
@@ -434,5 +462,59 @@
 	    	
 	  
 	    </script>
+	     <div class="modal" id="cfrDetailView">
+        <div class="modal-dialog">
+        <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <h4 class="modal-title">회의실 상세 정보</h4>
+            <button type="button" class="close" data-dismiss="modal" onclick=" $('#cfrDetailView').modal('hide');">&times;</button>
+            </div>
+    
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table id="cfrDetail">
+                    <tr >
+                        <th >회의실명</th>
+                        <td>
+                            <div class="col-10">
+                            	<span id="cfN"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>회의실 이미지</th>
+                        <td>
+                        	&nbsp; &nbsp;&nbsp;<img id="cfrImg"   width="190px" height="120px" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th >인원</th>
+                        <td>
+                          <div class="col-10">
+                         	 <span id="cap"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th >장비</th>
+                        <td>
+                           <div class="col-10">
+                           	<span id="eq"></span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+    
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal" onclick=" $('#carDetailView').modal('hide');">닫기</button>
+            </div>
+    
+        </div>
+        </div>
+    </div>
   </body>
 </html>

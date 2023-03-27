@@ -108,6 +108,7 @@
         }
         .keyword{
             color: green;
+            font-weight: bold;
         }
         .canceled{
             color:gray
@@ -125,7 +126,9 @@
             <div class="space"></div>
             <div class="btnArea">
                 <input id="checkAll" type="checkbox"> &nbsp;&nbsp;
-                <button id="readBtn" class="btn btn-outline-success btn-sm" disabled>읽음</button>&nbsp;
+                <c:if test="${ mailCategory ne '보낸메일함' && mailCategory ne '임시보관함' }">
+                    <button id="readBtn" class="btn btn-outline-success btn-sm" disabled>읽음</button>&nbsp;
+                </c:if>
                 <c:choose>
                     <c:when test="${mailCategory == '휴지통'}">
                         <button id="deleteEverBtn" class="btn btn-outline-success btn-sm" disabled>영구삭제</button>&nbsp;
@@ -136,7 +139,7 @@
                 </c:choose>
                 <!--
                 <button type="button" id="moveBtn" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#move" disabled>이동</button>&nbsp;-->
-                
+                <c:if test="${ mailCategory ne '보낸메일함' && mailCategory ne '임시보관함' }">
                 <!-- 메일함 이동 관련 구역 -->
                 <span class="moveMailBox dropdown">
                     <button id="moveBtn" class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" disabled>이동</button>
@@ -146,12 +149,8 @@
                                     <a class="dropdown-item moveMailType" href="#" value="R">받은메일함</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item moveMailType" href="#" value="S">보낸메일함</a>
-                                </li>
-                                <li>
                                     <a class="dropdown-item moveStatus" href="#" value="N">휴지통</a>
                                 </li>
-                                
                             </div>
                             <br>
                             <li>
@@ -170,9 +169,8 @@
                                 </div>
                             </li>
                         </ul>
-                        
                 </span>&nbsp;
-
+                </c:if>
                 <script>
                     $(function(){
                         
@@ -310,9 +308,8 @@
                                 data:{
                                     empNo: ${ loginUser.empNo },
                                     mailNoList: checkedMailList,
-                                    mailBoxNo: $("#moveMailBoxNo").val(),
-                                    type: $("#moveMailType").val(),
-                                    status: $("#moveStatus").val()
+                                    mailBoxNo: 0,
+                                    status: 'N'
                                 },
                                 success: function(result){
 
@@ -361,7 +358,88 @@
 
                         })
 
+                        
+                        // 체크박스 누를때마다 읽음여부 확인 후 버튼 바꾸기
+                        $(document).on("input[name=mailNo]").change(function(){
+                            console.log($(this).val());
+                            var readMailList = [];
+                            $("input[name=mailNo]:checked").each(function(){
+                                console.log($(this).attr("read"));
+                                // 안읽은 메일
+                                if($(this).attr("read") == "Y"){
+                                    readMailList.push($(this).val());
+                                }
+                                
+                            })
 
+                            if($("input[name=mailNo]:checked").length == readMailList.length && $("input[name=mailNo]:checked").length != 0){
+                                $("#readBtn").text("안읽음");
+                            }else{
+                                $("#readBtn").text("읽음");
+                            }
+                        })
+
+
+                        // 읽음 안읽음 버튼 누를 때
+                        $(document).on("click", "#readBtn", function(){
+                            let readValue = 'Y';
+                            if($(this).text() == '안읽음'){
+                                readValue = 'N';
+                            }
+
+                            var checkedMailList = [];
+                            $("input[name=mailNo]:checked").each(function(){
+                                checkedMailList.push($(this).val());
+                            })
+                            let readDate = "";
+                            $("input[name=mailNo]:checked").each(function(){
+                                if(readDate == ""){
+                                    readDate += $(this).attr("readDate");
+                                } else{
+                                    readDate += "," + $(this).attr("readDate");
+                                }
+                                
+                            })
+                            console.log(readDate);
+                            
+                            
+                            $.ajax({
+                                url: "readMail.ma",
+                                data:{
+                                    empNo: ${ loginUser.empNo },
+                                    mailNoList: checkedMailList,
+                                    read: readValue,
+                                    readDateList: readDate
+                                },
+                                success: function(result){
+
+                                    if(result == 'success'){
+                                        if(readValue == 'N'){
+                                            for(let i=0; i<checkedMailList.length; i++){
+                                                $("tr[mail-no=" + checkedMailList[i] + "]").addClass("font-bold");
+                                                $("tr[mail-no=" + checkedMailList[i] + "]").children().eq(0).attr("read", "N");
+                                                $("tr[mail-no=" + checkedMailList[i] + "]").children().eq(2).html('<img class="mailIcon" src="resources/images/mail/unReadMail.png">');
+                                            }
+                                        } else{
+                                            for(let i=0; i<checkedMailList.length; i++){
+                                                $("tr[mail-no=" + checkedMailList[i] + "]").removeClass("font-bold");
+                                                $("tr[mail-no=" + checkedMailList[i] + "]").children().eq(0).attr("read", "Y");
+                                                $("tr[mail-no=" + checkedMailList[i] + "]").children().eq(2).html('<img class="mailIcon" src="resources/images/mail/readMail.png">');
+                                            }
+                                        }
+                                        
+                                    }else{
+                                        alert("알 수 없는 이유로 실패했습니다. 다시 시도해주세요");
+                                    }
+
+                                }, error: function(){
+                                    console.log("읽음/안읽음 변경용 ajax 통신 실패");
+                                }
+                            })
+                            
+
+                        })
+                        
 
                     })
 
@@ -467,8 +545,8 @@
                         <c:when test="${ mList.size() ne 0 }">
                             <!-- 목록 시작 -->
                             <c:forEach var="m" items="${ mList }">
-                                <tr class='${ m.mailList.get(0).read == "N" ? "font-bold" : ""} middle' mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">
-                                    <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
+                                <tr class='${ m.mailList.get(0).read == "N" ? "font-bold" : ""} middle' mail-no="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}">
+                                    <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}"></td>
                                     <c:choose>
                                         <c:when test='${ m.mailList.get(0).important eq "Y" }'>
                                             <td width="30px" class="star" important="N"><img class="mailIcon" src="resources/images/mail/important.png"></td>
@@ -517,8 +595,8 @@
                         <c:when test="${ mList.size() ne 0 }">
                             <!-- 목록 시작 -->
                             <c:forEach var="m" items="${ mList }">
-                                <tr class='${ m.mailList.get(0).read == "N" ? "font-bold" : ""} middle' mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">
-                                    <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
+                                <tr class='${ m.mailList.get(0).read == "N" ? "font-bold" : ""} middle' mail-no="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}">
+                                    <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}"></td>
                                     <c:choose>
                                         <c:when test='${ m.mailList.get(0).important eq "Y" }'>
                                             <td width="30px" class="star" important="N"><img class="mailIcon" src="resources/images/mail/important.png"></td>
@@ -568,8 +646,8 @@
                             <c:forEach var="m" items="${ mList }">
                                 <c:choose>
                                     <c:when test="${ m.mailList.size() gt 1 }">
-                                        <tr mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">
-                                            <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
+                                        <tr class='${ m.mailList.get(0).read == "N" ? "font-bold" : ""}' mail-no="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}">
+                                            <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}"></td>
                                             <td width="30px" mail-no="${ m.mailNo }" class="toggle">∨</td>
                                             <td width="80px" class="middle">${ m.mailList.size() }명</td>
                                             <td width="380px" class="middle sendMailDetail" mail-no="${ m.mailNo }">${ m.mailTitle }</td>
@@ -604,8 +682,8 @@
                                         </c:forEach>
                                     </c:when>
                                     <c:otherwise>
-                                        <tr mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">
-                                            <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
+                                        <tr class='${ m.mailList.get(0).read == "N" ? "font-bold" : ""}' mail-no="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}">
+                                            <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}"></td>
                                             <td width="30px"></td>
                                             <td width="80px" class="middle">${ m.mailList.get(0).empName }</td>
                                             <td width="380px" class="middle sendMailDetail" mail-no="${ m.mailNo }">${ m.mailTitle }</td>
@@ -646,8 +724,8 @@
                         <c:when test="${ mList.size() ne 0 }">
                             <!-- 목록 시작 -->
                             <c:forEach var="m" items="${ mList }">
-                                <tr class='middle' mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">
-                                    <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }"></td>
+                                <tr class='middle' mail-no="${ m.mailNo }" read="${m.mailList.get(0).read}" readDate="${m.mailList.get(0).readDate}">
+                                    <td width="30px"><input type="checkbox" name="mailNo" value="${ m.mailNo }" read="${m.mailList.get(0).read}"  readDate="${m.mailList.get(0).readDate}"></td>
                                     <c:choose>
                                         <c:when test='${ m.mailList.get(0).important eq "Y" }'>
                                             <td width="30px" class="star" important="N"><img class="mailIcon" src="resources/images/mail/important.png"></td>
@@ -698,6 +776,7 @@
             <form action="" mothod="post" id="postForm">
 				<input type="hidden" id="formMailNo" name="mailNo" value="">
 				<input type="hidden" id="formReadDate" name="readDate" value="Y">
+                <input type="hidden" id="formRead" name="read" value="Y">
                 <input type="hidden" id="formMailCategory" name="mailCategory" value="${mailCategory}">
                 <input type="hidden" id="formMailBoxName" name="mailBoxName" value="${mailBoxName}">
 			</form>

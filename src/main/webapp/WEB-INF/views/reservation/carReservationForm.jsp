@@ -8,7 +8,7 @@
      #pagingArea{width:fit-content;margin:auto;}
      div{box-sizing: border-box;}
     #carReservForm th{
-        height: 50px;
+        height: 30px;
     }
     .outer{
         width: 960px;
@@ -27,15 +27,15 @@
 <body>
      <jsp:include page="../common/menubar.jsp"/>
     <div class="outer" style="width:900px; margin:20px;">
-        <h2>차량 예약</h2>
+        <h3>차량 예약</h3>
         <hr>
         <div style="width:900px;">
-            <h4>차량정보</h4>
+            <h5>차량정보</h5>
             <hr>
             <table id="car-information" style="width:900px;">
                 <tr>
                     <th>차량명</th>
-                    <td>${c.carName }</td>
+                    <td id="cName">${c.carName}</td>
                     <th>제조사</th>
                     <td>${c.maker }</td>
                 </tr>
@@ -79,7 +79,7 @@
 	        	}); 
             </script>
             <hr>
-            <h4>대여사원 정보</h4>
+            <h5>대여사원 정보</h5>
             <hr>
             <div style="float: left;line-height:10;">
                 <img src="<c:out value='${loginUser.profileUrl}' default='resources/profile_images/profile.png'/>" width="100px" height="100px" style="border-radius: 50%;"> 
@@ -99,7 +99,7 @@
 	                        <th>신청날짜</th>
 	                        <td>
 	                          <div class="col-8">
-	                        	<input type="date" class="form-control" name="resDate" id="resDate">
+	                        	<input type="date" class="form-control" name="resDate" id="resDate"  onchange="selectDay($(this).val());" required>
 	                    	  </div>
 	                    	 </td>
 	                    </tr>
@@ -109,7 +109,8 @@
 	                        <th>신청시간</th>
 	                        <td>
 	                         <div class="col-6">
-	                        <select name="startTime">
+	                        <select name="startTime" onchange="endTimeShow($(this).val());" id="startTime" disabled required>
+	                          <option>- 시작시간 -</option>
                                 <option value="09:00">09:00</option>
                                 <option value="10:00">10:00</option>
                                 <option value="11:00">11:00</option>
@@ -120,11 +121,10 @@
                                 <option value="16:00">16:00</option>
                                 <option value="17:00">17:00</option>
                                 <option value="18:00">18:00</option>
-                                <option value="19:00">19:00</option>
                             </select>
                             -
-                            <select name="endTime">
-                             <option value="09:00">09:00</option>
+                            <select name="endTime" id="endTime" disabled required>
+                              <option>- 종료시간 -</option>
                                 <option value="10:00">10:00</option>
                                 <option value="11:00">11:00</option>
                                 <option value="12:00">12:00</option>
@@ -144,7 +144,7 @@
 	                        <td>${loginUser.deptName }</td>
 	                        <th>신청사유</th>
 	                        <td>
-	                        	<textarea name="cause" class="form-control col-sm-7" rows="3" style="resize:none;">
+	                        	<textarea name="cause" class="form-control col-sm-7" rows="3" style="resize:none;" required>
 	
 	                            </textarea>       
 	                        </td>
@@ -157,8 +157,8 @@
                 </div>
                 <br clear="both">
             	<div class="btn-area" align="center">
-	                <button type="submit" class="btn btn-sm btn-primary">제출하기</button>
-	                <button type="button" class="btn btn-sm btn-light">이전으로</button>
+	                <button type="submit" class="btn btn-sm btn-success" onclick="return timeNeed();">제출하기</button>
+	                <button type="button" class="btn btn-sm btn-light" onclick="history.back();">이전으로</button>
            		 </div>
             </form>
          
@@ -177,9 +177,99 @@
 		var today = new Date(now_utc-timeOff).toISOString().substring(0, 10);
 		 
 		document.getElementById("resDate").setAttribute("min", today);
-	
 	})
     
+    </script>
+    <script>
+    
+    function selectDay(val){
+    	let carName = $("#cName").text();
+    	 $("#startTime").prop("disabled",false);
+    	 console.log(val);
+    	 $.ajax({
+ 			url:"carRes.select",
+ 			data:{carName:carName,resDate:val},
+ 			success:function(list){
+ 			    for(let i=0; i<list.length; i++){
+ 					
+ 					$("#startTime option").each(
+ 							function(){    
+ 								if($(this).val() >= list[i].startTime && $(this).val() < list[i].endTime) {
+ 									   $(this).prop("disabled",true);
+ 									}
+ 						    }
+ 						);
+
+ 					$("#endTime option").each(
+ 							function(){    
+ 								if($(this).val() > list[i].startTime && $(this).val() < list[i].endTime) {
+ 									   $(this).prop("disabled",true);
+ 									}
+ 						    }
+ 						);
+ 				}
+ 			},error: function( request, status, error ){
+ 			    alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
+ 			   }
+ 			
+ 			})
+ 	    
+	    	
+    }
+    
+    
+    </script>
+    <script>
+
+    function timeNeed(){
+		if($("select[name=startTime]").val() == "- 시작시간 -" || $("select[name=endTime]").val() == "- 종료시간 -"){
+			alert("시작/종료시간을 입력하세요.");
+			return false;
+	}
+		 }
+    
+    function endTimeShow(val){
+			
+			 $("#endTime").prop("disabled",false);
+			 
+			$("#endTime option").each(
+				function(){    
+					if($(this).val() <= val) {
+						   $(this).prop("disabled",true);
+						}
+			    }
+			);
+			let resDate= $("#resDate").val();
+			$.ajax({
+    			url:"carRes.select",
+    			data:{carName:'${c.carName}',resDate:resDate},
+    			success:function(list){
+    				for(let i=0; i<list.length; i++){
+    					$("#endTime option").each(
+    							function(){    
+    								if($(this).val() >= list[i].startTime && $(this).val() <= list[i].endTime) {
+    									   $(this).prop("disabled",true);
+    									   
+    									}
+    								
+    								if(list[i].startTime >= val ){
+    									
+    									if($(this).val() >= list[i].startTime){
+    										
+    									  $(this).prop("disabled",true);
+    									}
+    								}
+    						    }
+    						);
+
+    				}
+    			},error:function(){
+    				console.log('날짜 조회용 ajax 통신 실패');
+    			}
+    			
+    		})
+
+		 }	    	
     </script>
     
 </body>

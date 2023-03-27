@@ -254,6 +254,7 @@
                             $("#workModal input[name=workStart]").val(a.startTime);
                             $("#workModal input[name=workEnd]").val(a.endTime);
                             $("#workModal input[name=attNo]").val(a.attNo);
+                            $("#workModal input[name=wtNo]").val(a.wtNo);
                         },
                         error:function(){
                             console.log("근태상세 ajax 통신실패");
@@ -307,7 +308,7 @@
 
     <!-- The Modal -->
     <div class="modal fade" id="workModal">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered" style="width:400px;">
             <div class="modal-content">
         
                 <!-- Modal Header -->
@@ -316,10 +317,10 @@
                 <button type="button" class="close" data-dismiss="modal" onclick="workClose();">&times;</button><br>
                 </div>
 
-                <form action="modify.at" method="post">
+                <form action="modify.at" method="post" onsubmit="return confirm('출퇴근시간변경을 등록하시겠습니까?')">
                 <!-- Modal body -->
                     <div class="modal-body" style="width:360px; margin:auto;">
-                        <input type="hidden" name="attNo" value="${at.attNo}">
+                        <input type="hidden" name="attNo" value="">
                         <span class="modalS">수정할 날짜</span> 
                         &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workDate" value="" style="float:right;" readonly><br>
                         <span class="modalS">지정 출근시간</span> 
@@ -335,7 +336,7 @@
                         <span>신청사유</span>
                         <br>
                         <div class="textWrap">
-                            <div class="textCount">&nbsp;&nbsp;0자</div><div class="textTotal">/100자</div>
+                            <div class="textCount">&nbsp;&nbsp;</div><div class="textTotal">/100자</div>
                         </div>
                         <textarea name="reContent" id="textBox" maxlength="99" placeholder="신청사유를 입력하시오."></textarea>
                         
@@ -347,80 +348,11 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="workClose();">Close</button>
                     </div>
                 </form>
-
-                <script>
-                    $(function(){
-
-                        String.prototype.toHHMMSS = function () {
-                        var myNum = parseInt(this, 10);
-                        var hours   = Math.floor(myNum / 3600);
-                        var minutes = Math.floor((myNum - (hours * 3600)) / 60);
-                        var seconds = myNum - (hours * 3600) - (minutes * 60);
-
-                        if (hours   < 10) {hours   = "0"+hours;}
-                        if (minutes < 10) {minutes = "0"+minutes;}
-                        if (seconds < 10) {seconds = "0"+seconds;}
-                        return hours+':'+minutes+':'+seconds;
-}
-
-                        var result = $("#workModal input[name=reStartTime]:selected").toHHMMSS();
-                        $("#workModal input[name=reStart]").val(result);
-                    })
-                </script>
             
             </div>
 
         </div>
     </div>
-
-    <link rel="stylesheet" href="/resources/css/jquery-ui-timepicker-addon.css" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script src="/resources/js/jquery-ui-timepicker-addon.js"></script>
-    <script>
-        $(function(){
-            $("#test1").datetimepicker({
-                changeMonth: true, 
-                changeYear: true,
-                nextText: '다음 달',
-                prevText: '이전 달',
-                yearRange: 'c-50:c+20',
-                showButtonPanel: true, 
-                currentText: '오늘 날짜',
-                closeText: '닫기',
-                dateFormat: "hh:mm:ss",
-                showAnim: "slide",
-                showMonthAfterYear: true
-
-            });	
-        })
-    </script>
-
-    <!-- 에러 해결 시작 - 홈짱 -->
-
-    <script>
-
-        jQuery.browser = {};
-        
-        (function () {
-        
-            jQuery.browser.msie = false;
-        
-            jQuery.browser.version = 0;
-        
-            if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
-        
-                jQuery.browser.msie = true;
-        
-                jQuery.browser.version = RegExp.$1;
-        
-            }
-        
-        })();
-        
-        </script>
-        
-        <!-- 에러 해결 종료 - 홈짱 -->
 
     <script>
         $(function(){

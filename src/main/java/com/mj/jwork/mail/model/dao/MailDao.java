@@ -132,13 +132,31 @@ public class MailDao {
 	
 	public int deleteMail(SqlSessionTemplate sqlSession, Mail m) {
 		
-		return sqlSession.delete("mailMapper.deleteMail", m);
+		return sqlSession.update("mailMapper.deleteMail", m);
 		
 	}
 	
 	public int cancelSend(SqlSessionTemplate sqlSession, Mail m) {
 		
 		return sqlSession.update("mailMapper.cancelSend", m);
+		
+	}
+	
+	public int savedMailCount(SqlSessionTemplate sqlSession, int empNo) {
+		
+		return sqlSession.selectOne("mailMapper.savedMailCount", empNo);
+		
+	}
+	
+	public int countMailBoxMail(SqlSessionTemplate sqlSession, int mailBoxNo) {
+		
+		return sqlSession.selectOne("mailMapper.countMailBoxMail", mailBoxNo);
+		
+	}
+	
+	public Mail checkMailStatus(SqlSessionTemplate sqlSession, Mail m) {
+		
+		return sqlSession.selectOne("mailMapper.checkMailStatus", m);
 		
 	}
 	

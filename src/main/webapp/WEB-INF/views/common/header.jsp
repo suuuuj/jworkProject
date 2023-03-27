@@ -177,14 +177,35 @@
         background-color: rgb(130, 180, 130);
         cursor:pointer;
     }
-    #alarmBtn{
+    #alarmBtn, #profileBtn{
         border:none;
         background-color: white;
     }
-    .alarm-area{
+    .alarm-area {
         width: 300px;
         height: 300px;
         overflow: auto;
+    }
+    .dropdown-item{
+        height: 40px;
+    }
+    .alarm{
+        border-bottom: 1px solid rgb(189, 189, 189);
+    }
+    .dropdown-item-text{
+        border-bottom: 1px solid rgb(189, 189, 189);
+    }
+    .profile-area{
+        height: 150px;
+        width: 300px;
+    }
+    .number{
+        font-size: 12px;
+        color: gray;
+    }
+    .profileControl-area{
+        margin-top: 10px;
+        text-align: center;
     }
     .alarms{
         height: 40px;
@@ -211,12 +232,15 @@
     }
     .newAlarm{
         position: absolute;
-        top: 30px;
-        right: 50px;
+        top: 25px;
+        right: 60px;
         font-size: 12px;
         color: white;
         background-color: red;
-        border-radius: 5px;
+        border-radius: 10px;
+    }
+    .textmsg{
+        font-size: 13px;
     }
      
 
@@ -232,6 +256,13 @@
 		</script>
 		<c:remove var="alertMsg" scope="session"/>	
 	</c:if>
+    <c:if test="${not empty errorMsg }">
+		<script>
+			//alertify.alert('${alertMsg}');
+            swal('${errorMsg}', '', 'error');
+		</script>
+		<c:remove var="errorMsg" scope="session"/>	
+	</c:if>
 	    
     <div class="totalOuter">
 
@@ -245,7 +276,7 @@
 
             </div>
 			<div class="header-right dropdown">
-                <span class="newAlarm" id="newIcon" style="display:none">&nbsp;new&nbsp;</span>
+                <span class="newAlarm" id="newIcon" style="display:none">&nbsp;&nbsp;<span class="count"></span>&nbsp;&nbsp;</span>
                 <button id="alarmBtn"  data-bs-toggle="dropdown" data-bs-auto-close="outside"><img class="headerIcon " src="resources/images/common/alarmLogo.png" ></button>
                 <ul class="dropdown-menu">
                     <div class="alarm-area">
@@ -264,13 +295,33 @@
                     </div>
                 </ul>
                 &nbsp;&nbsp;
-                <a href="#"><img class="headerIcon" src="resources/images/common/profileDefault3.png" alt=""></a>
+                <button id="profileBtn"  data-bs-toggle="dropdown" data-bs-auto-close="outside"><img class="headerIcon" src="resources/images/common/profileDefault3.png" alt=""></button>
+                <ul class="dropdown-menu">
+                    <div class="profile-area">
+                        <li class="profileInformation">
+                            <div class="info-box dropdown-item-text">
+                                <div class="left"><img class="menubarProfileImg" src="<c:out value='${ loginUser.profileUrl }' default='resources/images/common/profileDefault3.png' />" /></div>
+                                <div class="right">
+                                    <span class="name">${ loginUser.empName }</span> <span class="number">${loginUser.empNo}</span>
+                                    <p style="font-size: 12px;">${ loginUser.deptName }&nbsp;${ loginUser.teamName }&nbsp;${ loginUser.jobName }</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="profileControl">
+                            <div class="dropdown-item-text profileControl-area">
+                                <a class="btn btn-outline-success" href="myPage.emp">마이페이지</a>&nbsp;&nbsp;<a class="btn btn-outline-warning" href="logout.emp">로그아웃</a>
+                            </div>
+                        </li>
+                        
+                    </div>
+                </ul>
             </div>
             <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>          
             <script>
                 var socket = null;
                 $(function(){
                     connectWS();
+                    loadAlarm();
                     
                 });
 
@@ -284,7 +335,7 @@
                         ws.onmessage = function(event) {
                             console.log("onmessage : " +event.data);
                             
-                            $("#newIcon").css("display", "block");
+                            loadAlarm();
 
                         };
                         
@@ -312,6 +363,10 @@
                             const list = alarm.list;
 
                             $(".alarmCount").text(unRead);
+                            $(".count").text(unRead);
+                            if(unRead > 0){
+                                $("#newIcon").css("display", "block");
+                            }
                             let msg = "";
 
                             if(list.length == 0){
@@ -322,9 +377,12 @@
                                     msg += '<li class="alarm read' + list[i].read + '"><a class="dropdown-item " alarmNo=' + list[i].alarmNo + ' href="#" url=' + list[i].url + ' read=' + list[i].read + '><div class="alarms">';
                                     if(list[i].refType == 'mail'){
                                         msg += '<img class="alarm-logo" src="resources/images/common/email1.png" alt="">';
-                                    } else{
-                                        // 다른 종류의 알람일때
-
+                                    } else if(list[i].refType == 'approval'){
+                                        // 결재 종류의 알람일때
+                                        msg += '<img class="alarm-logo" src="resources/images/common/ap-icon.png" alt="">';
+                                    } else if(list[i].refType == 'ess'){
+                                        // ess 종류의 알람일때
+                                        msg += '<img class="alarm-logo" src="resources/images/common/ess-icon.png" alt="">';
                                     }
                                     msg += '<span class="textmsg">' + list[i].alarmMsg + '</span></div></a>';
                                     
@@ -342,7 +400,7 @@
 
                     
                 }
-
+                /*
                 $(document).on("click", "#alarmBtn", function(){
                     //console.log($("#newIcon").css("display"));
                     if($("#newIcon").css("display") == "block"){
@@ -350,6 +408,7 @@
                     }
                     loadAlarm();
                 })
+                */
 
                 $(document).on("click", ".alarmsDiv .dropdown-item", function(){
                     const $alarmNo = $(this).attr("alarmNo");

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType=`"text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -17,35 +17,12 @@
 <title>Insert title here</title>
 <style>
     /* outer영역 */
-    .outer{
-        width:960px;
-        height:1000px;
-        border:1px solid black;
+    .worktimeOuter{
+       padding:50px;
     }
 
-    /* 메뉴바 */
-    .title{
-        color:rgb(50,50,50);
-        margin-left: 30px;
-        margin-top:30px;
-    }
-    .selectBar{
-        margin-left: 30px;
-    }
-    .selectBar>span{
-        color:rgba(50, 50, 50, 0.79);
-        font-size:15px;
-        font-weight: 600;
-    }
-    .selectBar>div{
-        margin-top:10px;
-        height:3px;
-        float: left;
-    }
     /* content영역 */
     .work-area{
-        margin-left:30px;
-        margin-right: 30px;
         margin-top: 30px;
     }
     .work-area>span{
@@ -92,6 +69,10 @@
         border:none;
         border-radius: 5px;
     }
+    #pagingArea{
+    	width:fit-content;
+    	margin:auto;
+    }
     /* modal영역 */
     .modal-content{
         height:600px;
@@ -117,7 +98,7 @@
         padding:10px;
     }
     .textWrap{
-        margin-left: 265px;
+        margin-left: 255px;
         margin-bottom: 5px;
         font-size: 13px;
         font-weight: 600px;
@@ -126,24 +107,10 @@
 </style>
 </head>
 <body>
-    <div class="outer">
+    <jsp:include page = "../common/menubar.jsp" />
+    <div class="worktimeOuter">
 
-        <div class="title">
-            <h3 style="color:rgb(50,50,50); font-weight: 600;">근무<h3> 
-        </div>
-        <br>
-        <div class="selectBar">
-            <span>&nbsp;근태현황</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>근태이력</span> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>근태수정</span> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">근태조정</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">근태관리</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">근태통계</span>
-            <br>
-            <div style="width:173px; background: rgb(234, 234, 234);">&nbsp;</div>
-            <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:660px; background: rgb(234, 234, 234);">&nbsp;</div>
-        </div>
+        <h4><b>근무</b></h4>
 
         <div class="work-area">
 
@@ -163,90 +130,71 @@
             <table class="workTable">
                 <thead>
                     <tr style="font-weight: 600; background-color: rgba(0, 172, 0, 0.075);">
-                        <td>문서번호</td>
+                        <td><input type="checkbox" name="" value="" id="firstCk"></td>
+                        <td>사번</td>
+                        <td>소속</td>
+                        <td>팀명</td>
+                        <td>직위</td>
+                        <td>이름</td>
                         <td>조정일</td>
                         <td>제목</td>
                         <td>진행상황</td>
-                        <td></td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>46</td>
-                        <td>2023.02.20</td>
-                        <td>출퇴근시간변경</td>
-                        <td>결재대기(1차)</td>
-                        <td onclick="event.cancelBubble=true"><button class="btn btn-warning">취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>2023.02.20</td>
-                        <td>출퇴근시간변경</td>
-                        <td>승인</td>
-                        <td><button class="btn btn-warning" disabled>취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>2023.02.20</td>
-                        <td>출퇴근시간변경</td>
-                        <td>반려</td>
-                        <td><button class="btn btn-warning" disabled>취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>2023.02.20</td>
-                        <td>출퇴근시간변경</td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>2023.02.20</td>
-                        <td>출퇴근시간변경</td>
-                        <td>결재대기(2차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>2023.02.20</td>
-                        <td>출퇴근시간변경</td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>2023.02.20</td>
-                        <td>출퇴근시간변경</td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
-
-                    <tr>
-                        <td>46</td>
-                        <td>2023.02.20</td>
-                        <td>출퇴근시간변경</td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>2023.02.20</td>
-                        <td>출퇴근시간변경</td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
-                    <tr>
-                        <td>46</td>
-                        <td>2023.02.20</td>
-                        <td>출퇴근시간변경</td>
-                        <td>결재대기(1차)</td>
-                        <td><button class="btn btn-warning">취소</button></td>
-                    </tr>
+                    <c:forEach var="w" items="${list}">
+                        <tr onclick="workDetailFunction(${w.wtNo});">
+                            <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value=""></td>
+                            <td>${w.empNo}</td>
+                            <td>${w.deptName}</td>
+                            <td>${w.teamName}</td>
+                            <td>${w.jobName}</td>
+                            <td>${w.empName}</td>
+                            <td>${w.attDate}</td>
+                            <td>출근시간변경</td>
+                            <td>${w.approvalCheck}</td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
         </div>
 
         <script>
+            function workDetailFunction(no){
+                $.ajax({
+                    url:"detailModify.wt",
+                    data:{
+                        wtNo:no
+                    },
+                    success:function(w){
+                        $("#workModal input[name=workDate]").val(w.attDate);
+                        $("#workModal input[name=workStart]").val(w.startTime);
+                        $("#workModal input[name=workEnd]").val(w.endTime);
+                        $("#workModal input[name=attNo]").val(w.attNo);
+
+                        if(w.reStartTime != null){
+                            $("#workModal input[name=reStartTime]").val(w.reStartTime);
+                        }else{
+                            $("#workModal input[name=reStartTime]").val(w.startTime);
+                        }
+
+                        if(w.reEndTime != null){
+                            $("#workModal input[name=reEndTime]").val(w.reEndTime);
+                        }else{
+                            $("#workModal input[name=reEndTime]").val(w.endTime);
+                        }
+                        $("#reContent").text(w.reContent);
+
+                        var length = w.reContent.length;
+                        $(".textCount").text(length + '자');
+
+                    },
+                    error:function(){
+                        console.log("근태수정상세페이지 ajax 통신실패");
+                    }
+                })
+
+            }
             $(function(){
                 $(".workTable>tbody>tr").click(function(){
                     $("#workModal").modal('show');
@@ -255,59 +203,90 @@
         </script>
 
         <br><br>
-        <div class="paging-area" style="text-align:center;">
-            <button><</button>
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>5</button>
-            <button>></button>
-        </div>
+        <div id="pagingArea">
+			<ul class="pagination">
+
+				<c:choose>
+					<c:when test="${ pi.currentPage eq 1 }">
+						<li class="page-item" disabled><a class="page-link" href="#"><</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link"
+							href="admin.ot?cpage=${ pi.currentPage-1 }"><</a></li>
+					</c:otherwise>
+				</c:choose>
+
+				<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+					<li class="page-item"><a class="page-link"
+						href="admin.ot?cpage=${ p }">${ p }</a></li>
+				</c:forEach>
+
+
+				<c:choose>
+					<c:when test="${ pi.currentPage eq pi.maxPage }">
+						<li class="page-item" disabled><a class="page-link" href="#">></a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link"
+							href="admin.ot?cpage=${ pi.currentPage+1 }">></a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</div>
 
     </div>
 
     <!-- The Modal -->
     <div class="modal fade" id="workModal">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered" style="width:400px;">
             <div class="modal-content">
         
                 <!-- Modal Header -->
                 <div class="modal-header">
                 <h4 class="modal-title" style="color:rgb(0,172,0)">출퇴근 시간변경</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button><br>
+                <button type="button" class="close" data-dismiss="modal" onclick="workClose();">&times;</button><br>
                 </div>
                 
                 <!-- Modal body -->
                 <div class="modal-body" style="width:360px; margin:auto;">
                     <span class="modalS">수정할 날짜</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;2023.03.20" style="float:right;" readonly><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workDate" value="" style="float:right;" readonly><br>
                     <span class="modalS">지정 출근시간</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;09:20:53" readonly><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workStart" value="" readonly><br>
                     <span class="modalS">지정 퇴근시간</span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;19:20:53" readonly><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workEnd" value="" readonly><br>
                     <hr>
                     <span class="modalS">수정할 출근시간</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;09:20:53" readonly><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="reStartTime" value="" readonly><br>
                     <span class="modalS">수정할 퇴근시간</span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;19:20:53" readonly><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="reEndTime" value="" readonly><br>
                     <hr>
                     <span>신청사유</span>
                     <br>
                     <div class="textWrap">
-                        <span class="textCount">0자</span><span class="textTotal">/100자</span>
+                        <span class="textCount"></span><span class="textTotal">/100자</span>
                     </div>
-                    <textarea name="" id="" readonly>100글자가얼마나되는지볼께요100글자가얼마나되는지볼께요100글자가얼마나되는지볼께요100글자가얼마나되는지볼께요100글자가얼마나되는지볼께요100글자가얼마나되는지볼께요100글자가얼마나되</textarea>
+                    <textarea name="" id="reContent" readonly></textarea>
                     
                 </div>
                 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="workClose();">Close</button>
                 </div>
             
             </div>
         </div>
     </div>
+
+    <script>
+        function workClose(){
+            $('#workModal').modal('hide'); 
+            $('#workModal').hide();
+            $('.jquery-modal').click();
+    }
+
+    </script>
+
 </body>
 </html>

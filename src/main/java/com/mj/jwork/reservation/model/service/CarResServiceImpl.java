@@ -40,18 +40,17 @@ public class CarResServiceImpl implements CarResService{
 	}
 
 
-	@Override
-	public int selectResCount(String option) {
-		return cDao.selectResCount(sqlSession,option);
-	}
-
-
-	@Override
-	public ArrayList<CarReservation> selectResList(PageInfo pi,String option) {
-		return cDao.selectResList(sqlSession,pi,option);
-	}
-
-
+	
+	  @Override public int ajaxselectResCount(String option) { return
+	  cDao.selectResCount(sqlSession,option); }
+	  
+	  
+	  @Override public ArrayList<CarReservation> ajaxselectResList(PageInfo pi,String
+	  option) { return cDao.ajaxselectResList(sqlSession,pi,option); }
+	 
+	@Override public ArrayList<CarReservation> selectResList(
+			 ) { return cDao.selectResList(sqlSession); }
+	
 	@Override
 	public CarReservation selectCarRes(int resNo) {
 		return cDao.selectCarRes(sqlSession,resNo);
@@ -61,6 +60,18 @@ public class CarResServiceImpl implements CarResService{
 	@Override
 	public int updateApStatus(CarReservation c) {
 		return cDao.updateApStatus(sqlSession, c);
+	}
+
+
+	@Override
+	public ArrayList<CarReservation> selectResList(CarReservation c) {
+		return cDao.selectResList(sqlSession,c);
+	}
+
+
+	@Override
+	public CarReservation ajaxselectCarRes(int resNo) {
+		return cDao.ajaxselectCarRes(sqlSession,resNo);
 	}
 	
 	

@@ -173,7 +173,7 @@
    
         <br>
 
-         <form action="insertNewApp.app" method="post" align="center" enctype="multipart/form-data" id="approvalForm">
+         <form action="insertDrafbox.app" method="post" align="center" enctype="multipart/form-data" id="approvalForm">
          <input type="hidden" name="empNo" value="${ loginUser.empNo }">
        	 <input type="hidden" name="appNo" value="${ a.appNo }">
          <input type="hidden" name="docType" value="${ a.docType }">
@@ -470,16 +470,16 @@
                                     url:"addSigner.app",
                                     data:{empNo:$("#appEmpNo").val()},
                                     success: function(list){
-                                    	//console.log(list)
+                                    	console.log(list)
                                     	
                                     	let value=""
                                     	value += "<tr class='signEmp'>"
                                                  + "<td style='color:red' class='removeEmp'><b>X</b></td>"
                                                  + "<td style='display:none'>"+list.empNo+"</td>"
-                                                 + "<td style='display:none'>"+list.appLevel+"</td>"
 	                							 + "<td>" + list.deptName + "</td>"
 	                						 	 + "<td>" + list.empName + "</td>"
 	                							 + "<td>" + list.jobName + "</td>"
+	                							 + "<td style='display:none'>"+list.appLevel+"</td>"
                 						     + "</tr>";
                 						     
                                     	$("#selectAppLineTB tbody").append(value);
@@ -511,10 +511,10 @@
                                     value += "<tr class='refEmp'>"
                                                 + "<td style='color:red' class='removeRef'><b>X</b></td>"
                                                 + "<td style='display:none'>"+list.empNo+"</td>"
-                                                + "<td style='display:none'>"+list.appLevel+"</td>"
                                                 + "<td>" + list.deptName + "</td>"
                                                 + "<td>" + list.empName + "</td>"
                                                 + "<td>" + list.jobName + "</td>"
+                                                + "<td style='display:none'>"+list.appLevel+"</td>"
                                             + "</tr>";
                                             
                                     $("#selectRefLineTB tbody").append(value);
@@ -628,16 +628,19 @@
                         $("#name1").text(name);
                         $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
                         $("#app-list").append("<input type='hidden' name='alist[" +count + "].appLevel' value='1'>");
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].appNo' value='${a.appNo}'>");
                     }else if(count == 1){
                         $("#job2").text(job);
                         $("#name2").text(name);
                         $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
                         $("#app-list").append("<input type='hidden' name='alist[" +count + "].appLevel' value='2'>");
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].appNo' value='${a.appNo}'>");
                     }else if(count == 2){
                         $("#job3").text(job);
                         $("#name3").text(name);
                         $("#app-list").append("<input type='hidden' name='alist[" +count + "].empNo' value='" + no + "'>");
                         $("#app-list").append("<input type='hidden' name='alist[" +count + "].appLevel' value='3'>");
+                        $("#app-list").append("<input type='hidden' name='alist[" +count + "].appNo' value='${a.appNo}'>");
                     }
                     
                     const target = document.getElementById('sbmitAppBtn');

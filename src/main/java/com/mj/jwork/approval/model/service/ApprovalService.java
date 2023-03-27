@@ -49,17 +49,24 @@ public interface ApprovalService{
 	//상신취소, 임시저장form에서의 임시저장
 	int resaveApproval(Approval a);
 	
+	//기존 결재선/참조선 삭제
+	int deleteLine(Approval a);
 	
+	//임시저장문서 결재
+	int insertDrafbox(Approval a);
 	
+	//상신취소문서 재결재
+	int reinsertApp(Approval a);
 	
+	//참조문서 리스트 조회
+	int selectRefListCount(int empNo);
+	ArrayList<Approval> selectRefList(PageInfo pi, int empNo);
 	
+	// 새로 생성된 문서 번호 가져오기
+	int selectCurrentAppNo();
 	
-	//상신취소 서비스 (수정 후 재 결재)
-	//int updateApproval(Approval a);
-	
-	
-	
-	
+	// 알람 보낼 정보 조회
+	Approval selectAppInfo(int newAppNo);
 	
 	
 

@@ -35,12 +35,21 @@ public class CarResDao {
 		return sqlSession.selectOne("carMapper.selectResCount",option);
 	}
 	
-	public ArrayList<CarReservation> selectResList(SqlSessionTemplate sqlSession,PageInfo pi,String option){
+	
+	  public ArrayList<CarReservation> ajaxselectResList(SqlSessionTemplate
+	  sqlSession,PageInfo pi,String option){
+	  
+	  int offset = (pi.getCurrentPage() -1)* pi.getBoardLimit(); int limit =
+	  pi.getBoardLimit(); RowBounds rowBounds = new RowBounds(offset, limit);
+	  return (ArrayList)sqlSession.selectList("carMapper.ajaxselectResList", option,
+	  rowBounds);
+	  
+	  }
+	 
+	
+	public ArrayList<CarReservation> selectResList(SqlSessionTemplate sqlSession){
 		
-		int offset = (pi.getCurrentPage() -1)* pi.getBoardLimit();
-		int limit = pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		return (ArrayList)sqlSession.selectList("carMapper.selectResList", option, rowBounds);
+		return (ArrayList)sqlSession.selectList("carMapper.selectResList");
 		
 	}
 	
@@ -54,4 +63,16 @@ public class CarResDao {
 		
 		return sqlSession.update("carMapper.updateApStatus",c);
 	}
+	
+public ArrayList<CarReservation> selectResList(SqlSessionTemplate sqlSession,CarReservation c){
+		
+		return (ArrayList)sqlSession.selectList("carMapper.selectResList2",c);
+		
+	}
+
+	public CarReservation ajaxselectCarRes(SqlSessionTemplate sqlSession, int resNo) {
+	
+	return sqlSession.selectOne("carMapper.ajaxselectCarRes",resNo);
+	
+}
 }

@@ -25,7 +25,7 @@ public class EchoHandler  extends TextWebSocketHandler{
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		String empId = session.getId(); // 접속한 유저의 http세션을 조회하여 id를 얻는 함수
 		if(empId != null) {	// 로그인 값이 있는 경우만
-			System.out.println(empId + " 연결 됨");
+			//System.out.println(empId + " 연결 됨");
 			sessionList.add(session);   // 접속한 클라이언트를 list 에 추가
 			
 			
@@ -47,7 +47,7 @@ public class EchoHandler  extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		
-		System.out.println("handleTextMessage: " + session + " : " + status);
+		//System.out.println("handleTextMessage: " + session + " : " + status);
 		sessionList.remove(session);
 		
 	}

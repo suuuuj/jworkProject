@@ -1,4 +1,4 @@
-<%@ page language="java" contentType=`"text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -12,35 +12,12 @@
 <title>Insert title here</title>
 <style>
     /* outer영역 */
-    .outer{
-        width:960px;
-        height:1000px;
-        border:1px solid black;
-    }
-
-    /* 메뉴바 */
-    .title{
-        color:rgb(50,50,50);
-        margin-left: 30px;
-        margin-top:30px;
-    }
-    .selectBar{
-        margin-left: 30px;
-    }
-    .selectBar>span{
-        color:rgba(50, 50, 50, 0.79);
-        font-size:15px;
-        font-weight: 600;
-    }
-    .selectBar>div{
-        margin-top:10px;
-        height:3px;
-        float: left;
+    .workOuter{
+        padding:50px;
+        margin: auto;
     }
     /* content영역 */
     .work-area{
-        margin-left:30px;
-        margin-right: 30px;
         margin-top: 30px;
     }
     .workSelect{
@@ -116,51 +93,42 @@
         font-size: 20px;
         font-weight: 900;
     }
+    .btnArea button{
+        font-size: 12px;
+        height: 27px;
+		border: 0;
+		border-radius: 5px;
+		width: 39px;
+		color: white;
+        margin-bottom: 6px;
+    }
+    .my.pagination.justify-content-end.pagination-sm>li>a{
+        color: rgb(14, 126, 14);
+        font-weight: bolder;
+    } 
 </style>
 </head>
 <body>
-    <div class="outer">
+    <jsp:include page = "../common/menubar.jsp" />
+    <div class="workOuter">
 
-        <div class="title">
-            <h3 style="color:rgb(50,50,50); font-weight: 600;">근무<h3> 
-        </div>
-        <br>
-        <div class="selectBar">
-            <span>&nbsp;근태현황</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>근태이력</span> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>근태수정</span> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">근태조정</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">근태관리</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgb(0, 172, 0)">근태통계</span>
-            <br>
-            <div style="width:346px; background: rgb(234, 234, 234);">&nbsp;</div>
-            <div style="width:67px; background: rgb(170, 170, 170);">&nbsp;</div>
-            <div style="width:487px; background: rgb(234, 234, 234);">&nbsp;</div>
-        </div>
-
+        <h4><b>근무</b></h4>
         <div class="work-area">
 
-            <div class="workSelect">
-                <div style="margin-top: 5px;">
+            <div class="workSelect" style="display:inline-block">
+                <div class="btnArea" style="margin-top: 5px;">
                     근무상태&nbsp;&nbsp;&nbsp;
-                    <input type="checkbox" id="" name="" value=""> <label for="">정상</label>
-                    <input type="checkbox" id="" name="" value=""> <label for="">지각</label>
-                    <input type="checkbox" id="" name="" value=""> <label for="">조퇴</label>
-                    <input type="checkbox" id="" name="" value=""> <label for="">결근</label>
+                    <button type="button" id="allBtn" style="background: green;">전체</button>
+                    <button type="button" id="waitBtn" style="background: gray;">정상</button>
+                    <button type="button" id="ingBtn" style="background: gray;">지각</button>
+                    <button type="button" id="finBtn" style="background: gray;">조퇴</button>
+                    <button type="button" id="reBtn" style="background: gray;">결근</button>
                 </div>
-                <div style="float:right">
+                <div style="margin-left:267px;">
                         <select name="dept" id="">
                             <option value="">인사부</option>
                             <option value="">총무부</option>
                             <option value="">개발부</option>
-                        </select>
-                        <select name="" id="">
-                            <option value="">사원</option>
-                            <option value="">대리</option>
-                            <option value="">과장</option>
-                            <option value="">차장</option>
-                            <option value="">부장</option>
-                            <option value="">상무</option>
                         </select>
                         <input type="text" name="" value="" placeholder="&nbsp;사원명/사원번호">
                         <button type="button" class="btn btn-success">검색</button>
@@ -168,7 +136,7 @@
                 
             </div>
 
-            <br><br>
+            <br><br><br>
 
             <div class="workList">
                 <div class="workDay">
@@ -177,145 +145,183 @@
                         <input type="text" name="" value="2023.03.06">
                         <button type="button" id="daycheck">></button>&nbsp;&nbsp;
 
+                        <!--
                         <button type="button" onclick="$('#dataBtn').click();">클릭</button>
                         <input type="date" id="dateBtn" name="" value="" style="display:none">
+                        -->
                     </form>
                 </div>
 
-                <br><br>
+                <br>
                 
                 <table class="workTable">
+                    <colgroup>
+                        <col width="*">
+                        <col width="*">
+                        <col width="*">
+                        <col width="*">
+                        <col width="**">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="10%">
+                    </colgroup>
                     <thead>
                             <tr style="font-weight: 600; background: rgb(234, 234, 234);">
-                                <td width="120px;">사번</td>
-                                <td width="120px;">소속</td>
-                                <td width="120px;">직위</td>
-                                <td width="120px;">이름</td>
-                                <td width="120px;">출근시간</td>
-                                <td width="160px;">퇴근시간</td>
-                                <td width="160px;">총근무시간</td>
-                                <td width="90px;">근무상태</td>
+                                <td scope="col">사번</td>
+                                <td scope="col">소속</td>
+                                <td scope="col">팀명</td>
+                                <td scope="col">직위</td>
+                                <td scope="col">이름</td>
+                                <td scope="col">출근시간</td>
+                                <td scope="col">퇴근시간</td>
+                                <td scope="col">총근무시간</td>
+                                <td scope="col">근무상태</td>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>4505301111</td>
-                                <td>인사1팀</td>
-                                <td>사원</td>
-                                <td>김정만</td>
-                                <td>07:55:53</td>
-                                <td>18:05:07</td>
-                                <td>08:00:00</td>
-                                <td>정상</td>
-                            </tr>
-                            <tr>
-                                <td>4505301111</td>
-                                <td>인사1팀</td>
-                                <td>사원</td>
-                                <td>김정만</td>
-                                <td>07:55:53</td>
-                                <td>18:05:07</td>
-                                <td>08:00:00</td>
-                                <td>정상</td>
-                            </tr>
-                            <tr>
-                                <td>4505301111</td>
-                                <td>인사1팀</td>
-                                <td>사원</td>
-                                <td>김정만</td>
-                                <td>07:55:53</td>
-                                <td>18:05:07</td>
-                                <td>08:00:00</td>
-                                <td>정상</td>
-                            </tr>
-                            <tr>
-                                <td>4505301111</td>
-                                <td>인사1팀</td>
-                                <td>사원</td>
-                                <td>김정만</td>
-                                <td>07:55:53</td>
-                                <td>18:05:07</td>
-                                <td>08:00:00</td>
-                                <td>정상</td>
-                            </tr>
-                            <tr>
-                                <td>4505301111</td>
-                                <td>인사1팀</td>
-                                <td>사원</td>
-                                <td>김정만</td>
-                                <td>07:55:53</td>
-                                <td>18:05:07</td>
-                                <td>08:00:00</td>
-                                <td>정상</td>
-                            </tr>
-                            <tr>
-                                <td>4505301111</td>
-                                <td>인사1팀</td>
-                                <td>사원</td>
-                                <td>김정만</td>
-                                <td>07:55:53</td>
-                                <td>18:05:07</td>
-                                <td>08:00:00</td>
-                                <td>정상</td>
-                            </tr>
-                            <tr>
-                                <td>4505301111</td>
-                                <td>인사1팀</td>
-                                <td>사원</td>
-                                <td>김정만</td>
-                                <td>07:55:53</td>
-                                <td>18:05:07</td>
-                                <td>08:00:00</td>
-                                <td>정상</td>
-                            </tr>
-                            <tr>
-                                <td>4505301111</td>
-                                <td>인사1팀</td>
-                                <td>사원</td>
-                                <td>김정만</td>
-                                <td>07:55:53</td>
-                                <td>18:05:07</td>
-                                <td>08:00:00</td>
-                                <td>정상</td>
-                            </tr>
-                            <tr>
-                                <td>4505301111</td>
-                                <td>인사1팀</td>
-                                <td>사원</td>
-                                <td>김정만</td>
-                                <td>07:55:53</td>
-                                <td>18:05:07</td>
-                                <td>08:00:00</td>
-                                <td>정상</td>
-                            </tr>
-                            <tr>
-                                <td>4505301111</td>
-                                <td>인사1팀</td>
-                                <td>사원</td>
-                                <td>김정만</td>
-                                <td>07:55:53</td>
-                                <td>18:05:07</td>
-                                <td>08:00:00</td>
-                                <td>정상</td>
-                            </tr>
+                            
                         </tbody>
                 </table>
             </div>
             
             <br><br>
-            <div class="paging-area" style="text-align:center;">
-                <button><</button>
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
-                <button>></button>
-            </div>
+            <div id="pagingArea">
+			
+				<ul class="my pagination justify-content-end pagination-sm">
+			
+				</ul>
+		    </div>
             
         </div>
 
     </div>
+
+    <script>
+        
+        let statusCode = 100;
+      
+        function selectAppList(status, cpage){
+            $.ajax({
+                url: "adWorktimeStatus.at",
+                data:{
+                    appStatus: status,
+                    cpage: cpage
+                    },
+                success:function(map){
+                    console.log(map);
+                    /*
+                        map
+                        {
+                          listCount : 10,
+                          pi : {currentPage:x, listCount:x, ... },
+                          list : [{empNo:xx, ...}, {}, ]
+                        }
+                    */
+                    
+                    let value = "";
+                    
+                    for(i=0; i<map.list.length; i++){
+                        value += "<tr>"
+                                 + "<td class='ano'>" + map.list[i].attNo + "</td>"
+                                 + "<td>" + map.list[i].deptName + "</td>"
+                                 + "<td>" + map.list[i].teamName + "</td>"
+                                 + "<td>" + map.list[i].jobName + "</td>"
+                                 + "<td>" + map.list[i].empName + "</td>"
+                                 + "<td>" + map.list[i].startTime + "</td>"
+                                 + "<td>" + map.list[i].endTime + "</td>"
+                                 + "<td>" + map.list[i].attTime + "</td>"
+                                 + "<td>" + map.list[i].attCheck + "</td></tr>";
+                    }
+                    $(".workTable tbody").html(value);
+                    
+                    //페이징바
+                    let page="";
+                    if(map.pi.currentPage ==1){
+                       page += "<li class='page-item disabled' ><a class='page-link' href='#' style='color:rgb(196, 197, 197)'>Previous</a></li>"
+                    }else{
+                       page += "<li class='page-item'><a class='page-link' onclick='selectAppList(" + statusCode + ", " + (map.pi.currentPage-1) + ");'>Previous</a></li>"
+                    }
+                    
+                    for(var p=map.pi.startPage; p<=map.pi.endPage; p++){
+                       page += "<li class='page-item'><a class='page-link' onclick='selectAppList(" + statusCode + ", " + p + ");'>" + p + "</a></li>"
+                    }
+                    
+                    if(map.pi.currentPage == map.pi.maxPage){
+                       page += "<li class='page-item disabled'><a class='page-link ' href='#' style='color:rgb(196, 197, 197)'>Next</a></li>"
+                    }else{
+                       page += "<li class='page-item'><a class='page-link' onclick='selectAppList(" + statusCode + ", " + (map.pi.currentPage+1) + ");'>Next</a></li>"
+                    }
+                    
+                    $(".pagination").html(page);
+                    
+                }, error:function(){
+                       console.log("ajax 통신 실패");
+                    }
+            })
+        }
+        
+        $(function(){
+            selectAppList(100, 1);
+        })
+        
+        //각 버튼 누를시 뜨는 리스트
+        $("#allBtn").click(function(){
+            selectAppList(100, 1);
+            $(this).css("background-color", "green").css("color", "white");
+            $("#waitBtn").css("background-color", "gray").css("color", "white");
+            $("#ingBtn").css("background-color", "gray").css("color", "white");
+            $("#finBtn").css("background-color", "gray").css("color", "white");
+            $("#reBtn").css("background-color", "gray").css("color", "white");
+            statusCode = 100;
+        })
+        
+        $("#waitBtn").click(function(){
+            selectAppList(0, 1);
+            $(this).css("background-color", "green").css("color", "white");
+            $("#allBtn").css("background-color", "gray").css("color", "white");
+            $("#ingBtn").css("background-color", "gray").css("color", "white");
+            $("#finBtn").css("background-color", "gray").css("color", "white");
+            $("#reBtn").css("background-color", "gray").css("color", "white");
+
+            statusCode = 0;
+        })
+        
+        $("#ingBtn").click(function(){
+            selectAppList(1, 1);
+            $(this).css("background-color", "green").css("color", "white");
+            $("#allBtn").css("background-color", "gray").css("color", "white");
+            $("#waitBtn").css("background-color", "gray").css("color", "white");
+            $("#finBtn").css("background-color", "gray").css("color", "white");
+            $("#reBtn").css("background-color", "gray").css("color", "white");
+
+            statusCode = 1;
+        })
+        
+        $("#finBtn").click(function(){
+            selectAppList(2, 1);
+            $(this).css("background-color", "green").css("color", "white");
+            $("#allBtn").css("background-color", "gray").css("color", "white");
+            $("#waitBtn").css("background-color", "gray").css("color", "white");
+            $("#ingBtn").css("background-color", "gray").css("color", "white");
+            $("#reBtn").css("background-color", "gray").css("color", "white");
+            
+            statusCode = 2;
+        })
+        
+        $("#reBtn").click(function(){
+            selectAppList(3, 1);
+            $(this).css("background-color", "green").css("color", "white");
+            $("#allBtn").css("background-color", "gray").css("color", "white");
+            $("#waitBtn").css("background-color", "gray").css("color", "white");
+            $("#finBtn").css("background-color", "gray").css("color", "white");
+            $("#ingBtn").css("background-color", "gray").css("color", "white");
+            
+            statusCode = 3;
+        })
+    
+
+    </script>
 
     
 </body>

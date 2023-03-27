@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,7 @@
 <title>Insert title here</title>
 <style>
     /* outer영역 */
-    .worktimeOuter{
+    .workOuter{
         padding:50px;
         margin:auto;
     }
@@ -91,6 +91,10 @@
         line-height: 5px;
         font-size: 14px;
     }
+    #pagingArea{
+    	width:fit-content;
+    	margin:auto;
+    }
     /* modal영역 */
     .modal-content{
         height:600px;
@@ -119,7 +123,7 @@
         margin-top:15px;
     }
     .textWrap{
-        margin-left: 265px;
+        margin-left: 255px;
         margin-bottom: 5px;
         font-size: 13px;
         font-weight: 600px;
@@ -150,31 +154,31 @@
 
             <table class="workTable">
                 <thead>
-                        <tr style="font-weight: 600; background: rgb(234, 234, 234);">
-                            <td><input type="checkbox" name="" value="" id="firstCk"></td>
-                            <td>사번</td>
-                            <td>소속</td>
-                            <td>팀명</td>
-                            <td>직위</td>
-                            <td>이름</td>
-                            <td>조정일</td>
-                            <td>제목</td>
-                            <td>진행상황</td>
-                        </tr>
-                    </thead>
+                    <tr style="font-weight: 600; background: rgb(234, 234, 234);">
+                        <td><input type="checkbox" name="" value="" id="firstCk"></td>
+                        <td>사번</td>
+                        <td>소속</td>
+                        <td>팀명</td>
+                        <td>직위</td>
+                        <td>이름</td>
+                        <td>조정일</td>
+                        <td>제목</td>
+                        <td>진행상황</td>
+                    </tr>
+                </thead>
                     
                     <tbody>
                         <c:forEach var="w" items="${list}">
-                            <tr>
-                                <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value="${w.wt_no}"></td>
-                                <td>${w.emp_no}</td>
+                            <tr onclick="adminDetailFunction(${w.wtNo});">
+                                <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value=""></td>
+                                <td>${w.empNo}</td>
                                 <td>${w.deptName}</td>
                                 <td>${w.teamName}</td>
                                 <td>${w.jobName}</td>
                                 <td>${w.empName}</td>
                                 <td>${w.attDate}</td>
                                 <td>출근시간변경</td>
-                                <td>${w.approval_check}</td>
+                                <td>${w.approvalCheck}</td>
                             </tr>
                         </c:forEach>
                     </tbody>
@@ -182,6 +186,52 @@
             <br>
         <button id="deleteBtn" class="btn btn-danger" onclick="deleteMethod();">삭제</button>
         </div>
+
+        <script>
+            function adminDetailFunction(no){
+                $.ajax({
+                    url:"adModifyDetail.wt",
+                    data:{
+                        wtNo:no
+                    },
+                    success:function(w){
+                        $("#workModal input[name=workDate]").val(w.attDate);
+                        $("#workModal input[name=workStart]").val(w.startTime);
+                        $("#workModal input[name=workEnd]").val(w.endTime);
+                        $("#workModal input[name=wtNo]").val(w.wtNo);
+                        $("#workModal input[name=attNo]").val(w.attNo);
+                        $("#workModal input[name=approvalCheck]").val(w.approvalCheck);
+                        
+
+                        if(w.reStartTime != null){
+                            $("#workModal input[name=reStartTime]").val(w.reStartTime);
+                        }else{
+                            $("#workModal input[name=reStartTime]").val(w.startTime);
+                        }
+
+                        if(w.reEndTime != null){
+                            $("#workModal input[name=reEndTime]").val(w.reEndTime);
+                        }else{
+                            $("#workModal input[name=reEndTime]").val(w.endTime);
+                        }
+                        $("#reContent").text(w.reContent);
+
+                        var length = w.reContent.length;
+                        $(".textCount").text(length + '자');
+
+                    },
+                    error:function(){
+                        console.log("근태수정상세페이지 ajax 통신실패");
+                    }
+                })
+
+            }
+            $(function(){
+                $(".workTable>tbody>tr").click(function(){
+                    $("#workModal").modal('show');
+                })
+            })
+        </script>
 
         <script>
             $(function(){
@@ -250,62 +300,131 @@
         </script>
 
         <br><br>
-        <div class="paging-area" style="text-align:center;">
-            <button><</button>
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>5</button>
-            <button>></button>
-        </div>
+        <div id="pagingArea">
+			<ul class="pagination">
+
+				<c:choose>
+					<c:when test="${ pi.currentPage eq 1 }">
+						<li class="page-item" disabled><a class="page-link" href="#"><</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link"
+							href="adModify.wt?cpage=${ pi.currentPage-1 }"><</a></li>
+					</c:otherwise>
+				</c:choose>
+
+				<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+					<li class="page-item"><a class="page-link"
+						href="adModify.wt?cpage=${ p }">${ p }</a></li>
+				</c:forEach>
+
+
+				<c:choose>
+					<c:when test="${ pi.currentPage eq pi.maxPage }">
+						<li class="page-item" disabled><a class="page-link" href="#">></a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link"
+							href="adModify.wt?cpage=${ pi.currentPage+1 }">></a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</div>
 
     </div>
 
     <!-- The Modal -->
     <div class="modal fade" id="workModal">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered" style="width:400px;">
             <div class="modal-content">
         
                 <!-- Modal Header -->
                 <div class="modal-header">
                 <h4 class="modal-title" style="color:rgb(0,172,0);">출퇴근 시간변경</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button><br>
+                <button type="button" class="close" data-dismiss="modal" onclick="workClose();">&times;</button><br>
                 </div>
                 
                 <!-- Modal body -->
                 <form action="update.at" method="">
                     <div class="modal-body" style="width:360px; margin:auto;">
+                        <input type="hidden" name="wtNo" value="">
+                        <input type="hidden" name="attNo" value="">
+                        <input type="hidden" name="approvalCheck" value="">
                         <span class="modalS">수정할 날짜</span> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;2023.03.20" style="float:right;" readonly><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workDate" value="&nbsp;&nbsp;2023.03.20" style="float:right;" readonly><br>
                         <span class="modalS">지정 출근시간</span> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;09:20:53" readonly><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workStart" value="&nbsp;&nbsp;09:20:53" readonly><br>
                         <span class="modalS">지정 퇴근시간</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;19:20:53" readonly><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workEnd" value="&nbsp;&nbsp;19:20:53" readonly><br>
                         <hr>
                         <span class="modalS">수정할 출근시간</span> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;09:20:53" readonly><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="reStartTime" value="&nbsp;&nbsp;09:20:53" readonly><br>
                         <span class="modalS">수정할 퇴근시간</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" value="&nbsp;&nbsp;19:20:53" readonly><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="reEndTime" value="&nbsp;&nbsp;19:20:53" readonly><br>
                         <hr>
                         <span>신청사유</span>
                         <br>
                         <div class="textWrap">
-                            <span class="textCount">0자</span><span class="textTotal">/100자</span>
+                            <span class="textCount"></span><span class="textTotal">/100자</span>
                         </div>
-                        <textarea name="" id="" readonly>100글자가얼마나되는지볼께요100글자가얼마나되는지볼께요100글자가얼마나되는지볼께요100글자가얼마나되는지볼께요100글자가얼마나되는지볼께요100글자가얼마나되는지볼께요100글자가얼마나되</textarea>
+                        <textarea name="" id="reContent" readonly></textarea>
                         
                     </div>
                     
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                        <button class="btn btn-success" type="submit">승인</button>
-                        <button class="btn btn-warning" type="button">반려</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">목록</button>
+                        <button class="btn btn-success" type="button" id="wtSubmit">승인</button>
+                        <button class="btn btn-warning" type="button" id="wtReturn">반려</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="workClose();">Close</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <script>
+        function workClose(){
+            $('#workModal').modal('hide'); 
+            $('#workModal').hide();
+            $('.jquery-modal').click();
+    }
+
+    </script>
+
+    <script>
+
+        $(function(){
+            if($("#workModal input[name=approvalCheck]") == 1){
+                $("#wtSubmit").attr("disabled", true);
+            }
+        })
+
+        $(function(){
+            $("#wtSubmit").click(function(){
+                
+                if(confirm("출퇴근시간변경등록을 승인하시겠습니까?")){
+                    location.href='adModifySubmit.wt?wtNo=' + $("#workModal input[name=wtNo]").val() + '&reStartTime=' + $("#workModal input[name=reStartTime]").val() + '&reEndTime=' + $("#workModal input[name=reEndTime]").val() + '&attNo=' + $("#workModal input[name=attNo]").val();
+                }
+            
+            })
+        })
+    </script>
+
+    <script>
+
+        $(function(){
+            if($("#workModal input[name=approvalCheck]") == 2){
+                $("#wtReturn").attr("disabled", true);
+            }
+        })
+
+        $(function(){
+            $("#wtReturn").click(function(){
+                if(confirm("출퇴근시간변경등록을 반려하시겠습니까?")){
+                    location.href='adModifyReturn.wt?wtNo=' + $("#workModal input[name=wtNo]").val() + '&reStartTime=' + $("#workModal input[name=reStartTime]").val() + '&reEndTime=' + $("#workModal input[name=reEndTime]").val() + '&attNo=' + $("#workModal input[name=attNo]").val();
+                }
+            })
+        })
+    </script>
 </body>
 </html>

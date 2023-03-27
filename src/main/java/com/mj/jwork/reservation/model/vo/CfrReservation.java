@@ -22,4 +22,5 @@ public class CfrReservation {//회의실 예약 테이블
 	 private String useDate;
 	 private int capacity;
 	 private String cfTitle;
+	 private String empName;
 }

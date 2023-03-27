@@ -129,7 +129,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 		//System.out.println("result2 : " + result2);
 		int result3 = 1;
 		 
-		if (a.getRlist().size()>0) {
+		if (a.getRlist() != null && a.getRlist().size()>0) {
 	        result3 = aDao.insertNewRefLine(sqlSession,a);
 	   }
 		
@@ -141,9 +141,81 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int resaveApproval(Approval a) {
 		return aDao.resaveApproval(sqlSession,a);
 	}
+	
+	//기존 결재선, 참조선 삭제
+	@Override
+	public int deleteLine(Approval a) {
+		
+		int result1 = aDao.deleteAppLine(sqlSession,a);
+		int result2 = aDao.deleteRefLine(sqlSession,a);
+		
+		return result1*result2;
+	}
+	
+	// 임시저장문서 결재
+	@Override
+	public int insertDrafbox(Approval a) {
+		
+		int result1 = aDao.insertDrafbox(sqlSession,a);
+		
+		//System.out.println("result1 : " + result1);
+		
+		int result2 = aDao.reinsertAppLine(sqlSession,a);
+		//System.out.println("result2 : " + result2);
+		int result3 = 1;
+		 
+		if (a.getRlist() != null && a.getRlist().size()>0) {
+	        result3 = aDao.reinsertRefLine(sqlSession,a);
+	   }
+		
+		return result1*result2*result3; 
+	}
+
+	//상신취소 재결재
+	@Override
+	public int reinsertApp(Approval a) {
+		
+		int result1 = aDao.insertCancleApp(sqlSession,a);
+		
+		int result2 = aDao.reinsertAppLine(sqlSession,a);
+		
+		int result3 = 1;
+		 
+		if (a.getRlist() != null && a.getRlist().size()>0) {
+	        result3 = aDao.reinsertRefLine(sqlSession,a);
+	   }
+		
+		
+		return result1*result2*result3;
+	}
+	
+	// 새로 생성된 문서 번호 가져오기
+	@Override
+	public int selectCurrentAppNo() {
+		return aDao.selectCurrentAppNo(sqlSession);
+	}
+	
+	// 알람보낼 정보 가져오기
+	@Override
+	public Approval selectAppInfo(int newAppNo) {
+		return aDao.selectAppInfo(sqlSession, newAppNo);
+	}
+
+	//참조문서 카운트
+	@Override
+	public int selectRefListCount(int empNo) {
+		return aDao.selectRefListCount(sqlSession, empNo);
+	}
+	 //참조문서 리스트 조회
+	@Override
+	public ArrayList<Approval> selectRefList(PageInfo pi, int empNo) {
+		return aDao.selectRefList(sqlSession,pi, empNo);
+	}
+
 
 	
 
+	
 
 
 

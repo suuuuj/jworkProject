@@ -42,13 +42,7 @@ public class CfrResController {
 		}
 	}
 	
-	//예약화면 조회용
-	@RequestMapping("list.cfrRes")
-	public String listcfrRes() {
-		
-		return "reservation/cfrReservationStatus";
-	}
-	
+
 	
 	
 	//회의실 이름 조회
@@ -111,6 +105,15 @@ public class CfrResController {
 		return mv;
 	}
 	
+	@RequestMapping("list.cfrRes")
+	public ModelAndView getDetailCalendarList(ModelAndView mv, HttpServletRequest request) {
+		ArrayList<CfrReservation>list = cRService.selectResList();
+		
+		mv.addObject("list",list)
+		.setViewName("reservation/cfrReservationStatus");
+		return mv;
+	}
+	
 	
 	//회의실 이름 조회
 	@ResponseBody
@@ -121,7 +124,6 @@ public class CfrResController {
 		return new Gson().toJson(list);
 		
 		}
-	/*
 	//회의실 예약 내역 조회
 	@ResponseBody
 	@RequestMapping(value="call.events",produces="application/json; charset=utf-8")
@@ -131,7 +133,6 @@ public class CfrResController {
 		return new Gson().toJson(list);
 		
 	}
-	*/
 	
 	//회의실 예약 내역 조회
 	
@@ -183,7 +184,11 @@ public class CfrResController {
 	}
 	
 		
-	
-	
+	@ResponseBody
+	@RequestMapping(value="select.cfrRes",produces="application/json; charset=utf-8")
+	public String selectDetailRes(String cfrName) {
+		ArrayList<CfrReservation>list = cRService.selectDetailRes(cfrName);
+		return new Gson().toJson(list);
+	}
 	
 }
