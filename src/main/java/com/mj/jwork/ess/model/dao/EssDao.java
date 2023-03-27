@@ -332,6 +332,22 @@ public class EssDao {
 		return sqlSession.selectOne("essMapper.selectModifyWorktimeList", empNo);
 	}
 	
+	public Leave selectSignedLeave(SqlSession sqlSession, int leaveNo) {
+		
+		return sqlSession.selectOne("essMapper.selectSignedLeave", leaveNo);
+		
+	}
 	
+	public Businesstrip selectSignedBusinesstrip(SqlSession sqlSession, int btNo) {
+		
+		return sqlSession.selectOne("essMapper.selectSignedBusinesstrip", btNo);
+		
+	}
+	
+	public Overtime selectSignedOvertime(SqlSession sqlSession, int otNo) {
+		
+		return sqlSession.selectOne("essMapper.selectSignedOvertime", otNo);
+		
+	}
 	
 }

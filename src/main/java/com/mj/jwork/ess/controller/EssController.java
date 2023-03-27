@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.mj.jwork.alarm.controller.EchoHandler;
+import com.mj.jwork.alarm.model.service.AlarmServiceImpl;
+import com.mj.jwork.alarm.model.vo.Alarm;
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.common.template.Pagination;
+import com.mj.jwork.common.template.SendAlarm;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.ess.model.service.EssServiceImpl;
 import com.mj.jwork.ess.model.vo.Annual;
@@ -32,6 +36,12 @@ public class EssController {
 
 	@Autowired
 	private EssServiceImpl eService;
+	
+	@Autowired
+	private AlarmServiceImpl aService;
+	
+	@Autowired
+	private EchoHandler ec;
 	
 	/**
 	 * 메인페이지
@@ -99,7 +109,7 @@ public class EssController {
 	 */
 	@RequestMapping("insert.le")
 	public String insertLeave(Leave le, HttpSession session, Model model) {
-		
+		//System.out.println(le);
 		System.out.println(le.getLeaveCategory());
 		if(le.getLeaveCategory() == 0) {
 			int result1 = eService.updateAnuualCount(le);
@@ -258,7 +268,7 @@ public class EssController {
 	 */
 	@RequestMapping("adminFirst.le")
 	public ModelAndView adminFirstLeave(Leave le, HttpSession session, ModelAndView mv) {
-		
+		System.out.println(le);
 		Employee e = (Employee)session.getAttribute("loginUser");
 		le.setFirstApproval(e.getEmpNo());
 		int result = eService.adminFirstLeave(le);
@@ -282,12 +292,26 @@ public class EssController {
 	 */
 	@RequestMapping("adminSecond.le")
 	public ModelAndView adminSecondLeave(Leave le, HttpSession session, ModelAndView mv) {
-		
+		System.out.println(le);
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		le.setSecondApproval(empNo);
 		int result = eService.adminSecondLeave(le);
 		
 		if(result > 0) {
+			
+			Leave l = eService.selectSignedLeave(le.getLeaveNo());
+			Alarm a = new Alarm(); 
+			a.setTargetNo(l.getEmpNo());
+			a.setAlarmMsg("휴가 신청이 승인되었습니다.");
+			a.setRefNo(l.getLeaveNo());
+			a.setRefType("ess");
+			a.setUrl("list.le");
+			
+			//System.out.println(a);
+			aService.insertAlarm(a);
+			
+			SendAlarm.sendAlarm(a, ec.getSessionList());
+			
 			session.setAttribute("alertMsg", "2차 휴가승인이 완료되었습니다.");
 			mv.setViewName("redirect:/adminList.le");
 		}else {
@@ -773,6 +797,20 @@ public class EssController {
 		int result = eService.adminSecondBusinesstrip(b);
 		
 		if(result > 0) {
+			
+			Businesstrip bt = eService.selectSignedBusinesstrip(b.getBtNo());
+			Alarm a = new Alarm(); 
+			a.setTargetNo(bt.getEmpNo());
+			a.setAlarmMsg("출장 신청이 승인되었습니다.");
+			a.setRefNo(bt.getBtNo());
+			a.setRefType("ess");
+			a.setUrl("list.wt");
+			
+			//System.out.println(a);
+			aService.insertAlarm(a);
+			
+			SendAlarm.sendAlarm(a, ec.getSessionList());
+			
 			session.setAttribute("alertMsg", "2차 출장승인이 완료되었습니다.");
 			mv.setViewName("redirect:/admin.bt");
 		}else {
@@ -843,6 +881,21 @@ public class EssController {
 		int result = eService.adminSecondOvertime(o);
 		
 		if(result > 0) {
+			
+			Overtime ot = eService.selectSignedOvertime(o.getOtNo());
+			Alarm a = new Alarm(); 
+			a.setTargetNo(ot.getEmpNo());
+			a.setAlarmMsg("시간 외 근무 신청이 승인되었습니다.");
+			a.setRefNo(ot.getOtNo());
+			a.setRefType("ess");
+			a.setUrl("list.wt");
+			
+			//System.out.println(a);
+			aService.insertAlarm(a);
+			
+			SendAlarm.sendAlarm(a, ec.getSessionList());
+			
+			
 			session.setAttribute("alertMsg", "2차 시간외근무 승인이 완료되었습니다.");
 			mv.setViewName("redirect:/admin.ot");
 		}else {

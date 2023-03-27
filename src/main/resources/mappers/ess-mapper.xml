@@ -1067,13 +1067,37 @@
 		 where emp_no = #{empNo}    
 	</select>
 	
+	
+	<!-- 휴가 승인 후 휴가 정보 조회 -->
+	<select id="selectSignedLeave" resultMap="leaveResult">
+		select
+		       leave_no
+		     , emp_no
+		     , lcategory_name
+		  from leave
+		  join leave_category on (lcategory_no = leave_category)
+		 where leave_no = #{leaveNo}
+	</select>
 
 
-
-
-
-
-
+	<!-- 출장 승인 후 출장 정보 조회 -->
+	<select id="selectSignedBusinesstrip" resultMap="businesstripResult">
+		select
+		       bt_no
+		     , emp_no
+		  from businesstrip
+		 where bt_no = #{btNo}
+	</select>
+	
+	
+	<!-- 시간외근무 승인 후 시간외근무 정보 조회 -->
+	<select id="selectSignedOvertime" resultMap="overtimeResult">
+		select
+		       ot_no
+		     , emp_no
+		  from overtime
+		 where ot_no = #{otNo}
+	</select>
 
 
 

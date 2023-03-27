@@ -186,6 +186,15 @@
         height: 300px;
         overflow: auto;
     }
+    .dropdown-item{
+        height: 40px;
+    }
+    .alarm{
+        border-bottom: 1px solid rgb(189, 189, 189);
+    }
+    .dropdown-item-text{
+        border-bottom: 1px solid rgb(189, 189, 189);
+    }
     .profile-area{
         height: 150px;
         width: 300px;
@@ -231,7 +240,7 @@
         border-radius: 10px;
     }
     .textmsg{
-        font-size: 12px;
+        font-size: 13px;
     }
      
 
@@ -364,7 +373,9 @@
                                     } else if(list[i].refType == 'approval'){
                                         // 결재 종류의 알람일때
                                         msg += '<img class="alarm-logo" src="resources/images/common/ap-icon.png" alt="">';
-
+                                    } else if(list[i].refType == 'ess'){
+                                        // ess 종류의 알람일때
+                                        msg += '<img class="alarm-logo" src="resources/images/common/ess-icon.png" alt="">';
                                     }
                                     msg += '<span class="textmsg">' + list[i].alarmMsg + '</span></div></a>';
                                     
