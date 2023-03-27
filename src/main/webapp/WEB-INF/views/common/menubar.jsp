@@ -109,7 +109,7 @@
         width:40px;
         margin-right:10px;
     }
-    .profileImg{width:60px;}
+    .profile{width:60px;}
     .home>div{
         float:left;
     }
@@ -180,7 +180,7 @@
 
             <div class="menubar">
                 <div class="info-box">
-                    <div class="left"><a href="myPage.emp"><img class="profileImg" src="<c:out value='${ loginUser.profileUrl }' default='resources/images/common/profileDefault3.png' />" /></a></div>
+                    <div class="left"><a href="myPage.emp"><img class="profile" src="<c:out value='${ loginUser.profileUrl }' default='resources/images/common/profileDefault3.png' />" /></a></div>
                     <div class="right">
                         <p class="name">${ loginUser.empName }</p>
                         <p style="font-size: 12px;">${ loginUser.deptName }&nbsp;${ loginUser.teamName }&nbsp;${ loginUser.jobName }</p>
@@ -208,7 +208,7 @@
                             <div class="menuDetail">
                                 <a id="" href="">조직도</a><br>
                                 <a id="" href="department.ad">부서 관리</a><br>
-                                <a id="" href="">사원 관리</a><br>
+                                <a id="" href="employeeList.ad">사원 관리</a><br>
                             </div>
                         </div>
                     </div>

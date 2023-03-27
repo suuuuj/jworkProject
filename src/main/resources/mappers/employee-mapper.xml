@@ -133,9 +133,8 @@
           left join job j on (e.job_code = j.job_code)
           left join attendence a on (e.emp_no = a.emp_no)
 		 where e.status = 'Y'
-		   and account_status = 'Y'
 		   and e.emp_no = #{empNo}
-		   and att_date = to_char(sysdate, 'yy/mm/dd')
+		   and att_date = '23/03/22'
 	</select>
 	
 	<!-- 사원 정보 수정 -->
@@ -974,13 +973,13 @@
              , sch_end
              , time_begin
              , time_end
-             , (select 0
+             , (select distinct 0		<!-- group_no는 0 -->
                   from sch_group
                  where not emp_no in #{loginNo})
-             , (select ''
+             , (select distinct ''		<!-- group_name은 '' -->
                   from sch_group
                  where not emp_no in #{loginNo})
-             , (select 'black'
+             , (select distinct 'black'	<!-- group color는 'black' -->
                   from sch_group
                  where not emp_no in #{loginNo})
              , sch_place
@@ -1069,4 +1068,166 @@
 		 where sch_no = #{schNo}
 		   and emp_no = #{loginNo}
 	</update>
+	
+	<!-- 사원 조회 -->
+	<select id="selectEmployeeListCount" resultType="_int">
+		select
+		       count(*)
+		  from employee
+	</select>
+	<select id="selectEmployeeList" resultMap="employeeResult">
+		select
+			   emp_no
+			 , emp_name
+             , gender
+             , dept_name
+             , team_name
+             , job_name
+             , phone
+             , to_char(enroll_date, 'YYYY-MM-DD') as "enroll_date"
+			 , to_char(resign_date, 'YYYY-MM-DD') as "resign_date"
+             , e.status
+             , account_status
+		  from employee e
+     left join department d on (e.dept_code=d.dept_code)
+	 left join team t on (e.team_code=t.team_code)
+	 left join job j on (e.job_code=j.job_code)
+         order 
+            by e.status desc,
+               account_status desc,
+               enroll_date desc
+	</select>
+
+	<!-- 사원 엑셀 조회 -->
+	<select id="selectEmployeeAllList" resultMap="employeeResult">
+		select
+			   emp_no
+			 , emp_name
+             , dept_name
+             , team_name
+             , job_name
+             , decode(gender, 'M', '남', 'F', '여') as "gender"
+             , email
+             , phone
+             , birth
+             , emp_phone
+             , to_char(enroll_date, 'YYYY-MM-DD') as "enroll_date"
+             , to_char(resign_date, 'YYYY-MM-DD') as "resign_date"
+             , task
+		  from employee e
+     left join department d on (e.dept_code=d.dept_code)
+	 left join team t on (e.team_code=t.team_code)
+	 left join job j on (e.job_code=j.job_code)
+         order 
+            by e.status desc,
+               account_status desc,
+               enroll_date desc
+	</select>
+	
+	<!-- 사원 상세 조회 -->
+	<select id="ajaxSelectEmployee" resultMap="employeeResult">
+		select
+			   emp_no
+			 , emp_name
+             , dept_code
+             , team_code
+             , job_code
+             , gender
+             , email
+             , phone
+             , birth
+             , emp_phone
+             , to_char(enroll_date, 'YYYY-MM-DD') as "enroll_date"
+             , to_char(resign_date, 'YYYY-MM-DD') as "resign_date"
+             , task
+             , profile_url
+		  from employee 
+         where emp_no = #{empNo} <!-- 선택한 사원번호 -->
+	</select>
+	
+	<!-- 사원 정보 수정 -->
+	<update id="updateEmployeeDetail">
+		update
+		       employee
+		   set email = #{email}
+		   	 , dept_code = #{deptCode}
+		   	 , team_code = #{teamCode}
+		   	 , job_code = #{jobCode}
+		   	 , gender = #{gender}
+		     , phone = #{phone}
+		     , emp_phone = #{empPhone}
+		     , birth = #{birth}
+		     , task = #{task}
+		     , resign_date = #{resignDate}
+		     , modify_date = sysdate
+		 where emp_no = #{empNo} <!-- 선택한 사원번호 -->
+	</update>
+
+	<!-- 사원 프로필 이미지 수정 -->
+	<update id="updateEmpProfileImg">
+		update
+			   employee
+		   set profile_url = #{profileUrl}
+		     , modify_date = sysdate
+		 where emp_no = #{empNo} <!-- 선택한 사원번호 -->
+	</update>
+	
+	<!-- 사원 등록 -->
+	<insert id="insertEmployee">
+		insert
+			   into employee
+			   (
+			     emp_no
+			   , emp_name
+			   , emp_pwd
+			   , email
+			   , dept_code
+			   , team_code
+			   , job_code
+			   , gender
+			   , birth
+			   , phone
+			   , emp_phone
+			   , task
+			   , enroll_date
+			   , profile_url
+			   )
+			   values
+			   (
+			     SEQ_ENO.nextval
+			   , #{empName}
+			   , #{empPwd}
+			   , #{email}
+			   , #{deptCode}
+			   , #{teamCode}
+			   , #{jobCode}
+			   , #{gender}
+			   , #{birth}
+			   , #{phone}
+			   , #{empPhone}
+			   , #{task}
+			   , sysdate
+			   , #{profileUrl}
+			   )
+	</insert>
+	
+	<!-- 사원 등록과 동시에 기본 캘린더 그룹 insert -->
+	<insert id="insertSchBasicGroup">
+		insert
+			   into sch_group
+			   (
+			     group_no
+			   , group_name
+               , group_color
+			   , emp_no
+			   )
+			   values
+			   (
+			     seq_sgrno.nextval	
+			   , '(기본)내 일정'
+               , ''
+			   , seq_eno.currval <!-- 등록한 사원의 사원번호 -->
+			   )
+	</insert>
+	
 </mapper>

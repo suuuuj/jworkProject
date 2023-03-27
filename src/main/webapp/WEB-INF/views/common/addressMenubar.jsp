@@ -40,18 +40,14 @@
         }
         #addressHeader tr{height: 60px;}
         
-        .outer{
-            width: 1200px;
-        }
+        .outer{width: 1200px;}
         .content{
             width: 960px;
             /* padding: 20px; */
             padding: 0px;
         }
         
-        .space{
-            height: 15px;
-        }
+        .space{height: 15px;}
         .totalOuter{
             width:1200px;
             background-color: #fff;
@@ -59,47 +55,27 @@
         }
 
         .subMenubar{
-            position: relative;
-            width:230px;
-            height:100%;
-            box-sizing: border-box ;
-            float: left;
+            position: relative; float: left; box-sizing: border-box ;
+            width:230px; height:100%;
             background-color: rgb(255, 255, 255);
-            border-right: 1px rgba(46, 170, 46, 0.219) solid;
-            
+            border-right: 1px rgba(46, 170, 46, 0.219) solid;   
         }
         #line{
-            width: 10px;
+            width: 10px; height: 1000px;
             background-color: rgb(217, 255, 227);
-            height: 1000px;
-            border-left: 2px solid;
-            border-right: 2px solid;
+            border-left: 2px solid; border-right: 2px solid;
         }
         .content{
-            width:960px;
-            height:1000px;
-            box-sizing: border-box ;
-            float: left;
+            width:960px; height:1000px;
+            box-sizing: border-box ; float: left;
         }
-        .outer>div{
-            float: left;
-        }
+        .outer>div{float: left;}
         
         * {padding: 0;margin: 0;box-sizing: border-box;}
    
-        .info-box{
-            display: flex;
-            align-items: center;
-            margin: 0 15px;
-            padding: 15px 0;
-            
-            border-bottom: 1px solid #5e5e5e;
-        }
         .common{
-            width: 60px;
-            height: 1000px;
+            width: 60px; height: 1000px;
             background-color: rgba(46, 170, 46, 0.219);
-  
         }
         .addressMenu{
             /* width: 180px; */
@@ -109,8 +85,7 @@
             float: left;
         }
         .subMenubarArea{
-           margin-left: 8px;
-           margin-right: 8px;     
+           margin-left: 8px; margin-right: 8px;     
         }
         .menu{
            margin-top: 10px;
@@ -121,19 +96,15 @@
             width: 40px;
         }
         .menu-wrap{
-           margin-left: 50px;
-           display:none;
+           margin-left: 50px; display:none;
         }
         .menuDetail a{
-           margin-top:5px;
-           padding:3px;
-           text-decoration: none;
-           color: black;
+           margin-top:5px; padding:3px;
+           text-decoration: none; color: black;
         }
         .menuDetail a:hover{
            text-decoration: none;
-           color: black;
-           background-color: rgb(130, 180, 130);
+           color: black; background-color: rgb(130, 180, 130);
            cursor:pointer;
         }
         .subTitle{
@@ -158,15 +129,12 @@
 
         .allGroupName{
             width: 120px; font-size: 14px;
-            padding-left: 20px; margin-bottom: 5px; padding-bottom: 2px;
+            padding-left: 29px; margin-bottom: 10px;
         }
         .addressGroupName {
             width: 120px;
-            border: none;
-            padding-left: 20px;
-            float: left;
-            margin-bottom: 5px;
-            padding-bottom: 2px;
+            padding-left: 29px; float: left;  
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap; 
         }
         #dropdownMenu{
             float: left;
@@ -176,14 +144,16 @@
             background-color: white;
         }
         .hover {
-            display: flex;
+            display: flex; margin-bottom: 10px;
         }
         #important {
-            float: left;
-            margin-top: 15px;
+            float: left; margin-top: 15px;
         }
 
         /*조직도*/
+        #chart ul {
+            margin-bottom: 10px;
+        }
         .deptGroup {
             padding-left: 40px;
             list-style: none;
@@ -195,7 +165,10 @@
         .deptGroup ul{
             list-style: none;
             padding-left: 40px;
-            display: none;
+            display: none; 
+        }
+        .deptGroup li {
+            margin-bottom: -5px;
         }
 
         /*주소록 그룹 수정*/
@@ -279,27 +252,9 @@
                     <div class="subTitle" onclick="location.href='addressIn.emp'">
                         조직도
                     </div>
-                    <div>
+                    <div id="chart">
                         <!--반복문-->
-                        <ul>
-                            <li class="deptGroup"><div class="deptTitle">인사부</div>
-                                <ul>
-                                    <li class="teamGroup">
-                                        <div>인사1팀</div>
-                                        <input type="hidden" name="teamTitle" value="">
-                                    </li>
-                                    <li class="teamGroup"><div>인사2팀</div></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li class="deptGroup"><div class="deptTitle">총무부</div>
-                                <ul>
-                                    <li class="teamGroup"><div>총무1팀</div></li>
-                                    <li class="teamGroup"><div>총무2팀</div></li>
-                                </ul>
-                            </li>
-                        </ul>
+
 
                     </div>
 
@@ -396,10 +351,50 @@
 
                 // 조직도 부서
                 $(function(){
-                    $(".deptTitle").click(function(){
-                        $(this).next().slideToggle();
-                    })  
+                    chartList();
                     groupList();
+                    
+                })
+
+                // 조직도 조회       
+                function chartList(){
+                    $.ajax({
+                        url:"addressInChart.emp",
+                        success:function(slist){
+                            //console.log(slist);
+                            let value = "";
+                            for(let i=0; i<slist.length; i++){
+                                value += '<form action="">' 
+                                            + '<ul>'
+                                                + '<li class="deptGroup"><div class="deptTitle">'+ slist[i].deptName +'</div>';
+                                                    for(let j=0; j<slist[i].teamList.length; j++){
+                                                        value += '<ul>'
+                                                                    + '<li class="teamGroup">'
+                                                                        + '<div><button type=submit>' + slist[i].teamList[j].teamName + '</button></div>'
+                                                                    + '</li>'
+                                                               + '</ul>'
+                                                               + '<input type="hidden" name="condition" value="teamName">'
+                                                               + '<input type="hidden" name="keyword" value="' + slist[i].teamList[j].teamName + '">';
+                                                               console.log(slist[i].teamList[j].teamName);
+                                                    }                   
+                                        value += '</li>'
+                                            + '</ul>'
+                                       + '</form>';    
+                            }
+                            $('#chart').append(value);
+                            $(".deptTitle").click(function(){
+                                $(this).nextAll().slideToggle();
+                            })
+
+
+                        }, error: function(){
+                            console.log("주소록 그룹 조회 ajax 통신 실패");
+                        }
+                    })
+                }
+                
+                $('.teamGroup').children().children().click(function(){      
+                    console.log('dd')
                 })
 
                 // 주소록 그룹 조회       
@@ -496,6 +491,7 @@
                 </div>
                 </div>
             </div>
+
 
             <div id="line"></div>
             <div class="content">

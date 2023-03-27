@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mj.jwork.common.model.vo.PageInfo;
 import com.mj.jwork.employee.model.dao.EmployeeDao;
@@ -366,10 +367,50 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return eDao.ajaxDeleteSchedule(sqlSession, s);
 	}
 
+	// 사원 관리 - 조회 페이지
+	@Override
+	public int selectEmployeeListCount() {
+		return eDao.selectEmployeeListCount(sqlSession);
+	}
+	@Override
+	public ArrayList<Employee> selectEmployeeList(PageInfo pi) {
+		return eDao.selectEmployeeList(sqlSession, pi);
+	}
 	
+	// 사원 관리 - 리스트 엑셀 변환
+	@Override
+	public ArrayList<Employee> selectEmployeeAllList() {
+		return eDao.selectEmployeeAllList(sqlSession);
+	}
+	
+	// 사원 관리 - 상세 조회(ajax)
+	@Override
+	public Employee ajaxSelectEmployee(int empNo) {
+		return eDao.ajaxSelectEmployee(sqlSession, empNo);
+	}
+
+	// 사원 관리 - 상세 수정
+	@Override
+	public int updateEmployeeDetail(Employee e) {
+		return eDao.updateEmployeeDetail(sqlSession, e);
+	}
+	@Override
+	public int updateEmpProfileImg(Employee e) {
+		return eDao.updateEmpProfileImg(sqlSession, e);
+	}
+
+	// 사원 등록
+	@Override
+	public int insertEmployee(Employee e) {
+		return eDao.insertEmployee(sqlSession, e);
+	}
+	@Override
+	public int insertSchBasicGroup() {
+		return eDao.insertSchBasicGroup(sqlSession);
+	}
 
 	
-	
-	
+
+
 
 }
