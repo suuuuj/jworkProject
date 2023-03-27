@@ -112,8 +112,8 @@ public interface EssService {
 	Attendence selectAttendenceMain(int empNo);
 	
 	// 출퇴근시간 insert
-	int insertStartAttendence(Attendence a);
-	int insertEndAttendence(Attendence a);
+	int insertStartAttendence(int attNo);
+	int insertEndAttendence(int attNo);
 	int insertAllAttendenceTime(int attNo);
 	
 	// 출퇴근 전체조회
@@ -135,6 +135,9 @@ public interface EssService {
 	int selectModifyWorktimeListCount(int empNo);
 	ArrayList<Worktime> selectModifyWorktimeList(PageInfo pi, int empNo);
 	
+	// 근태수정상세조회
+	Worktime selectModifyDetailWorktime(int wtNo);
+	
 	// 근태현황 캘린더조회
 	ArrayList<Attendence> workCalendarAttendence(int empNo);
 	ArrayList<Businesstrip> workCalendarBusinesstrip(int empNo);
@@ -142,6 +145,21 @@ public interface EssService {
 	Attendence selectWeekWorktime(int empNo);
 	Attendence selectMonthWorktime(int empNo);
 	Overtime selectWeekOvertime(int empNo);
+	
+	// 관리자 : 근태수정리스트조회
+	int adminSelectModifyWorktimeListCount();
+	ArrayList<Worktime> adminSelectModifyWorktimeList(PageInfo pi, Employee e);
+	
+	// 관리자 : 근태수정리스트상세조회
+	Worktime adminSelectAttendence(int wtNo);
+	
+	// 관리자 : 근태수정 승인/반려
+	int adminModifyWorktimeSubmit(Worktime w);
+	int adminModifyWorktimeReturn(int wtNo);
+	
+	// 관리자 : 전사원 근태조회
+	int adminWorktimeStatusListCount(Attendence a);
+	ArrayList<Attendence> adminWorktimeStatusList(PageInfo pi, Attendence a);
 	
 	
 	

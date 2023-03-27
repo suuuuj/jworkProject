@@ -233,12 +233,12 @@ public class EssDao {
 		return sqlSession.selectOne("essMapper.selectAttendenceMain", empNo);
 	}
 	
-	public int insertStartAttendence(SqlSession sqlSession, Attendence a) {
-		return sqlSession.update("essMapper.insertStartAttendence", a);
+	public int insertStartAttendence(SqlSession sqlSession, int attNo) {
+		return sqlSession.update("essMapper.insertStartAttendence", attNo);
 	}
 	
-	public int insertEndAttendence(SqlSession sqlSession, Attendence a) {
-		return sqlSession.update("essMapper.insertEndAttendence", a);
+	public int insertEndAttendence(SqlSession sqlSession, int attNo) {
+		return sqlSession.update("essMapper.insertEndAttendence", attNo);
 	}
 	
 	public Attendence selectAttendence(SqlSession sqlSession, Attendence a) {
@@ -277,8 +277,8 @@ public class EssDao {
 		return sqlSession.update("essMapper.updateEndTime", w);
 	}
 	
-	public int insertModigfyWorktime(SqlSession sqlSession, Worktime w) {
-		return sqlSession.insert("essMapper.insertModigfyWorktime", w);
+	public int insertModifyWorktime(SqlSession sqlSession, Worktime w) {
+		return sqlSession.insert("essMapper.insertModifyWorktime", w);
 	}
 	
 	public int updateWorktime(SqlSession sqlSession, Worktime w) {
@@ -329,9 +329,48 @@ public class EssDao {
 	}
 	
 	public int selectModifyWorktimeListCount(SqlSession sqlSession, int empNo) {
-		return sqlSession.selectOne("essMapper.selectModifyWorktimeList", empNo);
+		return sqlSession.selectOne("essMapper.selectModifyWorktimeListCount", empNo);
 	}
 	
+	public Worktime selectModifyDetailWorktime(SqlSession sqlSession, int wtNo) {
+		return sqlSession.selectOne("essMapper.selectModifyDetailWorktime", wtNo);
+	}
+	
+	public int adminSelectModifyWorktimeListCount(SqlSession sqlSession) {
+		return sqlSession.selectOne("essMapper.adminSelectModifyWorktimeListCount");
+	}
+	
+	public ArrayList<Worktime> adminSelectModifyWorktimeList(SqlSession sqlSession, PageInfo pi, Employee e){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("essMapper.adminSelectModifyWorktimeList",e,rowBounds);
+	}
+	
+	public int adminModifyWorktimeReturn(SqlSession sqlSession, int wtNo) {
+		return sqlSession.update("essMapper.adminModifyWorktimeReturn", wtNo);
+	}
+	
+	public int adminModifyWorktimeSubmit(SqlSession sqlSession, Worktime w) {
+		return sqlSession.update("essMapper.adminModifyWorktimeSubmit", w);
+	}
+	
+	public Worktime adminSelectAttendence(SqlSession sqlSession, int wtNo) {
+		return sqlSession.selectOne("essMapper.adminSelectAttendence", wtNo);
+	}
+	
+	public int adminWorktimeStatusListCount(SqlSession sqlSession, Attendence a) {
+		return sqlSession.selectOne("essMapper.adminWorktimeStatusListCount",a);
+	}
+	
+	public ArrayList<Attendence> adminWorktimeStatusList(SqlSession sqlSession, PageInfo pi, Attendence a){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("essMapper.adminWorktimeStatusList", a, rowBounds);
+	}
 	
 	
 }

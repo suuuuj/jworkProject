@@ -266,13 +266,13 @@ public class EssServiceImpl implements EssService {
 	}
 
 	@Override
-	public int insertStartAttendence(Attendence a) {
-		return eDao.insertStartAttendence(sqlSession, a);
+	public int insertStartAttendence(int attNo) {
+		return eDao.insertStartAttendence(sqlSession, attNo);
 	}
 	
 	@Override
-	public int insertEndAttendence(Attendence a) {
-		return eDao.insertEndAttendence(sqlSession, a);
+	public int insertEndAttendence(int attNo) {
+		return eDao.insertEndAttendence(sqlSession, attNo);
 	}
 
 	@Override
@@ -317,7 +317,7 @@ public class EssServiceImpl implements EssService {
 
 	@Override
 	public int insertModifyWorktime(Worktime w) {
-		return eDao.insertModigfyWorktime(sqlSession, w);
+		return eDao.insertModifyWorktime(sqlSession, w);
 	}
 
 	@Override
@@ -363,6 +363,46 @@ public class EssServiceImpl implements EssService {
 	@Override
 	public int selectModifyWorktimeListCount(int empNo) {
 		return eDao.selectModifyWorktimeListCount(sqlSession, empNo);
+	}
+
+	@Override
+	public Worktime selectModifyDetailWorktime(int wtNo) {
+		return eDao.selectModifyDetailWorktime(sqlSession, wtNo);
+	}
+
+	@Override
+	public int adminSelectModifyWorktimeListCount() {
+		return eDao.adminSelectModifyWorktimeListCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Worktime> adminSelectModifyWorktimeList(PageInfo pi, Employee e) {
+		return eDao.adminSelectModifyWorktimeList(sqlSession, pi, e);
+	}
+
+	@Override
+	public int adminModifyWorktimeReturn(int wtNo) {
+		return eDao.adminModifyWorktimeReturn(sqlSession, wtNo);
+	}
+
+	@Override
+	public int adminModifyWorktimeSubmit(Worktime w) {
+		return eDao.adminModifyWorktimeSubmit(sqlSession, w);
+	}
+
+	@Override
+	public Worktime adminSelectAttendence(int wtNo) {
+		return eDao.adminSelectAttendence(sqlSession, wtNo);
+	}
+
+	@Override
+	public int adminWorktimeStatusListCount(Attendence a) {
+		return eDao.adminWorktimeStatusListCount(sqlSession,a);
+	}
+
+	@Override
+	public ArrayList<Attendence> adminWorktimeStatusList(PageInfo pi, Attendence a) {
+		return eDao.adminWorktimeStatusList(sqlSession, pi,a);
 	}
 
 
