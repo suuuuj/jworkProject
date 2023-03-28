@@ -37,6 +37,7 @@
     <interceptors>
 		<interceptor>
 			<mapping path="/**" />
+			<exclude-mapping path="/login.emp"/>
 			<beans:bean class="com.mj.jwork.common.interceptor.LoginInterceptor" id="loginInterceptor" />
 		</interceptor>
 	</interceptors>
