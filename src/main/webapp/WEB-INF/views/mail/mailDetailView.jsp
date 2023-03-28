@@ -111,9 +111,6 @@
         .file{
             margin-left: 5px;
         }
-        .mailContent{
-            font-size: 15px;
-        }
         .mailIcon{width:20px;}
         #addMoveMailBoxInput{
         	border: 1px solid green;
@@ -536,14 +533,14 @@
                     <input type="hidden" name="receiver" value="${mi.receiver}">
                     <input type="hidden" name="receiverNo" value="${mi.receiverNo}">
                     <input type="hidden" name="mailTitle" value="${mi.mailTitle}">
-                    <input type="hidden" name="mailContent" value="${mi.mailContent}">
+                    <input type="hidden" name="mailContent" value='${mi.mailContent}'>
                     <input type="hidden" name="registerDate" value="${mi.registerDate}">
                 </form>
             </div>
             <script>
                 
                 const sender = "${ mi.sender }";
-                const mailContent = "${ mi.mailContent }";
+                const mailContent = '${ mi.mailContent }';
                 const receiverList = "${ mi.receiver }".split(",");
                 let receiver = "";
 
@@ -562,9 +559,7 @@
         <br><br><br><br>
     </div>
    
-    <!-- include summernote css/js-->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
     
     <script>
         /*
