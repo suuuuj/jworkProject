@@ -53,32 +53,32 @@ public class EmployeeController {
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	
-	// 로그인
-//	@RequestMapping("login.emp")
-//	public String loginEmployee(Employee e, Model model, HttpSession session) {
-//		 
-//		Employee loginUser = eService.loginEmployee(e);
-//		if(loginUser == null) {
-//			model.addAttribute("errorMsg", "로그인 실패");
-//			return "common/errorPage";
-//		}else {
-//			session.setAttribute("loginUser", loginUser);
-//			return "common/mainPage";
-//		}
-//	}
-	
+	 //로그인
 	@RequestMapping("login.emp")
 	public String loginEmployee(Employee e, Model model, HttpSession session) {
-
+		 
 		Employee loginUser = eService.loginEmployee(e);
-		if (loginUser != null && bcryptPasswordEncoder.matches(e.getEmpPwd(), loginUser.getEmpPwd())) {
-			session.setAttribute("loginUser", loginUser);
-			return "common/mainPage";
-		} else {
+		if(loginUser == null) {
 			model.addAttribute("errorMsg", "로그인 실패");
 			return "common/errorPage";
+		}else {
+			session.setAttribute("loginUser", loginUser);
+			return "common/mainPage";
 		}
 	}
+	
+//	@RequestMapping("login.emp")
+//	public String loginEmployee(Employee e, Model model, HttpSession session) {
+//
+//		Employee loginUser = eService.loginEmployee(e);
+//		if (loginUser != null && bcryptPasswordEncoder.matches(e.getEmpPwd(), loginUser.getEmpPwd())) {
+//			session.setAttribute("loginUser", loginUser);
+//			return "common/mainPage";
+//		} else {
+//			model.addAttribute("errorMsg", "로그인 실패");
+//			return "common/errorPage";
+//		}
+//	}
 	
 	// 마이페이지
 	@RequestMapping("myPage.emp")
