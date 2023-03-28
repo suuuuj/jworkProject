@@ -486,10 +486,10 @@
 			                				value += "<tr class='signEmp'>"
 			                					+ "<td style='color:red' class='removeEmp'><b>X</b></td>"
 			                					+ "<td style='display:none'>"+list.empNo+"</td>"
-			                					+ "<td style='display:none'>"+list.appLevel+"</td>"
 			                					+ "<td>" + list.deptName + "</td>"
 			                					+ "<td>" + list.empName + "</td>"
 			                					+ "<td>" + list.jobName + "</td>"
+			                					+ "<td style='display:none'>"+list.appLevel+"</td>"
 			                					+ "</tr>";
 			                				
 			                				$("#appTbody").append(value);
@@ -536,10 +536,10 @@
 			                					value += "<tr class='refEmp'>"
 			                						+ "<td style='color:red' class='removeRef'><b>X</b></td>"
 			                						+ "<td style='display:none'>"+list.empNo+"</td>"
-			                						+ "<td style='display:none'>"+list.appLevel+"</td>"
 			                						+ "<td>" + list.deptName + "</td>"
 			                						+ "<td>" + list.empName + "</td>"
 			                						+ "<td>" + list.jobName + "</td>"
+			                						+ "<td style='display:none'>"+list.appLevel+"</td>"
 			                						+ "</tr>";
 			                					
 			                					$("#refTbody").append(value);
