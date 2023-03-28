@@ -293,7 +293,7 @@
                             <div class="menuDetail">
                                 <a id="" href="enrollForm.bt">출장신청</a>
                                 <a id="" href="enrollForm.ot">시간외 근무신청</a>
-                                <a id="" href="list.wt">신청상세</a><br>
+                                <a id="" href="list.wt">신청상세</a>
                                 <a id="" href="admin.bt" style="color:rgb(2, 152, 52)">출장관리</a>
                                 <a id="" href="admin.ot" style="color:rgb(2, 152, 52)">시간외 근무관리</a>
                             </div>
