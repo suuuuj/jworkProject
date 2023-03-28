@@ -133,7 +133,7 @@
   <body>
     <jsp:include page="../common/menubar.jsp"/>
     <div style="width: 940px; margin:20px;">
-        <h3>회의실 예약 현황</h3>
+        <h3>회의실 예약 내역 상세</h3>
         <hr>
          <div id='calendar' style="margin:20px;">
          </div>

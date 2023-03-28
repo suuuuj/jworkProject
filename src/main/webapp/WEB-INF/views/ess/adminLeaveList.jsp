@@ -54,7 +54,7 @@
     .leaveTable{
         width:100%;
         text-align: center;
-        margin-top:30px;
+        margin-top:60px;
         border-collapse: collapse;
         border-spacing: 0;
         font-size: 14px;
@@ -74,10 +74,10 @@
         border:none;
         height:30px;
     }
-    #pagingArea{
-    	width:fit-content;
-    	margin:auto;
-    }
+    .my.pagination.justify-content-end.pagination-sm>li>a{
+        color: rgb(14, 126, 14);
+        font-weight: bolder;
+    } 
 </style>
 </head>
 <body>
@@ -101,13 +101,14 @@
                     <option value="">&nbsp;산전후</option>
                     <option value="">&nbsp;리프레쉬휴가</option>
                 </select>
-                -->
+                
                 <select name="" id="">
                     <option value="">&nbsp;결재대기(1차)</option>
                     <option value="">&nbsp;결재대기(2차)</option>
                     <option value="">&nbsp;승인</option>
                     <option value="">&nbsp;반려</option>
                 </select>
+                -->
                 <!--
                 <div style="float:right;">
                     <input type="text" name="" value="" placeholder="&nbsp;사원명/사원번호">
@@ -155,10 +156,9 @@
             </script>
             
             <br><br>
-
             <div id="pagingArea">
-                <ul class="pagination">
-                
+			
+                <ul class="my pagination justify-content-end pagination-sm">
                     <c:choose>
                         <c:when test="${ pi.currentPage eq 1 }">
                             <li class="page-item" disabled><a class="page-link" href="#"><</a></li>
@@ -173,7 +173,7 @@
                     </c:forEach>
                     
               
-                                  <c:choose>
+                    <c:choose>
                         <c:when test="${ pi.currentPage eq pi.maxPage }">
                             <li class="page-item" disabled><a class="page-link" href="#">></a></li>
                         </c:when>

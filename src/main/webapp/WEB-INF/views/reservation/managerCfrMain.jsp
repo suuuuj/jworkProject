@@ -50,7 +50,7 @@
         <div>
             <div class="btn-area" style="width:960px;">
                 <a class="btn btn-success " href="enrollForm.cfr">+회의실 등록</a>
-                <a class="btn btn-secondary" href="list.cfrRes">회의실 예약 내역</a> 
+                <a class="btn btn-outline-success" href="list.cfrRes">회의실 예약 내역</a> 
             </div>
             <br>
             <div id="img-area" style="position: relative;">
@@ -130,6 +130,7 @@
 		         	   ,success:function(c){
 		         			$("#inputCfrName").val(c.cfrName);
 		         			$("#firstImg").attr("src",c.firstImg);
+		         			$("#firstImg2").val(c.firstImg);
 		         			$("#capacity").val(c.capacity);
 		         			
 		         			var equipmentArr = c.equipment.split(",");
@@ -189,6 +190,7 @@
 	                            <td >
 	                                <div style="width: 320px;">
 	                                &nbsp;   &nbsp;
+	                                	<input type="hidden" name="firstImg" id="firstImg2">
 	                                    <img width="230px" height="150px" id="firstImg" onclick="$('#firstImgFile').click();">
 	                                    <input type="file" id="firstImgFile" name="reupfile" style="display:none;">
 	                                </div>

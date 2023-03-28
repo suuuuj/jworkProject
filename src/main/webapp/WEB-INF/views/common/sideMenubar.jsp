@@ -255,9 +255,7 @@
                     
                     <div class="menu"  id="">
                         <div class="mainMenu" onclick="location.href='addressIn.emp'"><img class="menuIcon" src="resources/images/common/address1.png" alt="" />주소록</div>
-                        <div class="menu-wrap">
-
-                        </div>
+                        
                     </div>
 
                     <div class="menu"  id="">

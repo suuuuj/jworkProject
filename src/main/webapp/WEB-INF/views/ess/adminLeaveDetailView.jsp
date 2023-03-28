@@ -102,9 +102,9 @@
                 
 	            <textarea name="leaveContent" id="textBox" cols="30" rows="10" maxlength="199" placeholder="휴가신청 내용을 입력해주세요.">${lc.leaveContent}</textarea>
 	            <div class="btnWrap" style="float: right; margin-top:160px;">
-                    <button type="button" class="btn btn-success" onclick="leaveSubmit(${lc.leaveNo});">승인</button>
+                    <button type="button" class="btn btn-success" onclick="leaveSubmit();">승인</button>
                     <button type="button" class="btn btn-warning" id="leaveReturn">반려</button>
-                    <button type="button" onclick="location.href='admin.ot'" class="btn btn-secondary">목록</button>
+                    <button type="button" onclick="location.href='adminList.le'" class="btn btn-secondary">목록</button>
                 </div>
 				
             </div>
@@ -119,14 +119,14 @@
                 }
             })
 
-            function leaveSubmit(no){
+            function leaveSubmit(){
                 if(${empty lc.firstDate}){
                     if(confirm("휴가등록 1차승인을 진행하시겠습니까?")){
-                        location.href = 'adminFirst.le?leaveNo=' + no;
+                        location.href = 'adminFirst.le?leaveNo=' + ${lc.leaveNo};  
                     }
                 }else{
                     if(confirm("휴가등록 2차승인을 진행하시겠습니까?")){
-                        location.href = 'adminSecond.le?leaveNo=' + no;
+                        location.href = 'adminSecond.le?leaveNo=' + ${lc.leaveNo};
                     }
                 }
             }

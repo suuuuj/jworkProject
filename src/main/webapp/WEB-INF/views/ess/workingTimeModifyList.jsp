@@ -129,10 +129,9 @@
                 <div class="btnArea" style="margin-top: 5px; font-weight: 600;">
                     결재상태&nbsp;&nbsp;&nbsp;
                     <button type="button" id="allBtn" style="background: green; width:39px;">전체</button>
-                    <button type="button" id="waitBtn" style="background: gray; width:80px;">결재대기(1차)</button>
-                    <button type="button" id="ingBtn" style="background: gray; width:80px;">결재대기(2차)</button>
-                    <button type="button" id="finBtn" style="background: gray; width:39px;">승인</button>
-                    <button type="button" id="reBtn" style="background: gray; width:39px;">반려</button>
+                    <button type="button" id="waitBtn" style="background: gray; width:80px;">결재대기</button>
+                    <button type="button" id="ingBtn" style="background: gray; width:39px;">승인</button>
+                    <button type="button" id="finBtn" style="background: gray; width:39px;">반려</button>
                 </div>
             </div>
 
@@ -170,49 +169,6 @@
             </table>
         </div>
 
-        <script>
-            function workDetailFunction(no){
-                $.ajax({
-                    url:"detailModify.wt",
-                    data:{
-                        wtNo:no
-                    },
-                    success:function(w){
-                        $("#workModal input[name=workDate]").val(w.attDate);
-                        $("#workModal input[name=workStart]").val(w.startTime);
-                        $("#workModal input[name=workEnd]").val(w.endTime);
-                        $("#workModal input[name=attNo]").val(w.attNo);
-
-                        if(w.reStartTime != null){
-                            $("#workModal input[name=reStartTime]").val(w.reStartTime);
-                        }else{
-                            $("#workModal input[name=reStartTime]").val(w.startTime);
-                        }
-
-                        if(w.reEndTime != null){
-                            $("#workModal input[name=reEndTime]").val(w.reEndTime);
-                        }else{
-                            $("#workModal input[name=reEndTime]").val(w.endTime);
-                        }
-                        $("#reContent").text(w.reContent);
-
-                        var length = w.reContent.length;
-                        $(".textCount").text(length + '자');
-
-                    },
-                    error:function(){
-                        console.log("근태수정상세페이지 ajax 통신실패");
-                    }
-                })
-
-            }
-            $(function(){
-                $(".workTable>tbody>tr").click(function(){
-                    $("#workModal").modal('show');
-                })
-            })
-        </script>
-
         <br><br>
         <div id="pagingArea">
 			
@@ -222,58 +178,6 @@
         </div>
 
     </div>
-
-    <!-- The Modal -->
-    <div class="modal fade" id="workModal">
-        <div class="modal-dialog modal-dialog-centered" style="width:400px;">
-            <div class="modal-content">
-        
-                <!-- Modal Header -->
-                <div class="modal-header">
-                <h4 class="modal-title" style="color:rgb(0,172,0)">출퇴근 시간변경</h4>
-                <button type="button" class="close" data-dismiss="modal" onclick="workClose();">&times;</button><br>
-                </div>
-                
-                <!-- Modal body -->
-                <div class="modal-body" style="width:360px; margin:auto;">
-                    <span class="modalS">수정할 날짜</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workDate" value="" style="float:right;" readonly><br>
-                    <span class="modalS">지정 출근시간</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workStart" value="" readonly><br>
-                    <span class="modalS">지정 퇴근시간</span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workEnd" value="" readonly><br>
-                    <hr>
-                    <span class="modalS">수정할 출근시간</span> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="reStartTime" value="" readonly><br>
-                    <span class="modalS">수정할 퇴근시간</span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="reEndTime" value="" readonly><br>
-                    <hr>
-                    <span>신청사유</span>
-                    <br>
-                    <div class="textWrap">
-                        <span class="textCount"></span><span class="textTotal">/100자</span>
-                    </div>
-                    <textarea name="" id="reContent" readonly></textarea>
-                    
-                </div>
-                
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="workClose();">Close</button>
-                </div>
-            
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function workClose(){
-            $('#workModal').modal('hide'); 
-            $('#workModal').hide();
-            $('.jquery-modal').click();
-    }
-
-    </script>
 
     <script>
         
@@ -296,11 +200,11 @@
                           list : [{empNo:xx, ...}, {}, ]
                         }
                     */
-                   
+
                     let value = "";
                     
                     for(i=0; i<map.list.length; i++){
-                        value += "<tr onclick='workDetailFunction(" + map.list.wtNo + ")'>"
+                        value += "<tr onclick='workDetailFunction(" + map.list[i].wtNo + ")'>"
                                  + "<td>" + map.list[i].wtNo + "</td>"
                                  + "<td>" + map.list[i].empNo + "</td>"
                                  + "<td>" + map.list[i].deptName + "</td>"
@@ -386,7 +290,7 @@
             
             statusCode = 2;
         })
-        
+        /*
         $("#reBtn").click(function(){
             selectAppList(3, 1);
             $(this).css("background-color", "green").css("color", "white");
@@ -397,7 +301,100 @@
             
             statusCode = 3;
         })
-    
+        */
+
+    </script>
+
+    <script>
+        function workDetailFunction(no){
+            $.ajax({
+                url:"detailModify.wt",
+                data:{
+                    wtNo:no
+                },
+                success:function(w){
+                    console.log(w);
+                    $("#workModal input[name=workDate]").val(w.attDate);
+                    $("#workModal input[name=workStart]").val(w.startTime);
+                    $("#workModal input[name=workEnd]").val(w.endTime);
+                    $("#workModal input[name=attNo]").val(w.attNo);
+
+                    if(w.reStartTime != null){
+                        $("#workModal input[name=reStartTime]").val(w.reStartTime);
+                    }else{
+                        $("#workModal input[name=reStartTime]").val(w.startTime);
+                    }
+
+                    if(w.reEndTime != null){
+                        $("#workModal input[name=reEndTime]").val(w.reEndTime);
+                    }else{
+                        $("#workModal input[name=reEndTime]").val(w.endTime);
+                    }
+                    $("#reContent").text(w.reContent);
+
+                    var length = w.reContent.length;
+                    $(".textCount").text(length + '자');
+
+                    $("#workModal").modal('show');
+
+                },
+                error:function(){
+                    console.log("근태수정상세페이지 ajax 통신실패");
+                }
+            })
+            
+        }
+    </script>
+
+    <!-- The Modal -->
+    <div class="modal fade" id="workModal">
+        <div class="modal-dialog modal-dialog-centered" style="width:400px;">
+            <div class="modal-content">
+        
+                <!-- Modal Header -->
+                <div class="modal-header">
+                <h4 class="modal-title" style="color:rgb(0,172,0)">출퇴근 시간변경</h4>
+                <button type="button" class="close" data-dismiss="modal" onclick="workClose();">&times;</button><br>
+                </div>
+                
+                <!-- Modal body -->
+                <div class="modal-body" style="width:360px; margin:auto;">
+                    <span class="modalS">수정할 날짜</span> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workDate" value="" style="float:right;" readonly><br>
+                    <span class="modalS">지정 출근시간</span> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workStart" value="" readonly><br>
+                    <span class="modalS">지정 퇴근시간</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="workEnd" value="" readonly><br>
+                    <hr>
+                    <span class="modalS">수정할 출근시간</span> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="reStartTime" value="" readonly><br>
+                    <span class="modalS">수정할 퇴근시간</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="reEndTime" value="" readonly><br>
+                    <hr>
+                    <span>신청사유</span>
+                    <br>
+                    <div class="textWrap">
+                        <span class="textCount"></span><span class="textTotal">/100자</span>
+                    </div>
+                    <textarea name="" id="reContent" readonly></textarea>
+                    
+                </div>
+                
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="workClose();">Close</button>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function workClose(){
+            $('#workModal').modal('hide'); 
+            $('#workModal').hide();
+            $('.jquery-modal').click();
+    }
 
     </script>
 

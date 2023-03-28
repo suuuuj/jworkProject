@@ -49,6 +49,7 @@
         border-top: 1px solid rgb(234, 234, 234);
         width:100%;
         text-align: center;
+        margin-top: 30px;
     }
     .leaveTable td{
         border-bottom:1px solid rgb(234, 234, 234);

@@ -106,6 +106,8 @@
                 </tr>
             </thead>
             <tbody id="defaultAllTB">
+            <c:choose>
+            <c:when test="${ list.size() ne 0 }">
             	<c:forEach var="a" items="${ list }">
 	                <tr>
 						<td class="ano">${ a.appNo }</td>
@@ -123,6 +125,15 @@
 	                    <td>${ a.appStatus }</td>
 	                 </tr>
                  </c:forEach>
+            </c:when>
+            <c:otherwise>
+            	<tr>
+            		<td colspan="7">
+            			검색 결과가 없습니다.
+            		</td>
+            	</tr>
+            </c:otherwise>
+            </c:choose>
             </tbody>
         </table>
         

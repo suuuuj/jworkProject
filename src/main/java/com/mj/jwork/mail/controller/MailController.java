@@ -220,7 +220,7 @@ public class MailController {
 						md.setEmpNo(Integer.parseInt(receiverNoArr[i]));
 						md.setEmpName(receiverArr[i]);
 						md.setType("R");
-						System.out.println(md);
+						//System.out.println(md);
 						mailNo = mService.insertMailDetail(md);
 						
 						if(mailNo > 0) {
@@ -321,7 +321,7 @@ public class MailController {
 	public ModelAndView updateMail(Mail m, @RequestPart(value="upfile") List<MultipartFile> upfile, String deleteAt, 
 												String deleteOrigins, HttpSession session, ModelAndView mv) {
 		
-		System.out.println("m : " + m);
+		//System.out.println("m : " + m);
 		int result = mService.updateMail(m);
 		
 		
@@ -347,13 +347,13 @@ public class MailController {
 		if(!upfile.get(0).getOriginalFilename().equals("")) {
 			
 			for(int i=0; i<upfile.size(); i++) {
-				System.out.println(upfile.get(i).getOriginalFilename());
+				//System.out.println(upfile.get(i).getOriginalFilename());
 				String saveFilePath = FileUpload.saveFile(upfile.get(i), session, "resources/mailUploadFiles/");
 				
 				MailAt ma = new MailAt();
 				ma.setOriginName(upfile.get(i).getOriginalFilename());
 				ma.setChangeName(saveFilePath);
-				
+				ma.setMailNo(m.getMailNo());
 				mailAtResult = mailAtResult * mService.insertMailAt(ma);
 				
 			}
@@ -363,12 +363,13 @@ public class MailController {
 			// 메일 전송이었다면
 			if(m.getSend().equals("Y")) {
 				Mail md = new Mail();
+				md.setMailNo(m.getMailNo());
 				int detailResult = 1;
 				String[] receiverArr = m.getReceiver().split(",");
 				String[] receiverNoArr = m.getReceiverNo().split(",");
 				
 				for(int i=0; i<receiverArr.length; i++) {
-				
+					
 					md.setEmpNo(Integer.parseInt(receiverNoArr[i]));
 					md.setEmpName(receiverArr[i]);
 					md.setType("R");

@@ -46,6 +46,7 @@ public interface EssService {
 	// 관리자 : 휴가 1차,2차결재
 	int adminFirstLeave(Leave le);
 	int adminSecondLeave(Leave le);
+	int updateAnnualCount(Leave le);
 	
 	// 관리자 : 휴가결재선 반려
 	int adminReturnLeave(int leaveNo);
@@ -90,6 +91,8 @@ public interface EssService {
 	// 관리자 : 시간외근무/출장 조회(select)
 	int adminSelectOvertimeListCount();
 	int adminSelectBusinesstripListCount();
+	int adminSelectOvertimeNoListCount(Employee e);
+	int adminSelectBusinesstripNoListCount(Employee e);
 	ArrayList<Overtime> adminSelectOvertimeList(PageInfo pi, Employee e);
 	ArrayList<Overtime> adminSelectOvertimeListNo(PageInfo pi, Employee e);
 	ArrayList<Businesstrip> adminSelectBusinesstripList(PageInfo pi, Employee e);

@@ -189,15 +189,16 @@
 	<!-- 연차등록시 차감연차 -->
 	<insert id="updateAnuualCount">
 		insert 
-			  into annual(annual_no, emp_no, annual_count, annual_date, annual_category)
-			select 
-			       seq_anno.nextval
-			     , emp_no
-			     , - ((replace(#{leaveEnd},'-','') - replace(#{leaveStart},'-',''))) 
-			     , sysdate
-			     , 2
-			  from employee e
-			 where emp_no = #{empNo}
+           into annual(annual_no, emp_no, annual_count, annual_date, annual_category)
+         select 
+              seq_anno.nextval
+              , emp_no
+              , (-(to_number(to_date(#{leaveStart},'YY/MM/DD') - to_date(#{leaveStart},'YY/MM/DD')) +1))
+              , sysdate
+              , 2
+              
+           from employee e
+          where emp_no = #{empNo}
 	</insert>
 	
 	<!-- 휴가페이징 -->
@@ -624,7 +625,7 @@
 		 where bt_no = #{btNo}
 	</update>
 	
-	<!-- 관리자 : 시간외근무페이징 -->
+	<!-- 관리자 : 시간외근무페이징(팀있는사람) -->
 	<select id="adminSelectOvertimeListCount" resultType="_int">
 		select 
 		       count(*)
@@ -632,12 +633,30 @@
 		 where ot_status = 'Y'	
 	</select>
 	
-	<!-- 관리자 : 출장페이징 -->
+	<!-- 관리자 : 시간외근무페이징(팀없는사람) -->
+	<select id="adminSelectOvertimeNoListCount" resultType="_int">
+		select 
+		       count(*)
+		  from overtime
+		 where ot_status = 'Y'	
+		   and dept_code = #{deptCode}
+	</select>
+	
+	<!-- 관리자 : 출장페이징(팀있는사람) -->
 	<select id="adminSelectBusinesstripListCount" resultType="_int">
 		select 
 		       count(*)
 		  from businesstrip
 		 where bt_status = 'Y'
+	</select>
+	
+	<!-- 관리자 : 출장페이징(팀없는사람) -->
+	<select id="adminSelectBusinesstripNoListCount" resultType="_int">
+		select 
+		       count(*)
+		  from businesstrip
+		 where bt_status = 'Y'
+		   and dept_code = #{deptCode}
 	</select>
 	
 	<!-- 관리자 : 시간외근무 전체조회(팀있는사람) -->
@@ -747,7 +766,7 @@
 	</select>
 	
 	<!-- 관리자 : 출장 전체조회(팀없음) -->
-	<select id="adminSelectBusinessetripListNo" resultMap="businesstripResult">
+	<select id="adminSelectBusinesstripListNo" resultMap="businesstripResult">
 		select 
 		       bt_no
 		     , b.emp_no
@@ -1220,7 +1239,7 @@
 	<select id="selectModifyWorktimeListCount" resultType="_int">
 		select
 		       count(*)
-		  from attendence  
+		  from worktime  
 		 where emp_no in #{empNo}
 		  <if test="approvalCheck != 100">
 		   and approval_check = #{approvalCheck} 

@@ -178,7 +178,7 @@
                             </c:when>
                             <c:otherwise>
                                 <c:forEach var="w" items="${list}">
-                            <tr onclick="adminDetailFunction(${w.wtNo});">
+                                <tr onclick="adminDetailFunction(${w.wtNo});">
                                 <td onclick="event.cancelBubble=true"><input type="checkbox" id="ckBox" name="ck" value="${w.wtNo}"></td>
                                 <td>${w.empNo}</td>
                                 <td>${w.deptName}</td>
@@ -207,6 +207,7 @@
                         wtNo:no
                     },
                     success:function(w){
+                        console.log(w);
                         $("#workModal input[name=workDate]").val(w.attDate);
                         $("#workModal input[name=workStart]").val(w.startTime);
                         $("#workModal input[name=workEnd]").val(w.endTime);
@@ -230,6 +231,11 @@
 
                         var length = w.reContent.length;
                         $(".textCount").text(length + '자');
+
+                        if(w.approvalCheck == '1' || w.approvalCheck == '2'){
+                            $("#wtReturn").attr("disabled", true);
+                            $("#wtSubmit").attr("disabled", true);
+                        }
 
                     },
                     error:function(){

@@ -104,6 +104,11 @@ public class EssServiceImpl implements EssService {
 	}
 	
 	@Override
+	public int updateAnnualCount(Leave le) {
+		return eDao.updateAnuualCount(sqlSession,le);
+	}
+	
+	@Override
 	public int adminReturnLeave(int leaveNo) {
 		return eDao.adminReturnLeave(sqlSession, leaveNo);
 	}
@@ -271,6 +276,16 @@ public class EssServiceImpl implements EssService {
 	@Override
 	public int adminUpdateReset() {
 		return eDao.adminUpdateReset(sqlSession);
+	}
+	
+	@Override
+	public int adminSelectOvertimeNoListCount(Employee e) {
+		return eDao.adminSelectOvertimeNoListCount(sqlSession, e);
+	}
+
+	@Override
+	public int adminSelectBusinesstripNoListCount(Employee e) {
+		return eDao.adminSelectBusinesstripNoListCount(sqlSession, e);
 	}
 	
 	// ---------------- 근태 ---------------------------
@@ -468,6 +483,7 @@ public class EssServiceImpl implements EssService {
 	public int ajaxDeleteWorktime(Worktime w) {
 		return eDao.ajaxDeleteWorktime(sqlSession, w);
 	}
+
 
 	
 

@@ -105,7 +105,6 @@ public class CfrResController {
 		.setViewName("reservation/managerCfrStatus");
 		return mv;
 	}
-	
 	@RequestMapping("list.cfrRes")
 	public ModelAndView getDetailCalendarList(ModelAndView mv, HttpServletRequest request) {
 		ArrayList<CfrReservation>list = cRService.selectResList();
@@ -142,16 +141,7 @@ public class CfrResController {
 		
 	}
 	
-	//회의실 예약 내역 조회
-	
-	/*
-	 * @RequestMapping("call.events") public String selectResList(Model m) {
-	 * ArrayList<CfrReservation>list = cRService.selectResList();
-	 * m.addAttribute("list",list); return "reservation/managerCfrStatus";
-	 * 
-	 * }
-	 */
-	 
+
 	//회의실 예약 취소
 	@ResponseBody
 	@RequestMapping(value="delete.cfrRes",produces="application/json; charset=utf-8")

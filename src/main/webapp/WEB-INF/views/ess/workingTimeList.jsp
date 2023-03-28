@@ -77,7 +77,6 @@
         height:25px;
         border: 1px solid rgb(170, 170, 170);
         border-radius: 5px;
-        text-align: center; 
     }
     #pagingArea{
     	width:fit-content;
@@ -152,9 +151,9 @@
                     <button type="button" id="reBtn" style="background: gray;">결근</button>
                 </div>
                     <div class="searchArea" style="margin-left:270px;">
-                            <input type="text" name="startDate" value="" placeholder="시작일" id="datepicker1">
+                            <input type="text" name="startDate" value="" placeholder="&nbsp;시작일" id="datepicker1">
                             <span style="font-size:25px;">~</span>
-                            <input type="text" name="endDate" value="" placeholder="종료일" id="datepicker2">
+                            <input type="text" name="endDate" value="" placeholder="&nbsp;종료일" id="datepicker2">
                             <button type="button" class="btn btn-success" onclick="listFunction();">검색</button>
                     </div>
 
@@ -179,7 +178,7 @@
                         dateFormat: "yy-mm-dd",
                         showAnim: "slide",
                         showMonthAfterYear: true, 
-                        dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
                         monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
                         onSelect: function(selected){
                             $("#datepicker2").datepicker("option", "minDate", selected);
@@ -199,7 +198,7 @@
                         dateFormat: "yy-mm-dd",
                         showAnim: "slide",
                         showMonthAfterYear: true, 
-                        dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
                         monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
                         onSelect: function(selected){
                             $("#datepicker1").datepicker("option", "maxDate", selected);
@@ -436,14 +435,6 @@
         })
 
     }
-    /*
-    $(function(){
-        $(document).rea
-        $(".workTable>tbody tr").click(function(){
-            $("#workModal").modal('show');
-        })
-    })
-    */
 </script>
 
 <!-- 기간검색 : 시작일 종료일로 리스트 조회 -->

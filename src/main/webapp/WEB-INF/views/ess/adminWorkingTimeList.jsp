@@ -155,7 +155,7 @@
                         dateFormat: "yy-mm-dd",
                         showAnim: "slide",
                         showMonthAfterYear: true, 
-                        dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
                         monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
                         onSelect: function(selected){
                             $("#datepicker2").datepicker("option", "minDate", selected);
@@ -175,7 +175,7 @@
                         dateFormat: "yy-mm-dd",
                         showAnim: "slide",
                         showMonthAfterYear: true, 
-                        dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
                         monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
                         onSelect: function(selected){
                             $("#datepicker1").datepicker("option", "maxDate", selected);
@@ -413,38 +413,38 @@
 
                     let value = "";
                 
-                    for(i=0; i<map.alist.length; i++){
+                    for(i=0; i<map.list.length; i++){
                         value += "<tr>"
-                                 + "<td>" + map.alist[i].attNo + "</td>"
-                                 + "<td>" + map.alist[i].empNo + "</td>"
-                                 + "<td>" + map.alist[i].teamName + "</td>"
-                                 + "<td>" + map.alist[i].jobName + "</td>"
-                                 + "<td>" + map.alist[i].empName + "</td>"
-                                 + "<td>" + map.alist[i].attDate + "</td>"
-                                 + "<td>" + map.alist[i].startTime + "</td>"
-                                 + "<td>" + map.alist[i].endTime + "</td>"
-                                 + "<td>" + map.alist[i].attTime + "</td>"
-                                 + "<td>" + map.alist[i].attStatus + "</td></tr>";
+                                 + "<td>" + map.list[i].attNo + "</td>"
+                                 + "<td>" + map.list[i].empNo + "</td>"
+                                 + "<td>" + map.list[i].teamName + "</td>"
+                                 + "<td>" + map.list[i].jobName + "</td>"
+                                 + "<td>" + map.list[i].empName + "</td>"
+                                 + "<td>" + map.list[i].attDate + "</td>"
+                                 + "<td>" + map.list[i].startTime + "</td>"
+                                 + "<td>" + map.list[i].endTime + "</td>"
+                                 + "<td>" + map.list[i].attTime + "</td>"
+                                 + "<td>" + map.list[i].attStatus + "</td></tr>";
                     }
                     $(".workTable tbody").html(value);
                     //$(".workTable tbody >tr").remove();
                     
                     //페이징바
                     let page="";
-                            if(map.api.currentPage ==1){
+                            if(map.pi.currentPage ==1){
                             page += "<li class='page-item disabled' ><a class='page-link' href='#' style='color:rgb(196, 197, 197)'>Previous</a></li>"
                             }else{
-                            page += "<li class='page-item'><a class='page-link' onclick='listFunction(" + (map.api.currentPage-1) + ");'>Previous</a></li>"
+                            page += "<li class='page-item'><a class='page-link' onclick='listFunction(" + (map.pi.currentPage-1) + ");'>Previous</a></li>"
                             }
                             
-                            for(var p=map.api.startPage; p<=map.api.endPage; p++){
+                            for(var p=map.pi.startPage; p<=map.pi.endPage; p++){
                             page += "<li class='page-item'><a class='page-link' onclick='listFunction(" + p + ");'>" + p + "</a></li>"
                             }
                             
-                            if(map.api.currentPage == map.api.maxPage){
+                            if(map.pi.currentPage == map.pi.maxPage){
                             page += "<li class='page-item disabled'><a class='page-link ' href='#' style='color:rgb(196, 197, 197)'>Next</a></li>"
                             }else{
-                            page += "<li class='page-item'><a class='page-link' onclick='listFunction(" + (map.api.currentPage+1) + ");'>Next</a></li>"
+                            page += "<li class='page-item'><a class='page-link' onclick='listFunction(" + (map.pi.currentPage+1) + ");'>Next</a></li>"
                             }
                                 
                     
