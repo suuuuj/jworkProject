@@ -95,9 +95,9 @@
             margin-right: 10px;
             width: 40px;
         }
-        .menu-wrap{
+        /* .menu-wrap{
            margin-left: 50px; display:none;
-        }
+        } */
         .menuDetail a{
            margin-top:5px; padding:3px;
            text-decoration: none; color: black;
@@ -364,22 +364,22 @@
                             //console.log(slist);
                             let value = "";
                             for(let i=0; i<slist.length; i++){
-                                value += '<form action="">' 
-                                            + '<ul>'
-                                                + '<li class="deptGroup"><div class="deptTitle">'+ slist[i].deptName +'</div>';
-                                                    for(let j=0; j<slist[i].teamList.length; j++){
-                                                        value += '<ul>'
-                                                                    + '<li class="teamGroup">'
-                                                                        + '<div><button type=submit>' + slist[i].teamList[j].teamName + '</button></div>'
-                                                                    + '</li>'
-                                                               + '</ul>'
-                                                               + '<input type="hidden" name="condition" value="teamName">'
-                                                               + '<input type="hidden" name="keyword" value="' + slist[i].teamList[j].teamName + '">';
-                                                               console.log(slist[i].teamList[j].teamName);
-                                                    }                   
+                                value +=  '<ul>'
+                                            + '<li class="deptGroup"><div class="deptTitle" >'+ slist[i].deptName +'</div>';
+
+                                                for(let j=0; j<slist[i].teamList.length; j++){
+                                                    value += '<ul>'
+                                                                + '<li class="teamGroup">'
+                                                                    + '<form action="addressInSearch.emp">'
+                                                                        + '<div><button type=submit >' + slist[i].teamList[j].teamName + '</button></div>'
+                                                                        + '<input type="hidden" name="condition" value="teamName">'
+                                                                        + '<input type="hidden" name="keyword" id="team'+i+j+'" value="' + slist[i].teamList[j].teamName + '">'
+                                                                    + '</form>'
+                                                                + '</li>'
+                                                            + '</ul>'             
+                                                }         
                                         value += '</li>'
-                                            + '</ul>'
-                                       + '</form>';    
+                                            + '</ul>';
                             }
                             $('#chart').append(value);
                             $(".deptTitle").click(function(){

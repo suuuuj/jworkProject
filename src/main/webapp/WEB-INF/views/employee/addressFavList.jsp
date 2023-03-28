@@ -229,7 +229,7 @@
                     url:"favAddressOutList.emp",
                     type:"POST",
 	            	dataType:"json",
-                    data:{ipage : page},
+                    data:{opage : page},
                     success:function(omap){
                         let value = "";
                         for(let i=0; i<omap.oList.length; i++){
@@ -248,25 +248,25 @@
                         }   
 
                         // 페이징바 만들때 해당 페이지숫자 클릭시 => addressInList(클릭한숫자);
-                        let page = "";
+                        let page2 = "";
                         if(omap.oPi.currentPage == 1){
-                            page += "<li class='page-item' disabled><a class='page-link' href='#'><</a></li>"
+                            page2 += "<li class='page-item' disabled><a class='page-link' href='#'><</a></li>"
                         }else{
-                            page += "<li class='page-item'><a class='page-link' onclick='addressOutList(" + (omap.oPi.currentPage-1) + ");'><</a></li>"
+                            page2 += "<li class='page-item'><a class='page-link' onclick='addressOutList(" + (omap.oPi.currentPage-1) + ");'><</a></li>"
                         }
                         
                         for(var o=omap.oPi.startPage; o<=omap.oPi.endPage; o++){
                         
-                            page += "<li class='page-item'><a class='page-link' onclick='addressOutList(" + o + ");'>" + o + "</a></li>"
+                            page2 += "<li class='page-item'><a class='page-link' onclick='addressOutList(" + o + ");'>" + o + "</a></li>"
                         }
                         
                         if(omap.oPi.currentPage == omap.oPi.maxPage){
-                            page += "<li class='page-item' disabled><a class='page-link' href='#'>></a></li>"
+                            page2 += "<li class='page-item' disabled><a class='page-link' href='#'>></a></li>"
                         }else{
-                            page += "<li class='page-item'><a class='page-link' onclick='addressOutList(" + (omap.oPi.currentPage+1) + ");'>></a></li>"
+                            page2 += "<li class='page-item'><a class='page-link' onclick='addressOutList(" + (omap.oPi.currentPage+1) + ");'>></a></li>"
                         }
                         
-                        $(".opagination").html(page);
+                        $(".opagination").html(page2);
 
                     }, error:function(){
                         console.log("즐겨찾기 사내 주소록 ajax 통신실패");

@@ -18,7 +18,7 @@
         margin: 20px;
     }
     #calendar {
-        max-width: 850px;
+        /* max-width: 900px; */
         padding: 30px; 
     }
     /*xxx년x월 제목*/
@@ -159,7 +159,7 @@
                 nowIndicator: true, // 현재 시간 마크
                 navLinks:false, // 달력상의 날짜를 클릭할 수 있는지 여부, 클릭시 일 달력/주 달력으로 넘어감(Boolean, default:false/Demo)
                 locale: 'ko',
-                day:'numeric',
+                
                 navLinks: true, // can click day/week names to navigate views
 
                 // 여기서부터 날짜 클릭 시 이벤트   
@@ -269,7 +269,7 @@
                                 <th>내 캘린더</th>
                                 <td>
                                     <select name="groupNo" id="group2">
-                                        <option value="0">(기본) 내 일정</option>
+                                        
                                     </select>
                                 </td>
                             </tr>
@@ -463,12 +463,13 @@
 
     <script>
         // 체크된 캘린더 조회하기 위한
-        
-        selectScheduleList();
-
         $("#calendar").on("click", "input[type='checkbox']", function(){
+            console.log($(this).is(":checked"))
+            
             if($(this).is(":checked")){
                 $('#calendar').find("."+$(this).attr("id")).show();
+                console.log($(this))
+                
             }else{
                 $('#calendar').find("."+$(this).attr("id")).hide();
             }
@@ -476,12 +477,19 @@
 
         // 체크되어있는 캘린더 번호
         check=[];
-        $(".checkSchGroup").each(function(){
-            if($(this).is(":checked") == true){
-                check.push($(this).next().val());
-            }
+
+        $(function(){
+            $(".checkSchGroup").each(function(){
+                if($(this).is(":checked") == true){
+                    check.push($(this).next().val());
+                }
+            })
+            console.log("체크된 그룹번호들", check);
+
+            selectScheduleList();
         })
-        console.log(check);
+
+        
 
 
         // 체크 이벤트 발생시 캘린더 번호 arr로
@@ -529,7 +537,7 @@
                         // check[c] = > groupNo
                         for(let i=0; i<sList.length; i++){
                             //sList[i].groupNo => groupNo  // groupNo 조회해오기!!!!!
-                            if(check[i] == sList[i].groupNo){
+                            if(check[c] == sList[i].groupNo){
                                 let eventObj = {
                                     groupId: sList[i].schNo,
                                     title: sList[i].schTitle,

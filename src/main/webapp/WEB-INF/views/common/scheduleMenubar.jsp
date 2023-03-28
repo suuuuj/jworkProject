@@ -141,9 +141,7 @@
             border-radius: 50%; border: 1px solid gainsboro;
             appearance: none; cursor: pointer;
         }
-        #checkMySch:checked {
-            background: rgb(193, 178, 249);
-        }
+
         #otherEnroll:checked {
             background: black;
         }
@@ -312,8 +310,7 @@
                     </div>
                     <div class="myScheduleBox">
                         <div style="margin-left: 15px;">
-                            <input type="checkbox" id="checkMySch" checked>
-                            <span class="scheduleBoxName" readonly>내 일정</span>
+                            
                         </div>
                         
                         <!-- 그룹 조회 반복문 돌리기-->
@@ -481,7 +478,7 @@
                                             <th>내 캘린더</th>
                                             <td>
                                                 <select name="groupNo" id="group">
-                                                    <option value="0">(기본) 내 일정</option>
+                                                    
                                                 </select>
                                             </td>
                                         </tr>
@@ -537,15 +534,15 @@
             </div>
             
             <script>
-                $(function(){
+               // $(function(){
                     groupList();
-                })
+               // })
 
                 // 모달 닫으면 입력값 reset되게
                 $('.modal').on('hidden.bs.modal', function (e) {
                     $(this).find('form')[0].reset();
                 });
-
+                
                 // 캘린더 그룹 조회
                 function groupList(){
                     $.ajax({
@@ -554,7 +551,7 @@
                             let value = "";
                             for(let i=0; i<slist.length; i++){
                                 value += '<div class="hover" style="margin-bottom:10px;">'
-                                            + '<input type="checkbox" class="checkSchGroup" id="'+ slist[i].groupColor +'" value="'+ slist[i].groupColor +'" checked>'
+                                            + '<input type="checkbox" class="checkSchGroup" id="'+ slist[i].groupNo + slist[i].groupColor +'" value="'+ slist[i].groupColor +'" checked>'
                                             + '<input type="hidden" name="groupNoValue" value="'+ slist[i].groupNo +'">'
                                             + '<span class="scheduleBoxName schGroupName">' + slist[i].groupName + '</span>'
                                             + '<span class="editScheduleBox dropdown dropend" >'
@@ -569,34 +566,41 @@
                                        + '</div>';
                                 $("#group").append(
                                     '<option id="' + slist[i].groupNo + '1' +'" value="'+ slist[i].groupNo +'">'+ slist[i].groupName +'</option>'
-                                )
+                                ) 
+                                  
                             }
+
                             $(".oneScheduleBox").append(value);
+
                             $('.hover').mouseover(function(){
                                 $(this).children().next().next().children("button").show();
                             });
                             $('.hover').mouseout(function(){
                                 $(this).children().next().next().children("button").hide();
                             });
+                           // $("input:checkbox[id='" + slist[0].groupNo + slist[0].groupColor +"']").prop('checked', 'checked');
+                            console.log($("input:checkbox[id='" + slist[0].groupNo + slist[0].groupColor +"']").val());
+                          //  $("input:checkbox[id='" + slist[0].groupNo + slist[0].groupColor +"']").trigger("click");
                             
                             for(let i=0; i<slist.length; i++){
-                                let chk = $("input:checkbox[id='" + slist[i].groupColor +"']");
+                                let chk = $("input:checkbox[id='" + slist[i].groupNo + slist[i].groupColor +"']");
                                 if(chk.is(":checked")){
-                                    chk.css("background-color", "$('#' "+ slist[i].groupColor+").val()");
+                                    chk.css("background-color", "$('#' "+ slist[i].groupNo + slist[i].groupColor +").val()");
                                 }
                                 chk.change(function(){
                                     if(chk.is(":checked")){
-                                        chk.css("background-color", "$('#' "+ slist[i].groupColor+").val()");
+                                        chk.css("background-color", "$('#' "+ slist[i].groupNo + slist[i].groupColor +").val()");
                                     }else{
                                         chk.css("background-color", "white");
                                     }
-                                })
+                                })  
                             }
                         }, error: function(){
-                            console.log("캘린더 그룹 조회 ajax 통신실패")
+                            console.log("캘린더 그룹 조회 ajax 통신실패");
                         }
                     })
                 }
+                
 
                 // 캘린더 그룹 수정
                 function updateGroup(groupNo) {

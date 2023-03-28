@@ -134,7 +134,7 @@
                     
                     <thead>
                         <tr>
-                            <th></th>
+                            <!-- <th></th> -->
                             <th>사번</th>
                             <th>이름</th>
                             <th>부서</th>
@@ -143,13 +143,13 @@
                             <th>입사일</th>
                             <th>재직여부</th>
                             <th>계정</th>
-                            <th>계정관리</th>
+                            <!-- <th>계정관리</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach var="e" items="${list}">
                             <tr>
-                                <td></td>
+                                <!-- <td></td> -->
                                 <td>${ e.empNo }</td>
                                 <td data-bs-toggle="modal" data-bs-target="#selectEmployee" onclick="viewDetail(${ e.empNo })">${ e.empName }</td>
                                 <td>${ e.deptName } - ${ e.teamName }</td>
@@ -176,23 +176,25 @@
                                         </c:otherwise>
                                     </c:choose>           
                                 </td>
+                                <!--
                                 <td>
                                     <c:choose>
-                                        <c:when test="${ empty e.resignDate && e.accountStatus eq 'Y' }"> <!-- 재직/정상 -->
+                                        <c:when test="${ empty e.resignDate && e.accountStatus eq 'Y' }"> 재직/정상
                                             <button type="button" onclick="" class="btn btn-outline-warning btn-sm">정지</button>
                                         </c:when>
-                                        <c:when test="${ empty e.resignDate && e.accountStatus eq 'N' }"> <!-- 재직/정지 -->
+                                        <c:when test="${ empty e.resignDate && e.accountStatus eq 'N' }"> 재직/정지
                                             <button type="button" onclick="" class="btn btn-outline-success btn-sm">복구</button>
                                         </c:when>
-                                        <c:when test="${ not empty e.resignDate && e.accountStatus eq 'Y' }"> <!-- 퇴사/정상 -->
+                                        <c:when test="${ not empty e.resignDate && e.accountStatus eq 'Y' }"> 퇴사/정상
                                             <button type="button" onclick="" class="btn btn-outline-warning btn-sm">정지</button>
                                         </c:when>
-                                        <c:otherwise> <!-- 퇴사/정지 -->
+                                        <c:otherwise> 퇴사/정지
                                             <button type="button" onclick="" class="btn btn-outline-success btn-sm">복구</button>
                                         </c:otherwise>
                                     </c:choose>
                                     
                                 </td>
+                                -->
                             </tr>
                         </c:forEach>
                             
