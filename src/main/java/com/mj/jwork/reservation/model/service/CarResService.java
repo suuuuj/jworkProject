@@ -28,4 +28,8 @@ public interface CarResService {
 	CarReservation ajaxselectCarRes(int resNo);
 	//승인상태 변경
 	int updateApStatus(CarReservation c);
+	
+	//옵션별 조회
+	int selectResStatusCount(String option);
+	ArrayList<CarReservation> selectResStatus(PageInfo pi,String option);
 }
