@@ -220,7 +220,7 @@ public class MailController {
 						md.setEmpNo(Integer.parseInt(receiverNoArr[i]));
 						md.setEmpName(receiverArr[i]);
 						md.setType("R");
-						System.out.println(md);
+						//System.out.println(md);
 						mailNo = mService.insertMailDetail(md);
 						
 						if(mailNo > 0) {
@@ -321,7 +321,7 @@ public class MailController {
 	public ModelAndView updateMail(Mail m, @RequestPart(value="upfile") List<MultipartFile> upfile, String deleteAt, 
 												String deleteOrigins, HttpSession session, ModelAndView mv) {
 		
-		System.out.println("m : " + m);
+		//System.out.println("m : " + m);
 		int result = mService.updateMail(m);
 		
 		
@@ -347,7 +347,7 @@ public class MailController {
 		if(!upfile.get(0).getOriginalFilename().equals("")) {
 			
 			for(int i=0; i<upfile.size(); i++) {
-				System.out.println(upfile.get(i).getOriginalFilename());
+				//System.out.println(upfile.get(i).getOriginalFilename());
 				String saveFilePath = FileUpload.saveFile(upfile.get(i), session, "resources/mailUploadFiles/");
 				
 				MailAt ma = new MailAt();
