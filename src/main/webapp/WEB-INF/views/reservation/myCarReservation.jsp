@@ -36,7 +36,12 @@
         <hr>
         <div>
         <div align="right" style="width:900px;">
-            <input type="date">- <input type="date">
+        		<!-- <form action="list.carMe" method="get">
+					<input type="date" name="fDate" id="fDate"> -
+                    <input type="date" id="sDate" name="sDate" >  
+                    &nbsp;
+                    <button type="submit" class="btn btn-sm btn-outline-success">조회</button>
+            	</form> -->
         </div>
             <div id="" style="width:900px; margin:20px;">
                 <table class="table table-hover" id="resConfirm">
@@ -198,6 +203,21 @@
     		
     	}
     	
+    </script>
+    <script>
+    $(function(){
+	    	const urlParams = new URL(location.href).searchParams;
+	
+	    	const fDate = urlParams.get('fDate');
+	    	const sDate = urlParams.get('sDate');
+	    	if(fDate!=null&& sDate!=null){
+    		
+    		document.getElementById('fDate').valueAsDate = new Date(fDate);
+    		document.getElementById('sDate').valueAsDate = new Date(sDate);	
+    		console.log(fDate);
+   
+    	})
+    	and to_char(RES_DATE, 'YY-MM-DD')>= to_date(?, 'YY-MM-DD') and to_char(RES_DATE, 'YY-MM-DD')<= to_date(?, 'YY-MM-DD')
     </script>
    
 </body>

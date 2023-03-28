@@ -107,7 +107,7 @@
            ,status
         from CFR_RESERVATION
         where RESERVATION = #{reservation}
-        order by USE_DATE 
+        order by USE_DATE desc
 	
 	</select>
 	<select id="ajaxSelectCfrList" resultMap="cfrResult">
