@@ -114,6 +114,18 @@
             color:gray
         }
 
+        .contentsArea{
+            box-sizing: border-box;
+            display: -webkit-box; 
+            word-wrap:break-word; 
+            -webkit-line-clamp:2; 
+            -webkit-box-orient:vertical; 
+            text-overflow:ellipsis; 
+            line-height:18px; 
+            width: 490px;
+            overflow:hidden !important;
+            height: 45px;
+        }
     </style>
 </head>
 <body>
@@ -626,7 +638,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                     <td width="100px">${ m.sender }</td>
-                                    <td width="500px" class="mt" mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">${ m.mailTitle }<div class="mailcontents">${ m.mailContent }</div></td>
+                                    <td width="500px" class="mt contentsArea" mail-no="${ m.mailNo }" readDate="${m.mailList.get(0).readDate}">${ m.mailTitle }<div width="" class="mailcontents">${ m.mailContent }</div></td>
                                     <td width="220px">${ m.registerDate }</td>
                                 </tr>
                             </c:forEach> 
