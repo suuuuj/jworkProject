@@ -278,6 +278,16 @@ public class EssServiceImpl implements EssService {
 		return eDao.adminUpdateReset(sqlSession);
 	}
 	
+	@Override
+	public int adminSelectOvertimeNoListCount(Employee e) {
+		return eDao.adminSelectOvertimeNoListCount(sqlSession, e);
+	}
+
+	@Override
+	public int adminSelectBusinesstripNoListCount(Employee e) {
+		return eDao.adminSelectBusinesstripNoListCount(sqlSession, e);
+	}
+	
 	// ---------------- 근태 ---------------------------
 
 	@Override
@@ -473,6 +483,7 @@ public class EssServiceImpl implements EssService {
 	public int ajaxDeleteWorktime(Worktime w) {
 		return eDao.ajaxDeleteWorktime(sqlSession, w);
 	}
+
 
 	
 

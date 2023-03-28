@@ -671,25 +671,41 @@ public class EssController {
 	 * @return
 	 */
 	@RequestMapping("admin.bt")
-	public String adminBusinesstripList(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session, Model model) {
+	public ModelAndView adminBusinesstripList(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session,  ModelAndView mv) {
 		
 		int jobCode = ((Employee)session.getAttribute("loginUser")).getJobCode();
 		
 		if(jobCode == 6 || jobCode == 7) {
-			model.addAttribute("errorMsg", "접근권한이 없습니다.");
-			return "common/errorPage";
+			mv.addObject("errorPage", "접근권한이 없습니다.");
+			mv.setViewName("common/errorPage");
+			return mv;
 		}else {
-			// 페이징, 리스트전체조회
-			int listCount = eService.adminSelectBusinesstripListCount();
-			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
 			
 			Employee e = (Employee)session.getAttribute("loginUser");
-			ArrayList<Businesstrip> list = eService.adminSelectBusinesstripList(pi,e);
 			
-			// 사원과 부서코드와 팀코드가 같으면서 직급코드가 3456인사람
-			session.setAttribute("list", list);
-			session.setAttribute("pi", pi);
-			return "ess/adminBusinesstripList";
+			if(e.getJobCode()== 1 || e.getJobCode()== 2 || e.getJobCode()== 3) {
+				// 팀없는사람
+				// 페이징, 리스트전체조회
+				int listCount = eService.adminSelectBusinesstripNoListCount(e);
+				PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+				
+				ArrayList<Businesstrip> list = eService.adminSelectBusinesstripListNo(pi,e);
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("ess/adminBusinesstripList");
+			}else {
+				// 팀있는사람
+				// 페이징, 리스트전체조회
+				int listCount = eService.adminSelectBusinesstripListCount();
+				PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+				
+				ArrayList<Businesstrip> list = eService.adminSelectBusinesstripList(pi, e);
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("ess/adminBusinesstripList");
+				
+			}
+			return mv;
 		}
 		
 	}
@@ -730,18 +746,25 @@ public class EssController {
 			mv.addObject("errorMsg", "접근권한이 없습니다.");
 			mv.setViewName("common/errorPage");
 		}else {
-			// 페이징
-			int listCount = eService.adminSelectOvertimeListCount();
-			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
 			
 			Employee e = (Employee)session.getAttribute("loginUser");
 			
 			if(e.getJobCode()== 1 || e.getJobCode()== 2 || e.getJobCode()== 3) {
+				// 팀없는사람
+				// 페이징
+				int listCount = eService.adminSelectOvertimeNoListCount(e);
+				PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+				
 				ArrayList<Overtime> list = eService.adminSelectOvertimeListNo(pi,e);
 				mv.addObject("list", list);
 				mv.addObject("pi", pi);
 				mv.setViewName("ess/adminOvertimeList");
 			}else {
+				// 팀있는사람
+				// 페이징
+				int listCount = eService.adminSelectOvertimeListCount();
+				PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+				
 				ArrayList<Overtime> list = eService.adminSelectOvertimeList(pi, e);
 				mv.addObject("list", list);
 				mv.addObject("pi", pi);
@@ -949,7 +972,7 @@ public class EssController {
 	
 	// 근래스케줄링
 	// @Scheduled(cron="0 0 00 * * *") // 아무요일,매월,매일 02:00:00
-	@Scheduled(cron="0 19 00 * * *")
+	@Scheduled(cron="0 00 00 * * *")
 	public void attendenceSubmit() {
 		int result = eService.adminInsertAttendence();
 		
@@ -1197,7 +1220,7 @@ public class EssController {
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		w.setEmpNo(empNo);
 		int listCount = eService.selectModifyWorktimeListCount(w);
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		ArrayList<Worktime> list = eService.selectModifyWorktimeList(pi, w);
 		
 		HashMap<String, Object> map = new HashMap<>();
@@ -1310,7 +1333,7 @@ public class EssController {
 						
 						
 						session.setAttribute("alertMsg", "출근시간변경에 성공하였습니다.");
-						mv.setViewName("ess/adminWorkingTimeModifyList");
+						mv.setViewName("redirect:/adModify.wt");
 					}
 				}
 				
@@ -1335,7 +1358,7 @@ public class EssController {
 						SendAlarm.sendAlarm(a, ec.getSessionList());
 						
 						session.setAttribute("alertMsg", "퇴근시간변경에 성공하였습니다.");
-						mv.setViewName("ess/workingTimeModifyList");
+						mv.setViewName("redirect:/adModify.wt");
 					}
 				}
 				
@@ -1357,9 +1380,8 @@ public class EssController {
 						aService.insertAlarm(a);
 						
 						SendAlarm.sendAlarm(a, ec.getSessionList());
-						System.out.println(3);
 						session.setAttribute("alertMsg", "근태시간변경에 성공하였습니다.");
-						mv.setViewName("ess/workingTimeModifyList");
+						mv.setViewName("redirect:/adModify.wt");
 					}
 				}
 				

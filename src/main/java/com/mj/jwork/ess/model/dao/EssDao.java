@@ -448,6 +448,14 @@ public class EssDao {
 		return sqlSession.update("essMapper.adminUpdateReset");
 	}
 	
+	public int adminSelectOvertimeNoListCount(SqlSession sqlSession, Employee e) {
+		return sqlSession.selectOne("essMapper.adminSelectOvertimeNoListCount", e);
+	}
+	
+	public int adminSelectBusinesstripNoListCount(SqlSession sqlSession, Employee e) {
+		return sqlSession.selectOne("essMapper.adminSelectBusinesstripNoListCount", e);
+	}
+	
 	
 	
 	
