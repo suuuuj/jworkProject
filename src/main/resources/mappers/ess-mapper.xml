@@ -189,15 +189,16 @@
 	<!-- 연차등록시 차감연차 -->
 	<insert id="updateAnuualCount">
 		insert 
-			  into annual(annual_no, emp_no, annual_count, annual_date, annual_category)
-			select 
-			       seq_anno.nextval
-			     , emp_no
-			     , - ((replace(#{leaveEnd},'-','') - replace(#{leaveStart},'-',''))) 
-			     , sysdate
-			     , 2
-			  from employee e
-			 where emp_no = #{empNo}
+           into annual(annual_no, emp_no, annual_count, annual_date, annual_category)
+         select 
+              seq_anno.nextval
+              , emp_no
+              , (-(to_number(to_date(#{leaveStart},'YY/MM/DD') - to_date(#{leaveStart},'YY/MM/DD')) +1))
+              , sysdate
+              , 2
+              
+           from employee e
+          where emp_no = #{empNo}
 	</insert>
 	
 	<!-- 휴가페이징 -->
@@ -1220,7 +1221,7 @@
 	<select id="selectModifyWorktimeListCount" resultType="_int">
 		select
 		       count(*)
-		  from attendence  
+		  from worktime  
 		 where emp_no in #{empNo}
 		  <if test="approvalCheck != 100">
 		   and approval_check = #{approvalCheck} 

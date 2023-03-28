@@ -46,6 +46,7 @@ public interface EssService {
 	// 관리자 : 휴가 1차,2차결재
 	int adminFirstLeave(Leave le);
 	int adminSecondLeave(Leave le);
+	int updateAnnualCount(Leave le);
 	
 	// 관리자 : 휴가결재선 반려
 	int adminReturnLeave(int leaveNo);

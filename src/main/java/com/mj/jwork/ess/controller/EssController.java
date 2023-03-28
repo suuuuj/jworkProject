@@ -112,12 +112,10 @@ public class EssController {
 	@RequestMapping("insert.le")
 	public String insertLeave(Leave le, HttpSession session, Model model) {
 		//System.out.println(le);
-		System.out.println(le.getLeaveCategory());
 		if(le.getLeaveCategory() == 0) {
-			int result1 = eService.updateAnuualCount(le);
 			int result2 = eService.insertLeave(le);
 			
-			if(result1 > 0 && result2 >0) {
+			if(result2 >0) {
 				session.setAttribute("alertMsg", "휴가등록이 완료되었습니다.");
 				return "redirect:/list.le";
 			}else {
@@ -270,7 +268,6 @@ public class EssController {
 	 */
 	@RequestMapping("adminFirst.le")
 	public ModelAndView adminFirstLeave(Leave le, HttpSession session, ModelAndView mv) {
-		System.out.println(le);
 		Employee e = (Employee)session.getAttribute("loginUser");
 		le.setFirstApproval(e.getEmpNo());
 		int result = eService.adminFirstLeave(le);
@@ -294,12 +291,14 @@ public class EssController {
 	 */
 	@RequestMapping("adminSecond.le")
 	public ModelAndView adminSecondLeave(Leave le, HttpSession session, ModelAndView mv) {
-		System.out.println(le);
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		le.setSecondApproval(empNo);
-		int result = eService.adminSecondLeave(le);
+		int result1 = eService.adminSecondLeave(le);
+		Leave lc = eService.adminLeaveDetail(le); 
+		System.out.println(lc);
+		int result2 = eService.updateAnnualCount(lc);
 		
-		if(result > 0) {
+		if(result1 > 0 || result2 > 0) {
 			
 			Leave l = eService.selectSignedLeave(le.getLeaveNo());
 			Alarm a = new Alarm(); 

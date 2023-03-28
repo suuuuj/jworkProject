@@ -104,6 +104,11 @@ public class EssServiceImpl implements EssService {
 	}
 	
 	@Override
+	public int updateAnnualCount(Leave le) {
+		return eDao.updateAnuualCount(sqlSession,le);
+	}
+	
+	@Override
 	public int adminReturnLeave(int leaveNo) {
 		return eDao.adminReturnLeave(sqlSession, leaveNo);
 	}
