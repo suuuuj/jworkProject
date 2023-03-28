@@ -6,6 +6,7 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -385,6 +386,16 @@ public class EssController {
 		return mv;
 	}
 	
+	@RequestMapping("adminReset.le")
+	public ModelAndView adminUpdateReset(ModelAndView mv, HttpSession session) {
+		int result = eService.adminUpdateReset();
+		if(result > 0) {
+			session.setAttribute("alertMsg", "전사원 연차리셋이 정상처리되었습니다.");
+			mv.setViewName("redirect:/adminAnnual.le");
+		}
+		return mv;
+	}
+	
 	/**
 	 * 관리자 : 연차내역전체조회
 	 * @param mv
@@ -725,12 +736,19 @@ public class EssController {
 			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
 			
 			Employee e = (Employee)session.getAttribute("loginUser");
-			ArrayList<Overtime> list = eService.adminSelectOvertimeList(pi, e);
 			
-			// 사원과 부서코드와 팀코드가 같으면서 직급코드가 3456인사람
-			mv.addObject("list", list);
-			mv.addObject("pi", pi);
-			mv.setViewName("ess/adminOverTimeList");
+			if(e.getJobCode()== 1 || e.getJobCode()== 2 || e.getJobCode()== 3) {
+				ArrayList<Overtime> list = eService.adminSelectOvertimeListNo(pi,e);
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("ess/adminOvertimeList");
+			}else {
+				ArrayList<Overtime> list = eService.adminSelectOvertimeList(pi, e);
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("ess/adminOvertimeList");
+				
+			}
 		}
 		
 		return mv;
@@ -795,9 +813,10 @@ public class EssController {
 		
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		b.setSecondApproval(empNo);
-		int result = eService.adminSecondBusinesstrip(b);
+		int result1 = eService.adminSecondBusinesstrip(b);
+		//int result2 = eService.adminInsertBusinesstrip(); /*출장신청시 근태insert*/
 		
-		if(result > 0) {
+		if(result1 > 0) {
 			
 			Businesstrip bt = eService.selectSignedBusinesstrip(b.getBtNo());
 			Alarm a = new Alarm(); 
@@ -931,7 +950,7 @@ public class EssController {
 	
 	// 근래스케줄링
 	// @Scheduled(cron="0 0 00 * * *") // 아무요일,매월,매일 02:00:00
-	@Scheduled(cron="0 45 09 * * *")
+	@Scheduled(cron="0 19 00 * * *")
 	public void attendenceSubmit() {
 		int result = eService.adminInsertAttendence();
 		
@@ -974,25 +993,66 @@ public class EssController {
 	}
 	
 	/**
-	 * 근태전체조회
+	 * 근태상태조회 페이지
 	 * @param currentPage
 	 * @param session
 	 * @param mv
 	 * @return
 	 */
 	@RequestMapping("list.at")
-	public ModelAndView selectAttendenceListCount(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session, ModelAndView mv) {
-		
-		int listCount = eService.selectAttendenceListCount();
+	public ModelAndView selectAttendenceListCount(ModelAndView mv, HttpSession session) {
+		Employee e = (Employee)session.getAttribute("loginUser");
+		mv.addObject("e", e);
+		mv.setViewName("ess/workingTimeList");
+		return mv;
+	}
+	
+	/**
+	 * ajax 근무상태 버튼조회
+	 * @param a
+	 * @param currentPage
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="ajaxlist.at", produces="application/json; charSet=UTF-8")
+	public String ajaxAttendenceList(Attendence a, @RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session) {
+		int listCount = eService.selectAttendenceListCount(a);
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
-		ArrayList<Attendence> list = eService.selectAttendenceList(pi, empNo);
-		mv.addObject("list",list);
-		mv.addObject("pi", pi);
-		mv.setViewName("ess/workingTimeList");
+		ArrayList<Attendence> list = eService.selectAttendenceList(pi, a);
 		
-		return mv;
+		HashMap<String, Object> map = new HashMap();
+		map.put("listCount", listCount);
+		map.put("pi", pi);
+		map.put("list", list);
+		
+		return new Gson().toJson(map);
+	}
+	
+	/**
+	 * ajax 근무상태 기간별 조회
+	 * @param a
+	 * @param currentPage
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="ajaxAttendenceList.at", produces="application/json; charset=UTF-8")
+	public String ajaxAttendenceDateList(Attendence a, @RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session){
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		a.setEmpNo(empNo);
+		int listCount = eService.selectAttendenceDateListCount(a);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<Attendence> list = eService.selectAttendenceDateList(pi, a);
+		HashMap<String, Object> map = new HashMap();
+		map.put("listCount", listCount);
+		map.put("pi", pi);
+		map.put("list", list);
+		
+		return new Gson().toJson(map);
 	}
 	
 	/**
@@ -1120,15 +1180,27 @@ public class EssController {
 	 * @return
 	 */
 	@RequestMapping("wtModify.at")
-	public ModelAndView selectModifyWorktimeList(@RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session, ModelAndView mv) {
-		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
-		int listCount = eService.selectModifyWorktimeListCount(empNo);
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
-		ArrayList<Worktime> list = eService.selectModifyWorktimeList(pi, empNo);
-		mv.addObject("pi", pi);
-		mv.addObject("list", list);
+	public ModelAndView selectModifyWorktimeList(HttpSession session, ModelAndView mv) {
 		mv.setViewName("ess/workingTimeModifyList");
 		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping("ajaxWtModify.at")
+	public String ajaxSelectModifyWorktimeList(Worktime w, @RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session) {
+		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
+		w.setEmpNo(empNo);
+		int listCount = eService.selectModifyWorktimeListCount(w);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
+		ArrayList<Worktime> list = eService.selectModifyWorktimeList(pi, w);
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("listCount", listCount);
+		map.put("list", list);
+		map.put("pi", pi);
+		
+		return new Gson().toJson(map);
+		
 	}
 	
 	/**
@@ -1154,7 +1226,7 @@ public class EssController {
 		Employee e = (Employee)session.getAttribute("loginUser");
 		
 		int listCount = eService.adminSelectModifyWorktimeListCount();
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 15, 5);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		ArrayList<Worktime> list = eService.adminSelectModifyWorktimeList(pi, e);
 		mv.addObject("list", list);
 		mv.addObject("pi", pi);
@@ -1171,6 +1243,7 @@ public class EssController {
 	@RequestMapping(value="adModifyDetail.wt", produces="application/json; charset=UTF-8")
 	public String adminSelectModifyDetailWorktime(int wtNo) {
 		Worktime w = eService.adminSelectAttendence(wtNo);
+		System.out.println(w);
 		return new Gson().toJson(w);
 	}
 	
@@ -1210,12 +1283,12 @@ public class EssController {
 				w.setTeamCode(e.getTeamCode());
 				// 출근시간변경
 				if(!w.getReStartTime().equals("") && w.getReEndTime().equals("")) {
-					int resultSS = eService.updateStartTime(w);
-					int result1 = eService.insertAllAttendenceTime(w.getAttNo());
-					int result2 = eService.insertStartAttendence(w.getAttNo());
-					int resultS = eService.adminModifyWorktimeSubmit(w);
 					
-					if(resultS > 0 && resultSS > 0) {
+					int result1 = eService.updateStartTime(w); // re_startTime
+					int result2 = eService.insertAllAttendenceTime(w.getAttNo()); // attNo
+					int result4 = eService.adminModifyWorktimeSubmit(w); // approval_check = 1
+					
+					if(result1 > 0 && result4 > 0) {
 						
 						Worktime wt = eService.selectSignedWorktime(w.getWtNo());
 						Alarm a = new Alarm(); 
@@ -1231,18 +1304,17 @@ public class EssController {
 						
 						
 						session.setAttribute("alertMsg", "출근시간변경에 성공하였습니다.");
-						mv.setViewName("ess/workingTimeModifyList");
+						mv.setViewName("ess/adminWorkingTimeModifyList");
 					}
 				}
 				
 				// 퇴근시간변경
 				if(w.getReStartTime().equals("") && !w.getReEndTime().equals("")) {
-					int resultEE = eService.updateEndTime(w);
-					int result1 = eService. insertAllAttendenceTime(w.getAttNo());
-					int result2 = eService.insertEndAttendence(w.getAttNo());
-					int resultE = eService.adminModifyWorktimeSubmit(w);
+					int result1 = eService.updateEndTime(w); // reEndTime
+					int result2 = eService. insertAllAttendenceTime(w.getAttNo()); // attNo
+					int result4 = eService.adminModifyWorktimeSubmit(w); // approval_check = 1
 					
-					if(resultEE > 0) {
+					if(result1 > 0 && result4 > 0) {
 						
 						Worktime wt = eService.selectSignedWorktime(w.getWtNo());
 						Alarm a = new Alarm(); 
@@ -1263,13 +1335,10 @@ public class EssController {
 				
 				// 근태시간변경
 				if(!w.getReStartTime().equals("") && !w.getReEndTime().equals("")) {
-					int resultSSEE = eService.updateWorktime(w);
-					int result1 = eService. insertAllAttendenceTime(w.getAttNo());
-					int result2 = eService.insertStartAttendence(w.getAttNo());
-					int result3 = eService.insertEndAttendence(w.getAttNo());
-					int resultSE = eService.adminModifyWorktimeSubmit(w);
-					
-					if(resultSSEE > 0) {
+					int result1 = eService.updateWorktime(w); // reStartTime, reEndTime, attNo
+					int result2 = eService. insertAllAttendenceTime(w.getAttNo()); // attNo
+					int result5 = eService.adminModifyWorktimeSubmit(w); // approval_check = 1
+					if(result1 > 0) {
 						
 						Worktime wt = eService.selectSignedWorktime(w.getWtNo());
 						Alarm a = new Alarm(); 
@@ -1282,7 +1351,7 @@ public class EssController {
 						aService.insertAlarm(a);
 						
 						SendAlarm.sendAlarm(a, ec.getSessionList());
-						
+						System.out.println(3);
 						session.setAttribute("alertMsg", "근태시간변경에 성공하였습니다.");
 						mv.setViewName("ess/workingTimeModifyList");
 					}
@@ -1328,10 +1397,44 @@ public class EssController {
 		return new Gson().toJson(map);
 	}
 	
-	@RequestMapping("adminWorkStatistic.at")
-	public String adminAllWortimeStatistic(HttpSession session, Model model) {
-		return "ess/adminWorkingStatistics";
+	/**
+	 * 관리자 : ajax전사원 근무상태조회 (기간검색)
+	 * @param a
+	 * @param currentPage
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="ajaxWorktimeDate.at", produces="application/json; charset=UTF-8")
+	public String adminWorktimeDateList(Attendence a, @RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session, Model model, HttpServletRequest request) {
+		int listCount = eService.ajaxAllAttendenceDateListCount(a);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+		ArrayList<Attendence> list = eService.ajaxAllAttendenceDateList(pi,a);
+		
+		HashMap<String, Object> map = new HashMap();
+		map.put("listCount", listCount);
+		map.put("pi", pi);
+		map.put("list", list);
+		
+		return new Gson().toJson(map);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="ajaxDelete.wt")
+	public String ajaxDeleteWorktime(Worktime w, @RequestParam(value="wtList[]") ArrayList<Integer> wtList) {
+		//System.out.println(wtList);
+		int result = 1;
+		for(int i=0; i<wtList.size(); i++) {
+			w.setWtNo(wtList.get(i));
+			result = result * eService.ajaxDeleteWorktime(w);
+		}
+		
+		return result > 0 ? "success" : "fail";
+	
+	}
+	
+	
 	
 	
 	

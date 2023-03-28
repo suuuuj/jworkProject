@@ -38,7 +38,7 @@
         font-size:14px;
     }
     .workTable{
-        width:100%;
+        width:950px;
         text-align: center;
         margin-top:30px;
         border-collapse: collapse;
@@ -47,7 +47,6 @@
         color:rgb(51,51,51);
     }
     .workTable td{
-        width:182px;
         height:30px;
         color:rgb(50,50,50);
         border-bottom: 1px solid rgb(234, 234, 234);
@@ -73,6 +72,18 @@
     	width:fit-content;
     	margin:auto;
     }
+    .btnArea button{
+        font-size: 12px;
+        height: 27px;
+		border: 0;
+		border-radius: 5px;
+		color: white;
+        margin-bottom: 6px;
+    }
+    .my.pagination.justify-content-end.pagination-sm>li>a{
+        color: rgb(14, 126, 14);
+        font-weight: bolder;
+    } 
     /* modal영역 */
     .modal-content{
         height:600px;
@@ -110,51 +121,51 @@
     <jsp:include page = "../common/menubar.jsp" />
     <div class="worktimeOuter">
 
-        <h4><b>근무</b></h4>
+        <h4><b>출퇴근시간변경</b></h4>
 
         <div class="work-area">
 
-            <span>출퇴근 시간 변경</span> <br>
-            <div class="workSelect" style="float:right;">
-                <select name="" id="">
-                    <option value="">&nbsp;-선택안함-&nbsp;</option>
-                    <option value="">결재대기(1차)</option>
-                    <option value="">결재대기(2차)</option>
-                    <option value="">승인</option>
-                    <option value="">반려</option>
-                </select>
+            <div class="workSelect" style="display:inline-block">
+                <div class="btnArea" style="margin-top: 5px; font-weight: 600;">
+                    결재상태&nbsp;&nbsp;&nbsp;
+                    <button type="button" id="allBtn" style="background: green; width:39px;">전체</button>
+                    <button type="button" id="waitBtn" style="background: gray; width:80px;">결재대기(1차)</button>
+                    <button type="button" id="ingBtn" style="background: gray; width:80px;">결재대기(2차)</button>
+                    <button type="button" id="finBtn" style="background: gray; width:39px;">승인</button>
+                    <button type="button" id="reBtn" style="background: gray; width:39px;">반려</button>
+                </div>
             </div>
 
             <br>
             
             <table class="workTable">
+                <colgroup>
+                    <col width="5%">
+                    <col width="*">
+                    <col width="*">
+                    <col width="*">
+                    <col width="*">
+                    <col width="**">
+                    <col width="12%">
+                    <col width="12%">
+                    <col width="12%">
+                    <col width="10%">
+                </colgroup>
                 <thead>
                     <tr style="font-weight: 600; background-color: rgba(0, 172, 0, 0.075);">
-                        <td><input type="checkbox" name="" value="" id="firstCk"></td>
-                        <td>사번</td>
-                        <td>소속</td>
-                        <td>팀명</td>
-                        <td>직위</td>
-                        <td>이름</td>
-                        <td>조정일</td>
-                        <td>제목</td>
-                        <td>진행상황</td>
+                        <td scope="col">No.</td>
+                        <td scope="col">사번</td>
+                        <td scope="col">소속</td>
+                        <td scope="col">팀명</td>
+                        <td scope="col">직위</td>
+                        <td scope="col">이름</td>
+                        <td scope="col">조정일</td>
+                        <td scope="col">제목</td>
+                        <td scope="col">진행상황</td>
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="w" items="${list}">
-                        <tr onclick="workDetailFunction(${w.wtNo});">
-                            <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value=""></td>
-                            <td>${w.empNo}</td>
-                            <td>${w.deptName}</td>
-                            <td>${w.teamName}</td>
-                            <td>${w.jobName}</td>
-                            <td>${w.empName}</td>
-                            <td>${w.attDate}</td>
-                            <td>출근시간변경</td>
-                            <td>${w.approvalCheck}</td>
-                        </tr>
-                    </c:forEach>
+                    
                 </tbody>
             </table>
         </div>
@@ -204,35 +215,11 @@
 
         <br><br>
         <div id="pagingArea">
-			<ul class="pagination">
-
-				<c:choose>
-					<c:when test="${ pi.currentPage eq 1 }">
-						<li class="page-item" disabled><a class="page-link" href="#"><</a></li>
-					</c:when>
-					<c:otherwise>
-						<li class="page-item"><a class="page-link"
-							href="admin.ot?cpage=${ pi.currentPage-1 }"><</a></li>
-					</c:otherwise>
-				</c:choose>
-
-				<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-					<li class="page-item"><a class="page-link"
-						href="admin.ot?cpage=${ p }">${ p }</a></li>
-				</c:forEach>
-
-
-				<c:choose>
-					<c:when test="${ pi.currentPage eq pi.maxPage }">
-						<li class="page-item" disabled><a class="page-link" href="#">></a></li>
-					</c:when>
-					<c:otherwise>
-						<li class="page-item"><a class="page-link"
-							href="admin.ot?cpage=${ pi.currentPage+1 }">></a></li>
-					</c:otherwise>
-				</c:choose>
-			</ul>
-		</div>
+			
+            <ul class="my pagination justify-content-end pagination-sm">
+        
+            </ul>
+        </div>
 
     </div>
 
@@ -285,6 +272,132 @@
             $('#workModal').hide();
             $('.jquery-modal').click();
     }
+
+    </script>
+
+    <script>
+        
+        let statusCode = 100;
+      
+        function selectAppList(status, cpage){
+            $.ajax({
+                url: "ajaxWtModify.at",
+                data:{
+                    approvalCheck: status,
+                    cpage: cpage
+                    },
+                success:function(map){
+                    console.log(map);
+                    /*
+                        map
+                        {
+                          listCount : 10,
+                          pi : {currentPage:x, listCount:x, ... },
+                          list : [{empNo:xx, ...}, {}, ]
+                        }
+                    */
+                   
+                    let value = "";
+                    
+                    for(i=0; i<map.list.length; i++){
+                        value += "<tr onclick='workDetailFunction(" + map.list.wtNo + ")'>"
+                                 + "<td>" + map.list[i].wtNo + "</td>"
+                                 + "<td>" + map.list[i].empNo + "</td>"
+                                 + "<td>" + map.list[i].deptName + "</td>"
+                                 + "<td>" + map.list[i].teamName + "</td>"
+                                 + "<td>" + map.list[i].jobName + "</td>"
+                                 + "<td>" + map.list[i].empName + "</td>"
+                                 + "<td>" + map.list[i].attDate + "</td>"
+                                 + "<td>출퇴근시간변경</td>"
+                                 + "<td>" + map.list[i].approvalCheck + "</td></tr>";
+                    }
+                    $(".workTable tbody").html(value);
+                    
+                    //페이징바
+                    let page="";
+                    if(map.pi.currentPage ==1){
+                       page += "<li class='page-item disabled' ><a class='page-link' href='#' style='color:rgb(196, 197, 197)'>Previous</a></li>"
+                    }else{
+                       page += "<li class='page-item'><a class='page-link' onclick='selectAppList(" + statusCode + ", " + (map.pi.currentPage-1) + ");'>Previous</a></li>"
+                    }
+                    
+                    for(var p=map.pi.startPage; p<=map.pi.endPage; p++){
+                       page += "<li class='page-item'><a class='page-link' onclick='selectAppList(" + statusCode + ", " + p + ");'>" + p + "</a></li>"
+                    }
+                    
+                    if(map.pi.currentPage == map.pi.maxPage){
+                       page += "<li class='page-item disabled'><a class='page-link ' href='#' style='color:rgb(196, 197, 197)'>Next</a></li>"
+                    }else{
+                       page += "<li class='page-item'><a class='page-link' onclick='selectAppList(" + statusCode + ", " + (map.pi.currentPage+1) + ");'>Next</a></li>"
+                    }
+                    
+                    $(".pagination").html(page);
+                    
+                }, error:function(){
+                       console.log("ajax 통신 실패");
+                    }
+            })
+        }
+        
+        $(function(){
+            selectAppList(100, 1);
+        })
+        
+        //각 버튼 누를시 뜨는 리스트
+        $("#allBtn").click(function(){
+            selectAppList(100, 1);
+            $(this).css("background-color", "green").css("color", "white");
+            $("#waitBtn").css("background-color", "gray").css("color", "white");
+            $("#ingBtn").css("background-color", "gray").css("color", "white");
+            $("#finBtn").css("background-color", "gray").css("color", "white");
+            $("#reBtn").css("background-color", "gray").css("color", "white");
+            statusCode = 100;
+        })
+        
+        $("#waitBtn").click(function(){
+            selectAppList(0, 1);
+            $(this).css("background-color", "green").css("color", "white");
+            $("#allBtn").css("background-color", "gray").css("color", "white");
+            $("#ingBtn").css("background-color", "gray").css("color", "white");
+            $("#finBtn").css("background-color", "gray").css("color", "white");
+            $("#reBtn").css("background-color", "gray").css("color", "white");
+
+            statusCode = 0;
+        })
+        
+        $("#ingBtn").click(function(){
+            selectAppList(1, 1);
+            $(this).css("background-color", "green").css("color", "white");
+            $("#allBtn").css("background-color", "gray").css("color", "white");
+            $("#waitBtn").css("background-color", "gray").css("color", "white");
+            $("#finBtn").css("background-color", "gray").css("color", "white");
+            $("#reBtn").css("background-color", "gray").css("color", "white");
+
+            statusCode = 1;
+        })
+        
+        $("#finBtn").click(function(){
+            selectAppList(2, 1);
+            $(this).css("background-color", "green").css("color", "white");
+            $("#allBtn").css("background-color", "gray").css("color", "white");
+            $("#waitBtn").css("background-color", "gray").css("color", "white");
+            $("#ingBtn").css("background-color", "gray").css("color", "white");
+            $("#reBtn").css("background-color", "gray").css("color", "white");
+            
+            statusCode = 2;
+        })
+        
+        $("#reBtn").click(function(){
+            selectAppList(3, 1);
+            $(this).css("background-color", "green").css("color", "white");
+            $("#allBtn").css("background-color", "gray").css("color", "white");
+            $("#waitBtn").css("background-color", "gray").css("color", "white");
+            $("#finBtn").css("background-color", "gray").css("color", "white");
+            $("#ingBtn").css("background-color", "gray").css("color", "white");
+            
+            statusCode = 3;
+        })
+    
 
     </script>
 

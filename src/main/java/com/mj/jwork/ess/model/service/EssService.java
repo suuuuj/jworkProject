@@ -55,6 +55,9 @@ public interface EssService {
 	int adminUpdateYear();
 	int adminUpdateMonth();
 	
+	// 관리자 : 연차리셋
+	int adminUpdateReset();
+	
 	// 관리자 : 연차전체조회
 	int adminAnnualListCount();
 	ArrayList<Annual> adminAnnualList(PageInfo pi);
@@ -88,7 +91,9 @@ public interface EssService {
 	int adminSelectOvertimeListCount();
 	int adminSelectBusinesstripListCount();
 	ArrayList<Overtime> adminSelectOvertimeList(PageInfo pi, Employee e);
+	ArrayList<Overtime> adminSelectOvertimeListNo(PageInfo pi, Employee e);
 	ArrayList<Businesstrip> adminSelectBusinesstripList(PageInfo pi, Employee e);
+	ArrayList<Businesstrip> adminSelectBusinesstripListNo(PageInfo pi, Employee e);
 	
 	// 관리자 : 시간외근무/출장 상세조회(select)
 	Businesstrip adminSelectBusinesstrip(Businesstrip b);
@@ -117,8 +122,10 @@ public interface EssService {
 	int insertAllAttendenceTime(int attNo);
 	
 	// 출퇴근 전체조회
-	int selectAttendenceListCount();
-	ArrayList<Attendence> selectAttendenceList(PageInfo pi, int empNo);
+	int selectAttendenceListCount(Attendence a);
+	ArrayList<Attendence> selectAttendenceList(PageInfo pi, Attendence a);
+	int selectAttendenceDateListCount(Attendence a);
+	ArrayList<Attendence> selectAttendenceDateList(PageInfo api, Attendence a);
 	
 	// 출퇴근 상세조회
 	Attendence selectAttendence(Attendence a);
@@ -132,8 +139,8 @@ public interface EssService {
 	int updateWorktime(Worktime w);
 	
 	// 출퇴근시간수정리스트
-	int selectModifyWorktimeListCount(int empNo);
-	ArrayList<Worktime> selectModifyWorktimeList(PageInfo pi, int empNo);
+	int selectModifyWorktimeListCount(Worktime w);
+	ArrayList<Worktime> selectModifyWorktimeList(PageInfo pi, Worktime w);
 	
 	// 근태수정상세조회
 	Worktime selectModifyDetailWorktime(int wtNo);
@@ -161,6 +168,11 @@ public interface EssService {
 	// 관리자 : 전사원 근태조회
 	int ajaxAllAttendenceListCount(Attendence a);
 	ArrayList<Attendence> ajaxAllAttendenceList(PageInfo pi, Attendence a);
+	int ajaxAllAttendenceDateListCount(Attendence a);
+	ArrayList<Attendence> ajaxAllAttendenceDateList(PageInfo pi, Attendence a);
+	
+	// 관리자 : 출퇴근시간변경리스트 삭제 
+	int ajaxDeleteWorktime(Worktime w);
 	
 	// ------------------------------ 알람 -----------------------------------
 	// 휴가 최종 승인 후 휴가정보 	불러오기

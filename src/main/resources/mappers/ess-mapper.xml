@@ -19,6 +19,8 @@
 		<result column="dept_name" property="deptName" />
 		<result column="job_name" property="jobName" />
 		<result column="team_name" property="teamName" />
+		<result column="start_date" property="startDate" />
+		<result column="end_date" property="endDate" />
 	</resultMap>
 	
 	<resultMap id="annualResult" type="Annual">
@@ -410,6 +412,12 @@
 		 where to_char(add_months(e.enroll_date, 12), 'YYYY-MM-DD') < to_char(TRUNC(SYSDATE, 'YYYY') ,'YYYY-MM-DD')
 		]]>
 	</insert>
+	
+	<!-- 관리자 : 연차리셋 -->
+	<update id="adminUpdateReset">
+		update annual
+		   set annual_count = 0
+	</update>
 	
 	<!-- 관리자 : 연차관리 페이징 -->
 	<select id="adminAnnualListCount" resultType="_int">
@@ -944,26 +952,59 @@
 		 where att_no = #{attNo}
 	</update>
 	
-	<!-- 출퇴근전체조회 페이징 -->
+	<!-- ajax 출퇴근전체조회 페이징 -->
 	<select id="selectAttendenceListCount" resultType="_int">
 		select
 		       count(*)
 		  from attendence
+		 where emp_no = #{empNo}
+		  <if test="attStatus != 100">
+		   and att_status = #{attStatus}
+		  </if>
 	</select>
 	
-	<!-- 출퇴근 전체조회 -->
+	<!-- ajax 출퇴근전체조회 페이징(날짜검색) -->
+	<select id="selectAttendenceDateListCount" resultType="_int">
+		select
+		       count(*)
+		  from attendence
+		 where emp_no = #{empNo}
+		   and att_date between to_date(#{startDate},'YY/MM/DD') and to_date(#{endDate},'YY/MM/DD')
+	</select>
+	
+	<!-- ajax 출퇴근 전체조회 -->
 	<select id="selectAttendenceList" resultMap="attendenceResult">
 		select 
 		       att_no
 		     , emp_no
-		     , start_time
-		     , end_time
-		     , att_time
+		     , nvl(start_time, '-') start_time
+		     , nvl(end_time, '-') end_time
+		     , nvl(att_time, '-') att_time
 		     , decode(att_status,0,'정상',1,'지각',2,'조퇴',3,'결근',4,'휴가',5,'출장') as "att_status"
 		     , att_date
 		     , after_time
 		  from attendence 
 		 where emp_no = #{empNo}
+		 <if test="attStatus != 100">
+		   and att_status = #{attStatus}
+		 </if>
+		 order
+		    by att_date desc
+	</select>
+	
+	<!-- ajax 출퇴근 전체조회(날짜검색) -->
+	<select id="selectAttendenceDateList" resultMap="attendenceResult">
+		select 
+		       att_no
+		     , emp_no
+		     , nvl(start_time, '-') start_time
+		     , nvl(end_time, '-') end_time
+		     , nvl(att_time, '-') att_time
+		     , decode(att_status,0,'정상',1,'지각',2,'조퇴',3,'결근',4,'휴가',5,'출장') as "att_status"
+		     , att_date
+		  from attendence 
+		 where emp_no = #{empNo}
+		   and att_date between to_date(#{startDate},'YY/MM/DD') and to_date(#{endDate},'YY/MM/DD')
 		 order
 		    by att_date desc
 	</select>
@@ -1181,6 +1222,9 @@
 		       count(*)
 		  from attendence  
 		 where emp_no in #{empNo}
+		  <if test="approvalCheck != 100">
+		   and approval_check = #{approvalCheck} 
+		  </if>
 	</select>
 	
 	<!-- 근태수정리스트 조회 -->
@@ -1204,6 +1248,9 @@
 		  join job j on (e.job_code = j.job_code)
 		  join team t on (e.team_code = t.team_code)
 		 where e.emp_no = #{empNo}   
+		  <if test="approvalCheck != 100">
+		   and approval_check = #{approvalCheck}
+		  </if>
 		 order
 		    by wt_no desc
 	</select>
@@ -1277,7 +1324,7 @@
 		     , approval_check
 		     , re_start_time
 		     , re_end_time
-		     , re_content
+		     , nvl(re_content, '') re_content
 		     , att_status
 		     , att_date
 		  from worktime w
@@ -1309,7 +1356,14 @@
 		  </if>
 	</select>
 	
-	<!-- 관리자 : ajax버튼 눌렀을 시 리스트 조회 -->
+	<!-- 관리자 : ajax전사원 근무상태조회(기간검색) -->
+	<select id="ajaxAllAttendenceDateListCount" resultType="_int">
+		select count(*)
+		  from attendence
+		 where att_date between to_date(#{startDate},'YY/MM/DD') and to_date(#{endDate},'YY/MM/DD')
+	</select>
+	
+	<!-- 관리자 : ajax버튼 눌렀을 시 근무상태 리스트 조회 -->
 	<select id="ajaxAllAttendenceList" resultMap="attendenceResult">
 		select  
 	      	   att_no
@@ -1335,7 +1389,36 @@
 		 order
 		    by att_no desc
 	</select>
-
+	
+	<!-- 관리자 : ajax 근무상태 기간조회 -->
+	<select id="ajaxAllAttendenceDateList" resultMap="attendenceResult">
+		select  
+	      	   att_no
+	      	 , a.emp_no
+	         , nvl(start_time, '-') start_time
+	         , nvl(end_time, '-') end_time
+	         , nvl(att_time, '-') att_time
+	         , att_date
+	         , decode(att_status,0,'정상',1,'지각',2,'조퇴',3,'결근',4,'휴가',5,'출장') as "att_status"
+	         , emp_name
+	         , dept_name
+	         , job_name
+	         , team_name
+		  from attendence a
+		  join employee e on (a.emp_no = e.emp_no)
+		  join department d on (e.dept_code = d.dept_code)
+		  join job j on (e.job_code = j.job_code)
+		  join team t on (e.team_code = t.team_code)
+		 where att_date between to_date(#{startDate},'YY/MM/DD') and to_date(#{endDate},'YY/MM/DD')
+		 order
+		    by att_no desc
+	</select>
+	
+	<!-- 관리자 : 출퇴근시간변경삭제 -->
+	<delete id="ajaxDeleteWorktime">
+		delete from worktime
+         where wt_no = #{wtNo}  
+	</delete>
 
 
 

@@ -258,8 +258,6 @@ public class ApprovalController {
 			
 			SendAlarm.sendAlarm(alarm, ec.getSessionList());
 			
-			
-			
 			session.setAttribute("alertMsg","승인 완료 되었습니다.");
 			return "redirect:unsignlist.app";
 		}else {// 승인 실패

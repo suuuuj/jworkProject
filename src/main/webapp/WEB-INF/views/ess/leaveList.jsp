@@ -23,9 +23,6 @@
     div{
         box-sizing: border-box;
     }
-    .vacation{
-        margin-top: 30px;
-    }
     select{
         width:120px;
         height:30px;
@@ -125,7 +122,7 @@
         <h4><b>휴가</b></h4>
         
         <div class="vacation">
-
+            <!--
             <div class="select-area">
                 <div style="float:left">
                     <select name="" id="" style="font-size:14px;">
@@ -146,10 +143,10 @@
                     <button class="btn btn-success">검색</button>
                 </div>
             </div>
-            <br>
+            -->
 
             <div class="vacationDetail">
-                <br><br><br>
+                <br>
                 <table class="leaveTable">
                     <thead>
                         <tr style="color:rgb(51,51,51); font-size: 14px; font-weight: 600; height:40px;">
