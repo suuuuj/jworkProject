@@ -99,7 +99,7 @@
         width: 265px;
     }
     .signLogo{
-        width: 42px;
+        width: 60px;
     }
 
     .deptName{
@@ -213,7 +213,7 @@
                     <td width="90px" id="job3"></td>
                 </tr>
                 <tr>
-                    <td height="70px"><img class="signLogo" src="resources/images/common/check.png"/></td>
+                    <td height="70px"><img class="signLogo" src="resources/images/approval/approved.png"/></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -274,8 +274,7 @@
                     <tr>
                         <td colspan="2">
                             <textarea id="summernote" name="docContent">${ a.docContent }</textarea>
-                            <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-                            <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+                            <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
                             <script>
                             	$(document).ready(function() {
                           	  		$('#summernote').summernote({
