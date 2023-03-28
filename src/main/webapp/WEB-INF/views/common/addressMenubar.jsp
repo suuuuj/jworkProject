@@ -73,24 +73,23 @@
         
         * {padding: 0;margin: 0;box-sizing: border-box;}
    
-        .common{
+        /* .common{
             width: 60px; height: 1000px;
             background-color: rgba(46, 170, 46, 0.219);
-        }
+        } */
         .addressMenu{
-            /* width: 180px; */
+            width: 230px;
             height: 1000px;
         }
-        .subMenubar>div{
+        /* .subMenubar>div{
             float: left;
         }
         .subMenubarArea{
            margin-left: 8px; margin-right: 8px;     
-        }
+        } */
         .menu{
            margin-top: 10px;
-        }
-        
+        }     
         .menuIcon{
             margin-right: 10px;
             width: 40px;
@@ -108,13 +107,13 @@
            cursor:pointer;
         }
         .subTitle{
-            margin: 15px; margin-top: 40px;
+            margin:40px 30px 15px 30px;
             font-size: 16px; font-weight: 600;
         }
         .enrollBtn{
-            margin: 15px;
+            margin:15px 30px 15px 30px;
+            font-size: 14px;
         }
-        .addressBox{margin: 10px;}
         .addAddressBox{
             border: 0px;
             background-color: rgba(255, 255, 255, 0);
@@ -129,21 +128,22 @@
 
         .allGroupName{
             width: 120px; font-size: 14px;
-            padding-left: 29px; margin-bottom: 10px;
+            margin-left: 40px; margin-bottom: 10px;
         }
         .addressGroupName {
-            width: 120px;
-            padding-left: 29px; float: left;  
+            width: 120px; 
+            margin-left: 40px; float: left;  
             overflow: hidden; text-overflow: ellipsis; white-space: nowrap; 
         }
         #dropdownMenu{
-            float: left;
+            float: right; margin-left: 30px;
         }
         .editAddressBox button{
             border: 0;
             background-color: white;
         }
         .hover {
+            width: 230px;
             display: flex; margin-bottom: 10px;
         }
         #important {
@@ -152,7 +152,7 @@
 
         /*조직도*/
         #chart ul {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         .deptGroup {
             padding-left: 40px;
@@ -169,6 +169,10 @@
         }
         .deptGroup li {
             margin-bottom: -5px;
+        }
+        .teamGroup button{
+            border: 0; 
+            background-color: #ffffff00;
         }
 
         /*주소록 그룹 수정*/
@@ -234,12 +238,12 @@
         <div class="outer">
 
             <div class="subMenubar">
-                <div class="common">
+                <!-- <div class="common">
 
                     <div class="menubarArea">
                         
                     </div>
-                </div>
+                </div> -->
                 
                 <div class="addressMenu">
                     <div class="subTitle">
