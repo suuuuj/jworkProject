@@ -9,7 +9,9 @@
 
     <!--제이쿼리-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-
+	<!-- sweetalert -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
     <!-- 부트스트랩 5버전 -->
     <!-- Latest compiled and minified CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"> 
@@ -17,6 +19,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> 
 
     <style>
+	    /*sweetalert css*/
+	    .swal-button{
+	        background-color: rgb(172, 222, 172);
+	        font-size: 12px;
+	        text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+	    }
+	    .swal-button:hover{
+	        background-color: rgb(206, 236, 206);
+	        font-size: 12px;
+	        text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+	    }
+	    .swal-title { font-size: 20px;}
+    
         .outer {width:1200px; margin:auto;}
         .login-area {margin:auto; margin-top: 100px; width:600px; height:500px; padding-top: 100px; border: 1px solid gainsboro;}
         .login-form {margin:auto; width:400px; height:500px; margin-top: -50px;}
@@ -37,6 +52,21 @@
     </style>
 </head>
 <body>
+	<c:if test="${not empty alertMsg }">
+		<script>
+			//alertify.alert('${alertMsg}');
+            swal('${alertMsg}', '', 'success');
+		</script>
+		<c:remove var="alertMsg" scope="session"/>	
+	</c:if>
+    <c:if test="${not empty errorMsg }">
+		<script>
+			//alertify.alert('${alertMsg}');
+            swal('${errorMsg}', '', 'error');
+		</script>
+		<c:remove var="errorMsg" scope="session"/>	
+	</c:if>
+	    
 	
     <div class="outer">
         <div class="login-area">
