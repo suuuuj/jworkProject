@@ -77,7 +77,7 @@ public class CfrResDao {
 		int limit = pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("cfrMapper.selectResList",null,rowBounds);
+		return (ArrayList)sqlSession.selectList("cfrMapper.selectResList2",null,rowBounds);
 	}
 	
 	public ArrayList<CfrReservation> selectDetailRes(SqlSessionTemplate sqlSession,PageInfo pi, String cfrName){

@@ -100,7 +100,7 @@
         width: 265px;
     }
     .signLogo{
-        width: 42px;
+        width: 60px;
     }
 
     .deptName{
@@ -151,7 +151,7 @@
         width: 2px; /*스크롤바의 너비*/
     }
     
-  #selectAppLineTB tbody, #selectRefLineTB tbody{
+  #appTbody, #refTbody{
   	font-size: small;
   }
 
@@ -217,7 +217,7 @@
                     <td width="90px" id="job3"></td>
                 </tr>
                 <tr>
-                    <td height="70px"><img class="signLogo" src="resources/images/common/check.png"/></td>
+                    <td height="70px"><img class="signLogo" src="resources/images/approval/approved.png"/></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -280,8 +280,7 @@
                     <tr>
                         <td colspan="2">
                             <textarea id="summernote" name="docContent">${ a.docContent }</textarea>
-                            <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-                            <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+                            <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
                             <script>
                             	$(document).ready(function() {
                           	  		$('#summernote').summernote({
@@ -470,77 +469,110 @@
 			                });
 						
 			                
-                            $(document).on("click","#addSigner",function(){
-                            	var count = $(".signEmp").length;
-                            	if(count >= 3){
-                            		alert("결재자는 최대 3명까지 지정 가능합니다.");
-                            		return;
-                            	} else{
-                            		$.ajax({
-                                    url:"addSigner.app",
-                                    data:{empNo:$("#appEmpNo").val()},
-                                    success: function(list){
-                                    	//console.log(list)
-                                    	
-                                    	let value=""
-                                    	value += "<tr class='signEmp'>"
-                                                 + "<td style='color:red' class='removeEmp'><b>X</b></td>"
-                                                 + "<td style='display:none'>"+list.empNo+"</td>"
-	                							 + "<td>" + list.deptName + "</td>"
-	                						 	 + "<td>" + list.empName + "</td>"
-	                							 + "<td>" + list.jobName + "</td>"
-	                							 + "<td style='display:none'>"+list.appLevel+"</td>"
-                						     + "</tr>";
-                						     
-                                    	$("#selectAppLineTB tbody").append(value);
-                                        console.log(list);
+							 $(document).on("click","#addSigner",function(){
+			                	
+			                	// 중복 체크를 위한 배열
+			                	var addedEmpNos = [];
+			                	
+			                	// 이미 추가된 결재자들의 empNo를 배열에 저장
+			                	$(".signEmp td:nth-child(2)").each(function() {
+			                		addedEmpNos.push($(this).text());
+			                	});
+			                	
+			                	var count = $(".signEmp").length;
+			                	
+			                	if(count >= 3){
+			                		alert("결재자는 최대 3명까지 지정 가능합니다.");
+			                		return;
+			                	} else if (addedEmpNos.includes($("#appEmpNo").val())) {
+			                		alert("이미 추가된 결재자입니다.");
+			                		return;
+			                	} else{
+			                		$.ajax({
+			                			url:"addSigner.app",
+			                			data:{empNo:$("#appEmpNo").val()},
+			                			success: function(list){
+			                				let value=""
+			                				value += "<tr class='signEmp'>"
+			                					+ "<td style='color:red' class='removeEmp'><b>X</b></td>"
+			                					+ "<td style='display:none'>"+list.empNo+"</td>"
+			                					+ "<td style='display:none'>"+list.appLevel+"</td>"
+			                					+ "<td>" + list.deptName + "</td>"
+			                					+ "<td>" + list.empName + "</td>"
+			                					+ "<td>" + list.jobName + "</td>"
+			                					+ "</tr>";
+			                				
+			                				$("#appTbody").append(value);
+			                				console.log(list);
+			                				
+			                				// 추가된 결재자의 empNo를 배열에 저장
+			                				addedEmpNos.push(list.empNo);
+			                				
+			                				$(".removeEmp").click(function(){
+			                					$(this).parent().remove();
+			                					count--;
+			                					// 결재자가 삭제될 때, 배열에서도 제거
+			                					addedEmpNos = addedEmpNos.filter(function(empNo) {
+			                						return empNo != list.empNo;
+			                					});
+			                				})
+			                				
+			                			}, error:function(){
+			                				console.log("결재자 추가 ajax 통신실패");
+			                			}
+			                		})
+			                	}
+			                })
 
-                                        $(".removeEmp").click(function(){
-                                            $(this).parent().remove();
-                                            count--;
-                                        })
-
-                                     
-                                    }, error:function(){
-                        				console.log("결재자 추가 ajax 통신실패");
-                        			}
-                                })
-                             }
-                                
-                            })
-
-                            $(document).on("click","#addRefer",function(){
-                                $.ajax({
-                                url:"addSigner.app",
-                                data:{empNo:$("#appEmpNo").val()},
-                                success: function(list){
-                                  
-                                    
-                                    let value=""
-                                    
-                                    value += "<tr class='refEmp'>"
-                                                + "<td style='color:red' class='removeRef'><b>X</b></td>"
-                                                + "<td style='display:none'>"+list.empNo+"</td>"
-                                                + "<td>" + list.deptName + "</td>"
-                                                + "<td>" + list.empName + "</td>"
-                                                + "<td>" + list.jobName + "</td>"
-                                                + "<td style='display:none'>"+list.appLevel+"</td>"
-                                            + "</tr>";
-                                            
-                                    $("#selectRefLineTB tbody").append(value);
-                                    console.log(list);
-
-                                    $(".removeRef").click(function(){
-                                        $(this).parent().remove();
-                                    })
-
-                                    
-                                }, error:function(){
-                                    console.log("결재자 추가 ajax 통신실패");
-                                }
-                                
-                                })
-                            })
+			                $(document).on("click","#addRefer",function(){
+			                	
+			                	// 중복 체크를 위한 배열
+			                	var addedEmpNos = [];
+			                	
+			                	// 이미 추가된 참조자들의 empNo를 배열에 저장
+			                	$(".refEmp td:nth-child(2)").each(function() {
+			                		addedEmpNos.push($(this).text());
+			                	});
+			                	
+			                	if (addedEmpNos.includes($("#appEmpNo").val())) {
+			                		alert("이미 추가된 참조자입니다.");
+			                		return;
+			                	} else {
+			                		$.ajax({
+			                			url:"addSigner.app",
+			                			data:{empNo:$("#appEmpNo").val()},
+			                			success: function(list){
+			                				let value=""
+			                					value += "<tr class='refEmp'>"
+			                						+ "<td style='color:red' class='removeRef'><b>X</b></td>"
+			                						+ "<td style='display:none'>"+list.empNo+"</td>"
+			                						+ "<td style='display:none'>"+list.appLevel+"</td>"
+			                						+ "<td>" + list.deptName + "</td>"
+			                						+ "<td>" + list.empName + "</td>"
+			                						+ "<td>" + list.jobName + "</td>"
+			                						+ "</tr>";
+			                					
+			                					$("#refTbody").append(value);
+			                					console.log(list);
+			                					
+			                					// 추가된 참조자의 empNo를 배열에 저장
+			                					addedEmpNos.push(list.empNo);
+			                					
+			                					$(".removeRef").click(function(){
+			                						$(this).parent().remove();
+			                						// 참조자가 삭제될 때, 배열에서도 제거
+			                						addedEmpNos = addedEmpNos.filter(function(empNo) {
+			                							return empNo != list.empNo;
+			                						});
+			                					})
+			                					
+			                				}, error:function(){
+			                					console.log("결재자 추가 ajax 통신실패");
+			                				}
+			                				
+			                			})
+			                		}
+			                })
                            
 			            </script>
                        
@@ -572,7 +604,7 @@
                                             <th>직급</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="appTbody">
                                        
                                     </tbody>
                                 </table>
@@ -588,7 +620,7 @@
                                             <th>직급</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="refTbody">
                                         
                                     </tbody>
                                 </table>
@@ -623,7 +655,7 @@
             	
                 var count = 0;
 
-                $("#selectAppLineTB tbody tr").each(function(){
+                $("#appTbody tr").each(function(){
                    
                    let no = $(this).children().eq(1).text();
                    let name = $(this).children().eq(3).text();
@@ -678,7 +710,7 @@
 
                 
                 var num = 0;
-                $("#selectRefLineTB tbody tr").each(function(){
+                $("#refTbody tr").each(function(){
                 	let no = $(this).children().eq(1).text();
                     
                 	$("#app-list").append("<input type='hidden' name='rlist[" +num + "].empNo' value='" + no + "'>");
