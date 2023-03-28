@@ -270,7 +270,12 @@
                                                 type:"POST",
                                                 success:function(){
                                                     //수정했을때 모달창에서 로드되야하는데 안됨.. 물어보기
-                                                    location.reload();
+                                                    //location.reload();
+                                                    const reader = new FileReader();
+                                                    reader.readAsDataURL(uploadFile);
+                                                    reader.onload = function(e){
+                                                        $("#profileImg").attr("src", e.target.result);
+                                                    }
                                                 }, error:function(){
                                                     
                                                 }		

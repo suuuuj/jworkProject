@@ -381,11 +381,13 @@ public class EmployeeDao {
 	
 
 	// 신입사원 근태등록
-	public int adminInsertNewAttendence(SqlSession sqlSession, int empNo) {
+	public int adminInsertNewAttendence(SqlSessionTemplate sqlSession, int empNo) {
 		return sqlSession.insert("essMapper.adminInsertNewAttendence", empNo);
 	}
 
-	
+	public int selectNewEmpNo(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("employeeMapper.selectNewEmpNo");
+	}
 	
 	
 

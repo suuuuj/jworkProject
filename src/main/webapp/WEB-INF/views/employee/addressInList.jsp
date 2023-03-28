@@ -102,9 +102,9 @@
                     <form action="addressInSearch.emp" method="get">
                         <input type="hidden" name="cpage" value="1">
                         <select name="condition" id="condition" style="width: 100px;">
-                            <option value="empNo">사번</option>
-                            <option value="empName">이름</option>
-                            <option value="teamName">부서</option>
+                            <option value="empNo" <c:if test="${condition eq 'empNo'}">selected</c:if>>사번</option>
+                            <option value="empName" <c:if test="${condition eq 'empName'}">selected</c:if>>이름</option>
+                            <option value="teamName" <c:if test="${condition eq 'teamName'}">selected</c:if>>부서</option>
                         </select> 
                         <label>               
                         <input type="text" class="" id="keyword" name="keyword" value="${ keyword }">

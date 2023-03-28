@@ -582,8 +582,14 @@ public class EmployeeController {
 	
 	// 부서 관리 페이지
 	@RequestMapping("department.ad")
-	public String selectDepartment() {
-		return "employee/adminDepartment";
+	public String selectDepartment(HttpSession session) {
+		Employee e = (Employee)session.getAttribute("loginUser");
+		if(e.getTeamCode() == 1 || e.getTeamCode() == 2) {
+			return "employee/adminDepartment";			
+		}else {
+			session.setAttribute("errorMsg", "접근 권한이 없습니다.");
+			return "redirect:home.jwork";
+		}
 	}
 	
 	// 부서 관리 - 부서 조회(ajax)
@@ -869,17 +875,26 @@ public class EmployeeController {
 	
 	// 사원 관리 - 조회 페이지
 	@RequestMapping("employeeList.ad")
-	public String selectEmployeeList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Model model) {
+	public String selectEmployeeList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Model model, HttpSession session) {
 		
-		int listCount = eService.selectEmployeeListCount();
+		Employee e = (Employee)session.getAttribute("loginUser");
+		if(e.getTeamCode() == 1 || e.getTeamCode() == 2) {
+			
+			int listCount = eService.selectEmployeeListCount();
+			
+			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
+			ArrayList<Employee> list = eService.selectEmployeeList(pi);
+			
+			model.addAttribute("pi", pi);
+			model.addAttribute("list", list);
+			
+			return "employee/adminEmployeeList";
+		}else {
+			session.setAttribute("errorMsg", "접근 권한이 없습니다.");
+			return "redirect:home.jwork";
+		}
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 15);
-		ArrayList<Employee> list = eService.selectEmployeeList(pi);
 		
-		model.addAttribute("pi", pi);
-		model.addAttribute("list", list);
-		
-		return "employee/adminEmployeeList";
 	}
 	
 	// 사원 관리 - 리스트 엑셀 변환
@@ -1069,9 +1084,10 @@ public class EmployeeController {
 		}
 		
 		int result = eService.insertEmployee(e);
-		// 신입사원근태등록 
-		int result2 = eService.adminInsertNewAttendence(e.getEmpNo());
+		
 		if(result > 0) {
+			int newEmpNo = eService.selectNewEmpNo();
+			eService.adminInsertNewAttendence(newEmpNo);
 			eService.insertSchBasicGroup();
 			session.setAttribute("alertMsg", "추가완");
 			return "redirect:employeeList.ad";
@@ -1093,7 +1109,6 @@ public class EmployeeController {
 	public String logOut(HttpSession session) {
 		
 		session.invalidate();
-		
 		return "redirect:/";
 		
 	}

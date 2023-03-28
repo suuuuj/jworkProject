@@ -32,23 +32,44 @@
 	    }
 	    .swal-title { font-size: 20px;}
     
-        .outer {width:1200px; margin:auto;}
-        .login-area {margin:auto; margin-top: 100px; width:600px; height:500px; padding-top: 100px; border: 1px solid gainsboro;}
-        .login-form {margin:auto; width:400px; height:500px; margin-top: -50px;}
+        /* .outer {width:1200px; margin:auto; display: flex;
+                justify-content: center;} */
+        .login-area {
+            width:100%; height:100%; display: flex;
+            justify-content: center; align-items: center; 
+        }
+        .login-form {font-size: 14px; margin-top: 10%;}
+        #login{float:left;}
         /* 로그인 문구 */
-        #logo-img {text-align:center;}
-        #login h2 {font-weight:600; color:rgb(74, 133, 89);}
+        #logo-img {text-align:center; margin-right: 20px;}
+        /* #login h2 {font-weight:600; color:rgb(74, 133, 89);} */
         /* 아이디, 비밀번호 input */
-        #login-id, #login-pwd {text-align:center; height:13%;}
-        #login-id input, #login-pwd input {border:1px solid rgb(74, 133, 89); width:90%; height:50px; 
-            padding-left:10px; border-radius:3px;}
+        #login-id, #login-pwd {text-align:center; height:13%; }
+        #login-id input, #login-pwd input {
+            border:3px solid rgb(85, 85, 85); border-radius:5px;
+            width:280px; height:50px; font-weight: 600; color: rgb(95, 95, 95);
+            padding-left:10px;  margin: 10px 0px 3px 10px; 
+        }
+        #login-id input:hover {
+            background-color: #FECCBE;  color: rgb(255, 255, 255);
+        }
+        #login-pwd input:hover {
+            background-color: #FEEBB6;
+        }
         /* 비밀번호 찾기 */
-        #find-pwd {text-align: right; padding-right: 20px; height:50px;}
-        #find-pwd a {text-decoration:none; color:gray; font-size:13px;}
+        /* #find-pwd {text-align: right; padding-right: 20px; height:50px;}
+        #find-pwd a {text-decoration:none; color:gray; font-size:13px;} */
         /* 로그인 버튼 */
-        #login-btn {text-align:center;}
-        #login-btn input {width:90%; height:50px;}
-        
+        #login-btn {text-align:center; float:left; margin: 10px 0px 10px 5px; width: 90px;}
+        #login-btn input {
+            width:90%; height:112px; 
+            border: 3px solid rgb(85, 85, 85); border-radius:5px; 
+            background-color: #DDECCA; color: rgb(83, 83, 83); font-weight: 600;
+        }
+        #login-btn input:hover {
+            background-color: #CCD2F0; color: rgb(255, 255, 255);
+        }
+
     </style>
 </head>
 <body>
@@ -73,11 +94,15 @@
             
             <form action="login.emp" method="post" class="login-form">
                 
-                <div id="logo-img"><img class="logo" src="resources/images/common/jwork_logo.png" width="250px"/></div>
-                <div id="login-id"><input type="text" name="empNo" placeholder="사번" required></div>
-                <div id="login-pwd"><input type="password" name="empPwd" placeholder="비밀번호" required></div>
-                <div id="find-pwd"><a href="">비밀번호 찾기</a></div>
-                <div id="login-btn"><input type="submit" class="btn btn-success" value="로그인"></div>
+                <div id="logo-img"><img class="logo" src="resources/images/common/jworkLogo.png" width="300px"/></div>
+                <div id="login-area">
+                    <div id="login">
+                        <div id="login-id"><input type="text" name="empNo" placeholder="사번" required></div>
+                        <div id="login-pwd"><input type="password" name="empPwd" placeholder="비밀번호" required></div>
+                    <!-- <div id="find-pwd"><a href="">비밀번호 찾기</a></div> -->
+                    </div>
+                    <div id="login-btn"><input type="submit" value="로그인"></div>
+                </div>
 
             </form>
 

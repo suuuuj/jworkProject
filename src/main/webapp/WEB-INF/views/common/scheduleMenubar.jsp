@@ -70,25 +70,25 @@
             margin-bottom: 3px;
             font-size: 17px; font-weight: bold;
         }
-        .common{
-            width: 60px; height: 1000px;
+        /* .common{
+            height: 1000px;
             background-color: rgba(46, 170, 46, 0.219);
-        }
+        } */
         .scheduleMenu{
-            width: 160px; height: 1000px;
+            width: 230px; height: 1000px;
         }
-        .subMenubar>div{
+        /* .subMenubar>div{
             float: left;
-        }
-        .subMenubarArea{
+        } */
+        /* .subMenubarArea{
            margin-left: 8px; margin-right: 8px;     
-        }
+        } */
         .menu{
            margin-top: 10px;
         }
         .menuIcon{
             margin-right: 10px;
-            width: 40px;
+            /* width: 40px; */
         }
         .menu-wrap{
            margin-left: 50px; display:none;
@@ -103,11 +103,11 @@
            cursor:pointer;
         }
         .subTitle{
-            margin: 15px; margin-top: 40px;
+            margin:40px 30px 15px 30px;
             font-size: 16px; font-weight: 600;
         }
         .enrollBtn{
-            margin: 15px; width: 136px;
+            margin:15px 30px 15px 30px;
         }
         .scheduleBox{margin: 10px;}
         .addSchBox{
@@ -117,7 +117,7 @@
         .mainScheduleBox .btn-block{
             text-align: left;
         }
-        .myScheduleBox {margin:10px; font-size: 14px;}
+        .myScheduleBox {margin:15px; font-size: 14px;}
         .addScheduleBox{
             color: gray; font-size: 14px;
             padding: 10px;
@@ -131,7 +131,7 @@
         }
         .schGroupName {padding-left: 3px;}
         .scheduleBoxName {
-            width: 80px; height: 18px; margin-left: 10px;
+            width: 130px; height: 18px; margin-left: 10px;
             overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;   
         }
 
@@ -289,12 +289,12 @@
         <div class="outer">
 
             <div class="subMenubar">
-                <div class="common">
+                <!-- <div class="common">
 
                     <div class="menubarArea">
                         
                     </div>
-                </div>
+                </div> -->
                 
                 <div class="scheduleMenu">
                     <div class="subTitle">
@@ -320,7 +320,7 @@
                         <!-- 다른 사람이 등록한 일정 -->
                         <div style="margin-left: 15px;">
                             <input type="checkbox" class="checkSchGroup" id="otherEnroll" >
-                            <span class="scheduleBoxName schGroupName">다른 사람이 등록한 일정</span>
+                            <span class="scheduleBoxName schGroupName" style="margin-left:6px;">다른 사람이 등록한 일정</span>
                         </div>
                     </div>
                     
@@ -466,10 +466,10 @@
                                                 <option value="20:00">오후 08:00</option>
                                             </select>
                                         </div>
-                                        <div id="chkAllDay">
+                                        <!-- <div id="chkAllDay">
                                             <input type="checkbox" id="allDay" class="form-check-input" value="" name="allDay">
                                             <label for="allDay">종일</label>
-                                        </div>
+                                        </div> -->
                                         
                                     </div>
                 
@@ -507,7 +507,7 @@
                                             <th>장소</th>
                                             <td>
                                                 <input type="text" id="place" name="schPlace" style="width: 500px;">
-                                                <button class="plus">+</button>
+                                                <!-- <button class="plus">+</button> -->
                                             </td>
                                         </tr>
                                         
@@ -570,7 +570,7 @@
                                   
                             }
 
-                            $(".oneScheduleBox").append(value);
+                            $(".oneScheduleBox").html(value);
 
                             $('.hover').mouseover(function(){
                                 $(this).children().next().next().children("button").show();

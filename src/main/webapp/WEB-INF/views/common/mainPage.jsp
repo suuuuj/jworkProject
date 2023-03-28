@@ -16,6 +16,7 @@
 
 div{
     box-sizing: border-box;
+
 }
 /*** outer스타일 ***/
 .ess-area{
@@ -29,12 +30,12 @@ div{
     height:300px;
     border: 1px solid rgb(220,220,220);
     border-radius: 10px;
-    margin: 20px;
+    margin: 30px 10px 30px 10px;
 }
 #essDate{
-    padding-top:70px;
+    padding-top:60px; padding-bottom: 10px;
     text-align: center;
-    color:rgb(150, 147, 147)
+    color:rgb(100, 100, 100);
 }
 #essClock{
     text-align: center;
@@ -43,20 +44,17 @@ div{
     font-weight: 600;
 }
 .btnWrap{
-    margin-top:40px;
+    margin-top:15px;
     text-align: center;
 }
 #essStart, #essEnd{
-    width:80px;
-    height:30px;
-    border-radius: 5px;
-    border:none;
-    font-weight: 500;
-    font-size: 15px;
+    width:100px; height:40px;
+    border-radius: 5px; border:none;
+    font-weight: 500; font-size: 15px;
+    background-color: white;
 }
 #essStart:hover, #essEnd:hover{
-    background-color: rgb(0,172,0);
-    color:white;
+    cursor: pointer;
 }
 .btnPut{
     margin-top: 10px;
@@ -64,24 +62,23 @@ div{
 #startResult, #endResult{
     width:100px;
     height:30px;
-    color:rgb(150, 147, 147)
+    color:rgb(100, 100, 100);
 }
 
 .calender-area{
-    width: 580px;
-    height: 650px;
-    border: 1px solid rgb(220,220,220);
-    border-radius: 10px;
-    margin: 20px;
+    width: 580px; height: 600px;
+    border: 1px solid rgb(220,220,220); border-radius: 10px;
+    margin: 30px; 
 }
 .outer>div{
     float: left;
 }
 .plan{
-    height: 300px;
+    width: 268px;
+    height: 270px;
     border: 1px solid rgb(220,220,220);
     border-radius: 10px;
-    margin: 20px;
+    margin: 20px 0px 0px 10px;
 }
 
 /*캘린더 스타일*/
@@ -125,11 +122,29 @@ div{
     height: 13px;
 }
 .fc-event-title {
-    font-size: 2px;
+    font-size: 1px;
+    color:rgb(50, 50, 50);
 }
 /*오늘날짜*/
 .fc .fc-daygrid-day.fc-day-today {
     background-color: rgb(245, 249, 246);
+}
+.fc-event-time {
+    font-size: 1px;
+    color:rgb(50, 50, 50) !important; 
+}
+
+.fc-list-table a {
+    color: rgb(50, 50, 50);
+}
+.fc-list-day-side-text, .fc-list-day-text, .fc-list-event-time, .fc-list-event-title {
+    font-size: 12px;
+}
+.fc-col-header-cell-cushion, .fc-timegrid-slot-label-cushion {
+    font-size: 12px;
+}
+.fc-daygrid-body-unbalanced, .fc-daygrid-body-natural {
+    display: none;
 }
 
 </style>
@@ -175,8 +190,8 @@ div{
                                 calendar.addEvent({
                                     groupId: sList[i].schNo,
                                     title: sList[i].schTitle,
-                                    start: sList[i].schBegin,
-                                    end: sList[i].schEnd,
+                                    start: sList[i].schBegin + " " + sList[i].timeBegin,
+                                    end: sList[i].schEnd + " " + sList[i].timeEnd,
                                     color: sList[i].groupColor
                                 })
                             }
@@ -206,9 +221,10 @@ div{
                 <div id="essDate"></div>
                 <div id="essClock"></div>
                 <div class="btnWrap">
-                    <button type="button" id="essStart" onclick="startResult(${at.attNo});">출근</button>
-                    <button type="button" id="essEnd" onclick="endResult(${at.attNo});">퇴근</button>
+                    <button type="button" id="essStart" onclick="startResult(${at.attNo});"><img src="resources/images/common/working2.png" width="60px"></button>&nbsp;&nbsp;
+                    <button type="button" id="essEnd" onclick="endResult(${at.attNo});"><img src="resources/images/common/overtime2.png" width="60px"></button>
                 </div>
+                <br>
                 <div class="btnPut">
                     <span id="startResult" style="margin-left:47px;">
                         <c:choose>
@@ -219,7 +235,7 @@ div{
                                 ${at.startTime}
                             </c:otherwise>
                         </c:choose>
-                    </span>
+                    </span>&nbsp;&nbsp;&nbsp;&nbsp;
                     <span id="endResult" style="margin-left:13px;">
                         <c:choose>
                             <c:when test="${not empty loginUser.endTime}">
@@ -238,11 +254,9 @@ div{
 
         </div>
         <div class="plan">
-                
-            <!-- <div class="calender-area">
-                <div id='calendarList'></div>
-        
-            </div>
+
+            <div id='calendarList'></div>
+
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                 var calendarEl = document.getElementById('calendarList');
@@ -253,12 +267,12 @@ div{
                     expendRows:true, // 화면에 맞게 높이 재설정
                     headerToolbar: {
                         left: '',
-                        center: 'title',
+                        center: '',
                         right: ''
                     },
                     nowIndicator: true, // 현재 시간 마크
                     navLinks:false, // 달력상의 날짜를 클릭할 수 있는지 여부, 클릭시 일 달력/주 달력으로 넘어감(Boolean, default:false/Demo)
-                    //locale: 'ko',
+                    locale: 'ko',
                     day:'numeric',
                     navLinks: true, // can click day/week names to navigate views
                     // 여기서부터 날짜 클릭 시 이벤트
@@ -281,8 +295,8 @@ div{
                                         calendar.addEvent({
                                             groupId: sList[i].schNo,
                                             title: sList[i].schTitle,
-                                            start: sList[i].schBegin,
-                                            end: sList[i].schEnd,
+                                            start: sList[i].schBegin + " " + sList[i].timeBegin,
+                                            end: sList[i].schEnd + " " + sList[i].timeEnd,
                                             color: sList[i].groupColor
                                         })
                                     }
@@ -300,10 +314,7 @@ div{
                 calendar.render();
             });
         
-            </script> -->
-
-
-
+            </script>
 
         </div>
     </div>

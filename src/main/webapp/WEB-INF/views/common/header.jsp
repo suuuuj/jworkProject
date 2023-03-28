@@ -308,8 +308,8 @@
                             </div>
                         </li>
                         <li class="profileControl">
-                            <div class="dropdown-item-text profileControl-area">
-                                <a class="btn btn-outline-success" href="myPage.emp">마이페이지</a>&nbsp;&nbsp;<a class="btn btn-outline-warning" href="logout.emp">로그아웃</a>
+                            <div class="dropdown-item-text profileControl-area" style="border-bottom: 0px;">
+                                <a class="btn btn-sm btn-outline-success" href="myPage.emp">마이페이지</a>&nbsp;&nbsp;<a class="btn btn-sm btn-outline-warning" href="logout.emp">로그아웃</a>
                             </div>
                         </li>
                         

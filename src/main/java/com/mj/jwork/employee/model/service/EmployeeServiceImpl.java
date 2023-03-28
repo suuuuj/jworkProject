@@ -422,6 +422,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return eDao.adminInsertNewAttendence(sqlSession, empNo);
 	}
 
+	@Override
+	public int selectNewEmpNo() {
+		return eDao.selectNewEmpNo(sqlSession);
+	}
+
 	
 
 

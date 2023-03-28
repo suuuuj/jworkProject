@@ -155,7 +155,10 @@
                             </tr>
                             <tr>
                                 <th>입사일</th>
-                                <td><input type="date" id="enrollDate" name="enrollDate" value="" readonly></td>
+                                <td><input type="date" id="enrollDate" name="enrollDate" value=""></td>
+                                <script>
+                                    document.getElementById('enrollDate').value = new Date().toISOString().substring(0, 10);;
+                                </script>
                                 <th>퇴사일</th>
                                 <td><input type="date" id="resignDate" name="resignDate" value=""></td>
                             </tr>
