@@ -159,10 +159,15 @@
     .menu{
         margin-top: 10px;
     }
-    .mainMenu{height:35px}
+    .mainMenu{
+        font-weight: bold;
+        padding: 5px;
+        height:35px;
+        border-radius: 5px;
+    }
     .mainMenu:hover{
         cursor:pointer;
-        background-color: rgb(130, 180, 130);
+        background-color: rgb(205, 248, 205);
     }
     .menuIcon{
         width: 30px;
@@ -173,6 +178,7 @@
         display:none;
     }
     .menuDetail a{
+        border-radius: 5px;
         margin-top:5px;
         padding:3px;
         text-decoration: none;
@@ -181,7 +187,7 @@
     .menuDetail a:hover{
         text-decoration: none;
         color: black;
-        background-color: rgb(130, 180, 130);
+        background-color: rgb(205, 248, 205);
         cursor:pointer;
     }
     #alarmBtn{
@@ -219,7 +225,7 @@
             </label>
             <div class="menubar">
                 <div class="info-box">
-                    <div class="left"><a href="myPage.emp"><img class="profileImg" src="<c:out value='${ loginUser.profileUrl }' default='resources/images/common/profileDefault3.png' />" /></a></div>
+                    <div class="left"><a href="myPage.emp"><img class="profile" src="<c:out value='${ loginUser.profileUrl }' default='resources/images/common/profileDefault3.png' />" /></a></div>
                     <div class="right">
                         <p class="name">${ loginUser.empName }</p>
                         <p style="font-size: 12px;">${ loginUser.deptName }&nbsp;${ loginUser.teamName }&nbsp;${ loginUser.jobName }</p>
@@ -228,7 +234,7 @@
 
                 <div class="menubarArea">
                     <div class="menu"  id="">
-                        <div class="mainMenu" onclick="location.href='home.jwork'"><img class="menuIcon" src="resources/images/common/homepage.png" alt="" />홈피드</div>
+                        <div class="mainMenu" onclick="location.href='mainPage.ess'"><img class="menuIcon" src="resources/images/common/homepage.png" alt="" />홈피드</div>
                         <div class="menu-wrap">
 
                         </div>
@@ -246,14 +252,14 @@
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="" href="organizationChart.emp">조직도</a><br>
-                                <a id="" href="">부서 관리</a><br>
-                                <a id="" href="">사원 관리</a><br>
+                                <a id="" href="department.ad">부서 관리</a><br>
+                                <a id="" href="employeeList.ad">사원 관리</a><br>
                             </div>
                         </div>
                     </div>
                     
                     <div class="menu"  id="">
-                        <div class="mainMenu" onclick="location.href='address.emp'"><img class="menuIcon" src="resources/images/common/address1.png" alt="" />주소록</div>
+                        <div class="mainMenu" onclick="location.href='addressIn.emp'"><img class="menuIcon" src="resources/images/common/address1.png" alt="" />주소록</div>
                         <div class="menu-wrap">
 
                         </div>
@@ -263,24 +269,52 @@
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/working.png" alt="" />근무</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
+                                <a id="" href="workCalendar.at">근태현황</a><br>
+                                <a id="" href="list.at">근태이력</a><br>
+                                <a id="" href="wtModify.at">근태수정</a><br>
+                                <a id="" href="adModify.wt" style="color:rgb(2, 152, 52)">근태조정</a><br>
+                                <a id="" href="adminWorktime.at" style="color:rgb(2, 152, 52)">근태관리</a><br>
+                                <a id="" href="adminWorkStatistic.at" style="color:rgb(2, 152, 52)">근태통계</a><br>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="menu"  id="">
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/holiday.png" alt="" />휴가</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="" href="menu.le">휴가신청</a><br>
                                 <a id="" href="list.le">휴가상세</a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
+                                <a id="" href="adminAll.le">전체휴가일정</a><br>
+                                <a id="" href="adminAnnual.le" style="color:rgb(2, 152, 52)">연차관리</a><br>
+                                <a id="" href="adminList.le"  style="color:rgb(2, 152, 52)">휴가내역</a><br>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="menu"  id="">
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/application.png" alt="" />신청</div>
+                        <div class="menu-wrap">
+                            <div class="menuDetail">
+                                <a id="" href="enrollForm.bt">출장신청</a><br>
+                                <a id="" href="enrollForm.ot">시간외 근무신청</a><br>
+                                <a id="" href="list.wt">신청상세</a><br>
+                                <a id="" href="admin.bt" style="color:rgb(2, 152, 52)">출장관리</a><br>
+                                <a id="" href="admin.ot" style="color:rgb(2, 152, 52)">시간외 근무관리</a><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu"  id="">
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/address2.png" alt="" />예약</div>
+                        <div class="menu-wrap">
+                            <div class="menuDetail">
+                                <a id="" href="status.car">차량예약신청</a><br>
+                                <a id="" href="status.cfr">회의실예약신청</a><br>
+                                <a id="" href="list.cfrMe">나의회의실예약</a><br>
+                                <a id="" href="list.carMe">나의차량예약</a><br>
+                                <a id="" href="list.cfr" style="color:rgb(2, 152, 52)">회의실관리</a><br>
+                                <a id="" href="list.car" style="color:rgb(2, 152, 52)">차량관리</a><br>
                             </div>
                         </div>
                     </div>
@@ -289,46 +323,22 @@
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/approval1.png" alt="" />전자결재</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
-                                <a id="myApprovalList" href="mylist.app">내 결제 문서</a><br>
-                                <a id="" href="">미결재 문서</a><br>
-                                <a id="" href="">수신 참조 문서함</a><br>
-                                <a id="" href="">임시저장함</a><br>
+                                <a id="myApprovalList" href="mylist.app">기안 문서함</a><br>
+                                <a id="selectunSignList" href="unsignlist.app">미결재 문서함</a><br>
+                                <a id="selectSignList" href="signlist.app">결재 문서함</a><br>
+                                <a id="" href="reflist.app">수신/참조 문서함</a><br>
+                                <a id="selectdraftList" href="draftList.app">임시저장함</a><br>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="menu"  id="">
-                        <div class="mainMenu" onclick="location.href='list.ma'"><img class="menuIcon" src="resources/images/common/email1.png" />이메일</div>
+                    <div class="menu"  id="email">
+                        <div class="mainMenu" onclick="location.href='list.ma?mailCategory=받은메일함'"><img class="menuIcon" src="resources/images/common/email1.png" />이메일</div>
                         <div class="menu-wrap">
                             
                         </div>
                     </div>
 
-                    <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/board1.png" alt="" />게시판</div>
-                        <div class="menu-wrap">
-                            <div class="menuDetail">
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/notice1.png" alt="" />공지사항</div>
-                        <div class="menu-wrap">
-                            <div class="menuDetail">
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
 
@@ -339,10 +349,8 @@
                         })
             
                     })
-                    
-                    
                 </script>
-                
+
 
             </div>
             <div class="content">

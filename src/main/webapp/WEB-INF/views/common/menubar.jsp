@@ -144,10 +144,15 @@
     .menu{
         margin-top: 10px;
     }
-    .mainMenu{height:35px}
+    .mainMenu{
+        font-weight: bold;
+        padding: 5px;
+        height:35px;
+        border-radius: 5px;
+    }
     .mainMenu:hover{
         cursor:pointer;
-        background-color: rgb(130, 180, 130);
+        background-color: rgb(205, 248, 205);
     }
     .menuIcon{
         width: 30px;
@@ -158,6 +163,7 @@
         display:none;
     }
     .menuDetail a{
+        border-radius: 5px;
         margin-top:5px;
         padding:3px;
         text-decoration: none;
@@ -166,7 +172,7 @@
     .menuDetail a:hover{
         text-decoration: none;
         color: black;
-        background-color: rgb(130, 180, 130);
+        background-color: rgb(205, 248, 205);
         cursor:pointer;
     }
      
@@ -248,7 +254,7 @@
                     </div>
                     
                     <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/ess.png" alt="" />신청</div>
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/application.png" alt="" />신청</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
                                 <a id="" href="enrollForm.bt">출장신청</a><br>
@@ -287,38 +293,13 @@
                         </div>
                     </div>
                     
-                    <div class="menu"  id="">
+                    <div class="menu"  id="email">
                         <div class="mainMenu" onclick="location.href='list.ma?mailCategory=받은메일함'"><img class="menuIcon" src="resources/images/common/email1.png" />이메일</div>
                         <div class="menu-wrap">
                             
                         </div>
                     </div>
 
-                    <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/board1.png" alt="" />게시판</div>
-                        <div class="menu-wrap">
-                            <div class="menuDetail">
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/notice1.png" alt="" />공지사항</div>
-                        <div class="menu-wrap">
-                            <div class="menuDetail">
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
 
