@@ -120,7 +120,7 @@
                         </select> 
                         <label>               
                         <input type="text" class="" id="keyword" name="keyword" value="${ keyword }">
-                        <button type="submit" id="search-btn"><img src="resources/images/common/overtime2.png" width="20px"></button>
+                        <button type="submit" id="search-btn"><img src="resources/images/common/search.png" width="20px"></button>
                         </label> 
                     </form>
                 </div>
