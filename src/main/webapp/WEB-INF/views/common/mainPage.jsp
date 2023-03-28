@@ -7,15 +7,23 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+
+div{
+    box-sizing: border-box;
+}
 /*** outer스타일 ***/
-.mainOuter{
-    padding:30px;
+.ess-area{
+    margin: 0;
+    width: 315px;
+ 
 }
 /*** 근태버튼 style ***/
 .essBtn-area{
-    width:250px;
+    width:268px;
     height:300px;
     border: 1px solid rgb(220,220,220);
+    border-radius: 10px;
+    margin: 20px;
 }
 #essDate{
     padding-top:70px;
@@ -52,47 +60,90 @@
     height:30px;
     color:rgb(150, 147, 147)
 }
+
+.calender-area{
+  width: 580px;
+  height: 650px;
+  border: 1px solid rgb(220,220,220);
+    border-radius: 10px;
+    margin: 20px;
+ 
+}
+.outer>div{
+    float: left;
+}
+.plan{
+    height: 300px;
+    border: 1px solid rgb(220,220,220);
+    border-radius: 10px;
+    margin: 20px;
+}
+
 </style>
 </head>
 <body>
     <jsp:include page="../common/menubar.jsp"/>
-    <div class="mainOuter">
-
-        <div class="essBtn-area">
-            <div id="essDate"></div>
-            <div id="essClock"></div>
-            <dir class="btnWrap">
-                <button type="button" id="essStart" onclick="startResult(${at.attNo});">출근</button>
-                <button type="button" id="essEnd" onclick="endResult(${at.attNo});">퇴근</button>
-            </dir>
-            <div class="btnPut">
-                <span id="startResult" style="margin-left:47px;">
-                    <c:choose>
-                        <c:when test="${not empty loginUser.startTime}">
-                            ${loginUser.startTime}
-                        </c:when>
-                        <c:otherwise>
-                            ${at.startTime}
-                        </c:otherwise>
-                    </c:choose>
-                </span>
-                <span id="endResult" style="margin-left:13px;">
-                    <c:choose>
-                        <c:when test="${not empty loginUser.endTime}">
-                            ${loginUser.endTime}
-                        </c:when>
-                        <c:otherwise>
-                            ${at.endTime}
-                        </c:otherwise>
-                    </c:choose>
-                </span>
-            </div>
-        </div>
-
+<div class="outer">
+    <div class="calender-area">
+        달력영역
         
 
-    </div>
 
+
+
+
+
+
+
+
+
+
+
+    </div>
+    <div>
+        <!-- 근태 체크 버튼 영역-->
+        <div class="ess-area">
+
+            <div class="essBtn-area">
+                <div id="essDate"></div>
+                <div id="essClock"></div>
+                <dir class="btnWrap">
+                    <button type="button" id="essStart" onclick="startResult(${at.attNo});">출근</button>
+                    <button type="button" id="essEnd" onclick="endResult(${at.attNo});">퇴근</button>
+                </dir>
+                <div class="btnPut">
+                    <span id="startResult" style="margin-left:47px;">
+                        <c:choose>
+                            <c:when test="${not empty loginUser.startTime}">
+                                ${loginUser.startTime}
+                            </c:when>
+                            <c:otherwise>
+                                ${at.startTime}
+                            </c:otherwise>
+                        </c:choose>
+                    </span>
+                    <span id="endResult" style="margin-left:13px;">
+                        <c:choose>
+                            <c:when test="${not empty loginUser.endTime}">
+                                ${loginUser.endTime}
+                            </c:when>
+                            <c:otherwise>
+                                ${at.endTime}
+                            </c:otherwise>
+                        </c:choose>
+                    </span>
+                </div>
+            </div>
+        
+
+            
+
+        </div>
+        <div class="plan">
+                일정상세
+        </div>
+    </div>
+</div>
     <script>
         $(function(){
             var today = new Date();
@@ -168,6 +219,10 @@
 
         
     </script>
+
+   
+    
+    
 
 
 
