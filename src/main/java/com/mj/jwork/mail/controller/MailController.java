@@ -353,7 +353,7 @@ public class MailController {
 				MailAt ma = new MailAt();
 				ma.setOriginName(upfile.get(i).getOriginalFilename());
 				ma.setChangeName(saveFilePath);
-				
+				ma.setMailNo(m.getMailNo());
 				mailAtResult = mailAtResult * mService.insertMailAt(ma);
 				
 			}
@@ -363,12 +363,13 @@ public class MailController {
 			// 메일 전송이었다면
 			if(m.getSend().equals("Y")) {
 				Mail md = new Mail();
+				md.setMailNo(m.getMailNo());
 				int detailResult = 1;
 				String[] receiverArr = m.getReceiver().split(",");
 				String[] receiverNoArr = m.getReceiverNo().split(",");
 				
 				for(int i=0; i<receiverArr.length; i++) {
-				
+					
 					md.setEmpNo(Integer.parseInt(receiverNoArr[i]));
 					md.setEmpName(receiverArr[i]);
 					md.setType("R");
