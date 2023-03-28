@@ -129,10 +129,9 @@
                 <div class="btnArea" style="margin-top: 5px; font-weight: 600;">
                     결재상태&nbsp;&nbsp;&nbsp;
                     <button type="button" id="allBtn" style="background: green; width:39px;">전체</button>
-                    <button type="button" id="waitBtn" style="background: gray; width:80px;">결재대기(1차)</button>
-                    <button type="button" id="ingBtn" style="background: gray; width:80px;">결재대기(2차)</button>
-                    <button type="button" id="finBtn" style="background: gray; width:39px;">승인</button>
-                    <button type="button" id="reBtn" style="background: gray; width:39px;">반려</button>
+                    <button type="button" id="waitBtn" style="background: gray; width:80px;">결재대기</button>
+                    <button type="button" id="ingBtn" style="background: gray; width:39px;">승인</button>
+                    <button type="button" id="finBtn" style="background: gray; width:39px;">반려</button>
                 </div>
             </div>
 
@@ -296,11 +295,11 @@
                           list : [{empNo:xx, ...}, {}, ]
                         }
                     */
-                   
+
                     let value = "";
                     
                     for(i=0; i<map.list.length; i++){
-                        value += "<tr onclick='workDetailFunction(" + map.list.wtNo + ")'>"
+                        value += "<tr onclick='workDetailFunction(" + map.list[i].wtNo + ")'>"
                                  + "<td>" + map.list[i].wtNo + "</td>"
                                  + "<td>" + map.list[i].empNo + "</td>"
                                  + "<td>" + map.list[i].deptName + "</td>"
@@ -386,7 +385,7 @@
             
             statusCode = 2;
         })
-        
+        /*
         $("#reBtn").click(function(){
             selectAppList(3, 1);
             $(this).css("background-color", "green").css("color", "white");
@@ -397,7 +396,7 @@
             
             statusCode = 3;
         })
-    
+        */
 
     </script>
 
