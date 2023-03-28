@@ -1,3 +1,4 @@
+@ -1,725 +1,725 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -531,7 +532,7 @@
 			                	
 			                	// 중복 체크를 위한 배열
 			                	var addedEmpNos = [];
-			                	
+
 			                	// 이미 추가된 참조자들의 empNo를 배열에 저장
 			                	$(".refEmp td:nth-child(2)").each(function() {
 			                		addedEmpNos.push($(this).text());
@@ -647,7 +648,6 @@
 			
             $(document).on("click", "#selectApp", function(){
             	
-            	
                 var count = 0;
 
                 $("#appTbody tr").each(function(){
@@ -683,6 +683,7 @@
 	               })
 	
 	               $(document).on("click", "#chart", function() {
+	            	  
 	                   count = 0;
 	                   $('#job1').text('');
 	                   $('#job2').text('');
@@ -693,10 +694,9 @@
 	                   
 	                   const target = document.getElementById('sbmitAppBtn');
 	                   target.disabled = true;
-	
+	                   
 	               })
             
-	
 	               
 	               var num = 0;
 	               $("#refTbody tr").each(function(){
@@ -721,4 +721,3 @@
 
 </body>
 </html>
-
