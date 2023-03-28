@@ -83,8 +83,26 @@ public class CfrResServiceImpl implements CfrResService{
 
 
 	@Override
-	public ArrayList<CfrReservation> selectDetailRes(String cfrName) {
-		return cRDao.selectDetailRes(sqlSession,cfrName);
+	public ArrayList<CfrReservation> selectDetailRes(PageInfo pi,String cfrName) {
+		return cRDao.selectDetailRes(sqlSession,pi,cfrName);
+	}
+
+
+	@Override
+	public int selectListCount() {
+		return cRDao.selectListCount(sqlSession);
+	}
+
+
+	@Override
+	public ArrayList<CfrReservation> selectPagingResList(PageInfo pi) {
+		return cRDao.selectPagingResList(sqlSession,pi);
+	}
+
+
+	@Override
+	public int cfrResListCount(String cfrName) {
+		return cRDao.cfrResListCount(sqlSession,cfrName);
 	}
 	
 	

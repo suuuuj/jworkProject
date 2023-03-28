@@ -53,7 +53,7 @@ public class EmployeeController {
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	
-	// 로그인
+	 //로그인
 	@RequestMapping("login.emp")
 	public String loginEmployee(Employee e, Model model, HttpSession session) {
 		 
@@ -66,6 +66,19 @@ public class EmployeeController {
 			return "common/mainPage";
 		}
 	}
+	
+//	@RequestMapping("login.emp")
+//	public String loginEmployee(Employee e, Model model, HttpSession session) {
+//
+//		Employee loginUser = eService.loginEmployee(e);
+//		if (loginUser != null && bcryptPasswordEncoder.matches(e.getEmpPwd(), loginUser.getEmpPwd())) {
+//			session.setAttribute("loginUser", loginUser);
+//			return "common/mainPage";
+//		} else {
+//			model.addAttribute("errorMsg", "로그인 실패");
+//			return "common/errorPage";
+//		}
+//	}
 	
 	// 마이페이지
 	@RequestMapping("myPage.emp")
@@ -108,6 +121,27 @@ public class EmployeeController {
 				session.setAttribute("loginUser", eService.loginEmployee(e));
 			}
 		}	
+	}
+	
+	// 비밀번호 변경
+	@RequestMapping("updatePwd.emp")
+	public String updatePwd(Employee e, String updatePwd, HttpSession session) {
+		String encPwd = ((Employee)session.getAttribute("loginUser")).getEmpPwd();
+		if(bcryptPasswordEncoder.matches(e.getEmpPwd(), encPwd)) {
+			e.setEmpPwd(bcryptPasswordEncoder.encode(updatePwd));
+			
+			int result = eService.updatePwd(e);
+			if(result>0) {
+				Employee updateEmp = eService.loginEmployee(e);
+				session.setAttribute("loginUser", updateEmp);
+				session.setAttribute("alertMsg", "비밀번호 변경완");
+			}else {
+				session.setAttribute("alertMsg", "비밀번호 변경실패~");
+			}
+		}else {
+			session.setAttribute("alertMsg", "비밀번호 다시 입력해주세요!");
+		}
+		return "redirect:myPage.emp";
 	}
 	
 	// 일정 페이지
@@ -1051,6 +1085,16 @@ public class EmployeeController {
 	@RequestMapping("organizationChart.emp")
 	public String organizationChart() {
 		return "employee/organizationChart";
+	}
+	
+	// 로그아웃
+	@RequestMapping("logout.emp")
+	public String logOut(HttpSession session) {
+		
+		session.invalidate();
+		
+		return "redirect:/";
+		
 	}
 	
 	

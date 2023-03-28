@@ -22,6 +22,9 @@ public interface EmployeeService {
 	
 	// 사원 프로필 이미지 수정
 	int updateProfileImg(Employee e);
+	
+	// 비밀번호 변경
+	int updatePwd(Employee e);
 
 	//결재선 선택시 사원조회리스트(ajax)
 	ArrayList<Employee> ajaxSelectEmpList();
@@ -182,6 +185,8 @@ public interface EmployeeService {
 	// 사원 등록
 	int insertEmployee(Employee e);
 	int insertSchBasicGroup();
+	
+
 	int adminInsertNewAttendence(int empNo); /*신입사원 근태등록*/
 
 

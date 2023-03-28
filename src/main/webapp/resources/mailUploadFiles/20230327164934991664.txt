@@ -1,0 +1,33 @@
+Approval(
+appNo=5, 
+docNo=null, 
+empNo=41568, 
+docType=0, 
+createDate=null, 
+updateDate=null, 
+docTitle=기안서2 업데이트 테스트, 
+docContent=<p>결재 올라가는가</p>, 
+docOriginName=null, 
+docFilePath=null, 
+appStatus=null, 
+docStatus=null, 
+appCount=0, 
+appTurn=0, 
+quitDate=null, 
+empName=null, 
+docName=null, 
+jobName=null, 
+reReason=null, 
+
+alist=[
+AppLine(lineNo=0, appNo=0, empNo=41502, appLevel=1, confirmStatus=null, appDate=null, reReason=null, empName=null, jobName=null),
+AppLine(lineNo=0, appNo=0, empNo=41509, appLevel=2, confirmStatus=null, appDate=null, reReason=null, empName=null, jobName=null), 
+AppLine(lineNo=0, appNo=0, empNo=41518, appLevel=3, confirmStatus=null, appDate=null, reReason=null, empName=null, jobName=null)
+], 
+
+rlist=[
+Reference(refNo=0, appNo=0, empNo=41517, checkDate=null), 
+Reference(refNo=0, appNo=0, empNo=41536, checkDate=null), 
+Reference(refNo=0, appNo=0, empNo=41559, checkDate=null), 
+Reference(refNo=0, appNo=0, empNo=41512, checkDate=null)
+])

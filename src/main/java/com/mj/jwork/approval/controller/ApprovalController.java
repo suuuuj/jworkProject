@@ -120,13 +120,13 @@ public class ApprovalController {
 	
 	// 미결재 리스트 조회 페이징
 	@RequestMapping("unsignlist.app")
-	public String selectUnsignList(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
+	public String selectUnsignList(Approval a,HttpSession session,@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request) {
 		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+		a.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
 		
-		int listCount = aService.selectUnsignListCount(e.getEmpNo()); //페이징 매길 전체 게시글 수
+		int listCount = aService.selectUnsignListCount(a); //페이징 매길 전체 게시글 수
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
-		ArrayList<Approval> list = aService.selectUnsignList(pi,e.getEmpNo()); // 게시글 목록 조회
+		ArrayList<Approval> list = aService.selectUnsignList(pi,a); // 게시글 목록 조회
 		
 		model.addAttribute("pi",pi);
 		model.addAttribute("list",list);
@@ -534,24 +534,26 @@ public class ApprovalController {
 	}
 	
 	//검색
-	@RequestMapping("searchMyApp.app")
+	@RequestMapping("search.app")
 	public ModelAndView searchAppList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Approval a, ModelAndView mv, HttpSession session) {
 		
 		a.setEmpNo(((Employee)session.getAttribute("loginUser")).getEmpNo());
-		int listCount = aService.selectListCount(a);
+	
+		int listCount = aService.selectUnsignListCount(a);
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
 		
-		ArrayList<Approval> aList = aService.searchList(a, pi);
+		ArrayList<Approval> list = aService.selectUnsignList(pi, a);
 		
 		//addObject("mailCategory", "검색결과")
 		mv.addObject("listCount", listCount)
 		  .addObject("pi", pi)
-		  .addObject("aList", aList)
+		  .addObject("list", list)
 		  .addObject("condition", a.getCondition())
 		  .addObject("keyword", a.getKeyword())
-		  .setViewName("approval/myApprovalList");
-		  
+		  .setViewName("approval/unsignApprovalList");
+		System.out.println(mv);  
+		
 		return mv;
 		
 	}

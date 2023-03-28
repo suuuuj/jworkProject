@@ -33,6 +33,11 @@ public class EmployeeDao {
 	public int updateProfileImg(SqlSessionTemplate sqlSession, Employee e) {
 		return sqlSession.update("employeeMapper.updateProfileImg", e);
 	}
+	
+	// 비밀번호 변경
+	public int updatePwd(SqlSessionTemplate sqlSession, Employee e) {
+		return sqlSession.update("employeeMapper.updatePwd", e);
+	}
 
 	//결재선 선택시 사원조회리스트(ajax)
 	public ArrayList<Employee> ajaxSelectEmpList(SqlSessionTemplate sqlSession) {
@@ -373,6 +378,8 @@ public class EmployeeDao {
 	public int insertSchBasicGroup(SqlSessionTemplate sqlSession) {
 		return sqlSession.insert("employeeMapper.insertSchBasicGroup");
 	}
+	
+
 	// 신입사원 근태등록
 	public int adminInsertNewAttendence(SqlSession sqlSession, int empNo) {
 		return sqlSession.insert("essMapper.adminInsertNewAttendence", empNo);

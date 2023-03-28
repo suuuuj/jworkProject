@@ -214,6 +214,10 @@
 	                            </tr>
 	                            
                         </table>
+                   <div class="modal-footer">
+	                    <button type="submit" class="btn btn-sm btn-success" >수정하기</button>
+	                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal" onclick="history.back();">이전으로</button>
+	                </div>
                     </form>
                      <script>
 						 $(function(){
@@ -233,10 +237,6 @@
 							
 						</script>
                 </div>
-                   <div class="modal-footer">
-	                    <button type="submit" class="btn btn-sm btn-success" >수정하기</button>
-	                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal" onclick="history.back();">이전으로</button>
-	                </div>
             </div>
             </div>
         </div>

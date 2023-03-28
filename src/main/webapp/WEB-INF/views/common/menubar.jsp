@@ -144,10 +144,15 @@
     .menu{
         margin-top: 10px;
     }
-    .mainMenu{height:35px}
+    .mainMenu{
+        font-weight: bold;
+        padding: 5px;
+        height:35px;
+        border-radius: 5px;
+    }
     .mainMenu:hover{
         cursor:pointer;
-        background-color: rgb(130, 180, 130);
+        background-color: rgb(205, 248, 205);
     }
     .menuIcon{
         width: 30px;
@@ -158,15 +163,15 @@
         display:none;
     }
     .menuDetail a{
-        margin-top:5px;
-        padding:3px;
+        display: block;
+        border-radius: 5px;
         text-decoration: none;
         color: black;
     }
     .menuDetail a:hover{
         text-decoration: none;
         color: black;
-        background-color: rgb(130, 180, 130);
+        background-color: rgb(205, 248, 205);
         cursor:pointer;
     }
      
@@ -190,25 +195,21 @@
                 <div class="menubarArea">
                     <div class="menu"  id="">
                         <div class="mainMenu" onclick="location.href='mainPage.ess'"><img class="menuIcon" src="resources/images/common/homepage.png" alt="" />홈피드</div>
-                        <div class="menu-wrap">
-
-                        </div>
+                        
                     </div>
 
                     <div class="menu"  id="">
                         <div class="mainMenu" onclick="location.href='schedule.emp'"><img class="menuIcon" src="resources/images/common/calendar1.png" alt="" />일정</div>
-                        <div class="menu-wrap">
-                            
-                        </div>
+                        
                     </div>
 
                     <div class="menu"  id="">
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/org.png" alt="" />조직도</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
-                                <a id="" href="organizationChart.emp">조직도</a><br>
-                                <a id="" href="department.ad">부서 관리</a><br>
-                                <a id="" href="employeeList.ad">사원 관리</a><br>
+                                <a id="" href="organizationChart.emp">조직도</a>
+                                <a id="" href="department.ad">부서 관리</a>
+                                <a id="" href="employeeList.ad">사원 관리</a>
                             </div>
                         </div>
                     </div>
@@ -248,28 +249,28 @@
                     </div>
                     
                     <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/ess.png" alt="" />신청</div>
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/application.png" alt="" />신청</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
-                                <a id="" href="enrollForm.bt">출장신청</a><br>
-                                <a id="" href="enrollForm.ot">시간외 근무신청</a><br>
-                                <a id="" href="list.wt">신청상세</a><br>
-                                <a id="" href="admin.bt" style="color:rgb(2, 152, 52)">출장관리</a><br>
-                                <a id="" href="admin.ot" style="color:rgb(2, 152, 52)">시간외 근무관리</a><br>
+                                <a id="" href="enrollForm.bt">출장신청</a>
+                                <a id="" href="enrollForm.ot">시간외 근무신청</a>
+                                <a id="" href="list.wt">신청상세</a>
+                                <a id="" href="admin.bt" style="color:rgb(2, 152, 52)">출장관리</a>
+                                <a id="" href="admin.ot" style="color:rgb(2, 152, 52)">시간외 근무관리</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/ess.png" alt="" />예약</div>
+                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/address2.png" alt="" />예약</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
-                                <a id="" href="status.car">차량예약신청</a><br>
-                                <a id="" href="status.cfr">회의실예약신청</a><br>
-                                <a id="" href="list.cfrMe">나의회의실예약</a><br>
-                                <a id="" href="list.carMe">나의차량예약</a><br>
-                                <a id="" href="list.cfr" style="color:rgb(2, 152, 52)">회의실관리</a><br>
-                                <a id="" href="list.car" style="color:rgb(2, 152, 52)">차량관리</a><br>
+                                <a id="" href="status.car">차량예약신청</a>
+                                <a id="" href="status.cfr">회의실예약신청</a>
+                                <a id="" href="list.cfrMe">나의회의실예약</a>
+                                <a id="" href="list.carMe">나의차량예약</a>
+                                <a id="" href="list.cfr" style="color:rgb(2, 152, 52)">회의실관리</a>
+                                <a id="" href="list.car" style="color:rgb(2, 152, 52)">차량관리</a>
                             </div>
                         </div>
                     </div>
@@ -278,47 +279,20 @@
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/approval1.png" alt="" />전자결재</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
-                                <a id="myApprovalList" href="mylist.app">기안 문서함</a><br>
-                                <a id="selectunSignList" href="unsignlist.app">미결재 문서함</a><br>
-                                <a id="selectSignList" href="signlist.app">결재 문서함</a><br>
-                                <a id="" href="reflist.app">수신/참조 문서함</a><br>
-                                <a id="selectdraftList" href="draftList.app">임시저장함</a><br>
+                                <a id="myApprovalList" href="mylist.app">기안 문서함</a>
+                                <a id="selectunSignList" href="unsignlist.app">미결재 문서함</a>
+                                <a id="selectSignList" href="signlist.app">결재 문서함</a>
+                                <a id="" href="reflist.app">수신/참조 문서함</a>
+                                <a id="selectdraftList" href="draftList.app">임시저장함</a>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="menu"  id="">
+                    <div class="menu"  id="email">
                         <div class="mainMenu" onclick="location.href='list.ma?mailCategory=받은메일함'"><img class="menuIcon" src="resources/images/common/email1.png" />이메일</div>
-                        <div class="menu-wrap">
-                            
-                        </div>
+                        
                     </div>
 
-                    <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/board1.png" alt="" />게시판</div>
-                        <div class="menu-wrap">
-                            <div class="menuDetail">
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="menu"  id="">
-                        <div class="mainMenu"><img class="menuIcon" src="resources/images/common/notice1.png" alt="" />공지사항</div>
-                        <div class="menu-wrap">
-                            <div class="menuDetail">
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                                <a id="" href=""></a><br>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
 

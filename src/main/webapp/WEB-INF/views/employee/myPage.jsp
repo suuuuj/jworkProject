@@ -13,20 +13,16 @@
     }
     .myPage{
         border: 1px solid gainsboro;
-        margin: 10px;
-        padding: 20px;
-        height: 660px;
+        margin: 10px; padding: 20px;
+        height: 660px; font-size: 14px;
     }
     /*왼쪽프로필*/
     .profileImg-pwd{
-        float: left;
-        margin: 20px;
+        float: left; margin: 20px;
     }
     #profileImg{
-		width:150px;
-        height:150px;
-        border:1px solid gainsboro;
-        border-radius: 50%;
+		width:150px; height:150px;
+        border:1px solid gainsboro; border-radius: 50%;
 	}
     /*오른쪽프로필*/
     .profile-detail{
@@ -34,13 +30,11 @@
     }
     .basic-info, .detail-info{
         border: solid 1px gainsboro;
-        margin: 10px;
-        padding: 20px;
+        margin: 10px; padding: 20px;
         width: 590px;
     }
     #basic th{
-        width: 150px;
-        height: 40px;
+        width: 150px; height: 40px;
         font-weight: 500;
         padding-left: 15px;
     }
@@ -51,13 +45,13 @@
         padding-left: 15px;
     }
     #basic input {
-        width: 300px; height: 30px;
+        width: 300px; height: 30px; font-size: 14px;
     }
     #detail input {
-        width: 180px; height: 30px;
+        width: 180px; height: 30px; font-size: 14px;
     }
     #detail textarea {
-        resize: none;
+        resize: none; font-size: 14px;
     }
     /*저장취소버튼*/
     .btns{
@@ -179,7 +173,7 @@
 
                     <br><br>
                     <div class="btns">
-                        <button type="submit" class="btn btn-success">저장하기</button>
+                        <button type="submit" class="btn btn-success">저장하기</button>&nbsp;&nbsp;
                         <button type="reset" class="btn btn-outline-success">취소하기</button>
                     </div>
                 </form>
@@ -200,7 +194,8 @@
 				</div>
    
 				<div class="modal-body" align="center">
-					<form action="updatePwd.me" method="post">
+					<form action="updatePwd.emp" method="post">
+                        <input type="hidden" name="loginNo" value="${ loginUser.empNo }">
 						<table>
 							<tr>
 								<td width="150px">현재 비밀번호</td>

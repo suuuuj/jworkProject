@@ -86,7 +86,7 @@
             <thead >
                 <tr>
 					<th scope="col">번호</th>
-                    <th scope="col">기안일</th>
+                    <th scope="col">승인일</th>
                     <th scope="col">결재종류</th>
                     <th scope="col">제목</th>
                     <th scope="col">작성자</th>
@@ -100,7 +100,7 @@
             	<c:forEach var="a" items="${ list }">
 	                <tr>
 						<td class="ano">${ a.appNo }</td>
-	                    <td>${ a.createDate }</td>
+	                    <td>${ a.appDate }</td>
 	                    <td>${ a.docType }</td>
 	                    <td>${ a.docTitle }</td>
 	                    <td>${ a.empName }</td>

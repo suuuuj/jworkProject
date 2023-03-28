@@ -82,7 +82,7 @@
             <h5>대여사원 정보</h5>
             <hr>
             <div style="float: left;line-height:10;">
-                <img src="<c:out value='${loginUser.profileUrl}' default='resources/profile_images/profile.png'/>" width="100px" height="100px" style="border-radius: 50%;"> 
+                <img src="<c:out value='${loginUser.profileUrl}' default='resources/images/common/profileDefault3.png'/>" width="100px" height="100px" style="border-radius: 50%;"> 
             </div>
             
             <form action="reserv.car" method="post">
@@ -158,7 +158,7 @@
                 <br clear="both">
             	<div class="btn-area" align="center">
 	                <button type="submit" class="btn btn-sm btn-success" onclick="return timeNeed();">제출하기</button>
-	                <button type="button" class="btn btn-sm btn-light" onclick="history.back();">이전으로</button>
+	                <button type="button" class="btn btn-sm btn-outline-success" onclick="">이전으로</button>
            		 </div>
             </form>
          

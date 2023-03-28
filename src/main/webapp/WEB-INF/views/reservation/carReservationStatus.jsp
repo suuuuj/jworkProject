@@ -90,14 +90,25 @@
         				$("#maker").text(c.maker);
         				$("#fuelType").text(c.fuelType);
         				$("#modelYear").text(c.modelYear);
-        				
+        				let value="";
         				if(c.status == 'Y'){
         					$("#status").text("정상").css("color","blue");
+        					value+="<button type='submit' class='btn btn-sm btn-success'"
+            					+" id='reserveBtn'>"+"예약하기"+"</button>";
+            					
+        					$("#resBtn").html(value);
         				}else{
         					$("#status").text("고장").css("color","red");
-        					$("#reserveBtn").attr("disabled",true);
+        					value+="<button type='submit' class='btn btn-sm btn-success'"
+            					+" id='reserveBtn' disabled>"+"예약하기"+"</button>";
+        					$("#resBtn").html(value);
         				}
+        				
+        				if(c.etc !=null){
         				$("span[id=etc]").text(c.etc);
+        				}else{
+        					$("span[id=etc]").text("");
+        				}
 
 
         			},error:function(){
@@ -128,8 +139,30 @@
     	 
                  events: [
                 		<c:forEach var="c" items="${list}">
-                     		{ id: '${c.resNo}', resourceId: '${c.carName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.carName}', color: '#FF5B5B'},
-                   	  		
+                			<c:if test="${c.carName eq '23허 1212'}">
+                     			{ id: '${c.resNo}', resourceId: '${c.carName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.empName} /${c.reservation}', color: '#54A1DC'},
+                     		</c:if>
+                     		<c:if test="${c.carName eq '12가 1234'}">
+                     			{ id: '${c.resNo}', resourceId: '${c.carName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.empName} /${c.reservation}', color: '#61Cf8F'},
+                     		</c:if>
+                     	    <c:if test="${c.carName eq '23허 4321'}">
+                     			{ id: '${c.resNo}', resourceId: '${c.carName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.empName} /${c.reservation}', color: '#F0B6D8'},
+                     		</c:if>
+                     		<c:if test="${c.carName eq '11허 7777'}">
+                     			{ id: '${c.resNo}', resourceId: '${c.carName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.empName} /${c.reservation}', color: '#FFFF7D'},
+                     		</c:if>
+                     		<c:if test="${c.carName eq '11허 1122'}">
+                     			{ id: '${c.resNo}', resourceId: '${c.carName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.empName} /${c.reservation}', color: '#f7C38C'},
+                     		</c:if>
+                     	    <c:if test="${c.carName eq '23하 7878'}">
+                     			{ id: '${c.resNo}', resourceId: '${c.carName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.empName} /${c.reservation}', color: '#8DD7EE'},
+                     		</c:if>
+                     		<c:if test="${c.carName eq '77나 7777'}">
+                     			{ id: '${c.resNo}', resourceId: '${c.carName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.empName} /${c.reservation}', color: '#F0B6D8'},
+                     		</c:if>
+                     		<c:if test="${c.carName eq '11가 1231'}">
+                     			{ id: '${c.resNo}', resourceId: '${c.carName }', start: '${c.resDate} ${c.startTime}', end: '${c.resDate} ${c.endTime }', title: '${c.empName} /${c.reservation}', color: '#FF5B5B'},
+                     		</c:if>
                    		 </c:forEach>
                  ]
                  
@@ -183,12 +216,19 @@
             				$("#maker").text(c.maker);
             				$("#fuelType").text(c.fuelType);
             				$("#modelYear").text(c.modelYear);
-            				
+            				let value;
             				if(c.status == 'Y'){
             					$("#status").text("정상").css("color","blue");
+            					value+=  "<button type='button' class='btn btn-sm btn-success'"
+            					+"type='submit' id='reserveBtn'>"+닫기+"</button>";
+            					
+            					console.log(value);
+            					$("#resBtn").html(value);
             				}else{
             					$("#status").text("고장").css("color","red");
-            					$("#reserveBtn").attr("disabled",true);
+            					value+=  "<button type='button' class='btn btn-sm btn-success'"
+                					+"type='submit' id='reserveBtn' disabled>"+닫기+"</button>";
+            					$("#resBtn").html(value);
             				}
             				$("span[id=etc]").text(c.etc);
 
@@ -200,6 +240,8 @@
             			
             		});
             	}
+            	
+            	
             
             </script>
 
@@ -300,9 +342,9 @@
             <div class="modal-footer">
             	<form action="reservForm.car" method="post">
             		<input type="hidden"  name="carName" id="reserveCarName" >
-            		<button type="submit" class="btn btn-sm btn-success"  type="submit" id="reserveBtn">예약하기</button>
+            		<span id="resBtn"></span>
             	</form>
-                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal" onclick=" $('#carDetailView').modal('hide');">닫기</button>
+                <button type="button" class="btn btn-sm btn-outline-success modal_close" data-dismiss="modal" onclick=" $('#carDetailView').modal('hide');">닫기</button>
             </div>
     
         </div>

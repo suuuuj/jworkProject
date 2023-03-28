@@ -13,7 +13,7 @@
     }
     .outer{
         width: 960px;
-        margin:20px;
+       
     }
     #equipment-area{display:inline;}
 </style>
@@ -24,9 +24,9 @@
 </head>
 <body>
     <jsp:include page="../common/menubar.jsp"/>
-    <div class="outer"  style="width:920px;" >
+    <div class="outer"  style="width:940px; margin:20px;;" >
         <h2>차량 등록</h2>
-        <hr><br>
+        <div class="line">
         <div >
             <form action="insert.car" method="post" enctype="multipart/form-data" >
                 <table id="car-enrollForm"  style="width:700px;">
@@ -112,8 +112,8 @@
                 </table>
                 <br><br>
                  <div class="btn-area">
-	                <button type="submit" class="btn btn-sm btn-secondary">등록하기</button>
-	                <button type="button" class="btn btn-sm btn-light" onclick="history.back();">이전으로</button>
+	                <button type="submit" class="btn btn-sm btn-success">등록하기</button>
+	                <button type="button" class="btn btn-sm btn-outline-success" onclick="history.back();">이전으로</button>
             	</div>
             </form>
             <br><br>

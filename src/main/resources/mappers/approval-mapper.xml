@@ -23,6 +23,7 @@
 		<result column="re_reason" property="reReason"/>
 		<result column="quit_date" property="quitDate"/>
 		<result column="target_no" property="targetNo"/>
+		<result column="app_date" property="appDate"/>
 	</resultMap>
 	
 	<resultMap id="appLineResult" type="AppLine">
@@ -48,7 +49,7 @@
 	<!-- 게시글 수 카운트 -->
 	<select id="selectListCount" resultType="_int">
 		select count(*)
-		  from approval
+		  from approval 
 		 where doc_status='Y'
 		   and emp_no = #{empNo}
 		   <if test="appStatus != 100">
@@ -133,9 +134,21 @@
 		       count(*)
 		  from approval ap
 		  join app_line al on (ap.app_no = al.app_no)
+		  join employee e on (ap.emp_no = e.emp_no)
 		 where al.emp_no = #{empNo}
 		   and confirm_status = 0
-		   
+	       <if test="condition == 'type'">
+	   	   and doc_no like '%' || #{keyword} || '%'
+	      </if>
+		  <if test="condition == 'title'">
+		   and doc_title like '%' || #{keyword} || '%'
+		  </if>
+		  <if test="condition == 'content'">
+		   and doc_content like '%' || #{keyword} || '%'
+		  </if>
+		  <if test="condition == 'writer'">
+		   and emp_name like '%' || #{keyword} || '%'
+		  </if>		   
 	</select>
 	
 	<!-- 미결재 리스트 조회 -->
@@ -155,6 +168,18 @@
 	      and confirm_status = 0
 	      and al.emp_no = #{empNo}
 	      and app_status in (0,1)
+	      <if test="condition == 'type'">
+		   		and doc_no like '%' || #{keyword} || '%'
+		   </if>
+		   <if test="condition == 'title'">
+		   		and doc_title like '%' || #{keyword} || '%'
+		   </if>
+		   <if test="condition == 'content'">
+		   		and doc_content like '%' || #{keyword} || '%'
+		   </if>
+		   <if test="condition == 'writer'">
+		   		and emp_name like '%' || #{keyword} || '%'
+		   </if>
 	    order
 	       by create_date desc
       
@@ -178,6 +203,7 @@
 	        , emp_name
 	        , decode(doc_type,0,'기안서',1,'품의서',2,'사직서') as "doc_type"
 	        , to_char(create_date, 'YYYY-MM-DD')"create_date"
+	        , to_char(app_date, 'YYYY-MM-DD')"app_date"
 	        , doc_title
 	        , doc_originname
 	        , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
@@ -262,6 +288,7 @@
     	update app_line
   		   set 
                confirm_status = 2
+             , app_date = sysdate 
              , re_reason = #{reReason}
          where app_no= #{appNo}
            and emp_no = #{empNo}

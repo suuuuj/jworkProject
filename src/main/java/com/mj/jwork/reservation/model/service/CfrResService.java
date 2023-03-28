@@ -24,6 +24,9 @@ public interface CfrResService {
 	//전체 예약 목록
 	ArrayList<CfrReservation> selectResList();
 	
+	ArrayList<CfrReservation> selectPagingResList(PageInfo pi);
+	//전체예약갯수 조회
+	int selectListCount();
 	//예약 취소 
 	int deleteCfrRes(int resNo);
 	
@@ -39,5 +42,6 @@ public interface CfrResService {
 	ArrayList<CfrReservation> ajaxSelectTime (CfrReservation c);
 	
 	//회의실별 예약 조회
-	ArrayList<CfrReservation> selectDetailRes(String cfrName);
+	int cfrResListCount(String cfrName);
+	ArrayList<CfrReservation> selectDetailRes(PageInfo pi,String cfrName);
 }

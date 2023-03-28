@@ -288,11 +288,11 @@
                         </tr>
                         <tr>
                             <th>날짜</th>
-                            <td><input type="date" name="useDate" id="useDate" required></td>
+                            <td><input type="date" name="useDate" id="useDate" onchange="selectDay($(this).val());" required></td>
                         </tr>
                         <tr>
                             <th>시간</th>
-                            <td>  <select name="startTime" id="startTime">
+                            <td>  <select name="startTime" id="startTime"  onchange="endTimeShow($(this).val());" id="startTime" disabled required>
                                 <option value="09:00">09:00</option>
                                 <option value="10:00">10:00</option>
                                 <option value="11:00">11:00</option>
@@ -306,7 +306,7 @@
                                 <option value="19:00">19:00</option>
                             </select>
                             -
-                            <select name="endTime" id="endTime">
+                            <select name="endTime" id="endTime" disabled required>
                                 <option value="09:00">09:00</option>
                                 <option value="10:00">10:00</option>
                                 <option value="11:00">11:00</option>
@@ -342,19 +342,97 @@
 	  </div>
 	</div>
 	<script>
-	/* $(function() {
-	    $(".timepicker").timepicker({
-	        timeFormat: 'h:mm p',
-	        interval: 60,
-	        minTime: '10',
-	        maxTime: '6:00pm',
-	        defaultTime: '11',
-	        startTime: '9:00',
-	        dynamic: false,
-	        dropdown: true,
-	        scrollbar: true        
-	    });
-	}); */
-	</script> 
+	$(function(){
+		
+		var now_utc = Date.now() // 지금 날짜를 밀리초로
+		// getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환
+		var timeOff = new Date().getTimezoneOffset()*60000; // 분단위를 밀리초로 변환
+		// new Date(today-timeOff).toISOString()은 '2022-05-11T18:09:38.134Z'를 반환
+		var today = new Date(now_utc-timeOff).toISOString().substring(0, 10);
+		 
+		document.getElementById("useDate").setAttribute("min", today);
+	
+	})
+	
+		function selectDay(val){
+	    		let cfrName= $("#cfrName").val();
+	    		 $("#startTime").prop("disabled",false);
+	    		$.ajax({
+	    			url:"time.cfr",
+	    			data:{useDate:val,cfrName:cfrName},
+	    			success:function(list){
+	    				for(let i=0; i<list.length; i++){
+	    				
+	    			
+	    					$("#startTime option").each(
+	    							function(){    
+	    								if($(this).val() >= list[i].startTime && $(this).val() < list[i].endTime) {
+	    									   $(this).prop("disabled",true);
+	    									}
+	    						    }
+	    						);
+
+	    					$("#endTime option").each(
+	    							function(){    
+	    								if($(this).val() > list[i].startTime && $(this).val() < list[i].endTime) {
+	    									   $(this).prop("disabled",true);
+	    									}
+	    						    }
+	    						);
+
+	    				}
+	    			},error:function(){
+	    				console.log('날짜 조회용 ajax 통신 실패');
+	    			}
+	    			
+	    		})
+	    	}
+	    	
+	
+	function endTimeShow(val){
+			
+			 $("#endTime").prop("disabled",false);
+			 
+			$("#endTime option").each(
+				function(){    
+					if($(this).val() <= val) {
+						   $(this).prop("disabled",true);
+						}
+			    }
+			);
+			
+			let cfrName= $("#cfrName").val();
+			let useDate= $("#useDate").val();
+			
+			$.ajax({
+			url:"time.cfr",
+			data:{useDate:useDate,cfrName:cfrName},
+			success:function(list){
+				for(let i=0; i<list.length; i++){
+					$("#endTime option").each(
+							function(){    
+								if($(this).val() >= list[i].startTime && $(this).val() <= list[i].endTime) {
+									   $(this).prop("disabled",true);
+									   
+									}
+								
+								if(list[i].startTime >= val ){
+									
+									if($(this).val() >= list[i].startTime){
+										
+									  $(this).prop("disabled",true);
+									}
+								}
+						    }
+						);
+
+				}
+			},error:function(){
+				console.log('날짜 조회용 ajax 통신 실패');
+			}
+			
+		})
+	}
+	</script>
 </body>
 </html>

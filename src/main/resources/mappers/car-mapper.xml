@@ -141,6 +141,7 @@
 			,REJECT
 		from car_reservation
 		where reservation = #{reservation}
+	order by RES_DATE desc
 	</select>
 	<select id="selectResCount" resultType="_int">
 		select
@@ -250,6 +251,7 @@
 	        ,GEAR_TYPE=#{gearType}
 	        ,CAR_COLOR =#{color}
 	        ,MAKER =#{maker}
+	        ,car_img=#{carImg}
 	        ,FUEL_TYPE =#{fuelType}
 	        ,MODEL_YEAR =#{modelYear}
 	        ,ETC =#{etc}
@@ -275,5 +277,28 @@
 		and car_name=#{carName}
 		and RES_DATE=#{resDate}
 	</select>
+	<select id="selectResStatusCount" resultType="_int">
+		select
+			count(*) from
+		car_reservation
+		where ap_status in (${option})
+	</select>
+	 <select id="selectResStatus" resultMap="carResResult">
+		select
+			RES_NO
+			,CAR_NAME
+			,reservation
+			,REQUEST_DATE
+			,RES_DATE
+			,START_TIME
+			,END_TIME
+			,CAUSE
+			,EMP_NAME
+			,ap_status
+		from car_reservation
+		join employee on reservation=emp_no
+		where ap_status in (${option})
+		order by request_date desc
+	</select> 
 
 </mapper>

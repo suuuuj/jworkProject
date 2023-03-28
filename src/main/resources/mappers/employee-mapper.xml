@@ -159,6 +159,15 @@
 		 where emp_no = #{empNo}
 	</update>
 	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePwd">
+		update
+			   employee
+		   set emp_pwd = #{empPwd}
+		     , modify_date = sysdate
+		 where emp_no = #{loginNo}
+	</update>
+	
 	<!-- 결재선 선택시 사원조회리스트(ajax)  -->
 	<select id="ajaxSelectEmpList" resultMap="employeeResult"> 
 		select
@@ -252,6 +261,8 @@
 		  from address_out
 		 where status='Y'
 		   and emp_no = #{empNo}
+		 order 
+		    by addout_no desc 
 	</select>
 	
 	<!-- 사내 주소록 상세 조회 페이지(ajax) -->
@@ -751,9 +762,8 @@
 	
 	<!-- 부서 관리 - 부서 삭제 -->
 	<update id="ajaxDeleteDept">
-		update
-		       department
-		   set status = 'N' 
+		delete
+		  from department
          where dept_code = #{deptCode} 
 	</update>
 	
@@ -1160,6 +1170,9 @@
 		     , task = #{task}
 		     , resign_date = #{resignDate}
 		     , modify_date = sysdate
+		     <if test = "resignDate !=''">
+		     	, status = 'N'
+		     </if>
 		 where emp_no = #{empNo} <!-- 선택한 사원번호 -->
 	</update>
 
@@ -1229,5 +1242,7 @@
 			   , seq_eno.currval <!-- 등록한 사원의 사원번호 -->
 			   )
 	</insert>
+	
+
 	
 </mapper>

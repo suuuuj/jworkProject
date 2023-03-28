@@ -43,7 +43,6 @@
     	    resourceAreaHeaderContent: '회의실정보',
     	    dateClick: function(info) {
                 //alert('Clicked on: ' + info.dateStr); // 날짜 띄우는 것까지 성공 ㅅㅂ
-                // change the day's background color just for fun
               /*   info.dayEl.style.backgroundColor = '#d6dfcc'; */
                // $("#reservationForm").modal("show");
               
@@ -95,27 +94,26 @@
                  events: [
                  	<c:forEach var="c" items="${list}">
                  		<c:if test="${c.cfrName eq '1회의실'}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#FF5B5B'},
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.empName} /${c.cfTitle}', color: '#FF5B5B'},
                   		</c:if>
                      	<c:if test="${c.cfrName eq '2회의실'}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#f7C38C'},
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.empName} /${c.cfTitle}', color: '#f7C38C'},
                   		</c:if>
                      	<c:if test="${c.cfrName eq '3회의실'}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#FFFF7D'},
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.empName} /${c.cfTitle}', color: '#FFFF7D'},
                   		</c:if>
                      	<c:if test="${c.cfrName eq '4회의실'}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#61Cf8F'},
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.empName} /${c.cfTitle}', color: '#61Cf8F'},
                   		</c:if>
                      	<c:if test="${c.cfrName eq '5회의실'}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#8DD7EE'},
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.empName} /${c.cfTitle}', color: '#8DD7EE'},
                   		</c:if>
                      	<c:if test="${c.cfrName eq '6회의실'}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#54A1DC'},
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.empName} /${c.cfTitle}', color: '#54A1DC'},
                   		</c:if>
                      	<c:if test="${c.cfrName eq '7회의실'}">
-                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.cfTitle}', color: '#F0B6D8'},
+                     	{ id: '${c.resNo}', resourceId: '${c.cfrName }', start: '${c.useDate} ${c.startTime}', end: '${c.useDate} ${c.endTime }', title: '${c.empName} /${c.cfTitle}', color: '#F0B6D8'},
                   		</c:if>
-                     	
                     </c:forEach>
                  ]
                  
@@ -152,66 +150,108 @@
     
             <!-- Modal Header -->
             <div class="modal-header">
-            <h4 class="modal-title">회의실 정보</h4>
+            <h4 class="modal-title">회의실 예약 내역</h4>
             <button type="button" class="close" data-dismiss="modal" onclick=" $('#cfrRes').modal('hide');">&times;</button>
             </div>
     
             <!-- Modal body -->
             <div class="modal-body">
-                <div>
                 <select id="selectCfr" onchange="cfrDetailRes($(this).val());">
+                	<option> - 회의실명 - </option>
                 </select>
+                <div>
                 <br>
                     <table class="table table-bordered" id="resList" style="width:700px;"> 
-                    	<tr class="text-center">
-                            <th>회의실명</th>
-                            <th>회의명</th>
-                            <th>예약자</th>
-                            <th>예약일정</th>
-                            <th>예약상태</th>
-                    	</tr>
+                    	<thead>
+	                    	<tr class="text-center">
+	                            <th>회의실명</th>
+	                            <th>회의명</th>
+	                            <th>예약자</th>
+	                            <th>예약일정</th>
+	                            <th>예약상태</th>
+	                    	</tr>
+                    	</thead>
                     	<tbody>
 	                      
                     	</tbody>
                     </table>
-
+						<div id="pagingArea">
+								<ul class="my pagination justify-content-end pagination-sm">
+								</ul>
+						</div>
                 </div>
+                
             </div>
     
         </div>
         </div>
     </div>
   	<script>
+  	$(function(){
+		selectResList(1);
+	})
+		
+		function selectResList(cpage){
+  		
+  		$.ajax({
+				url:"call.events",
+				data:{cpage:cpage},
+				success:function(map){
+				
+				     //데이터 뿌리기 
+				      let value;
+				      let value2; 
+				     for(var i=0;i<map.list.length;i++){
+				    	 
+				    	 if(map.list[i].status ==2){
+				    		 value="예약완료";
+				    	 }else{
+				    		 value="이용완료";
+				    	 }
+				    		
+						value2 += "<tr class='text-center'><td>" + map.list[i].cfrName + "</td>" 
+						+"<td>" + map.list[i].cfTitle + "</td>" 
+						+"<td>" + map.list[i].empName + "</td>" 
+						+"<td>" + map.list[i].useDate +"&nbsp;"+map.list[i].startTime +"~"+map.list[i].endTime +"</td>" 
+						+"<td>" + value + "</td></tr>";
+					
+				     }
+					  $('#resList tbody').html(value2);
+				 //페이징바
+ 	            let page="";
+ 	            if(map.pi.currentPage ==1){
+ 	               page += "<li class='page-item disabled' ><a class='page-link' href='#' style='color:rgb(196, 197, 197)'><</a></li>"
+ 	            }else{
+ 	               page += "<li class='page-item'><a class='page-link' onclick='selectResList(" + (map.pi.currentPage-1) + ");'><</a></li>"
+ 	            }
+ 	            
+ 	            for(var p=map.pi.startPage; p<=map.pi.endPage; p++){
+ 	               page += "<li class='page-item'><a class='page-link' onclick='selectResList(" + p + ");'>" + p + "</a></li>"
+ 	            }
+ 	            
+ 	            if(map.pi.currentPage == map.pi.maxPage){
+ 	               page += "<li class='page-item disabled'><a class='page-link ' href='#' style='color:rgb(196, 197, 197)'>></a></li>"
+ 	            }else{
+ 	               page += "<li class='page-item'><a class='page-link' onclick='selectResList(" +  (map.pi.currentPage+1) + ");'>></a></li>"
+ 	            }
+ 	            
+ 	            $(".pagination").html(page);
+				   }
+				});	
+			
+  		
+  		
+  		
+  	}
+  	
   		$(function(){
-  				$.ajax({
-  					url:"call.events",
-  					success:function(list){
-  						console.log(list);
-  					
-  					     //데이터 뿌리기 
-  					     for(var i=0;i<list.length;i++){
-  					    	 let value;
-  					    	 if(list[i].status ==2){
-  					    		 value="예약완료";
-  					    	 }else{
-  					    		 value="이용완료";
-  					    	 }
-  					    	 
-  						$('#resList tbody').append("<tr class='text-center'><td>" + list[i].cfrName + "</td>" 
-  						+"<td>" + list[i].cfTitle + "</td>" 
-  						+"<td>" + list[i].empName + "</td>" 
-  						+"<td>" + list[i].useDate +"&nbsp;"+list[i].startTime +"~"+list[i].endTime +"</td>" 
-  						+"<td>" + value + "</td></tr>" );
-  					     }
-  					   }
-  					});	
-  				
   				
   				 $.ajax({
      	    		url:"list.acfrn",
      	    		success:function(list){
      	    			for(let i=0; i<list.length; i++){
      	    				$("#selectCfr").append(
+     	    					
      	    				"<option>"+list[i].cfrName+"</option>"		
      	    				);
      	    			}
@@ -221,15 +261,59 @@
   				
   				})
   			
-  			function cfrDetailRes(val){
+			$(function(){
+				selectResList($("#selectCfr option").val(),1);
+			})
+  			function cfrDetailRes(val,cpage){
+  				if(val == '- 회의실명 -'){
+  					alert("올바른 값을 입력하세요.");
+  					return false;
+  				}	
   			
   				$.ajax({
   					url:"select.cfrRes",
-  					data:{cfrName:val},
-  					success:function(list){
-  						console.log(list);
+  					data:{cfrName:val,cpage:cpage},
+  					success:function(map){
+  				      let value;
+				      let value2; 
+				     for(var i=0;i<map.list.length;i++){
+				    	 
+				    	 if(map.list[i].status ==2){
+				    		 value="예약완료";
+				    	 }else if(map.list[i].status ==3) {
+				    		 value="취소완료";
+				    	 }else if(map.list[i].status ==4) {
+				    		 value="이용완료";
+				    	 }
+				    		
+						value2 += "<tr class='text-center'><td>" + map.list[i].cfrName + "</td>" 
+						+"<td>" + map.list[i].cfTitle + "</td>" 
+						+"<td>" + map.list[i].empName + "</td>" 
+						+"<td>" + map.list[i].useDate +"&nbsp;"+map.list[i].startTime +"~"+map.list[i].endTime +"</td>" 
+						+"<td>" + value + "</td></tr>";
+					
+				     }
+					  $('#resList tbody').html(value2);
+				 //페이징바
+ 	            let page="";
+ 	            if(map.pi.currentPage ==1){
+ 	               page += "<li class='page-item disabled' ><a class='page-link' href='#' style='color:rgb(196, 197, 197)'><</a></li>"
+ 	            }else{
+ 	               page += "<li class='page-item'><a class='page-link' onclick='selectResList(" + (map.pi.currentPage-1) + ");'><</a></li>"
+ 	            }
+ 	            
+ 	            for(var p=map.pi.startPage; p<=map.pi.endPage; p++){
+ 	               page += "<li class='page-item'><a class='page-link' onclick='selectResList(" + p + ");'>" + p + "</a></li>"
+ 	            }
+ 	            
+ 	            if(map.pi.currentPage == map.pi.maxPage){
+ 	               page += "<li class='page-item disabled'><a class='page-link ' href='#' style='color:rgb(196, 197, 197)'>></a></li>"
+ 	            }else{
+ 	               page += "<li class='page-item'><a class='page-link' onclick='selectResList(" +  (map.pi.currentPage+1) + ");'>></a></li>"
+ 	            }
+ 	            
+ 	            $(".pagination").html(page);
   					},error:function(){
-  						
   						console.log("회의실별 조회 ajax 통신 실패");
   						
   					}
