@@ -1087,5 +1087,15 @@ public class EmployeeController {
 		return "employee/organizationChart";
 	}
 	
+	// 로그아웃
+	@RequestMapping("logout.emp")
+	public String logOut(HttpSession session) {
+		
+		session.invalidate();
+		
+		return "redirect:/";
+		
+	}
+	
 	
 }
