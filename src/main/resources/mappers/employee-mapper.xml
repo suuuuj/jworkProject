@@ -216,9 +216,9 @@
 		     , dept_name
 		     , team_name
 		     , job_name
-		     , email
-		     , phone
-		     , emp_phone
+		     , nvl(email, '-') email
+		     , nvl(phone, '-') phone
+		     , nvl(emp_phone, '-') emp_phone
 		     , task
 		     , (select
 		               1
@@ -246,13 +246,13 @@
        select
 		 	   addout_no
 		     , name
-		     , biz_name
-		     , dept
-		     , job
-		     , email
-		     , phone
-		     , biz_phone
-		     , memo
+		     , nvl(biz_name, '-') biz_name
+		     , nvl(dept, '-') dept
+		     , nvl(job, '-') job
+		     , nvl(email, '-') email
+		     , nvl(phone, '-') phone
+		     , nvl(biz_phone, '-') biz_phone
+		     , nvl(memo, '-') memo
 		     , (select
 		               1
 		          from address_fav
@@ -273,10 +273,10 @@
 	         , dept_name
 	         , team_name
 	         , job_name
-	         , email
-	         , phone
-	         , emp_phone
-	         , task
+	         , nvl(email, '-') email
+	         , nvl(phone, '-') phone
+	         , nvl(emp_phone, '-') emp_phone
+	         , nvl(task, '-') task
 	         , profile_url
 	         , (select
 	                   1
@@ -316,10 +316,10 @@
 		     , dept_name
 		     , team_name
 		     , job_name
-		     , email
-		     , phone
-		     , emp_phone
-		     , task
+		     , nvl(email, '-') email
+		     , nvl(phone, '-') phone
+		     , nvl(emp_phone, '-') emp_phone
+		     , nvl(task, '-') task
 		     , (select
 		               1
 		          from address_fav
@@ -443,13 +443,13 @@
 	<select id="selectAddressOutSearchList" resultMap="employeeResult">
 		select
 		 	   addout_no
-		     , name
-		     , biz_name
-		     , dept
-		     , job
-		     , email
-		     , phone
-		     , biz_phone
+		     , nvl(name, '-') name
+		     , nvl(biz_name, '-') biz_name
+		     , nvl(dept, '-') dept
+		     , nvl(job, '-') job
+		     , nvl(email, '-') email
+		     , nvl(phone, '-') phone
+		     , nvl(biz_phone, '-') biz_phone
 		     , memo
 		     , group_name
 		     , (select
@@ -626,9 +626,9 @@
 		     , dept_name
 		     , team_name
 		     , job_name
-		     , email
-		     , phone
-		     , emp_phone
+		     , nvl(email, '-') email
+		     , nvl(phone, '-') phone
+		     , nvl(emp_phone, '-') emp_phone
 		     , task
 		     , (select
 		               1
@@ -662,12 +662,12 @@
 		select
 		 	   addout_no
 		     , name
-		     , biz_name
-		     , dept
-		     , job
-		     , email
-		     , phone
-		     , biz_phone
+		     , nvl(biz_name, '-') biz_name
+		     , nvl(dept, '-') dept
+		     , nvl(job, '-') job
+		     , nvl(email, '-') email
+		     , nvl(phone, '-') phone
+		     , nvl(biz_phone, '-') biz_phone
 		     , memo
              , group_no
 		     , (select
@@ -1173,6 +1173,9 @@
 		     <if test = "resignDate !=''">
 		     	, status = 'N'
 		     </if>
+		     <if test = "resignDate ==''">
+		     	, status = 'Y'
+		     </if>
 		 where emp_no = #{empNo} <!-- 선택한 사원번호 -->
 	</update>
 
@@ -1242,6 +1245,12 @@
 			   , seq_eno.currval <!-- 등록한 사원의 사원번호 -->
 			   )
 	</insert>
+	
+	<select id="selectNewEmpNo" resultType="_int">
+		select
+		       seq_eno.currval
+		  from dual
+	</select>
 	
 
 	

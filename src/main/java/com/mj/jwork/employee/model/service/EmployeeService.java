@@ -189,7 +189,7 @@ public interface EmployeeService {
 
 	int adminInsertNewAttendence(int empNo); /*신입사원 근태등록*/
 
-
+	int selectNewEmpNo();
 
 	
 

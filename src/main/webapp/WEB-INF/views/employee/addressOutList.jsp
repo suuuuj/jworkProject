@@ -115,12 +115,12 @@
                     <form action="addressOutSearch.emp" method="get">
                         <input type="hidden" name="cpage" value="1">
                         <select name="condition" id="condition" style="width: 100px;">
-                            <option value="name">이름</option>
-                            <option value="bizName">회사</option>
+                            <option value="name" <c:if test="${condition eq 'name'}">selected</c:if>>이름</option>
+                            <option value="bizName" <c:if test="${condition eq 'bizName'}">selected</c:if>>회사</option>
                         </select> 
                         <label>               
                         <input type="text" class="" id="keyword" name="keyword" value="${ keyword }">
-                        <button type="submit" id="search-btn"><img src="resources/images/common/search.png" width="20px"></button>
+                        <button type="submit" id="search-btn"><img src="resources/images/common/overtime2.png" width="20px"></button>
                         </label> 
                     </form>
                 </div>
@@ -289,14 +289,18 @@
                                         + '<input type="hidden" value="' + o.out.addoutNo + '">'
                             $('#addoutFav').html(star);
                         };
-                        
+
+
                         for(let i=0; i<o.glist.length; i++){
+                            
                             $("#groupNo").append(
                                 '<option id="' + o.glist[i].groupNo + '" value="'+ o.glist[i].groupNo +'">'+ o.glist[i].groupName +'</option>'
                             )
+
                             if(o.glist[i].groupNo==o.out.groupNo){
                                 $('#' + o.glist[i].groupNo).attr('selected', true);
                             }
+                            
                         }
 
 

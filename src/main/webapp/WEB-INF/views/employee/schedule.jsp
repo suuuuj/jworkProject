@@ -45,10 +45,9 @@
     .fc-daygrid-day-number:hover{
         color: rgb(50, 50, 50);
     }
-    
-    /*종일제목*/
-    .fc-event-title.fc-sticky{
-        
+    /*오늘 날짜*/
+    .fc .fc-daygrid-day.fc-day-today {
+        background-color: rgb(245, 249, 246);
     }
     /*more버튼*/ 
     .fc-daygrid-more-link.fc-more-link{
@@ -57,22 +56,15 @@
     /*일정시간*/
     .fc-daygrid-event > .fc-event-time{
         color:rgb(122, 134, 127);
+        font-size: 12px;
     }
     /*시간제목*/
-    .fc-daygrid-dot-event > .fc-event-title{
-        color:rgb(50, 50, 50) !important; /*나중에 바꿀 예정*/
+    .fc-event-title{
+        color:rgb(50, 50, 50) !important; 
+        font-size: 12px;
     }
-    /*가로 줄 - 월달력 종일 or 복수일자*/
-    .fc-h-event{
-
-    }
-    /*세로 줄 - 주달력, 일달력*/
-    .fc-v-event{
-        
-    }
-    /*title 옆에 점*/
-    .fc-daygrid-event-dot{
-        
+    .fc-event-time{
+        font-size: 12px;
     }
     /*month/week/day*/
     .fc .fc-button-primary {
@@ -96,7 +88,6 @@
         border-color: rgb(39, 174, 96)  		!important;
         background-color: rgb(39, 174, 96) 	!important;
         color: white 				            !important;
-        /* font-weight: bold 			 !important; */
     }
     .fc .fc-button:active {
         border-color: rgb(39, 174, 96)  !important;
@@ -108,11 +99,30 @@
         border-color: rgb(39, 174, 96);
     }
     .fc .fc-non-business {
-        background-color: rgb(245, 249, 246);
+        background-color: rgb(249, 247, 255);
     }
+    /*목록*/
     .fc-list-table a {
         color: rgb(50, 50, 50);
     }
+    .fc-list-day-side-text, .fc-list-day-text, .fc-list-event-time, .fc-list-event-title {
+        font-size: 14px;
+    }
+    .fc-col-header-cell-cushion, .fc-timegrid-slot-label-cushion {
+        font-size: 14px;
+    }
+    .fc-daygrid-body-unbalanced, .fc-daygrid-body-natural {
+        display: none;
+    }
+
+    /*일정 상세 모달*/
+    #editSchedule, #editSchedule input, #editSchedule select { 
+        font-size: 14px;
+    }
+    #schBtn-area2 {
+        margin-left: 35%;
+    }
+
 </style>
 </head>
 <body>
@@ -257,10 +267,7 @@
                                     <option value="20:00">오후 08:00</option>
                                 </select>
                             </div>
-                            <div id="chkAllDay">
-                                <input type="checkbox" id="allDay" class="form-check-input" value="" name="allDay">
-                                <label for="allDay">종일</label>
-                            </div>
+                            
                             
                         </div>
     
@@ -298,7 +305,7 @@
                                 <th>장소</th>
                                 <td>
                                     <input type="text" id="place2" name="schPlace" style="width: 500px;">
-                                    <button class="plus">+</button>
+                                    <!-- <button class="plus">+</button> -->
                                 </td>
                             </tr>
                             
@@ -311,7 +318,7 @@
                         </table>
                         
                     </div>
-                    <div id="schBtn-area">
+                    <div id="schBtn-area2">
                         <button type="submit" class="btn btn-success btn-sm" style="width:70px" >수정</button>
                         <button type="button" class="btn btn-success btn-sm" style="width:70px" onclick="deleteSchedule($('input[name=schNo]').val(), $('input[name=enrollEmpNo]').val())">삭제</button>
                         <button type="button" class="btn btn-outline-success btn-sm" style="width:70px" data-bs-dismiss="modal">취소</button>
@@ -418,14 +425,16 @@
                     }
                     $("#editAtt-list").html(attendee);
 
+                    let group2 = ""
                     for(let i=0; i<data.slist.length; i++){
-                        $("#group2").append(
-                            '<option id="' + data.slist[i].groupNo + '" value="'+ data.slist[i].groupNo +'">'+ data.slist[i].groupName +'</option>'
-                        )
+                        group2 += '<option id="' + data.slist[i].groupNo + '" value="'+ data.slist[i].groupNo +'">'+ data.slist[i].groupName +'</option>'
+                        
                         if(data.slist[i].groupNo==data.s.groupNo){
                             $('#' + data.slist[i].groupNo).attr('selected', true);
                         }
                     }
+                    $("#group2").html(group2);
+
                     $("input[name=schNo]").val(schNo);
                     $("input[name=attendanceOld]").val(data.s.attendance);
                     $("input[name=enrollEmpNo]").val(data.s.empNo);
@@ -510,9 +519,14 @@
                         let eventObj = {
                             groupId: schedules[j].schNo,
                             title: schedules[j].schTitle,
-                            start: schedules[j].schBegin,
-                            end: schedules[j].schEnd,
+                            start: schedules[j].schBegin + " " + schedules[j].timeBegin, 
+                            end: schedules[j].schEnd + " " + schedules[j].timeEnd,
                             color: schedules[j].groupColor
+
+
+
+                            
+
                         }
                         eventArr.push(eventObj);
                     }
@@ -541,8 +555,8 @@
                                 let eventObj = {
                                     groupId: sList[i].schNo,
                                     title: sList[i].schTitle,
-                                    start: sList[i].schBegin,
-                                    end: sList[i].schEnd,
+                                    start: sList[i].schBegin + " " + sList[i].timeBegin,
+                                    end: sList[i].schEnd + " " + sList[i].timeEnd,
                                     color: sList[i].groupColor
                                 }
                                 eventArr.push(eventObj);
