@@ -134,7 +134,7 @@
 	<jsp:include page="../common/mailMenubar.jsp"/>
         <br>
         <div class="mailOuter">
-            <span class="content-title"><a class="prev" href="javascript:window.history.back();">〈</a>&nbsp;&nbsp;&nbsp;${not empty mailBoxName ? mailBoxName : mailCategory}&nbsp;&nbsp;</span>
+            <span class="content-title"><a class="prev" href="list.ma?mailCategory=${mailCategory}">〈</a>&nbsp;&nbsp;&nbsp;${not empty mailBoxName ? mailBoxName : mailCategory}&nbsp;&nbsp;</span>
             <div class="line"></div>
             <div class="space"></div>
             

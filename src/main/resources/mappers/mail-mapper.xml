@@ -85,17 +85,13 @@
 		  from mail m 
 		  join mail_detail d on (m.mail_no = d.mail_no)
 		 where 
-		 	<choose>
-			 	<when test='mailCategory == "휴지통"'>
-			 			status = 'N' 
-			 		and emp_no = #{empNo}
-			 		and cancel = 'N'
-			 	</when>
-			 	<otherwise>
-			 		status = 'Y'
-			 	</otherwise>
-		    </choose>
+	 		<if test='mailCategory == "휴지통"'>
+		 			status = 'N' 
+		 		and emp_no = #{empNo}
+		 		and cancel = 'N'
+		    </if>
 		    <if test='mailCategory == "받은메일함"'>
+		    		status = 'Y'
 		    	and type = 'R' 
 		    	and emp_no = #{empNo}
 		    	and mailbox_no is null 
@@ -103,47 +99,58 @@
 		    	and cancel = 'N'
 		    </if>
 		    <if test='mailCategory == "보낸메일함"'>
-		    	and type = 'S' 
-		    	and sender_no = #{empNo} 
+		    		type = 'S' 
+		    	and m.mail_no in (select mail_no
+		    						from mail_detail
+		    					   where status ='Y' and emp_no = #{empNo} and type = 'S')
+	            and emp_no = #{empNo}
 		    	and mailbox_no is null 
 		    	and send = 'Y'
 		    </if>
 		    <if test='mailCategory == "중요"'>
+		    		status = 'Y'
 		    	and important = 'Y' 
 		    	and emp_no = #{empNo}
 		    	and cancel = 'N'
 		    </if>
 		    <if test='mailCategory == "임시보관함"'>
+		    		status = 'Y'
 		    	and send = 'N' 
 		    	and emp_no = #{empNo}
 		    </if>
 		    <if test='mailCategory == "사용자메일함"'>
+		    		status = 'Y'
 		    	and send = 'Y' 
 		    	and mailbox_no = #{mailBoxNo}
 		    	and cancel = 'N'
 		    </if>
 		    <if test='mailCategory == "안읽은메일함"'>
+		    		status = 'Y'
 		    	and read='N'
 		    	and emp_no = #{empNo}
 		    	and cancel = 'N'
 		    </if>
 		   <if test='condition == "sender"'>
+		   			status = 'Y'
 		   		and emp_no = #{empNo}
 		   		and cancel = 'N'
 		   		and sender like '%' || #{keyword} || '%'
 		   </if>
 		   <if test='condition == "receiver"'>
+		   			status = 'Y'
 		   		and emp_no = #{empNo}
 		   		and cancel = 'N'
 		   		and receiver like '%' || #{keyword} || '%'
 		   </if>
 		   <if test='condition == "titleAndContent"'>
+		   			status = 'Y'
 		   		and emp_no = #{empNo}
 		   		and cancel = 'N'
 		   		and (mail_title like '%' || #{keyword} || '%'
 		   		 or mail_content like '%' || #{keyword} || '%')
 		   </if>
 		   <if test='condition == "all"'>
+		   			status = 'Y'
 		   		and emp_no = #{empNo}
 		   		and cancel = 'N'
 		   		and (sender like '%' || #{keyword} || '%'
@@ -159,17 +166,13 @@
 		  from mail m 
 		  join mail_detail d on (m.mail_no = d.mail_no)
 		 where 
-		 	<choose>
-			 	<when test='mailCategory == "휴지통"'>
-			 			status = 'N' 
-			 		and emp_no = #{empNo}
-			 		and cancel = 'N'
-			 	</when>
-			 	<otherwise>
-			 		status = 'Y'
-			 	</otherwise>
-		    </choose>
+	 		<if test='mailCategory == "휴지통"'>
+		 			status = 'N' 
+		 		and emp_no = #{empNo}
+		 		and cancel = 'N'
+		    </if>
 		    <if test='mailCategory == "받은메일함"'>
+		    		status = 'Y'
 		    	and type = 'R' 
 		    	and emp_no = #{empNo}
 		    	and mailbox_no is null 
@@ -177,47 +180,58 @@
 		    	and cancel = 'N'
 		    </if>
 		    <if test='mailCategory == "보낸메일함"'>
-		    	and type = 'S' 
-		    	and sender_no = #{empNo} 
+		    		type = 'S' 
+		    	and m.mail_no in (select mail_no
+		    						from mail_detail
+		    					   where status ='Y' and emp_no = #{empNo} and type = 'S')
+	            and emp_no = #{empNo}
 		    	and mailbox_no is null 
 		    	and send = 'Y'
 		    </if>
 		    <if test='mailCategory == "중요"'>
+		    		status = 'Y'
 		    	and important = 'Y' 
 		    	and emp_no = #{empNo}
 		    	and cancel = 'N'
 		    </if>
 		    <if test='mailCategory == "임시보관함"'>
+		    		status = 'Y'
 		    	and send = 'N' 
 		    	and emp_no = #{empNo}
 		    </if>
 		    <if test='mailCategory == "사용자메일함"'>
+		    		status = 'Y'
 		    	and send = 'Y' 
 		    	and mailbox_no = #{mailBoxNo}
 		    	and cancel = 'N'
 		    </if>
 		    <if test='mailCategory == "안읽은메일함"'>
+		    		status = 'Y'
 		    	and read='N'
 		    	and emp_no = #{empNo}
 		    	and cancel = 'N'
 		    </if>
-		    <if test='condition == "sender"'>
+		   <if test='condition == "sender"'>
+		   			status = 'Y'
 		   		and emp_no = #{empNo}
 		   		and cancel = 'N'
 		   		and sender like '%' || #{keyword} || '%'
 		   </if>
 		   <if test='condition == "receiver"'>
+		   			status = 'Y'
 		   		and emp_no = #{empNo}
 		   		and cancel = 'N'
 		   		and receiver like '%' || #{keyword} || '%'
 		   </if>
 		   <if test='condition == "titleAndContent"'>
+		   			status = 'Y'
 		   		and emp_no = #{empNo}
 		   		and cancel = 'N'
 		   		and (mail_title like '%' || #{keyword} || '%'
 		   		 or mail_content like '%' || #{keyword} || '%')
 		   </if>
 		   <if test='condition == "all"'>
+		   			status = 'Y'
 		   		and emp_no = #{empNo}
 		   		and cancel = 'N'
 		   		and (sender like '%' || #{keyword} || '%'
@@ -246,16 +260,11 @@
 		  from mail m 
 		  join mail_detail d on (m.mail_no = d.mail_no)
 		 where 
-		 	<choose>
-			 	<when test='mailCategory == "휴지통"'>
+		 	<if test='mailCategory == "휴지통"'>
 			 			status = 'N' 
 			 		and emp_no = #{empNo}
 			 		and cancel = 'N'
-			 	</when>
-			 	<otherwise>
-			 		
-			 	</otherwise>
-		    </choose>
+			</if>
 		    <if test='mailCategory == "받은메일함"'>
 		    	type = 'R'
 		    	and emp_no = #{empNo}
