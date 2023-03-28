@@ -32,7 +32,7 @@
     .workTable{
         width:100%;
         text-align: center;
-        margin-top:30px;
+        margin-top:60px;
         border-collapse: collapse;
         border-spacing: 0;
         font-size: 14px;
@@ -129,6 +129,10 @@
         font-weight: 600px;
         color:rgb(50,50,50)
     }
+    .my.pagination.justify-content-end.pagination-sm>li>a{
+        color: rgb(14, 126, 14);
+        font-weight: bolder;
+    } 
 </style>
 </head>
 <body>
@@ -139,6 +143,7 @@
         <div class="work-area">
 
             <div class="workSelect" style="float:right;">
+                <!--
                 <select name="" id="">
                     <option value="">&nbsp;-선택안함-&nbsp;</option>
                     <option value="">결재대기(1차)</option>
@@ -148,9 +153,8 @@
                 </select>
                 <input type="text" name="" value="" placeholder="&nbsp;사원명/사원번호">
                 <button type="button" class="btn btn-success">검색</button>
+                -->
             </div>
-
-            <br>
 
             <table class="workTable">
                 <thead>
@@ -168,9 +172,14 @@
                 </thead>
                     
                     <tbody>
-                        <c:forEach var="w" items="${list}">
+                        <c:choose>
+                            <c:when test="${empty list}">
+                                <td colspan="9" style="text-align: center;height:50px;">승인할 변경사항이 존재하지않습니다.</td>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach var="w" items="${list}">
                             <tr onclick="adminDetailFunction(${w.wtNo});">
-                                <td onclick="event.cancelBubble=true"><input type="checkbox" id="" name="ck" value=""></td>
+                                <td onclick="event.cancelBubble=true"><input type="checkbox" id="ckBox" name="ck" value="${w.wtNo}"></td>
                                 <td>${w.empNo}</td>
                                 <td>${w.deptName}</td>
                                 <td>${w.teamName}</td>
@@ -181,10 +190,13 @@
                                 <td>${w.approvalCheck}</td>
                             </tr>
                         </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
+
                     </tbody>
             </table>
             <br>
-        <button id="deleteBtn" class="btn btn-danger" onclick="deleteMethod();">삭제</button>
+        <button type="button" id="deleteBtn" class="btn btn-danger">삭제</button>
         </div>
 
         <script>
@@ -234,8 +246,8 @@
         </script>
 
         <script>
+            // 체크박스 전체선택
             $(function(){
-                // checkbox 전체선택 
                 $("#firstCk").click(function(){
                     if($("#firstCk").is(":checked")){
                         $("input[name=ck]").prop("checked", true);
@@ -252,44 +264,34 @@
                         $("#firstCk").prop("checked", true);
                     }
                 })
-
                 // check 삭제
-                function deleteMethod(){
-                    // 체크박스 체크된 항목
-                    const cb = $('input[name=ck]:cheked').val();
-                    const selectdElements = document.querySelectorAll(cb);
+                $("#deleteBtn").click(function(){
+                    if(confirm("출퇴근시간변경을 삭제하시겠습니까?")){
+                        var wtList = [];
+                    $('input[name=ck]:checked').each(function(){
+                        var ck = $(this).val();
+                        wtList.push(ck);
+                    })
 
-                    // 체크박스 체크된 항목의 개수
-                    const selectedElementsCnt = selectedElements.length;
-
-                    if(selectedElementsCnt == 0){
-                        alert("삭제할 항목을 선택해주세요.");
-                        return false;
-                    }else{
-                        if(confirm("정말로 삭제하시겠습니까?")){
-                            // 배열생성
-                            const arr = new ArrayList(selectedElementsCnt);
-
-                            document.querySelectorAll('input[name=ck]:checked').forEach(function(v,i){
-                                arr[i] = v.value;
-                            });
-
-                            const form = document.createElement('form');
-                            form.setAttribute('method', 'post'); // Post메소드적용
-                            form.setAttribute('action', 'delete.wt');
-
-                            var input1 = document.createElement('input');
-                            input1.setAttribute('type', 'hidden');
-                            input1.setAttribute("name", "boardIds");
-                            input1.setAttribute("value", arr);
-                            form.appendChild(input1);
-                            cosole.log(form);
-                            document.body.appendChild(form);
-                            form.submit();
+                    $.ajax({
+                        url:"ajaxDelete.wt",
+                        data:{
+                            wtList:wtList
+                        },
+                        success:function(result){
+                            console.log(result);
+                            if(result == "success"){
+                                alert("출퇴근시간변경이 삭제되었습니다");
+                                location.replace("adModify.wt");
+                            }
+                        },
+                        error:function(){
+                            console.log("ajax 출퇴근시간변경 문서삭제 통신실패");
                         }
+                    })
                     }
-
-                }
+        
+                })
 
                 // Modal 
                 $(".workTable>tbody>tr").click(function(){
@@ -301,9 +303,9 @@
 
         <br><br>
         <div id="pagingArea">
-			<ul class="pagination">
-
-				<c:choose>
+			
+            <ul class="my pagination justify-content-end pagination-sm">
+                <c:choose>
 					<c:when test="${ pi.currentPage eq 1 }">
 						<li class="page-item" disabled><a class="page-link" href="#"><</a></li>
 					</c:when>
@@ -328,8 +330,8 @@
 							href="adModify.wt?cpage=${ pi.currentPage+1 }">></a></li>
 					</c:otherwise>
 				</c:choose>
-			</ul>
-		</div>
+            </ul>
+        </div>
 
     </div>
 
@@ -345,8 +347,7 @@
                 </div>
                 
                 <!-- Modal body -->
-                <form action="update.at" method="">
-                    <div class="modal-body" style="width:360px; margin:auto;">
+                <div class="modal-body" style="width:360px; margin:auto;">
                         <input type="hidden" name="wtNo" value="">
                         <input type="hidden" name="attNo" value="">
                         <input type="hidden" name="approvalCheck" value="">
@@ -377,7 +378,6 @@
                         <button class="btn btn-warning" type="button" id="wtReturn">반려</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="workClose();">Close</button>
                     </div>
-                </form>
             </div>
         </div>
     </div>

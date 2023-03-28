@@ -134,12 +134,15 @@
                 <!-- 매년 1월1일에만 1년차이상 버튼 활설화되게 할 수 있을까? -->
                 <button type="button" onclick="updateYear();">1년차 이상</button> 
                 <button type="button" onclick="updateMonth();">1년차 미만</button>
+                <button type="button" onclick="updateReset();" style="background: rgb(118, 116, 116);color:white; float:right">전체연차리셋</button>
+                <!--
                 <select style="float:right;">
                     <option value="">-- 부서별조회 --</option>
                     <option value="">개발부</option>
                     <option value="">총무부</option>
                     <option value="">인사부</option>
                 </select>
+                -->
             </div>
 
             <script>
@@ -154,6 +157,12 @@
                         location.href = 'adminMonth.le';
                     }
                 };
+
+                function updateReset(){
+                    if(confirm("전사원 연차를 리셋하시겠습니까?")){
+                        location.href = 'adminReset.le';
+                    }
+                }
             </script>
             <br>
             <div class="list-area">

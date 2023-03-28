@@ -229,7 +229,7 @@
                                 <a id="" href="wtModify.at">근태수정</a><br>
                                 <a id="" href="adModify.wt" style="color:rgb(2, 152, 52)">근태조정</a><br>
                                 <a id="" href="adminWorktime.at" style="color:rgb(2, 152, 52)">근태관리</a><br>
-                                <a id="" href="adminWorkStatistic.at" style="color:rgb(2, 152, 52)">근태통계</a><br>
+                                <!-- <a id="" href="adminWorkStatistic.at" style="color:rgb(2, 152, 52)">근태통계</a><br> -->
                             </div>
                         </div>
                     </div>
@@ -242,7 +242,7 @@
                                 <a id="" href="list.le">휴가상세</a><br>
                                 <a id="" href="adminAll.le">전체휴가일정</a><br>
                                 <a id="" href="adminAnnual.le" style="color:rgb(2, 152, 52)">연차관리</a><br>
-                                <a id="" href="adminList.le"  style="color:rgb(2, 152, 52)">휴가내역</a><br>
+                                <a id="" href="adminList.le"  style="color:rgb(2, 152, 52)">휴가관리</a><br>
                             </div>
                         </div>
                     </div>

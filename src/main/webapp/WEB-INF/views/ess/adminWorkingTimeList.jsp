@@ -32,7 +32,7 @@
         border:1px solid rgb(170, 170, 170);
     }
     .workSelect input[type=text]{
-        width:80px;
+        width:100px;
         height:30px;
         border-radius: 5px;
         border:1px solid rgb(170, 170, 170);
@@ -127,12 +127,92 @@
                     <button type="button" id="finBtn" style="background: gray;">조퇴</button>
                     <button type="button" id="reBtn" style="background: gray;">결근</button>
                 </div>
-                <div style="margin-left:300px;">
-                        <input type="text" name="" value="" placeholder="&nbsp;시작일">
+                <div style="margin-left:270px;">
+                        <input type="text" name="startDate" value="" placeholder="&nbsp;시작일" id="datepicker1">
                         <span style="font-size:25px;">~</span>
-                        <input type="text" name="" value="" placeholder="&nbsp;종료일">
-                        <button type="button" class="btn btn-success">검색</button>
+                        <input type="text" name="endDate" value="" placeholder="&nbsp;종료일" id="datepicker2">
+                        <button type="button" class="btn btn-success" onclick="listFunction();">검색</button>
                 </div>
+
+                <!-- datepicker -->
+                <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+                <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+                <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
+                <script>	
+                            
+                $(function(){
+                    
+                    
+                    $("#datepicker1").datepicker({
+                        changeMonth: true, 
+                        changeYear: true,
+                        nextText: '다음 달',
+                        prevText: '이전 달',
+                        yearRange: 'c-50:c+20',
+                        showButtonPanel: true, 
+                        currentText: '오늘 날짜',
+                        closeText: '닫기',
+                        dateFormat: "yy-mm-dd",
+                        showAnim: "slide",
+                        showMonthAfterYear: true, 
+                        dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                        monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
+                        onSelect: function(selected){
+                            $("#datepicker2").datepicker("option", "minDate", selected);
+                        }
+                    });	
+                    
+                    $("#datepicker2").datepicker({
+                        changeMonth: true, 
+                        changeYear: true,
+                        minDate: '0',
+                        nextText: '다음 달',
+                        prevText: '이전 달',
+                        yearRange: 'c-50:c+20',
+                        showButtonPanel: true, 
+                        currentText: '오늘 날짜',
+                        closeText: '닫기',
+                        dateFormat: "yy-mm-dd",
+                        showAnim: "slide",
+                        showMonthAfterYear: true, 
+                        dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                        monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
+                        onSelect: function(selected){
+                            $("#datepicker1").datepicker("option", "maxDate", selected);
+                        }
+                    });	
+                    
+                    
+                    
+                });
+                
+                </script> 
+
+                <!-- 에러 해결 시작 - 홈짱 -->
+
+                <script>
+
+                    jQuery.browser = {};
+                    
+                    (function () {
+                    
+                        jQuery.browser.msie = false;
+                    
+                        jQuery.browser.version = 0;
+                    
+                        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+                    
+                            jQuery.browser.msie = true;
+                    
+                            jQuery.browser.version = RegExp.$1;
+                    
+                        }
+                    
+                    })();
+                    
+                    </script>
+                    
+                    <!-- 에러 해결 종료 - 홈짱 -->
                 
             </div>
 
@@ -310,6 +390,71 @@
         })
     
 
+    </script>
+
+    <!-- 기간검색 : 시작일 종료일로 리스트 조회 -->
+    <script>
+        $(function(){
+            listFunction(1);
+        })
+        function listFunction(cpage){
+            $.ajax({
+                url:"ajaxWorktimeDate.at",
+                type:"GET",
+                dateType:"JSON",
+                data:{
+                    startDate:$(".workSelect input[name=startDate]").val(),
+                    endDate:$(".workSelect input[name=endDate]").val(),
+                    cpage:cpage
+
+                },
+                success:function(map){
+                    console.log(map);
+
+                    let value = "";
+                
+                    for(i=0; i<map.alist.length; i++){
+                        value += "<tr>"
+                                 + "<td>" + map.alist[i].attNo + "</td>"
+                                 + "<td>" + map.alist[i].empNo + "</td>"
+                                 + "<td>" + map.alist[i].teamName + "</td>"
+                                 + "<td>" + map.alist[i].jobName + "</td>"
+                                 + "<td>" + map.alist[i].empName + "</td>"
+                                 + "<td>" + map.alist[i].attDate + "</td>"
+                                 + "<td>" + map.alist[i].startTime + "</td>"
+                                 + "<td>" + map.alist[i].endTime + "</td>"
+                                 + "<td>" + map.alist[i].attTime + "</td>"
+                                 + "<td>" + map.alist[i].attStatus + "</td></tr>";
+                    }
+                    $(".workTable tbody").html(value);
+                    //$(".workTable tbody >tr").remove();
+                    
+                    //페이징바
+                    let page="";
+                            if(map.api.currentPage ==1){
+                            page += "<li class='page-item disabled' ><a class='page-link' href='#' style='color:rgb(196, 197, 197)'>Previous</a></li>"
+                            }else{
+                            page += "<li class='page-item'><a class='page-link' onclick='listFunction(" + (map.api.currentPage-1) + ");'>Previous</a></li>"
+                            }
+                            
+                            for(var p=map.api.startPage; p<=map.api.endPage; p++){
+                            page += "<li class='page-item'><a class='page-link' onclick='listFunction(" + p + ");'>" + p + "</a></li>"
+                            }
+                            
+                            if(map.api.currentPage == map.api.maxPage){
+                            page += "<li class='page-item disabled'><a class='page-link ' href='#' style='color:rgb(196, 197, 197)'>Next</a></li>"
+                            }else{
+                            page += "<li class='page-item'><a class='page-link' onclick='listFunction(" + (map.api.currentPage+1) + ");'>Next</a></li>"
+                            }
+                                
+                    
+                    $(".pagination").html(page);
+                },
+                error:function(){
+                    console.log("ajax 시작일 종료일 사이의 근무상태리스트조회 통신실패");
+                }
+            })
+        }
     </script>
 
     

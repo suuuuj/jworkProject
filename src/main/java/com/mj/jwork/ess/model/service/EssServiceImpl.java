@@ -258,6 +258,21 @@ public class EssServiceImpl implements EssService {
 		return eDao.adminReturnOvertime(sqlSession, otNo);
 	}
 	
+	@Override
+	public ArrayList<Overtime> adminSelectOvertimeListNo(PageInfo pi, Employee e) {
+		return eDao.adminSelectOvertimeListNo(sqlSession, pi, e);
+	}
+
+	@Override
+	public ArrayList<Businesstrip> adminSelectBusinesstripListNo(PageInfo pi, Employee e) {
+		return eDao.adminSelectBusinesstripListNo(sqlSession, pi, e);
+	}
+	
+	@Override
+	public int adminUpdateReset() {
+		return eDao.adminUpdateReset(sqlSession);
+	}
+	
 	// ---------------- 근태 ---------------------------
 
 	@Override
@@ -281,13 +296,13 @@ public class EssServiceImpl implements EssService {
 	}
 
 	@Override
-	public int selectAttendenceListCount() {
-		return eDao.selectAttendenceListCount(sqlSession);
+	public int selectAttendenceListCount(Attendence a) {
+		return eDao.selectAttendenceListCount(sqlSession, a);
 	}
 
 	@Override
-	public ArrayList<Attendence> selectAttendenceList(PageInfo pi, int empNo) {
-		return eDao.selectAttendenceList(sqlSession, pi, empNo);
+	public ArrayList<Attendence> selectAttendenceList(PageInfo pi, Attendence a) {
+		return eDao.selectAttendenceList(sqlSession, pi, a);
 	}
 
 	@Override
@@ -356,13 +371,13 @@ public class EssServiceImpl implements EssService {
 	}
 
 	@Override
-	public ArrayList<Worktime> selectModifyWorktimeList(PageInfo pi, int empNo) {
-		return eDao.selectModifyWorktimeList(sqlSession, pi, empNo);
+	public ArrayList<Worktime> selectModifyWorktimeList(PageInfo pi, Worktime w) {
+		return eDao.selectModifyWorktimeList(sqlSession, pi, w);
 	}
 
 	@Override
-	public int selectModifyWorktimeListCount(int empNo) {
-		return eDao.selectModifyWorktimeListCount(sqlSession, empNo);
+	public int selectModifyWorktimeListCount(Worktime w) {
+		return eDao.selectModifyWorktimeListCount(sqlSession, w);
 	}
 
 	@Override
@@ -428,6 +443,32 @@ public class EssServiceImpl implements EssService {
 	public Worktime selectSignedWorktime(int wtNo) {
 		return eDao.selectSignedWorktime(sqlSession, wtNo);
 	}
+
+	@Override
+	public int selectAttendenceDateListCount(Attendence a) {
+		return eDao.selectAttendenceDateListCount(sqlSession, a);
+	}
+
+	@Override
+	public ArrayList<Attendence> selectAttendenceDateList(PageInfo api, Attendence a) {
+		return eDao.selectAttendenceDateList(sqlSession, api, a);
+	}
+
+	@Override
+	public int ajaxAllAttendenceDateListCount(Attendence a) {
+		return eDao.ajaxAllAttendenceDateListCount(sqlSession, a);
+	}
+
+	@Override
+	public ArrayList<Attendence> ajaxAllAttendenceDateList(PageInfo pi, Attendence a) {
+		return eDao.ajaxAllAttendenceDateList(sqlSession, pi, a);
+	}
+
+	@Override
+	public int ajaxDeleteWorktime(Worktime w) {
+		return eDao.ajaxDeleteWorktime(sqlSession, w);
+	}
+
 	
 
 	

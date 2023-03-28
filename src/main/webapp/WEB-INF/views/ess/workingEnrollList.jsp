@@ -218,7 +218,7 @@
 	            				        + "<td>출장</td>"
 	            				        + "<td><input type='text' name='btStart' value='" + bmap.bList[i].btStart + "' readonly><span style='font-size: 15px; font-weight: 600;'>~</span><input type='text' name='btEnd' value='" + bmap.bList[i].btEnd + "' readonly></td>"
 	            				        + "<td>" + bmap.bList[i].btCheck + "</td>"
-	            				        + "<td><button class='btn btn-warning' onclick='deleteBusinesstrip(" + bmap.bList[i].btNo +");'>취소</button></td>"
+	            				        + "<td><button class='btn btn-outline-warning' style='color:gray' onclick='deleteBusinesstrip(" + bmap.bList[i].btNo +");'>취소</button></td>"
 	            				       + "</tr>";
 	            				       
 	            				$(".businesstripTable tbody").html(value);
@@ -303,7 +303,7 @@
 	            				        + "<td>" + omap.oList[i].enrollDate + "</td>"
 	            				        + "<td><input type='text' name='otStart' value='" + omap.oList[i].otStart + "' readonly><span style='font-size: 15px; font-weight: 600;'>~</span><input type='text' name='otEnd' value='" + omap.oList[i].otEnd + "' readonly></td>"
 	            				        + "<td>" + omap.oList[i].otCheck + "</td>"
-	            				        + "<td><button class='btn btn-warning' onclick='deleteOvertime(" + omap.oList[i].otNo + ");'>취소</button></td>"
+	            				        + "<td><button class='btn btn-outline-warning' style='color:gray' onclick='deleteOvertime(" + omap.oList[i].otNo + ");'>취소</button></td>"
 	            				       + "</tr>";
 	            				       
 	            				$(".overtimeTable tbody").html(value);

@@ -77,6 +77,11 @@
         color:rgb(50,50,50); 
         margin-left: 3px;
     }
+    .tooltip-inner {
+        font-size: 11px; /* 툴팁 텍스트의 글자 크기 조정 */
+        white-space: pre-wrap; /* 줄바꿈을 허용하고, 빈칸도 유지함 */
+    }
+    
 </style>
 </head>
 <body>
@@ -117,7 +122,13 @@
                 <div style="display: flex;">
                     <img src="resources/images/ess/clock.png" alt="" style="width:30px; height:30px">
                     <div style="font-size: 13px; font-weight: 600; color:rgb(50,50,50); margin-top:4px; margin-left: 3px;">
-                        &nbsp;구분&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        &nbsp;<a href="#" data-toggle="tooltip" 
+                        title="시간외근무 : 18:00:00 ~ 22:00:00&#10;야간 : 22:00:00 ~ 24:00:00        &#10;주말 : 토요일,일요일,공휴일      " style="text-decoration: none; color:rgb(50,50,50);">구분</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        <script>
+                            $(function () {
+                                $('[data-toggle="tooltip"]').tooltip()
+                            })
+                        </script>
                         &nbsp;<select name="otCategory" id="">
                             <option value="0">시간외 근무</option>
                             <option value="1">야간</option>
@@ -135,7 +146,7 @@
 
                         <!-- datepicker -->
                         <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
-                        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+                        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></scrip>
                         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
                         
                         <script>	  
