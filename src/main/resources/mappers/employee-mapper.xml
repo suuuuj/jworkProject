@@ -261,6 +261,8 @@
 		  from address_out
 		 where status='Y'
 		   and emp_no = #{empNo}
+		 order 
+		    by addout_no desc 
 	</select>
 	
 	<!-- 사내 주소록 상세 조회 페이지(ajax) -->
@@ -760,9 +762,8 @@
 	
 	<!-- 부서 관리 - 부서 삭제 -->
 	<update id="ajaxDeleteDept">
-		update
-		       department
-		   set status = 'N' 
+		delete
+		  from department
          where dept_code = #{deptCode} 
 	</update>
 	
@@ -1169,6 +1170,9 @@
 		     , task = #{task}
 		     , resign_date = #{resignDate}
 		     , modify_date = sysdate
+		     <if test = "resignDate !=''">
+		     	, status = 'N'
+		     </if>
 		 where emp_no = #{empNo} <!-- 선택한 사원번호 -->
 	</update>
 
