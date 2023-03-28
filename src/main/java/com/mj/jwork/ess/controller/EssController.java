@@ -150,7 +150,7 @@ public class EssController {
 		
 		// 페이징
 		int listCount = eService.selectLeaveListCount(e);
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		
 		// 페이징 후 게시글 전체조회
 		ArrayList<Leave> list = eService.selectLeaveList(e, pi);
@@ -214,7 +214,7 @@ public class EssController {
 		}else if(e.getJobCode() == 2 || e.getJobCode() == 3) {
 			// 페이징
 			int ListCount = eService.adminSelectLeaveListCount();
-			PageInfo pi = Pagination.getPageInfo(ListCount, currentPage, 5, 15);
+			PageInfo pi = Pagination.getPageInfo(ListCount, currentPage, 5, 10);
 									
 			ArrayList<Leave> list = eService.adminNoSelectLeaveList(pi, e);
 									
@@ -225,7 +225,7 @@ public class EssController {
 		}else {
 			// 페이징
 			int ListCount = eService.adminSelectLeaveListCount();
-			PageInfo pi = Pagination.getPageInfo(ListCount, currentPage, 5, 15);
+			PageInfo pi = Pagination.getPageInfo(ListCount, currentPage, 5, 10);
 						
 			ArrayList<Leave> list = eService.adminSelectLeaveList(pi, e);
 						

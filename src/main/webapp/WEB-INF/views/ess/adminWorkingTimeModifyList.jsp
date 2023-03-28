@@ -178,7 +178,7 @@
                             </c:when>
                             <c:otherwise>
                                 <c:forEach var="w" items="${list}">
-                            <tr onclick="adminDetailFunction(${w.wtNo});">
+                                <tr onclick="adminDetailFunction(${w.wtNo});">
                                 <td onclick="event.cancelBubble=true"><input type="checkbox" id="ckBox" name="ck" value="${w.wtNo}"></td>
                                 <td>${w.empNo}</td>
                                 <td>${w.deptName}</td>
