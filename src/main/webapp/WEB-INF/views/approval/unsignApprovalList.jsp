@@ -66,7 +66,7 @@
 		                        <select class="condition" name="condition">
 		                            <option value="title">제목</option>
 		                            <option value="content">내용</option>
-		                            <option value="writer">기안자</option>
+		                            <option value="writer">작성자</option>
 		                            <option value="type">문서번호</option>
 		                        </select>
                         	<input type="text" class="inputSearch keyword" name="keyword" value="${ keyword }">
