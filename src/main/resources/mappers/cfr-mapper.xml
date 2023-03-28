@@ -164,7 +164,7 @@
            ,EMP_NAME
            from cfr_reservation c
            join employee e on (c.reservation=e.emp_no)
-         where c.status in (2,4)
+         where c.status in (2,3,4)
          order by USE_DATE desc
 	</select>
 	<update id="deleteCfrRes" >
@@ -217,7 +217,7 @@
 	<select id="cfrResListCount" resultType="_int">
 		select count(*) 
 		from cfr_reservation	
-		where status in (2,4)
+		where status in (2,3,4)
 		and cfr_name=#{cfrName}
 	</select>
 	<select id="cfrDetailRes" resultMap="cfrResMap">
@@ -233,7 +233,7 @@
            ,EMP_NAME
            from cfr_reservation c
            join employee e on (c.reservation=e.emp_no)
-         where c.status in (2,4)
+         where c.status in (2,3,4)
          and cfr_name=#{cfrName}
          order by USE_DATE desc
 	</select>

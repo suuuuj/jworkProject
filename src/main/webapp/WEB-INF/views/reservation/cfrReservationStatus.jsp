@@ -202,14 +202,14 @@
 				      let value;
 				      let value2; 
 				     for(var i=0;i<map.list.length;i++){
-				    	 
-				    	 if(map.list[i].status ==2){
-				    		 value="예약완료";
-				    	 }else if(map.list[i].status ==3) {
-				    		 value="취소완료";
-				    	 }else if(map.list[i].status ==4) {
-				    		 value="이용완료";
-				    	 }
+				    	  console.log(map.list[i].status);
+				    	  if(map.list[i].status ==2){
+					    		 value="<span>예약완료<span>";
+					    	 }else if(map.list[i].status ==3) {
+					    		 value="<span style='color:red;'>취소완료<span>";
+					    	 }else if(map.list[i].status ==4) {
+					    		 value="<span>이용완료<span>";
+					    	 }
 				    		
 						value2 += "<tr class='text-center'><td>" + map.list[i].cfrName + "</td>" 
 						+"<td>" + map.list[i].cfTitle + "</td>" 
@@ -281,11 +281,11 @@
 				     for(var i=0;i<map.list.length;i++){
 				    	 
 				    	 if(map.list[i].status ==2){
-				    		 value="예약완료";
+				    		 value="<span>예약완료<span>";
 				    	 }else if(map.list[i].status ==3) {
-				    		 value="취소완료";
+				    		 value="<span style='color:red;'>취소완료<span>";
 				    	 }else if(map.list[i].status ==4) {
-				    		 value="이용완료";
+				    		 value="<span>이용완료<span>";
 				    	 }
 				    		
 						value2 += "<tr class='text-center'><td>" + map.list[i].cfrName + "</td>" 
