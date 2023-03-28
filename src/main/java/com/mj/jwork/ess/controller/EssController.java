@@ -1185,8 +1185,15 @@ public class EssController {
 		return mv;
 	}
 	
+	/**
+	 * ajax 출퇴근시간변경 리스트 조회
+	 * @param w
+	 * @param currentPage
+	 * @param session
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping("ajaxWtModify.at")
+	@RequestMapping(value="ajaxWtModify.at", produces="application/json; charset=UTF-8")
 	public String ajaxSelectModifyWorktimeList(Worktime w, @RequestParam(value="cpage", defaultValue="1") int currentPage, HttpSession session) {
 		int empNo = ((Employee)session.getAttribute("loginUser")).getEmpNo();
 		w.setEmpNo(empNo);
