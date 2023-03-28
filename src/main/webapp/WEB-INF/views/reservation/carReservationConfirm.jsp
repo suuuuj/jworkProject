@@ -23,21 +23,21 @@
 <body>
      <jsp:include page="../common/menubar.jsp"/>
     <div class="outer"  style="width:900px; margin:20px;">
-        <h2>차량 예약 승인 관리</h2>
+        <h3>차량 예약 승인 관리</h3>
         <hr>
         <div>
             <div class="select-area">
-               <select name="option" id="option" >
-                    <option value="1">미승인예약</option>
+               <select name="optionSelect" id="option" onchange="selectResStatus($(this).val());">
                     <option value="1,2,3" >전체예약</option>
+                    <option value="1">미승인예약</option>
                </select>
             </div>
             <br>
             <div id="">
-                <table class="table table-hover text-center" style="width:900px;">
+                <table class="table table-hover text-center" id="carRes" style="width:900px;">
                     <thead>
                         <tr>
-                        	<th>예약번호<th>
+                        	<th>예약번호</th>
                             <th>차량명</th>
                             <th>신청사원</th>
                             <th>신청일시</th>
@@ -47,8 +47,8 @@
                    </thead>
                    <tbody>
                         <c:forEach items="${list}" var="c">
-                        <tr class="datilView" onclick="detailView(${c.resNo});" data-toggle="modal" data-target="#ResDetailView">
-                        	<td class="resNo">${c.resNo }<td>
+                        <tr class="detailView" onclick="detailView(${c.resNo});" data-toggle="modal" data-target="#ResDetailView">
+                        	<td class="resNo">${c.resNo }</td>
                             <td class="carName">${c.carName }</td>
                             <td class="reservation">${c.reservation}&nbsp;${c.empName }</td>
                             <td class="resDate">${c.resDate }&nbsp;${c.startTime}~${c.endTime}</td>
@@ -156,38 +156,6 @@
     </div>
     <script>
     
-    	 
-    	$(function(){
-    		$("#option").on("change",function(){
-    			$.ajax({
-    				url:"ajaxConfirmList.car",
-    				data:{option:$(this).val()},
-    				success:function(){
-    					  for(let i=0; i<list.length; i++){
-						$(".carName").text(list[i].carName);
-						$(".reservation").text(list[i].reservation);
-						$(".resDate").text(list[i].resDate);
-						$(".resNo").text(list[i].resNo);
-						$(".cause").text(list[i].cause); }
-    					console.log("옵션 조회용 ajax 통신 성공");
-    				},error:function(){
-    					console.log("옵션 조회용 ajax 통신 실패");
-    				}
-    			
-    			});
-    			
-    		})
-    	
-    	})
-    	 
-    
-    	 	/* $("#option").on("click",function(){
-    			console.log("ddd");
-    			location.href='confirmList.car?option='+$("#option option:selected").val();
-    			
-    		})
-     */
-    	
     	function detailView(resNo){
     		
     		$.ajax({
@@ -243,6 +211,72 @@
 				}
 			
 			});
+    	}
+    </script>
+    
+    <script type="text/javascript">
+    
+ 
+    	function selectResStatus(val,cpage){
+    			$.ajax({
+    				url:"select.resStatus",
+  					data:{option:val,cpage:cpage},
+  					success:function(map){
+  				      let value="";
+				      let value2=""; 
+				      let btn="";
+				      let resNo;
+				     for(var i=0;i<map.list.length;i++){
+				    		
+							
+	    				if(map.list[i].apStatus == 1){
+	    					
+	    					btn="<button type='button' class='btn btn-secondary btn-sm' >승인대기</button>";
+	    					
+	    					
+	    				}else if(map.list[i].apStatus == 2){
+	    				
+	    					btn="<button type='button' class='btn btn-primary btn-sm'>승인완료</button>";
+	    				}else if(map.list[i].apStatus == 3){
+	    				
+							btn="<button type='button' class='btn btn-warning btn-sm'>반려</button>";
+	    				}
+			    	 	
+	    				let no= map.list[i].resNo;
+						value2 += "<tr class='text-center' onclick='detailView(" + no + ");' data-toggle='modal' data-target='#ResDetailView'><td>" + map.list[i].resNo + "</td>" 
+						+"<td>" + map.list[i].carName + "</td>" 
+						+"<td>" + map.list[i].reservation +"&nbsp;"+ map.list[i].empName + "</td>" 
+						+"<td>" + map.list[i].resDate +"&nbsp;"+map.list[i].startTime +"~"+map.list[i].endTime +"</td>" 
+						+"<td>" + map.list[i].cause + "</td>"
+						+"<td>" + btn +"</td></tr>";
+					
+				     }
+				     console.log(value2);
+					  $('#carRes tbody').html(value2);
+				 //페이징바
+ 	            let page="";
+ 	            if(map.pi.currentPage ==1){
+ 	               page += "<li class='page-item disabled' ><a class='page-link' href='#' style='color:rgb(196, 197, 197)'><</a></li>"
+ 	            }else{
+ 	               page += "<li class='page-item'><a class='page-link' onclick='selectResStatus(" + (map.pi.currentPage-1) + ");'><</a></li>"
+ 	            }
+ 	            
+ 	            for(var p=map.pi.startPage; p<=map.pi.endPage; p++){
+ 	               page += "<li class='page-item'><a class='page-link' onclick='selectResStatus(" + p + ");'>" + p + "</a></li>"
+ 	            }
+ 	            
+ 	            if(map.pi.currentPage == map.pi.maxPage){
+ 	               page += "<li class='page-item disabled'><a class='page-link ' href='#' style='color:rgb(196, 197, 197)'>></a></li>"
+ 	            }else{
+ 	               page += "<li class='page-item'><a class='page-link' onclick='selectResStatus(" +  (map.pi.currentPage+1) + ");'>></a></li>"
+ 	            }
+ 	            
+ 	            $(".pagination").html(page);
+  					},error:function(){
+  						console.log("옵션별 차량 예약 조회 ajax 통신 실패");
+  						
+  					}
+  				})
     	}
     </script>
 

@@ -245,16 +245,16 @@ public class EssDao {
 		return sqlSession.selectOne("essMapper.selectAttendence", a);
 	}
 	
-	public int selectAttendenceListCount(SqlSession sqlSession) {
-		return sqlSession.selectOne("essMapper.selectAttendenceListCount");
+	public int selectAttendenceListCount(SqlSession sqlSession, Attendence a) {
+		return sqlSession.selectOne("essMapper.selectAttendenceListCount", a);
 	}
 	
-	public ArrayList<Attendence> selectAttendenceList(SqlSession sqlSession, PageInfo pi, int empNo){
+	public ArrayList<Attendence> selectAttendenceList(SqlSession sqlSession, PageInfo pi, Attendence a){
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("essMapper.selectAttendenceList", empNo, rowBounds);
+		return (ArrayList)sqlSession.selectList("essMapper.selectAttendenceList", a, rowBounds);
 	}
 	
 	public int insertAllAttendenceTime(SqlSession sqlSession, int attNo) {
@@ -320,16 +320,16 @@ public class EssDao {
 		return (ArrayList)sqlSession.selectList("essMapper.adminNoSelectLeaveList", e, rowBounds);
 	}
 	
-	public ArrayList<Worktime> selectModifyWorktimeList(SqlSession sqlSession, PageInfo pi, int empNo){
+	public ArrayList<Worktime> selectModifyWorktimeList(SqlSession sqlSession, PageInfo pi, Worktime w){
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("essMapper.selectModifyWorktimeList", empNo, rowBounds);
+		return (ArrayList)sqlSession.selectList("essMapper.selectModifyWorktimeList", w, rowBounds);
 	}
 	
-	public int selectModifyWorktimeListCount(SqlSession sqlSession, int empNo) {
-		return sqlSession.selectOne("essMapper.selectModifyWorktimeListCount", empNo);
+	public int selectModifyWorktimeListCount(SqlSession sqlSession, Worktime w) {
+		return sqlSession.selectOne("essMapper.selectModifyWorktimeListCount", w);
 	}
 	
 	public Worktime selectModifyDetailWorktime(SqlSession sqlSession, int wtNo) {
@@ -399,5 +399,60 @@ public class EssDao {
 		return sqlSession.selectOne("essMapper.selectSignedWorktime", wtNo);
 		
 	}
+	
+	public ArrayList<Overtime> adminSelectOvertimeListNo(SqlSession sqlSession, PageInfo pi, Employee e){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("essMapper.adminSelectOvertimeListNo",e, rowBounds);
+	}
+	
+	public ArrayList<Businesstrip> adminSelectBusinesstripListNo(SqlSession sqlSession, PageInfo pi, Employee e){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("essMapper.adminSelectBusinesstripListNo", e, rowBounds);
+	}
+	
+	public int selectAttendenceDateListCount(SqlSession sqlSession, Attendence a) {
+		return sqlSession.selectOne("essMapper.selectAttendenceDateListCount", a);
+	}
+	
+	public ArrayList<Attendence> selectAttendenceDateList(SqlSession sqlSession, PageInfo api, Attendence a){
+		int offset = (api.getCurrentPage() - 1) * api.getBoardLimit();
+		int limit = api.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("essMapper.selectAttendenceDateList", a, rowBounds);
+	}
+	
+	public int ajaxAllAttendenceDateListCount(SqlSession sqlSession, Attendence a) {
+		return sqlSession.selectOne("essMapper.ajaxAllAttendenceDateListCount", a);
+	}
+	
+	public ArrayList<Attendence> ajaxAllAttendenceDateList(SqlSession sqlSession, PageInfo aPi, Attendence a){
+		int offset = (aPi.getCurrentPage() - 1) * aPi.getBoardLimit();
+		int limit = aPi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("essMapper.ajaxAllAttendenceDateList", a, rowBounds);
+	}
+	
+	public int ajaxDeleteWorktime(SqlSession sqlSession, Worktime w) {
+		return sqlSession.delete("essMapper.ajaxDeleteWorktime", w);
+	}
+	
+	public int adminUpdateReset(SqlSession sqlSession) {
+		return sqlSession.update("essMapper.adminUpdateReset");
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 }

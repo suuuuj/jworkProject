@@ -78,7 +78,7 @@
 	 }
 
      .signLogo{
-        width: 42px;
+        width: 60px;
     }
 	
 	 #buttonarea{
@@ -149,15 +149,17 @@
 	                </tr>
 	            
 	                <tr>
-	                    <td height="70px"><img class="signLogo" src="resources/images/common/check.png"/></td>
+	                    <td height="70px"><img class="signLogo" src="resources/images/approval/approved.png"/></td>
                     <c:forEach var="al" items="${ al }">
 	                    <td width="90px">
 	                    	<c:choose>
 	                    		<c:when test="${al.confirmStatus eq 1 }">
-	                    				<img class="signLogo" src="resources/images/common/check.png"/>
+	                    				<img class="signLogo" src="resources/images/approval/approved.png"/>
 	                    			</c:when>
 	                   				<c:when test="${al.confirmStatus eq 2 }">
-	                    				<a id="returnFont" data-toggle="tooltip" title="${al.reReason }"><b>반려</b></a>
+	                    				<a id="returnFont" data-toggle="tooltip" title="${al.reReason }">
+											<img class="signLogo" src="resources/images/approval/cancel.png"/>
+										</a>
 	                    			</c:when>
 	                   	 	</c:choose>
 	                   	 </td>

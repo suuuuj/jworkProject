@@ -91,6 +91,7 @@
         <div class="leave-area">
 
             <div class="select-area">
+                <!--
                 <select name="" id="">
                     <option value="">&nbsp;- 휴가선택 -</option>
                     <option value="">&nbsp;연차</option>
@@ -100,18 +101,20 @@
                     <option value="">&nbsp;산전후</option>
                     <option value="">&nbsp;리프레쉬휴가</option>
                 </select>
+                -->
                 <select name="" id="">
                     <option value="">&nbsp;결재대기(1차)</option>
                     <option value="">&nbsp;결재대기(2차)</option>
                     <option value="">&nbsp;승인</option>
                     <option value="">&nbsp;반려</option>
                 </select>
+                <!--
                 <div style="float:right;">
                     <input type="text" name="" value="" placeholder="&nbsp;사원명/사원번호">
                     <button type="button" class="btn btn-success">검색</button>
                 </div>
+                -->
             </div>
-            <br>
             <div class="list-area">
                 <table class="leaveTable">
                     <thead>

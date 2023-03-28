@@ -205,7 +205,9 @@
 				    	 
 				    	 if(map.list[i].status ==2){
 				    		 value="예약완료";
-				    	 }else{
+				    	 }else if(map.list[i].status ==3) {
+				    		 value="취소완료";
+				    	 }else if(map.list[i].status ==4) {
 				    		 value="이용완료";
 				    	 }
 				    		
@@ -280,7 +282,9 @@
 				    	 
 				    	 if(map.list[i].status ==2){
 				    		 value="예약완료";
-				    	 }else{
+				    	 }else if(map.list[i].status ==3) {
+				    		 value="취소완료";
+				    	 }else if(map.list[i].status ==4) {
 				    		 value="이용완료";
 				    	 }
 				    		

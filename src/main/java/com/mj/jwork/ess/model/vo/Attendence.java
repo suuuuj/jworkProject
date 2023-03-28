@@ -29,5 +29,8 @@ public class Attendence {
 	private String deptName;
 	private String jobName;
 	private String teamName;
+	
+	private String startDate;
+	private String endDate;
 
 }

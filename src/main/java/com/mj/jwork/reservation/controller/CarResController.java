@@ -1,12 +1,15 @@
 package com.mj.jwork.reservation.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +21,7 @@ import com.mj.jwork.common.template.Pagination;
 import com.mj.jwork.employee.model.vo.Employee;
 import com.mj.jwork.reservation.model.service.CarResService;
 import com.mj.jwork.reservation.model.vo.CarReservation;
+import com.mj.jwork.reservation.model.vo.CfrReservation;
 
 @Controller
 public class CarResController {
@@ -132,5 +136,21 @@ public class CarResController {
 		return new Gson().toJson(list);
 
 	}
+	 
+	 @ResponseBody
+		@RequestMapping(value="select.resStatus",produces="application/json; charset=utf-8")
+		public String selectResStatus(@RequestParam(value="cpage", defaultValue="1") int currentPage,Model model, HttpServletRequest request,String option) {
+			
+			int listCount = cService.selectResStatusCount(option);
+			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+			ArrayList<CarReservation>list = cService.selectResStatus(pi,option);
+			
+			HashMap<String, Object> map = new HashMap();
+			map.put("listCount", listCount);
+			map.put("pi", pi);
+			map.put("list", list);
+			
+			return new Gson().toJson(map);
+	 }		
 
 }
