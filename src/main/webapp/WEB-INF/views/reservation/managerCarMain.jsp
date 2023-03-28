@@ -43,7 +43,7 @@
         <div>
             <div class="btn-area" >
                 <a class="btn  btn-success" href="enrollForm.car">+차량 등록</a>
-                <a class="btn  btn-light" href="confirmList.car">승인 관리</a>
+                <a class="btn  btn-outline-success" href="confirmList.car">승인 관리</a>
             </div>
             <br>
             <div id="img-area" style="width:940px;">
@@ -79,6 +79,7 @@
             				$("#maker").val(c.maker);
             				$("#fuelType").val(c.fuelType);
             				$("#modelYear").val(c.modelYear);
+            				$("#carImg2").val(c.carImg);
             				
             				if(c.status == 'Y'){
             					$("#ok").attr("checked",true);
@@ -182,7 +183,8 @@
                         <th>차량 대표 이미지</th>
                         <td>
                         &nbsp;&nbsp;
-                        	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/addImg.png'/>"   width="180px" height="130px" onclick="$('#carImgFile').click();">
+                        	  <input type="hidden" id="carImg2" name="carImg"  value="${car.carImg}">
+                        	 <img id="carImg" src="<c:out value='${car.carImg}' default='resources/uploadFiles/addImg.png'/>"  width="180px" height="130px" onclick="$('#carImgFile').click();">
                              <input type="file" name="reupfile"  id="carImgFile" style="display:none;">
                         </td>
                     </tr>
