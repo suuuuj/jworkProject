@@ -435,14 +435,6 @@
         })
 
     }
-    /*
-    $(function(){
-        $(document).rea
-        $(".workTable>tbody tr").click(function(){
-            $("#workModal").modal('show');
-        })
-    })
-    */
 </script>
 
 <!-- 기간검색 : 시작일 종료일로 리스트 조회 -->

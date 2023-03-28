@@ -169,7 +169,7 @@
                     var day = date.getDay();        
                     return [(day != 0 && day != 6)];
                 },
-                dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
                 monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], 
                 daysOfWeekDisabled : [0,6],
                 autoclose : true,
@@ -219,7 +219,7 @@
                     var day = date.getDay();        
                     return [(day != 0 && day != 6)];
                 },
-                dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
                 monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
             });	
 

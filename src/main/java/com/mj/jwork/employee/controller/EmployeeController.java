@@ -1069,6 +1069,7 @@ public class EmployeeController {
 		}
 		
 		int result = eService.insertEmployee(e);
+		// 신입사원근태등록 
 		int result2 = eService.adminInsertNewAttendence(e.getEmpNo());
 		if(result > 0) {
 			eService.insertSchBasicGroup();

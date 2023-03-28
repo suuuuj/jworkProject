@@ -225,11 +225,11 @@
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/working.png" alt="" />근무</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
-                                <a id="" href="workCalendar.at">근태현황</a><br>
-                                <a id="" href="list.at">근태이력</a><br>
-                                <a id="" href="wtModify.at">근태수정</a><br>
-                                <a id="" href="adModify.wt" style="color:rgb(2, 152, 52)">근태조정</a><br>
-                                <a id="" href="adminWorktime.at" style="color:rgb(2, 152, 52)">근태관리</a><br>
+                                <a id="" href="workCalendar.at">근태현황</a>
+                                <a id="" href="list.at">근태이력</a>
+                                <a id="" href="wtModify.at">근태수정</a>
+                                <a id="" href="adModify.wt" style="color:rgb(2, 152, 52)">근태조정</a>
+                                <a id="" href="adminWorktime.at" style="color:rgb(2, 152, 52)">근태관리</a>
                                 <!-- <a id="" href="adminWorkStatistic.at" style="color:rgb(2, 152, 52)">근태통계</a><br> -->
                             </div>
                         </div>
@@ -239,11 +239,11 @@
                         <div class="mainMenu"><img class="menuIcon" src="resources/images/common/holiday.png" alt="" />휴가</div>
                         <div class="menu-wrap">
                             <div class="menuDetail">
-                                <a id="" href="menu.le">휴가신청</a><br>
-                                <a id="" href="list.le">휴가상세</a><br>
-                                <a id="" href="adminAll.le">전체휴가일정</a><br>
-                                <a id="" href="adminAnnual.le" style="color:rgb(2, 152, 52)">연차관리</a><br>
-                                <a id="" href="adminList.le"  style="color:rgb(2, 152, 52)">휴가관리</a><br>
+                                <a id="" href="menu.le">휴가신청</a>
+                                <a id="" href="list.le">휴가상세</a>
+                                <a id="" href="adminAll.le">전체휴가일정</a>
+                                <a id="" href="adminAnnual.le" style="color:rgb(2, 152, 52)">연차관리</a>
+                                <a id="" href="adminList.le"  style="color:rgb(2, 152, 52)">휴가관리</a>
                             </div>
                         </div>
                     </div>

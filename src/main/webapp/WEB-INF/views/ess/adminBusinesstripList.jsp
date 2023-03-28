@@ -37,7 +37,7 @@
     .businessTable{
         width:100%;
         text-align: center;
-        margin-top:30px;
+        margin-top:60px;
         border-collapse: collapse;
         border-spacing: 0;
         font-size: 14px;
@@ -67,7 +67,7 @@
         <h4><b>신청</b></h4>
 
         <div class="overtimeList">
-
+            <!--
             <div class="selectBox">
                 <select name="" id="">
                     <option value="">&nbsp;- 진행상황 -</option>
@@ -77,6 +77,7 @@
                     <option value="">&nbsp;반려</option>
                 </select> 
             </div>
+            -->
 
             <div class="businessList">
                 <table class="businessTable">
