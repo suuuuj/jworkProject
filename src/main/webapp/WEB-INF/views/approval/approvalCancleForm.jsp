@@ -151,7 +151,7 @@
         width: 2px; /*스크롤바의 너비*/
     }
     
-  #selectAppLineTB tbody, #selectRefLineTB tbody{
+  #appTbody, #refTbody{
   	font-size: small;
   }
 
@@ -604,7 +604,7 @@
                                             <th>직급</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="appTbody">
                                        
                                     </tbody>
                                 </table>
@@ -620,7 +620,7 @@
                                             <th>직급</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="refTbody">
                                         
                                     </tbody>
                                 </table>
@@ -655,7 +655,7 @@
             	
                 var count = 0;
 
-                $("#selectAppLineTB tbody tr").each(function(){
+                $("#appTbody tr").each(function(){
                    
                    let no = $(this).children().eq(1).text();
                    let name = $(this).children().eq(3).text();
@@ -710,7 +710,7 @@
 
                 
                 var num = 0;
-                $("#selectRefLineTB tbody tr").each(function(){
+                $("#refTbody tr").each(function(){
                 	let no = $(this).children().eq(1).text();
                     
                 	$("#app-list").append("<input type='hidden' name='rlist[" +num + "].empNo' value='" + no + "'>");
