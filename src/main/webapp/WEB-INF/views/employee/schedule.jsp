@@ -321,7 +321,7 @@
                     <div id="schBtn-area2">
                         <button type="submit" class="btn btn-success btn-sm" style="width:70px" >수정</button>
                         <button type="button" class="btn btn-success btn-sm" style="width:70px" onclick="deleteSchedule($('input[name=schNo]').val(), $('input[name=enrollEmpNo]').val())">삭제</button>
-                        <button type="button" class="btn btn-outline-success btn-sm" style="width:70px" data-bs-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-outline-success btn-sm" style="width:70px" data-bs-dismiss="modal" onClick="window.location.reload()">취소</button>
                     </div><br><br>
                 </form>
             </div>
@@ -425,15 +425,17 @@
                     }
                     $("#editAtt-list").html(attendee);
 
-                    let group2 = ""
+                    
                     for(let i=0; i<data.slist.length; i++){
-                        group2 += '<option id="' + data.slist[i].groupNo + '" value="'+ data.slist[i].groupNo +'">'+ data.slist[i].groupName +'</option>'
-                        
+                        $("#group2").append(
+                            '<option id="' + data.slist[i].groupNo + '" value="'+ data.slist[i].groupNo +'">'+ data.slist[i].groupName +'</option>'
+                        )
+                                            
                         if(data.slist[i].groupNo==data.s.groupNo){
                             $('#' + data.slist[i].groupNo).attr('selected', true);
                         }
                     }
-                    $("#group2").html(group2);
+                    
 
                     $("input[name=schNo]").val(schNo);
                     $("input[name=attendanceOld]").val(data.s.attendance);

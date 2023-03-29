@@ -168,7 +168,7 @@
                 <div id="paging-area" align="center">
                     <ul class="pagination justify-content-center">
                         <c:if test="${ pi.currentPage ne 1 }"> <!-- 내가보고있는페이지가 1이 아닐경우 -->
-                            <li class="page-item" disabled><a href="addressOut.emp?cpage=${ pi.currentPage - 1 }">&lt;</a></li>
+                            <li class="page-item" disabled><a href="addressOut.emp?cpage=${ pi.currentPage - 1 }"><</a></li>
                         </c:if>
                         
                         <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
@@ -183,7 +183,7 @@
                         </c:forEach>
                         
                         <c:if test="${ pi.currentPage ne pi.maxPage }"><!-- 내가보고있는페이지가 마지막페이지가 아닐경우 -->
-                            <li class="page-item"><a href="addressOut.emp?cpage=${ pi.currentPage + 1 }">&gt;</a></li>
+                            <li class="page-item"><a href="addressOut.emp?cpage=${ pi.currentPage + 1 }">></a></li>
                         </c:if>
                     </ul>
                 </div>

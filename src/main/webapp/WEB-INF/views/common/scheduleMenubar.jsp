@@ -522,7 +522,7 @@
                                 </div>
                                 <div id="schBtn-area">
                                     <button type="submit" class="btn btn-success btn-sm" style="width:70px" >등록</button>
-                                    <button class="btn btn-outline-success btn-sm" style="width:70px" data-bs-dismiss="modal">취소</button>
+                                    <button class="btn btn-outline-success btn-sm" style="width:70px" data-bs-dismiss="modal" >취소</button>
                                 </div><br><br>
                             </form>
                         </div>

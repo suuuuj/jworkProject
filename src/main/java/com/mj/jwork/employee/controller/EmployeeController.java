@@ -54,31 +54,31 @@ public class EmployeeController {
 	
 	
 	 //로그인
-	@RequestMapping("login.emp")
-	public String loginEmployee(Employee e, Model model, HttpSession session) {
-		 
-		Employee loginUser = eService.loginEmployee(e);
-		if(loginUser == null) {
-			model.addAttribute("errorMsg", "로그인 실패");
-			return "common/errorPage";
-		}else {
-			session.setAttribute("loginUser", loginUser);
-			return "common/mainPage";
-		}
-	}
-	
 //	@RequestMapping("login.emp")
 //	public String loginEmployee(Employee e, Model model, HttpSession session) {
-//
+//		 
 //		Employee loginUser = eService.loginEmployee(e);
-//		if (loginUser != null && bcryptPasswordEncoder.matches(e.getEmpPwd(), loginUser.getEmpPwd())) {
-//			session.setAttribute("loginUser", loginUser);
-//			return "common/mainPage";
-//		} else {
+//		if(loginUser == null) {
 //			model.addAttribute("errorMsg", "로그인 실패");
 //			return "common/errorPage";
+//		}else {
+//			session.setAttribute("loginUser", loginUser);
+//			return "common/mainPage";
 //		}
 //	}
+	
+	@RequestMapping("login.emp")
+	public String loginEmployee(Employee e, Model model, HttpSession session) {
+
+		Employee loginUser = eService.loginEmployee(e);
+		if (loginUser != null && bcryptPasswordEncoder.matches(e.getEmpPwd(), loginUser.getEmpPwd())) {
+			session.setAttribute("loginUser", loginUser);
+			return "common/mainPage";
+		} else {
+			model.addAttribute("errorMsg", "로그인 실패");
+			return "common/errorPage";
+		}
+	}
 	
 	// 마이페이지
 	@RequestMapping("myPage.emp")
@@ -96,7 +96,7 @@ public class EmployeeController {
 			session.setAttribute("alertMsg", "사원정보 변경 성공");
 			return "redirect:myPage.emp";	
 		}else {
-			model.addAttribute("errorMsg", "사원정보 변경 실패");
+			session.setAttribute("errorMsg", "사원정보 변경 실패");
 			return "common/errorPage";
 		}
 	}
@@ -135,6 +135,7 @@ public class EmployeeController {
 				Employee updateEmp = eService.loginEmployee(e);
 				session.setAttribute("loginUser", updateEmp);
 				session.setAttribute("alertMsg", "비밀번호 변경완");
+				System.out.println(result);
 			}else {
 				session.setAttribute("alertMsg", "비밀번호 변경실패~");
 			}
