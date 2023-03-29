@@ -67,7 +67,7 @@
 	         , emp_name
 	         , decode(doc_type,0,'기안서',1,'품의서',2,'사직서') as "doc_type"
 	         , to_char(create_date, 'YYYY-MM-DD')"create_date"
-	         , update_date
+	         , to_char(update_date, 'YYYY-MM-DD')"update_date"
 	         , doc_title
 	         , doc_originname
 	         , decode(app_status,0,'결재대기',1,'진행중',2,'결재완료',3,'반려',4,'임시저장') as "app_status"
@@ -92,7 +92,7 @@
 		    , doc_type
 		    , decode(doc_type,0,'기안서',1,'품의서',2,'사직서') as "doc_name"
 		    , to_char(create_date, 'YYYY-MM-DD')"create_date"
-		    , update_date
+		    , to_char(update_date, 'YYYY-MM-DD')"update_date"
 		    , doc_title
 		    , doc_content
 		    , doc_originname
@@ -203,6 +203,7 @@
 	        , emp_name
 	        , decode(doc_type,0,'기안서',1,'품의서',2,'사직서') as "doc_type"
 	        , to_char(create_date, 'YYYY-MM-DD')"create_date"
+	        , to_char(update_date, 'YYYY-MM-DD')"update_date"
 	        , to_char(app_date, 'YYYY-MM-DD')"app_date"
 	        , doc_title
 	        , doc_originname
@@ -213,7 +214,7 @@
 	    where doc_status='Y'
 	      and al.confirm_status not in (0)
 	      and al.emp_no = #{empNo}
-	    order
+	    order	
 	       by create_date desc
     </select>
     
@@ -492,7 +493,7 @@
     
     <update id="insertCancleApp">
     	update approval
-    	   set UPDATE_DATE = sysdate
+    	   set create_date = sysdate
 			 , DOC_TITLE = #{docTitle}
 			 , DOC_CONTENT = #{docContent}
 			 , DOC_ORIGINNAME = #{docOriginName}
