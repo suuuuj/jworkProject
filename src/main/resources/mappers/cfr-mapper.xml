@@ -219,6 +219,7 @@
            from cfr_reservation
          where CFR_NAME=#{cfrName}
          and USE_DATE=#{useDate}
+         and status in (2,4)
 	
 	</select>
 	<select id="selectResListCount" resultType="_int">
