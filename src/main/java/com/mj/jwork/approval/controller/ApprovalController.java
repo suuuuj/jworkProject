@@ -149,7 +149,7 @@ public class ApprovalController {
 			}
 			
 		}
-		
+		// 상신취소된 결재일 때
 		if(check == al.size()) {
 				session.setAttribute("errorMsg", "상신 취소된 문서는 조회할 수 없습니다.");
 				mv.setViewName("redirect:/home.jwork");
@@ -238,13 +238,16 @@ public class ApprovalController {
 			
 			Approval app = aService.selectAppInfo(al.getAppNo());
 			Alarm alarm = new Alarm();
+			
+			// 결재가 완료되었을 때
 			if(app.getAppStatus().equals("결재완료")) {
 				alarm.setTargetNo(app.getEmpNo());
 				alarm.setAlarmMsg("(" + app.getDocNo() + ")문서가 결재 완료되었습니다.");
 				alarm.setRefNo(app.getAppNo());
 				alarm.setRefType("approval");
 				alarm.setUrl("myDetail.app?no=" + app.getAppNo());
-				
+			
+			// 다음 결재자가 존재할 경우
 			}else {
 				alarm.setTargetNo(app.getTargetNo());
 				alarm.setAlarmMsg("결재할 문서가 도착했습니다. (" + app.getDocNo() + ")");
