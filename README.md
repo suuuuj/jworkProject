@@ -53,7 +53,7 @@
 <br>
 
 <br>
-#### 📍 메일 리스트 조회하는 sql문
+📍 메일 리스트 조회하는 sql문
 <img width="581" alt="메일리스트sql_1" src="https://user-images.githubusercontent.com/115603858/229417061-724bc45b-b1e3-4ddd-a4f5-3bf6d5b45268.png">
 <img width="522" alt="메일리스트sql_2" src="https://user-images.githubusercontent.com/115603858/229417073-372ec700-67e9-42a2-8b94-568c74fc4a3a.png">
 <br>
@@ -139,11 +139,11 @@
    - 읽은 알람은 흰색, 안읽은 알람은 노란색으로 표시
 <br>
 
-#### 📍 메일 전송시 알림 보내는 구문
+📍 메일 전송시 알림 보내는 구문
 <img width="692" alt="image" src="https://user-images.githubusercontent.com/115603858/229423399-9664aae0-10bc-4e80-a826-8e56e326c49c.png">
 <br>
 
-#### 📍 실시간 알림 전송하는 템플릿
+📍 실시간 알림 전송하는 템플릿
 <img width="897" alt="image" src="https://user-images.githubusercontent.com/115603858/229423025-e792a620-1be4-44ba-b129-14410848ff59.png">
 
 <br><br>
@@ -166,11 +166,11 @@
    - 알람 전체 삭제 기능
 <br>
 
-#### 📍 결재관련 알림 전송
+📍 결재관련 알림 전송
 <img width="630" alt="image" src="https://user-images.githubusercontent.com/115603858/229422230-75fa2739-8094-4bc2-a9f8-c48facb44807.png">
 <br>
 
-#### 📍 상신취소된 결재 알림창에서 클릭 시
+📍 상신취소된 결재 알림창에서 클릭 시
 <img width="736" alt="image" src="https://user-images.githubusercontent.com/115603858/229421694-6ce236d6-91d5-4d6b-a08b-ce890ca18b27.png">
 
 <br><br>
