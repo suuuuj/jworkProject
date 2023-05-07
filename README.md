@@ -6,8 +6,8 @@
 1. [개요](#star-개요)  
 2. [팀 소개 및 주요 기능](#star-팀-소개-및-주요-기능)
 3. [구현 기능](#star-구현-기능)
-    - [메일 홈](#pushpin-메일-홈)
-    - [메일 상세,답장](#pushpin-메일-상세_답장)
+    - [전자결재 홈](#pushpin-전자결재홈)
+    - [결재문서작성](#pushpin-결재문서작성)
     - [중요 메일](#pushpin-중요-메일)
     - [다중체크_읽음_안읽음](#pushpin-다중체크_읽음_안읽음)
     - [메일함 생성_수정 및 삭제](#pushpin-메일함-생성_수정-및-삭제)
@@ -45,24 +45,17 @@
 # :star: 구현 기능
  
 
-### :pushpin: 메일 홈
-![1 메일메인](https://user-images.githubusercontent.com/115603858/229416784-2c94a076-631a-4b4f-af33-921ecb078a4e.gif)
+### :pushpin: 전자결재홈
+![전자결재 목록](https://user-images.githubusercontent.com/115604669/236698368-9407e5cd-3b4f-4288-a8bb-2251526bf503.gif)
 - 구현 기능 설명
-   - 받은 메일함 조회(안읽은 메일은 굵게 표시)
-   - 안읽은 메일함, 보낸 메일함, 임시 보관함, 중요 메일함, 휴지통 조회
+   - 내 결재 문서 목록 결재 상황별 조회 (전체/대기/진행/완료/반려)
 <br>
 
 <br>
-📍 메일 리스트 조회하는 sql문
-<img width="581" alt="메일리스트sql_1" src="https://user-images.githubusercontent.com/115603858/229417061-724bc45b-b1e3-4ddd-a4f5-3bf6d5b45268.png">
-<img width="522" alt="메일리스트sql_2" src="https://user-images.githubusercontent.com/115603858/229417073-372ec700-67e9-42a2-8b94-568c74fc4a3a.png">
-<br>
-<img width="422" alt="메일resultMap" src="https://user-images.githubusercontent.com/115603858/229417256-ebc79f22-e6e0-4185-9bb4-85b7649fd8f9.png">
-
-<br><br>
 
 
-### :pushpin: 메일 상세_답장
+
+### :pushpin: 결재문서작성
 ![2 메일상세,답장](https://user-images.githubusercontent.com/115603858/229417461-0c9350b3-5a11-4a2c-a944-9037b5044936.gif)
 - 구현 기능 설명
    - 메일 리스트에서 눌러 상세페이지 조회 가능
