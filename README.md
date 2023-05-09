@@ -1,5 +1,18 @@
 # jworkProject
- 
+
+***
+
+# Contents <br>
+1. [개요](#star-개요)  
+2. [팀 소개 및 주요 기능](#star-팀-소개-및-주요-기능)
+3. [구현 기능](#star-구현-기능)
+    - [전자결재 홈](#pushpin-전자결재홈)
+    - [결재문서작성](#pushpin-결재문서작성)
+    - [승인/반려](#pushpin-승인반려)
+4. [Document](#star-document)
+
+***
+
 # :star: 개요
 - 프로젝트명 : JWORK Project <br>
 
@@ -18,7 +31,27 @@
 <img width="800" alt="기능" src="https://user-images.githubusercontent.com/115603858/228117398-7b3876ca-fb80-4d27-a7dd-c3539ce2d7d8.png">
 <img width="600" alt="기능2" src="https://user-images.githubusercontent.com/115603858/228117415-09f12f11-a8db-4c1a-a609-f8236064d602.png">
 
+***
 
+# :star: 구현 기능
+
+### :pushpin: 전자결재홈
+![전자결재 목록](https://user-images.githubusercontent.com/115604669/236698368-9407e5cd-3b4f-4288-a8bb-2251526bf503.gif)
+- 구현 기능 설명
+   - 내 결재 문서 목록 결재 상황별 조회 (전체/대기/진행/완료/반려)
+<br><br>
+
+### :pushpin: 결재문서작성
+![결재문서작성](https://user-images.githubusercontent.com/115604669/237046037-47dd209a-c725-44bb-bbad-68d02411b864.gif)
+- 구현 기능 설명
+   - 결재문서 양식 / 결재선 / 참조선 선택 
+   
+<br><br>
+
+### :pushpin: 승인/반려
+![승인반려](https://user-images.githubusercontent.com/115604669/237062964-f55104c5-f698-405a-b8ee-abd3ed12ae1d.gif)
+- 구현 기능 설명
+   - 자신의 결재 순서가 돌아오면 승인 / 반려 버튼으로 문서를 결재
 # :star: Document
 
 ## 개발 일정 <br>
