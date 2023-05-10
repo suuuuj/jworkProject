@@ -8,7 +8,10 @@
 3. [구현 기능](#star-구현-기능)
     - [전자결재 홈](#pushpin-전자결재홈)
     - [결재문서작성](#pushpin-결재문서작성)
+    - [결재상신취소/삭제/재결재](#pushpin-결재상신취소삭제결재)
     - [승인/반려](#pushpin-승인반려)
+    - [참조문서조회]
+    - []
 4. [Document](#star-document)
 
 ***
@@ -44,10 +47,15 @@
 ### :pushpin: 결재문서작성
 ![결재문서작성](https://user-images.githubusercontent.com/115604669/237046037-47dd209a-c725-44bb-bbad-68d02411b864.gif)
 - 구현 기능 설명
-   - 결재문서 양식 / 결재선 / 참조선 선택 
-   
+   - 결재문서 양식 / 결재선 선택 
+   - 문서 작성 후 결재 / 임시저장
 <br><br>
 
+### 📌 결재상신취소/삭제/재결재
+![상신취소](https://github.com/suuuuj/jworkProject/assets/115604669/f704ab2f-8022-4b55-a23d-c8719918f2f1)
+- 구현 기능 설명
+  - 결재완료 / 반려 문서를 제외한 문서들은 상신 취소하여 재결재, 삭제, 임시저장 가능
+  
 ### :pushpin: 승인/반려
 ![승인반려](https://user-images.githubusercontent.com/115604669/237062964-f55104c5-f698-405a-b8ee-abd3ed12ae1d.gif)
 - 구현 기능 설명
